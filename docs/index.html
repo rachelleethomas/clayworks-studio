@@ -87,6 +87,13 @@ a{color:var(--accent)}
 
 /* Studio */
 .studio{display:grid;gap:22px}
+.shelfbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.addmodal{width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:0;border:0;background:var(--bg);color:var(--ink)}
+.addmodal::backdrop{background:rgba(0,0,0,.35)}
+.addinner{max-width:1100px;margin:0 auto;padding:20px 16px 48px;display:grid;gap:16px;align-content:start}
+.addhead{display:flex;justify-content:space-between;align-items:center;gap:12px;position:sticky;top:0;z-index:6;background:var(--bg);padding:4px 0}
+.addhead h2{margin:0}
+#addFlash:empty{display:none}
 .searchbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
 @media (max-width:560px){.searchbar{grid-template-columns:minmax(0,1fr)}}
 .searchbar input{font-size:16px;padding:12px 14px}
@@ -97,7 +104,7 @@ a{color:var(--accent)}
 .results{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px;display:grid;gap:14px}
 .results h3{margin:0;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .rlist{display:grid;gap:6px}
-.quick{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr) auto;gap:10px}
+.quick{display:grid;grid-template-columns:minmax(0,180px) minmax(0,150px) minmax(0,1fr) auto;gap:10px}
 @media (max-width:560px){.quick{grid-template-columns:minmax(0,1fr)}}
 .paste{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px;display:grid;gap:10px}
 .bulkbar{position:sticky;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:5;display:flex;gap:12px;align-items:center;justify-self:start;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px;box-shadow:0 6px 20px rgba(0,0,0,.18)}
@@ -227,27 +234,37 @@ a{color:var(--accent)}
   <!-- STUDIO -->
   <div class="studio" id="view-studio" role="tabpanel" hidden>
     <div class="banner" id="storeNote" hidden></div>
-    <div class="searchbar">
-      <input type="search" id="q" placeholder="Search your studio or add something: 6600, B-Mix, Blue Rutile, Frit 3134…" autocomplete="off" aria-label="Search studio and catalog">
-      <button class="btn" type="button" id="snap">Add from photo</button>
-      <input type="file" id="snapFile" accept="image/*" hidden>
+    <div class="shelfbar">
+      <div class="filters" id="filters"></div>
+      <button class="btn" type="button" id="openAdd">Search &amp; add</button>
     </div>
-    <div class="filters" id="filters"></div>
-    <div class="quick">
-      <select id="store" aria-label="Store"><option value="">All stores</option></select>
-      <select id="line" aria-label="Browse a product line"></select>
-      <button class="ghost" type="button" id="pasteBtn">Paste a list</button>
-    </div>
-    <div class="paste" id="pastePanel" hidden>
-      <label for="pasteText">Paste codes, names, or an order confirmation</label>
-      <textarea id="pasteText" placeholder="PC-20, PC-23, SW-101&#10;6600 Best Black&#10;Laguna B-Mix 5"></textarea>
-      <div class="links"><button class="btn" type="button" id="pasteGo">Match</button><span class="note">One item per line or separated by commas.</span></div>
-      <div id="pasteOut" class="results" style="border:0;padding:0;background:none"></div>
-    </div>
-    <div class="bulkbar" id="bulk" hidden></div>
-    <div id="photoPanel" hidden></div>
-    <div class="results" id="results" hidden></div>
     <div class="shelves" id="shelves"></div>
+    <dialog class="addmodal" id="addModal" aria-labelledby="addTitle">
+      <div class="addinner">
+        <div class="addhead"><h2 id="addTitle">Search &amp; add</h2><button class="ghost" type="button" id="closeAdd">Done</button></div>
+        <p class="status" id="addFlash" role="status"></p>
+        <div class="searchbar">
+          <input type="search" id="q" placeholder="Search to add: 6600, B-Mix, Blue Rutile, Frit 3134…" autocomplete="off" aria-label="Search the catalog">
+          <button class="btn" type="button" id="snap">Add from photo</button>
+          <input type="file" id="snapFile" accept="image/*" hidden>
+        </div>
+        <div class="quick">
+          <select id="store" aria-label="Store"><option value="">All stores</option></select>
+          <select id="kind" aria-label="Type"><option value="all">All types</option></select>
+          <select id="line" aria-label="Browse a product line"></select>
+          <button class="ghost" type="button" id="pasteBtn">Paste a list</button>
+        </div>
+        <div class="paste" id="pastePanel" hidden>
+          <label for="pasteText">Paste codes, names, or an order confirmation</label>
+          <textarea id="pasteText" placeholder="PC-20, PC-23, SW-101&#10;6600 Best Black&#10;Laguna B-Mix 5"></textarea>
+          <div class="links"><button class="btn" type="button" id="pasteGo">Match</button><span class="note">One item per line or separated by commas.</span></div>
+          <div id="pasteOut" class="results" style="border:0;padding:0;background:none"></div>
+        </div>
+        <div class="bulkbar" id="bulk" hidden></div>
+        <div id="photoPanel" hidden></div>
+        <div class="results" id="results" hidden></div>
+      </div>
+    </dialog>
   </div>
 </div>
 
@@ -609,7 +626,7 @@ function sampleErr(err){return err?.code==="not_granted"?"Claude access was decl
 
 /* ---------- Studio UI ---------- */
 let filter="all", flashTimer;
-function flash(msg){const n=$("storeNote");n.hidden=false;n.textContent=msg;clearTimeout(flashTimer);flashTimer=setTimeout(updateStoreNote,5000)}
+function flash(msg){if($("addModal").open){const f=$("addFlash");f.textContent=msg;setTimeout(()=>{if(f.textContent===msg)f.textContent=""},5000)}const n=$("storeNote");n.hidden=false;n.textContent=msg;clearTimeout(flashTimer);flashTimer=setTimeout(updateStoreNote,5000)}
 function updateStoreNote(){
   const n=$("storeNote");
   if(storeMode==="local"&&!CW.token){n.hidden=false;n.textContent="Saving to this browser only. Log in to sync your shelves across devices."}
@@ -619,14 +636,14 @@ function swatch(it,cls="sw"){const s=el("span",{class:cls+(it.kind==="glaze"?" j
 function renderFilters(){
   const f=$("filters");f.textContent="";
   [["all","All",studio.length],...Object.entries(KINDS).map(([k,v])=>[k,v,studioOf(k).length])].forEach(([k,v,n])=>
-    f.append(el("button",{type:"button","aria-pressed":String(filter===k),onclick:()=>{filter=k;renderFilters();renderShelves();renderLineSelect();renderResults()}},v,el("b",{text:String(n)}))));
+    f.append(el("button",{type:"button","aria-pressed":String(filter===k),onclick:()=>{filter=k;renderFilters();renderShelves()}},v,el("b",{text:String(n)}))));
 }
 function renderShelves(){
   const s=$("shelves");s.textContent="";
   if(storeMode==="loading"){s.append(el("div",{class:"empty",text:"Loading your studio…"}));return}
   if(!studio.length){
     s.append(el("div",{class:"empty"},
-      el("p",{style:"margin:0",text:"Your studio is empty. Search above to add stains, glazes, clay bodies and chemicals, or snap a photo of a jar or bag and Claude will read the label."}),
+      el("p",{style:"margin:0",text:"Your studio is empty. Tap Search & add to find stains, glazes, clay bodies and chemicals, or snap a photo of a jar or bag and Claude will read the label."}),
       el("button",{class:"ghost",type:"button",text:"Add what I have: 6006, 6363, 6364, 6219, Pasler set, porcelain",onclick:async e=>{e.target.disabled=true;for(const it of STARTER)await addItem(it)}})));
     return;
   }
@@ -635,7 +652,7 @@ function renderShelves(){
     const items=studioOf(k).sort((a,b)=>(a.code||a.name).localeCompare(b.code||b.name,undefined,{numeric:true}));
     if(!items.length&&filter==="all")return;
     const grid=el("div",{class:"items"});
-    if(!items.length)grid.append(el("p",{class:"note",text:"Nothing here yet. Search above to add "+v.toLowerCase()+"."}));
+    if(!items.length)grid.append(el("p",{class:"note",text:"Nothing here yet. Tap Search & add to find "+v.toLowerCase()+"."}));
     items.forEach(it=>{
       const acts=el("div",{class:"acts"});
       const rm=el("button",{type:"button",class:"linkbtn",text:"Remove"});
@@ -660,7 +677,7 @@ function score(it,q){const c=nc(it.code),qn=nc(q),n=(it.name||"").toLowerCase();
   if(c&&c===qn)return 0; if(c&&c.startsWith(qn))return 1; if(n===q)return 2; if(n.startsWith(q))return 3; if(n.includes(q))return 4; return 5}
 function byCode(a,b){return (a.brand||"").localeCompare(b.brand||"")||(a.line||"").localeCompare(b.line||"")||(a.code||a.name).localeCompare(b.code||b.name,undefined,{numeric:true})}
 function storeOK(it){const s=$("store").value;return !s||(it.source||"").includes(s)}
-function kindOK(it){return filter==="all"||it.kind===filter}
+function kindOK(it){const k=$("kind").value;return k==="all"||it.kind===k}
 function lineKey(it){return (it.brand||"Other")+" · "+(it.line||KINDS[it.kind])}
 function renderLineSelect(){
   const sel=$("line"),cur=sel.value,counts=new Map();
@@ -703,7 +720,7 @@ function renderResults(){
   if(shown.length){const l=el("div",{class:"rlist"});shown.forEach(it=>l.append(rowFor(it,ownedIds)));r.append(l)}
   if(total>cap)r.append(el("button",{type:"button",class:"ghost",text:`Show all ${total}`,onclick:()=>{showAll=true;renderResults()}}));
   if(raw){
-    const kindSel=el("select",{id:"newKind","aria-label":"Type"},...Object.entries(KIND_ONE).map(([k,v])=>el("option",{value:k,text:v,selected:(filter===k||(filter==="all"&&k==="glaze"))||undefined})));
+    const kindSel=el("select",{id:"newKind","aria-label":"Type"},...Object.entries(KIND_ONE).map(([k,v])=>el("option",{value:k,text:v,selected:($("kind").value===k||($("kind").value==="all"&&k==="glaze"))||undefined})));
     kindSel.style.width="auto";
     const addNew=el("button",{type:"button",class:"ghost sm",text:`Add “${raw}” as typed`});
     addNew.onclick=async()=>{addNew.disabled=true;const m=raw.match(/^(\d{4})\b\s*(.*)$/);await addItem({kind:kindSel.value,name:m?(m[2]||"Mason stain"):raw,code:m?m[1]:"",brand:m?"Mason":""});addNew.textContent="Added"};
@@ -715,6 +732,11 @@ function renderResults(){
 $("q").addEventListener("input",()=>{showAll=false;renderResults()});
 $("q").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();const b=$("results").querySelector(".ritem button.ghost");if(b)b.click()}});
 $("store").addEventListener("change",()=>{renderLineSelect();renderResults()});
+Object.entries(KIND_ONE).forEach(([k,v])=>$("kind").append(el("option",{value:k,text:KINDS[k]})));
+$("kind").addEventListener("change",()=>{showAll=false;renderLineSelect();renderResults()});
+function openAdd(){$("kind").value=filter;renderLineSelect();renderResults();$("addModal").showModal();$("q").focus()}
+$("openAdd").onclick=openAdd;
+$("closeAdd").onclick=()=>$("addModal").close();
 $("line").addEventListener("change",()=>{showAll=false;renderResults()});
 
 /* paste a list / order confirmation */
