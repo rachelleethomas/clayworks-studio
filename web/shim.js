@@ -58,8 +58,8 @@ function cwRenderUser() {
   const m = CW.me, capTxt = m.cap == null ? `$${m.spent.toFixed(2)} this week` : `$${m.spent.toFixed(2)} of $${m.cap} this week`;
   const meter = el("span", { class: "cw-meter" });
   if (m.cap != null) { const f = el("i"); f.style.width = Math.min(100, (m.spent / m.cap) * 100) + "%"; if (m.spent >= m.cap) f.className = "full"; meter.append(f); }
-  box.append(el("b", { text: m.user }), m.cap != null ? meter : null, el("span", { text: capTxt, title: m.cap != null ? "Resets " + m.resetLabel : "" }),
-    el("button", { type: "button", class: "linkbtn", text: "Log out", onclick: () => cwLogout() }));
+  box.append(...[el("b", { text: m.user }), m.cap != null ? meter : null, el("span", { text: capTxt, title: m.cap != null ? "Resets " + m.resetLabel : "" }),
+    el("button", { type: "button", class: "linkbtn", text: "Log out", onclick: () => cwLogout() })].filter(Boolean));
 }
 function cwLogout(msg) {
   CW.token = null; CW.me = null; try { localStorage.removeItem("cw-token"); localStorage.removeItem("stainlab-studio"); } catch {}
