@@ -1,0 +1,14 @@
+name = "clayworks-api"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://rachelleethomas.github.io"
+
+# Create with: npx wrangler kv namespace create clayworks-usage  → paste the id here
+[[kv_namespaces]]
+binding = "USAGE"
+id = "REPLACE_WITH_KV_ID"
+
+# Secrets (not in this file): npx wrangler secret put ANTHROPIC_API_KEY | SESSION_SECRET | USERS
+# Values for SESSION_SECRET and USERS are in private/secrets.json

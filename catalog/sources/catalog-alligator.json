@@ -1,0 +1,7413 @@
+[
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG001",
+  "name": "Almost Teal",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg001-almost-teal",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG002",
+  "name": "Black",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg002-black",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG005",
+  "name": "Chrome Green",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg005-chrome-green",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG006",
+  "name": "Cinnamon Stick",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg006-cinnamon-stick",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG007",
+  "name": "Clear",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg007-clear-839583911",
+  "price": "$13.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG008",
+  "name": "Cobalt Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg008-cobalt-blue",
+  "price": "$15.40"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG011",
+  "name": "Eggshell",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg011-eggshell",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG012",
+  "name": "Fire Opal",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg012-fire-opal",
+  "price": "$19.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG013",
+  "name": "Light Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg013-light-blue",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG015",
+  "name": "Mint",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg015-mint",
+  "price": "$16.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG016",
+  "name": "Mottled Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg016-mottled-blue",
+  "price": "$16.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG017",
+  "name": "Red Orange",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg017-red-orange",
+  "price": "$19.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG019",
+  "name": "Red",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg019-red",
+  "price": "$22.10"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG020",
+  "name": "Orange",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg020-orange",
+  "price": "$18.40"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG021",
+  "name": "Sunset Pink",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg021-sunset-pink",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG023",
+  "name": "White",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg023-white-639892185",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG024",
+  "name": "Blue Matt",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg024-blue-matt",
+  "price": "$15.10"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG026",
+  "name": "Gun Metal Green",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg026-gun-metal-green",
+  "price": "$28.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG027",
+  "name": "Toshi Brown",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg027-toshi-brown",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG028",
+  "name": "Blue Purple",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg028-blue-purple",
+  "price": "$28.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG029",
+  "name": "Creamy Matt",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg029-creamy-matt",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG030",
+  "name": "Creamy W/Specks",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg030-creamy-w-specks",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG031",
+  "name": "Red Gold",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg031-red-gold",
+  "price": "$27.40"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG032",
+  "name": "Rust Brown",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg032-rust-brown",
+  "price": "$18.90"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG033",
+  "name": "Turquoise",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg033-turquoise",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG034",
+  "name": "Archie's Base",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg034-archies-base",
+  "price": "$27.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG035",
+  "name": "Copper Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg035-copper-blue",
+  "price": "$15.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG036",
+  "name": "Crazed Copper",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg036-crazed-copper",
+  "price": "$16.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG037",
+  "name": "Oasis",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg037-oasis",
+  "price": "$15.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG038",
+  "name": "Pam's Green",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg038-pams-green-839583695",
+  "price": "$16.40"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG040",
+  "name": "Saturated Iron",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg040-saturated-iron",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG042",
+  "name": "Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg042-shino",
+  "price": "$29.40"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG043",
+  "name": "Blue Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg043-blue-shino",
+  "price": "$29.30"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG044",
+  "name": "Green Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg044-green-shino",
+  "price": "$27.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG045",
+  "name": "Light Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg045-light-shino-839583725",
+  "price": "$26.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG047",
+  "name": "Green Matt",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg047-green-matt",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG048",
+  "name": "Oatmeal",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg048-oatmeal",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG049",
+  "name": "Iron Matt",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg049-iron-matt",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG050",
+  "name": "Buttercup",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg050-buttercup",
+  "price": "$18.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG051",
+  "name": "Pumpkin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg051-pumpkin",
+  "price": "$19.10"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG053",
+  "name": "Pansy Purple",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg053-pansy-purple",
+  "price": "$20.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG054",
+  "name": "Violet",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg054-violet",
+  "price": "$30.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG055",
+  "name": "Opal",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg055-opal",
+  "price": "$23.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG056",
+  "name": "Eggplant",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg056-eggplant",
+  "price": "$28.30"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG057",
+  "name": "Rhubarb",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg057-rhubarb",
+  "price": "$30.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG058",
+  "name": "Ice Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg058-ice-blue",
+  "price": "$28.40"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG059",
+  "name": "Espresso Bean",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg059-espresso-bean",
+  "price": "$31.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG061",
+  "name": "Desert Sage",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg061-desert-sage",
+  "price": "$27.30"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG062",
+  "name": "Blue Crawl",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg062-blue-crawl-discontinued",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG064",
+  "name": "Chocolate Crawl",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg064-chocolate-crawl-discontinued",
+  "price": "$19.90"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG066",
+  "name": "JB's Brown",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg066-jbs-brown",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG067",
+  "name": "Light Blue Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg067-light-blue-shino",
+  "price": "$26.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG068",
+  "name": "Light Green Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg068-light-green-shino",
+  "price": "$26.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG070",
+  "name": "Pam's Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg070-pams-blue",
+  "price": "$17.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG071",
+  "name": "Really Red",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg071-really-red",
+  "price": "$24.40"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG073",
+  "name": "White Crawl",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg073-white-crawl-discontinued",
+  "price": "$19.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG074",
+  "name": "Alabaster Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg074-alabaster-satin-639892186",
+  "price": "$13.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG075",
+  "name": "Baby Blue Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg075-baby-blue-satin",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG076",
+  "name": "Cerulean Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg076-cerulean-satin",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG077",
+  "name": "Charcoal Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg077-charcoal-satin",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG078",
+  "name": "Cherry Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg078-cherry-satin",
+  "price": "$20.30"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG079",
+  "name": "Coral Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg079-coral-satin",
+  "price": "$17.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG080",
+  "name": "Forest Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg080-forest-satin",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG081",
+  "name": "Hazelnut Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg081-hazelnut-satin",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG082",
+  "name": "Lapis Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg082-lapis-satin",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG083",
+  "name": "Lemon Cream Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg083-lemon-cream-satin",
+  "price": "$16.10"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG084",
+  "name": "Orchid Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg084-orchid-satin",
+  "price": "$21.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG085",
+  "name": "Seafoam Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg085-seafoam-satin",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG086",
+  "name": "Butterscotch Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg086-butterscotch-shino",
+  "price": "$30.40"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG087",
+  "name": "Cedar Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg087-cedar-shino",
+  "price": "$36.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG088",
+  "name": "Goldenrod Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg088-goldenrod-shino",
+  "price": "$28.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG089",
+  "name": "Leopard Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg089-leopard-shino",
+  "price": "$26.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG090",
+  "name": "Mocha Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg090-mocha-shino",
+  "price": "$28.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG092",
+  "name": "Plum Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg092-plum-shino",
+  "price": "$32.30"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG093",
+  "name": "Pistachio Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg093-pistachio-shino",
+  "price": "$29.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG094",
+  "name": "Sandstone Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg094-sandstone-shino",
+  "price": "$28.60"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG096",
+  "name": "Steel Gray Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg096-steel-gray-shino-839583488",
+  "price": "$28.10"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG097",
+  "name": "Sunrise Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg097-sunrise-shino",
+  "price": "$32.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG098",
+  "name": "Dusty Rose",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg098-dusty-rose",
+  "price": "$17.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG099",
+  "name": "Sedona Sunset",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg099-sedona-sunset",
+  "price": "$18.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG100",
+  "name": "Peach Blush",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg100-peach-blush",
+  "price": "$16.60"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG101",
+  "name": "Stormy Sea",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg101-stormy-sea",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG102",
+  "name": "Aqua",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg102-aqua",
+  "price": "$16.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG103",
+  "name": "Key Lime",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg103-key-lime",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG104",
+  "name": "Peacock Green",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg104-peacock-green",
+  "price": "$15.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG105",
+  "name": "Root Beer",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg105-root-beer",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG106",
+  "name": "Sunshine Yellow",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg106-sunshine-yellow",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG107",
+  "name": "Night Sky",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg107-night-sky",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG108",
+  "name": "Sapphire",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg108-sapphire",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG109",
+  "name": "Rainy Day",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg109-rainy-day",
+  "price": "$15.10"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG111",
+  "name": "Iris",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg111-iris-pint",
+  "price": "$16.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG112",
+  "name": "Jade",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg112-jade-pint",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG114",
+  "name": "Sky",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg114-sky",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG115",
+  "name": "Tangerine",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg115-tangerine",
+  "price": "$18.40"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG116",
+  "name": "Midnight Rain",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg116-midnight-rain-pint",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG120",
+  "name": "Bronze Temmoku",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg120-bronze-temmoku",
+  "price": "$29.60"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG130",
+  "name": "Snowy Plum",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg130-snowy-plum",
+  "price": "$16.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG131",
+  "name": "Oxblood",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg131-oxblood",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG160",
+  "name": "Ivory Crystal",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg160-ivory-crystal-839583961",
+  "price": "$20.60"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG161",
+  "name": "Crystal Celadon",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg161-crystal-celadon",
+  "price": "$20.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG162",
+  "name": "Crystal Lagoon",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg162-crystal-lagoon",
+  "price": "$24.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG163",
+  "name": "Crystal Aurora",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg163-crystal-aurora",
+  "price": "$20.90"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG164",
+  "name": "Crystal Nebula",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg164-crystal-nebula",
+  "price": "$20.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG165",
+  "name": "Rose Crystal",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg165-rose-crystal",
+  "price": "$20.60"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG170",
+  "name": "Autumn Spice",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg170-autumn-spice",
+  "price": "$25.90"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG171",
+  "name": "Mars Red Iron",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg171-mars-red-iron",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG172",
+  "name": "Light Gold",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg172-light-gold",
+  "price": "$27.10"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG173",
+  "name": "Summer Spice",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg173-summer-spice",
+  "price": "$22.10"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG174",
+  "name": "Orion",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg174-orion",
+  "price": "$26.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG175",
+  "name": "Antares",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg175-antares",
+  "price": "$32.30"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG176",
+  "name": "Andromeda",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg176-andromeda",
+  "price": "$26.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG179",
+  "name": "Aries",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg179-aries",
+  "price": "$29.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG210",
+  "name": "Ancient Iron",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg210-ancient-iron",
+  "price": "$20.60"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG211",
+  "name": "Azure Dream",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg211-azure-dream",
+  "price": "$25.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG212",
+  "name": "Enchanted Sunset",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg212-enchanted-sunset",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG213",
+  "name": "Fairy Rose",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg213-fairy-rose",
+  "price": "$27.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG214",
+  "name": "Sorcerer's Stone",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg214-sorcerers-stone",
+  "price": "$23.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG215",
+  "name": "Unicorn Horn",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg215-unicorn-horn",
+  "price": "$21.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG216",
+  "name": "Amethyst",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg216-amethyst",
+  "price": "$26.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG217",
+  "name": "Antique Pearl",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg217-antique-pearl",
+  "price": "$21.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG218",
+  "name": "Dragon's Eye",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg218-dragons-eye",
+  "price": "$24.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG219",
+  "name": "Firefly Garden",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg219-firefly-garden",
+  "price": "$24.10"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG220",
+  "name": "Hydra Scale",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg220-hydra-scale",
+  "price": "$22.60"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG221",
+  "name": "Phoenix Egg",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg221-phoenix-egg",
+  "price": "$23.20"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG240",
+  "name": "Frosted Topaz",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg240-frosted-topaz",
+  "price": "$31.60"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG241",
+  "name": "Magenta Sky",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg241-magenta-sky",
+  "price": "$29.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG242",
+  "name": "Papaya",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg242-papaya",
+  "price": "$32.60"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Mid-Range Glaze",
+  "code": "MBG243",
+  "name": "Parakeet Yellow",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg243-parakeet-yellow",
+  "price": "$30.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-01",
+  "name": "Obsidian",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-01-obsidian",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-03",
+  "name": "Smoke",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-03-smoke",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-05",
+  "name": "Charcoal",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-05-charcoal",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-10",
+  "name": "Snow",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-10-snow",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-20",
+  "name": "Cobalt",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-20-cobalt",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-21",
+  "name": "Sky",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-21-sky",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-22",
+  "name": "Fog",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-22-fog",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-23",
+  "name": "Ice",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-23-ice",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-24",
+  "name": "Succulent",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-24-succulent",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-25",
+  "name": "Downpour",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-25-downpour",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-26",
+  "name": "Lagoon",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-26-lagoon",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-29",
+  "name": "Deep Sea",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-29-deep-sea",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-32",
+  "name": "Ochre",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-32-ochre",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-33",
+  "name": "Sandalwood",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-33-sandalwood",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-36",
+  "name": "Iron",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-36-iron",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-40",
+  "name": "Aqua",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-40-aqua",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-41",
+  "name": "Pear",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-41-pear",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-42",
+  "name": "Saguaro",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-42-saguaro",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-43",
+  "name": "Wasabi",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-43-wasabi",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-47",
+  "name": "Jade",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-47-jade",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-49",
+  "name": "Rainforest",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-49-rainforest",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-50",
+  "name": "Cherry Blossom",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-50-cherry-blossom",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-52",
+  "name": "Red Rock",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-52-red-rock",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-53",
+  "name": "Weeping Plum",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-53-weeping-plum",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-54",
+  "name": "Snapdragon",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-54-snapdragon",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-55",
+  "name": "Poppy",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-55-poppy",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-56",
+  "name": "Lavender",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-56-lavender",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-57",
+  "name": "Mulberry",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-57-mulberry",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-60",
+  "name": "Marigold",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-60-marigold",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Celadon",
+  "code": "C-65",
+  "name": "Tangelo",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/c-65-tangelo",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Cosmos",
+  "code": "CO-06",
+  "name": "Supernova",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/co-06-supernova",
+  "price": "$38.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Cosmos",
+  "code": "CO-07",
+  "name": "Solar Flare",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/co-07-solar-flare",
+  "price": "$38.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Cosmos",
+  "code": "CO-08",
+  "name": "Dark Star",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/co-08-dark-star",
+  "price": "$38.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Cosmos",
+  "code": "CO-14",
+  "name": "Solar Rainbow",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/co-14-solar-rainbow",
+  "price": "$38.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "High Fire",
+  "code": "HF-9",
+  "name": "Zinc-Free Clear",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/hf-9-zinc-free-clear",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Kiln Ice",
+  "code": "KI-11",
+  "name": "Snow Drift",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ki-11-snow-drift",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Kiln Ice",
+  "code": "KI-18",
+  "name": "Arctic Blush",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ki-18-arctic-blush",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Kiln Ice",
+  "code": "KI-21",
+  "name": "Winter Glass",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ki-21-winter-glass",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Kiln Ice",
+  "code": "KI-27",
+  "name": "Glacial Lake",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ki-27-glacial-lake",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Kiln Ice",
+  "code": "KI-46",
+  "name": "Frozen Fern",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ki-46-frozen-fern",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Kiln Ice",
+  "code": "KI-68",
+  "name": "Honey Crystal",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ki-68-honey-crystal",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-01",
+  "name": "Saturation Metallic",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-01-saturation-metallic",
+  "price": "$38.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-02",
+  "name": "Saturation Gold",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-02-saturation-gold",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-04",
+  "name": "Palladium",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-04-palladium",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-09",
+  "name": "Vintage Gold",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-09-vintage-gold",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-10",
+  "name": "June Bug",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-10-june-bug",
+  "price": "$38.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-11",
+  "name": "Blue Spark",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-11-blue-spark",
+  "price": "$38.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-12",
+  "name": "Blue Midnight",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-12-blue-midnight",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-15",
+  "name": "Satin Oribe",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-15-satin-oribe",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-16",
+  "name": "Purple Crystal",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-16-purple-crystal",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-17",
+  "name": "Honey Flux",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-17-honey-flux",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-20",
+  "name": "Blue Rutile",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-20-blue-rutile",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-21",
+  "name": "Arctic Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-21-arctic-blue",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-22",
+  "name": "Blue Stone",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-22-blue-stone",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-23",
+  "name": "Indigo Float",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-23-indigo-float",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-24",
+  "name": "Sapphire Float",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-24-sapphire-float",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-25",
+  "name": "Textured Turquoise",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-25-textured-turquoise",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-26",
+  "name": "Blue Lagoon",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-26-blue-lagoon",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-27",
+  "name": "Tourmaline",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-27-tourmaline",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-28",
+  "name": "Frosted Turquoise",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-28-frosted-turquoise",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-29",
+  "name": "Deep Olive Speckle",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-29-deep-olive-speckle",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-30",
+  "name": "Temmoku",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-30-temmoku",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-31",
+  "name": "Oatmeal",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-31-oatmeal",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-32",
+  "name": "Albany Slip Brown",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-32-albany-slip-brown",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-33",
+  "name": "Iron Lustre",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-33-iron-lustre",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-34",
+  "name": "Light Sepia",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-34-light-sepia",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-36",
+  "name": "Iron Stone",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-36-iron-stone",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-38",
+  "name": "Yellow Iron",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-38-yellow-iron",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-40",
+  "name": "True Celadon",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-40-true-celadon",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-41",
+  "name": "Vert Lustre",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-41-vert-lustre",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-42",
+  "name": "Seaweed",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-42-seaweed",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-43",
+  "name": "Toasted Sage",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-43-toasted-sage",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-44",
+  "name": "Sage",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-44-sage",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-45",
+  "name": "Dark Green",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-45-dark-green",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-46",
+  "name": "Lustrous Jade",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-46-lustrous-jade",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-47",
+  "name": "Emerald Falls",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-47-emerald-falls",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-48",
+  "name": "Art Deco Green",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-48-art-deco-green",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-49",
+  "name": "Frosted Melon",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-49-frosted-melon",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-52",
+  "name": "Deep Sienna Speckle",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-52-deep-sienna-speckle",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-53",
+  "name": "Ancient Jasper",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-53-ancient-jasper",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-55",
+  "name": "Chun Plum",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-55-chun-plum",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-57",
+  "name": "Smokey Merlot",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-57-smokey-merlot",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-58",
+  "name": "Tuscany",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-58-tuscany"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-59",
+  "name": "Deep Firebrick",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-59-deep-firebrick",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-61",
+  "name": "Textured Amber",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-61-textured-amber",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-62",
+  "name": "Textured Amber Brown",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-62-textured-amber-brown",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-63",
+  "name": "Cosmic Tea Dust",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-63-cosmic-tea-dust",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-64",
+  "name": "Aventurine",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-64-aventurine",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-65",
+  "name": "Black Aventurine",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-65-black-aventurine",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-66",
+  "name": "Cosmic Oil Spot",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-66-cosmic-oil-spot",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-67",
+  "name": "River Rock",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-67-river-rock",
+  "price": "$23.25"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-70",
+  "name": "Copper Red",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-70-copper-red",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice",
+  "code": "PC-71",
+  "name": "Flambe",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pc-71-flambe",
+  "price": "$25.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice Flux",
+  "code": "PCF-03",
+  "name": "Midnight Run",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pcf-03-midnight-run",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice Flux",
+  "code": "PCF-16",
+  "name": "Aurora Breeze",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pcf-16-aurora-breeze",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice Flux",
+  "code": "PCF-18",
+  "name": "Honeydew",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pcf-18-honeydew",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice Flux",
+  "code": "PCF-19",
+  "name": "Cirrus Flow",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pcf-19-cirrus-flow",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice Flux",
+  "code": "PCF-21",
+  "name": "Ocean Drift",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pcf-21-ocean-drift",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice Flux",
+  "code": "PCF-33",
+  "name": "Mystic Tide",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pcf-33-mystic-tide",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice Flux",
+  "code": "PCF-36",
+  "name": "Rose Mist",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pcf-36-rose-mist",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice Flux",
+  "code": "PCF-54",
+  "name": "Flux Blossom",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pcf-54-flux-blossom",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice Flux",
+  "code": "PCF-60",
+  "name": "Sunbeam",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pcf-60-sunbeam",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice Flux",
+  "code": "PCF-63",
+  "name": "Sun Shower",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pcf-63-sun-shower",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice Flux",
+  "code": "PCF-74",
+  "name": "River Birch",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pcf-74-river-birch",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Potter's Choice Flux",
+  "code": "PCF-75",
+  "name": "Moss Mist",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/pcf-75-moss-mist",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Shino",
+  "code": "SH-11",
+  "name": "Chai Gloss Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sh-11-chai-gloss-shino",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Shino",
+  "code": "SH-12",
+  "name": "Chai Matte Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sh-12-chai-matte-shino",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Shino",
+  "code": "SH-21",
+  "name": "Acai Gloss Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sh-21-acai-gloss-shino",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Shino",
+  "code": "SH-22",
+  "name": "Acai Matte Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sh-22-acai-matte-shino",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Shino",
+  "code": "SH-31",
+  "name": "Cacao Gloss Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sh-31-cacao-gloss-shino",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Shino",
+  "code": "SH-32",
+  "name": "Cacao Matte Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sh-32-cacao-matte-shino",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Shino",
+  "code": "SH-41",
+  "name": "Oolong Gloss Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sh-41-oolong-gloss-shino",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Shino",
+  "code": "SH-42",
+  "name": "Oolong Matte Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sh-42-oolong-matte-shino",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Shino",
+  "code": "SH-45",
+  "name": "Matcha Gloss Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sh-45-matcha-gloss-shino",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Shino",
+  "code": "SH-46",
+  "name": "Matcha Matte Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sh-46-matcha-matte-shino",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Shino",
+  "code": "SH-51",
+  "name": "Hibiscus Gloss Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sh-51-hibiscus-gloss-shino",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Shino",
+  "code": "SH-52",
+  "name": "Hibiscus Matte Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sh-52-hibiscus-matte-shino",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-01",
+  "name": "Black Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-01-black-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-02",
+  "name": "Stone Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-02-stone-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-03",
+  "name": "Marble Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-03-marble-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-10",
+  "name": "Clear Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-10-clear-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-11",
+  "name": "White Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-11-white-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-20",
+  "name": "Light Blue Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-20-light-blue-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-21",
+  "name": "Dark Blue Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-21-dark-blue-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-24",
+  "name": "Seafoam Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-24-seafoam-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-27",
+  "name": "Teal Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-27-teal-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-29",
+  "name": "Blue Green Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-29-blue-green-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-42",
+  "name": "Mint Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-42-mint-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-44",
+  "name": "Chartreuse Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-44-chartreuse-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-46",
+  "name": "Moss Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-46-moss-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-51",
+  "name": "Red Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-51-red-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-53",
+  "name": "Cayenne Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-53-cayenne-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-60",
+  "name": "Goldenrod Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-60-goldenrod-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-63",
+  "name": "Yellow Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-63-yellow-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Satin Matte",
+  "code": "SM-68",
+  "name": "Orange Satin Matte",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/sm-68-orange-satin-matte",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1100",
+  "name": "Transparent",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1100-transparent-4-6",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1104",
+  "name": "Grass Green",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1104-grass-green-discontinued",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1107",
+  "name": "Black",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1107-black-4-6",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1118",
+  "name": "White",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1118-white-4-6",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1120",
+  "name": "Satin Clear",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1120-satin-clear-4-6",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1121",
+  "name": "Satin White",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1121-satin-white-4-6",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1126",
+  "name": "Satin Black",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1126-satin-black-4-6",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1140",
+  "name": "Textured Kiwi",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1140-textured-kiwi-5-6",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1102",
+  "name": "Wedgewood",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1102-wedgewood",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1103",
+  "name": "Dusty Rose",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1103-dusty-rose",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1106",
+  "name": "Crimson",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1106-crimson",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1108",
+  "name": "Butter Yellow",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1108-butter-yellow",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1109",
+  "name": "Coral",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1109-coral",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1110",
+  "name": "Turquoise",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1110-turquoise",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1111",
+  "name": "Holly Green",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1111-holly-green",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1112",
+  "name": "Gold",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1112-gold",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1113",
+  "name": "Textured Milk & Honey",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1113-textured-milk--honey",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1115",
+  "name": "Textured Moonscape",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1115-textured-moonscape",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1116",
+  "name": "Mirror",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1116-mirror",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1117",
+  "name": "Textured Chocolate",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1117-textured-chocolate",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1122",
+  "name": "Satin Mottle",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1122-satin-mottle",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1123",
+  "name": "Satin Speckle",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1123-satin-speckle",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1124",
+  "name": "Satin Wedgwood",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1124-satin-wedgwood",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1127",
+  "name": "Satin Turq",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1127-satin-turq",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1129",
+  "name": "Textured Oasis",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1129-textured-oasis",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1131",
+  "name": "Charcoal",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1131-charcoal",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1132",
+  "name": "Purple",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1132-purple",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1134",
+  "name": "Choc Brown",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1134-choc-brown",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1135",
+  "name": "Navy Blue",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1135-navy-blue",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1136",
+  "name": "Royal Blue",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1136-royal-blue",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1137",
+  "name": "Teal Blue",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1137-teal-blue",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1138",
+  "name": "Lime Green",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1138-lime-green",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1141",
+  "name": "Textured Cascade",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1141-textured-cascade",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1142",
+  "name": "Textured Wheat",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1142-textured-wheat",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1143",
+  "name": "Textured Navy",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1143-textured-navy",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1144",
+  "name": "Textured Mottle",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1144-textured-mottle",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1145",
+  "name": "Textured Autumn",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1145-textured-autumn",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1146",
+  "name": "Texture Swampy",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1146-texture-swampy",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1148",
+  "name": "Textured Chowder",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1148-textured-chowder",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1149",
+  "name": "Oceanic Blue",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1149-oceanic-blue",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1151",
+  "name": "Fuschia",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1151-fuschia",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1152",
+  "name": "Textured Chrome",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1152-textured-chrome",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1153",
+  "name": "Textured Cobalt",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1153-textured-cobalt",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1154",
+  "name": "Textured Iron",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1154-textured-iron",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1155",
+  "name": "Pebble Stone",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1155-pebble-stone",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1156",
+  "name": "Olive Stone",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1156-olive-stone",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1157",
+  "name": "Textured Honey",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1157-textured-honey",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1159",
+  "name": "Green Stone",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1159-green-stone",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1161",
+  "name": "Textured Topaz",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1161-textured-topaz",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1162",
+  "name": "Textured Burgundy",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1162-textured-burgundy",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1164",
+  "name": "Dark Red",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1164-dark-red",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1166",
+  "name": "Bright Orange",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1166-bright-orange",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1167",
+  "name": "Bright Green",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1167-bright-green",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1168",
+  "name": "Bright Purple",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1168-bright-purple",
+  "price": "$32.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1170",
+  "name": "Textured Mulberry",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1170-textured-mulberry",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1171",
+  "name": "Textured Plum",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1171-textured-plum",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1173",
+  "name": "Running Hot Chowder",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1173-running-hot-chowder",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1176",
+  "name": "Cinnamon Ripple",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1176-cinnamon-ripple",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1177",
+  "name": "Antique Mottle",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1177-antique-mottle",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1180",
+  "name": "Lagoon",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1180-lagoon",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1181",
+  "name": "Textured Cloud",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1181-textured-cloud",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1183",
+  "name": "Textured Dark Cloud",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1183-textured-dark-cloud",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1184",
+  "name": "Hunter Green",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1184-hunter-green",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1185",
+  "name": "Forest Green",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1185-forest-green",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1186",
+  "name": "Soft Pink",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1186-soft-pink",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1187",
+  "name": "Clear Crackle",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1187-clear-crackle",
+  "price": "$12.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1188",
+  "name": "Pewter",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1188-pewter",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1192",
+  "name": "Reactive Purple",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1192-reactive-purple",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1193",
+  "name": "Fire Engine Red",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1193-fire-engine-red",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1195",
+  "name": "Neon Orange",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1195-neon-orange",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1196",
+  "name": "Hot Pink",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1196-hot-pink",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1197",
+  "name": "Reactive Red",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1197-reactive-red",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1198",
+  "name": "Oil Spot",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1198-oil-spot",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Stoneware (1100 Series)",
+  "code": "SP1199",
+  "name": "Texture Mossy",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1199-texture-mossy",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1431",
+  "name": "Pearl White",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1431-pearl-white",
+  "price": "$16.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1432",
+  "name": "Curry",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1432-curry",
+  "price": "$16.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1433",
+  "name": "Twilight",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1433-twilight",
+  "price": "$16.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1434",
+  "name": "Autumn Purple",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1434-autumn-purple",
+  "price": "$19.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1435",
+  "name": "Sangria",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1435-sangria",
+  "price": "$19.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1436",
+  "name": "Kimchi",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1436-kimchi",
+  "price": "$19.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1437",
+  "name": "Floating Celadon",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1437-floating-celadon",
+  "price": "$16.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1438",
+  "name": "Cactus",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1438-cactus",
+  "price": "$16.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1439",
+  "name": "Nori Green",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1439-nori-green",
+  "price": "$16.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1440",
+  "name": "Floating Blue",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1440-floating-blue",
+  "price": "$16.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1441",
+  "name": "Scandinavian Blue",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1441-scandinavian-blue",
+  "price": "$16.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1442",
+  "name": "Glacier",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1442-glacier",
+  "price": "$16.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Floating Glaze (1430 Series)",
+  "code": "SP1447",
+  "name": "Bougainvillea",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/sp1447-bougainvillea",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Semi-Moist Underglaze",
+  "name": "Semi-Moist Underglaze Set #108",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/semi-moist-underglaze-set-108",
+  "price": "$51.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Semi-Moist Underglaze",
+  "name": "Semi-Moist Underglaze Set #109",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/semi-moist-underglaze-set-109",
+  "price": "$51.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Semi-Moist Underglaze",
+  "name": "Semi-Moist Underglaze Set #110",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/semi-moist-underglaze-set-110",
+  "price": "$51.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Semi-Moist Underglaze",
+  "name": "Semi-Moist Underglaze Set #111",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/semi-moist-underglaze-set-111",
+  "price": "$51.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Underglaze Chalk Crayons",
+  "name": "Underglaze Chalk Crayon Set #208",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/underglaze-chalk-crayon-set-208",
+  "price": "$54.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Underglaze Chalk Crayons",
+  "name": "Underglaze Chalk Crayon Set #209",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/underglaze-chalk-crayon-set-209",
+  "price": "$54.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Underglaze Pencil",
+  "name": "Underglaze Pencil - Black",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/underglaze-pencil-black",
+  "price": "$20.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-301",
+  "name": "Ivory Beige",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-301-ivory-beige",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-303",
+  "name": "Terra Cotta",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-303-terra-cotta",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-304",
+  "name": "Straw",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-304-straw",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-308",
+  "name": "Yellow",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-308-yellow",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-309",
+  "name": "Deep Yellow",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-309-deep-yellow",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-313",
+  "name": "Red Brown",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-313-red-brown",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-314",
+  "name": "Chocolate Brown",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-314-chocolate-brown",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-315",
+  "name": "Peach",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-315-peach",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-317",
+  "name": "Coral",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-317-coral",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-318",
+  "name": "Rose",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-318-rose",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-320",
+  "name": "Lavender",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-320-lavender",
+  "price": "$45.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-321",
+  "name": "Lilac",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-321-lilac",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-322",
+  "name": "Purple",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-322-purple",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-323",
+  "name": "Salmon",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-323-salmon",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-325",
+  "name": "Baby Blue",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-325-baby-blue",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-326",
+  "name": "Medium Blue",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-326-medium-blue",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-327",
+  "name": "Turquoise Blue",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-327-turquoise-blue",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-328",
+  "name": "Iceberg Blue",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-328-iceberg-blue",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-332",
+  "name": "Teal Blue",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-332-teal-blue",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-333",
+  "name": "Avocado",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-333-avocado",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-336",
+  "name": "Royal Blue",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-336-royal-blue",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-341",
+  "name": "Blue Green",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-341-blue-green",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-343",
+  "name": "Chartreuse",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-343-chartreuse",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-345",
+  "name": "Light Green",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-345-light-green",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-347",
+  "name": "Pistachio",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-347-pistachio",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-349",
+  "name": "Cactus",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-349-cactus",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-350",
+  "name": "Orange",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-350-orange",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-353",
+  "name": "Dark Green",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-353-dark-green",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-356",
+  "name": "Pearl Gray",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-356-pearl-gray",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-359",
+  "name": "Ultra White",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-359-ultra-white",
+  "price": "$45.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-360",
+  "name": "White",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-360-white",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-361",
+  "name": "Jet Black",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-361-jet-black",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-362",
+  "name": "Ultra Black",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-362-ultra-black",
+  "price": "$45.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-363",
+  "name": "Morning Fog",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-363-morning-fog-discontinued",
+  "price": "$43.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-364",
+  "name": "Elephant",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-364-elephant",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-365",
+  "name": "Slate",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-365-slate-discontinued",
+  "price": "$62.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-366",
+  "name": "Teddy Bear Brown",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-366-teddy-bear-brown",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-370",
+  "name": "Velour Black",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-370-velour-black",
+  "price": "$45.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-375",
+  "name": "Maroon",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-375-maroon",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-376",
+  "name": "Hunter Green",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-376-hunter-green",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-379",
+  "name": "Ultra Violet",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-379-ultra-violet",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-380",
+  "name": "Violet",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-380-violet",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-381",
+  "name": "Amethyst",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-381-amethyst",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-382",
+  "name": "Red",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-382-red",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-383",
+  "name": "Light Red",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-383-light-red",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-384",
+  "name": "Real Orange",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-384-real-orange",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-385",
+  "name": "Cinnamon",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-385-cinnamon",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-386",
+  "name": "Electric Blue",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-386-electric-blue",
+  "price": "$32.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-387",
+  "name": "Bright Red",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-387-bright-red",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-388",
+  "name": "Radiant Red",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-388-radiant-red",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-389",
+  "name": "Flame Orange",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-389-flame-orange",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-390",
+  "name": "Bright Orange",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-390-bright-orange",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Amaco",
+  "line": "Velvet",
+  "code": "V-391",
+  "name": "Intense Yellow",
+  "cone": "^05-10",
+  "url": "https://alligatorclay.com/products/v-391-intense-yellow",
+  "price": "$63.00"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP501",
+  "name": "White",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp501-white-839594229",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP504",
+  "name": "Yellow",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp504-yellow",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP505",
+  "name": "Orange",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp505-orange",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP506",
+  "name": "Bright Yellow",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp506-bright-yellow-839596190",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP507",
+  "name": "English Rose",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp507-english-rose",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP508",
+  "name": "Baby Pink",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp508-baby-pink",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP509",
+  "name": "Blush",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp509-blush",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP511",
+  "name": "Aztec Brown",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp511-aztec-brown",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP512",
+  "name": "Walnut Brown",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp512-walnut-brown-839596197",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP513",
+  "name": "Chocolate",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp513-chocolate",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP515",
+  "name": "Black",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp515-black-839602761",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP516",
+  "name": "Charcoal",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp516-charcoal",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP517",
+  "name": "Light Gray",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp517-light-gray",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP521",
+  "name": "Sand",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp521-sand",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP522",
+  "name": "Tea",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp522-tea",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP523",
+  "name": "Honey",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp523-honey",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP524",
+  "name": "Mustard",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp524-mustard",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP525",
+  "name": "Lime Green",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp525-lime-green",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP526",
+  "name": "Mid Green",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp526-mid-green",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP528",
+  "name": "Chartreuse",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp528-chartreuse",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP529",
+  "name": "Dark Olive",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp529-dark-olive",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP530",
+  "name": "Hunter Green",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp530-hunter-green",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP531",
+  "name": "Prussian Blue",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp531-prussian-blue",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP532",
+  "name": "Sky Blue",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp532-sky-blue",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP533",
+  "name": "Turquoise",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp533-turquoise",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP534",
+  "name": "Lavender",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp534-lavender",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP535",
+  "name": "Blue Gray",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp535-blue-gray",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP536",
+  "name": "Bright Blue",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp536-bright-blue-839594966",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP537",
+  "name": "Cobalt Blue",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp537-cobalt-blue",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP540",
+  "name": "Denim Blue",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp540-denim-blue",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP541",
+  "name": "Purple",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp541-purple",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP544",
+  "name": "Burgundy",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp544-burgundy",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP545",
+  "name": "Ruby",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp545-ruby",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP547",
+  "name": "Nectarine",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp547-nectarine",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP548",
+  "name": "Rust Red",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp548-rust-red",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP549",
+  "name": "Terra Cotta",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp549-terra-cotta",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP551",
+  "name": "Med Pink",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp551-med-pink",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP553",
+  "name": "Lilac",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp553-lilac",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP554",
+  "name": "Royal Purple",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp554-royal-purple",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP556",
+  "name": "Light Green",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp556-light-green",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP557",
+  "name": "Leaf Green",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp557-leaf-green",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP558",
+  "name": "Jade",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp558-jade",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP559",
+  "name": "Blue Green",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp559-blue-green",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP560",
+  "name": "Teal Blue",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp560-teal-blue",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP561",
+  "name": "Dark Red",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp561-dark-red",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP562",
+  "name": "Bright Red",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp562-bright-red-839602796",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP563",
+  "name": "Bright Orange",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp563-bright-orange-839594998",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP564",
+  "name": "Bright Green",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp564-bright-green",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP565",
+  "name": "Bright Purple",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp565-bright-purple-839603511",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP566",
+  "name": "Dark Purple",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp566-dark-purple",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP567",
+  "name": "Fire Engine Red",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp567-fire-engine-red",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP568",
+  "name": "Christmas Red",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp568-christmas-red",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP569",
+  "name": "Neon Orange",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp569-neon-orange",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP570",
+  "name": "Hot Pink",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp570-hot-pink-839603552",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP571",
+  "name": "Dandelion",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp571-dandelion-839601426",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP572",
+  "name": "Spring Green",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp572-spring-green-discontinued",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP573",
+  "name": "Mint",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp573-mint",
+  "price": "$19.50"
+ },
+ {
+  "kind": "underglaze",
+  "brand": "Spectrum",
+  "line": "500 Series Underglaze",
+  "code": "SP574",
+  "name": "Grass Green",
+  "cone": "^06-10",
+  "url": "https://alligatorclay.com/products/sp574-grass-green-discontinued",
+  "price": "$19.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Low Fire Gloss (LG)",
+  "code": "LG-10",
+  "name": "Clear Transparent",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/lg-10-clear-transparent",
+  "price": "$22.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-02",
+  "name": "Black Tulip",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-02-black-tulip-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-10",
+  "name": "Transparent Pearl",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-10-transparent-pearl-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-11",
+  "name": "White Clover",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-11-white-clover-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-12",
+  "name": "Tawny",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-12-tawny-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-20",
+  "name": "Bluebell",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-20-bluebell-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-21",
+  "name": "Aquamarine",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-21-aquamarine-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-23",
+  "name": "Sapphire Blue",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-23-sapphire-blue-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-26",
+  "name": "Turquoise",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-26-turquoise-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-30",
+  "name": "Autumn Leaf",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-30-autumn-leaf-06-04-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-42",
+  "name": "Moss Green",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-42-moss-green-06-04-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-52",
+  "name": "Fuchsia",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-52-fuchsia-06-04-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-54",
+  "name": "Dusty Rose",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-54-dusty-rose-06-04-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Opalescent",
+  "code": "O-57",
+  "name": "Mottled Burgundy",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/o-57-mottled-burgundy-06-04-pint",
+  "price": "$24.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP253",
+  "name": "Satin Black",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp253-satin-black-06-04",
+  "price": "$16.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP902",
+  "name": "Iceberg",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp-902-iceberg",
+  "price": "$24.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP910",
+  "name": "Desert",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp-910-desert",
+  "price": "$32.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP913",
+  "name": "Old Copper",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp-913-old-copper",
+  "price": "$27.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP931",
+  "name": "Dove Gray",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp931-dove-gray-06-04-pint",
+  "price": "$26.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP138",
+  "name": "Clear Crackle",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp-138-clear-crackle-06-04-pint",
+  "price": "$17.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP140",
+  "name": "Blue Crackle",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp-140-blue-crackle-06-04-pint",
+  "price": "$17.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP170",
+  "name": "Ivory Crackle",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp-170-ivory-crackle-06-04-pint",
+  "price": "$17.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP151",
+  "name": "Golden Halo",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp151-golden-halo-06-04-pint",
+  "price": "$31.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP152",
+  "name": "Moonlight",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp152-moonlight-06-04-pint",
+  "price": "$31.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP153",
+  "name": "Green Mirror",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp153-green-mirror-06-04-pint",
+  "price": "$31.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP154",
+  "name": "Wrought Iron",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp154-wrought-iron-06-04-pint",
+  "price": "$31.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP155",
+  "name": "Brushed Bronze",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp155-brushed-bronze-06-04-pint",
+  "price": "$31.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP156",
+  "name": "Green Patina",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp156-green-patina-06-04-pint",
+  "price": "$31.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP250",
+  "name": "Satin Clear",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp250-satin-clear-06-04-pint",
+  "price": "$16.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP251",
+  "name": "Satin White",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp251-satin-white-06-04-pint",
+  "price": "$16.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP254",
+  "name": "Satin Taupe",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp254-satin-taupe-06-04-pint",
+  "price": "$16.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP261",
+  "name": "Satin Yellow",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp261-satin-yellow-06-04-pint",
+  "price": "$16.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP262",
+  "name": "Satin Seagreen",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp262-satin-seagreen-06-04-pint",
+  "price": "$16.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP263",
+  "name": "Satin Quebec Blue",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp263-satin-quebec-blue-06-04-pint",
+  "price": "$16.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP264",
+  "name": "Satin Dark Red",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp264-satin-dark-red-06-04-pint",
+  "price": "$16.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP800",
+  "name": "Clear",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp800-clear-06-04-pint",
+  "price": "$14.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP802",
+  "name": "Ivory Speckle",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp802-ivory-speckle-06-04-pint",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP805",
+  "name": "Spiced Honey",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp805-spiced-honey-06-04-pint",
+  "price": "$23.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP806",
+  "name": "Brown Sugar",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp806-brown-sugar-06-04-pint",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP808",
+  "name": "Clear Blue",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp808-clear-blue-06-04-pint",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP809",
+  "name": "Clear Pink",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp809-clear-pink-06-04-pint",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP812",
+  "name": "Beanpot Brown",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp812-beanpot-brown-06-04-pint",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP813",
+  "name": "Denim Blue",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp813-denim-blue-06-04-pint",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP814",
+  "name": "Turquoise",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp814-turquoise-06-04-pint",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP816",
+  "name": "Lime Green",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp816-lime-green-06-04-pint",
+  "price": "$19.50"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP818",
+  "name": "Holly Green",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp818-holly-green-06-04-pint",
+  "price": "$32.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP819",
+  "name": "Light Lime",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp819-light-lime-06-04-pint",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP820",
+  "name": "Aquamarine",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp820-aquamarine-06-04-pint",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP821",
+  "name": "Wintergreen",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp821-wintergreen-06-04-pint",
+  "price": "$26.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP822",
+  "name": "Emerald Green",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp822-emerald-green-06-04-pint",
+  "price": "$16.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP823",
+  "name": "Evergreen",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp823-evergreen-06-04-pint",
+  "price": "$15.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP824",
+  "name": "Grape",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp824-grape-06-04-pint",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP825",
+  "name": "Umber",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp825-umber-06-04-pint",
+  "price": "$17.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP826",
+  "name": "Caramel",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp826-caramel-06-04-pint",
+  "price": "$16.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP827",
+  "name": "Tan",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp827-tan-06-04-pint",
+  "price": "$23.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP828",
+  "name": "Light Tan",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp828-light-tan-06-04-pint",
+  "price": "$29.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP901",
+  "name": "Evening Shadow",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp901-evening-shadow-06-04-pint",
+  "price": "$26.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP903",
+  "name": "Emerald Green",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp903-emerald-green-06-04-pint",
+  "price": "$20.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP906",
+  "name": "Burnt Sugar",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp906-burnt-sugar-06-04-pint",
+  "price": "$24.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP909",
+  "name": "Camel",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp909-camel-06-04-pint",
+  "price": "$26.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP912",
+  "name": "Cloudy Sky",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp912-cloudy-sky-06-04-pint",
+  "price": "$32.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP920",
+  "name": "Midnight Sky",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp920-midnight-sky-06-04-pint",
+  "price": "$33.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP928",
+  "name": "Oxblood",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp928-oxblood-06-04-pint",
+  "price": "$32.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP932",
+  "name": "Pistacio",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp932-pistacio-06-04-pint",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP933",
+  "name": "Strawberry",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp933-strawberry-06-04-pint",
+  "price": "$22.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP934",
+  "name": "Speckled Turqoise",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp934-speckled-06-04-pint",
+  "price": "$26.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP935",
+  "name": "Purple",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp935-purple-06-04-pint",
+  "price": "$20.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP938",
+  "name": "Blue Rain",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp938-blue-rain-06-04-pint",
+  "price": "$26.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP939",
+  "name": "Chocolate Chip",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp939-chocolate-chip-06-04-pint",
+  "price": "$26.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP945",
+  "name": "Robin's Egg",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp945-robins-egg-06-04-pint",
+  "price": "$28.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP948",
+  "name": "Tortilla",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp948-tortilla-06-04-pint",
+  "price": "$26.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP949",
+  "name": "Deep Sea",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp949-deep-sea-06-04-pint",
+  "price": "$30.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP950",
+  "name": "Moonlit Sky",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp950-moonlit-sky-06-04-pint",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP951",
+  "name": "Sunset Red",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp951-sunset-red-06-04-pint",
+  "price": "$39.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP952",
+  "name": "Meteor Shower",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp952-meteor-shower-06-04-pint",
+  "price": "$20.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP953",
+  "name": "Espresso",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp953-espresso-06-04-pint",
+  "price": "$28.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP954",
+  "name": "Polished Armor",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp954-polished-armor-06-04-pint",
+  "price": "$18.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP957",
+  "name": "Kelp Forest",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp957-kelp-forest-06-04-pint",
+  "price": "$36.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Spectrum",
+  "line": "Low Fire Glaze",
+  "code": "SP960",
+  "name": "Gun Metal",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/sp960-gun-metal-06-04-pint",
+  "price": "$30.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-01",
+  "name": "Coal Black",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-01-coal-black-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-11",
+  "name": "Cotton",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-11-cotton-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-15",
+  "name": "Gray",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-15-gray-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-20",
+  "name": "Sky Blue",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-20-sky-blue-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-21",
+  "name": "Midnight Blue",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-21-midnight-blue-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-22",
+  "name": "Blue Green",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-22-blue-green-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-24",
+  "name": "Medium Blue",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-24-medium-blue-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-26",
+  "name": "Robin's Egg",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-26-robins-egg-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-30",
+  "name": "Caramel",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-30-caramel-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-32",
+  "name": "Fudge Brown",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-32-fudge-brown-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-40",
+  "name": "Mint Green",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-40-mint-green-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-41",
+  "name": "Frog Green",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-41-frog-green-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-42",
+  "name": "Granny Smith",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-42-granny-smith-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-43",
+  "name": "Green Leaf",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-43-green-leaf-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-51",
+  "name": "Grape",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-51-grape-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-52",
+  "name": "Raspberry",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-52-raspberry-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-53",
+  "name": "Pig Pink",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-53-pig-pink-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-54",
+  "name": "Lilac",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-54-lilac-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-56",
+  "name": "Scarlet",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-56-scarlet-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-58",
+  "name": "Brick Red",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-58-brick-red-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-60",
+  "name": "Lemon",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-60-lemon-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-62",
+  "name": "Maize",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-62-maize-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-64",
+  "name": "Carrot",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-64-carrot-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette",
+  "code": "TP-65",
+  "name": "Pumpkin",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tp-65-pumpkin-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette Light",
+  "code": "TPL-03",
+  "name": "Onyx",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tpl-03-onyx-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette Light",
+  "code": "TPL-05",
+  "name": "Quartz",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tpl-05-quartz-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette Light",
+  "code": "TPL-23",
+  "name": "Aquamarine",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tpl-23-aquamarine-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette Light",
+  "code": "TPL-27",
+  "name": "Zircon",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tpl-27-zircon-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette Light",
+  "code": "TPL-28",
+  "name": "Sapphire",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tpl-28-sapphire-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette Light",
+  "code": "TPL-34",
+  "name": "Jasper",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tpl-34-jasper-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette Light",
+  "code": "TPL-44",
+  "name": "Peridot",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tpl-44-peridot-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette Light",
+  "code": "TPL-45",
+  "name": "Emerald",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tpl-45-emerald-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette Light",
+  "code": "TPL-55",
+  "name": "Tanzanite",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tpl-55-tanzanite-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette Light",
+  "code": "TPL-59",
+  "name": "Ruby",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tpl-59-ruby-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette Light",
+  "code": "TPL-63",
+  "name": "Citrine",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tpl-63-citrine-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Amaco",
+  "line": "Teacher's Palette Light",
+  "code": "TPL-66",
+  "name": "Fire Opal",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/tpl-66-fire-opal-06-04-pint",
+  "price": "$21.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG002",
+  "name": "Black",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg002-black-dry",
+  "price": "$43.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG008",
+  "name": "Cobalt Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg008-cobalt-blue-dry",
+  "price": "$48.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG012",
+  "name": "Fire Opal",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg012-fire-opal-dry",
+  "price": "$76.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG019",
+  "name": "Red",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg019-red-dry-835892975",
+  "price": "$93.90"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG023",
+  "name": "White",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg023-white-dry",
+  "price": "$41.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG028",
+  "name": "Blue Purple",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg028-blue-purple-dry",
+  "price": "$109.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG034",
+  "name": "Archie's Base",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg034-archies-base-dry",
+  "price": "$103.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG044",
+  "name": "Green Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg044-green-shino-dry",
+  "price": "$100.40"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG047",
+  "name": "Green Matt",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg047-green-matt-dry",
+  "price": "$40.00"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG053",
+  "name": "Pansy Purple",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg053-pansy-purple-dry",
+  "price": "$77.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG055",
+  "name": "Opal",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg055-opal-dry",
+  "price": "$82.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG056",
+  "name": "Eggplant",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg056-eggplant-dry",
+  "price": "$108.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG061",
+  "name": "Desert Sage",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg061-desert-sage-dry",
+  "price": "$99.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG067",
+  "name": "Light Blue Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg067-light-blue-shino-dry",
+  "price": "$96.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG068",
+  "name": "Light Green Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg068-light-green-shino-dry",
+  "price": "$96.30"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG070",
+  "name": "Pam's Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg070-pams-blue-dry-836467753",
+  "price": "$62.10"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG071",
+  "name": "Really Red",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg071-really-red-dry",
+  "price": "$94.30"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG085",
+  "name": "Seafoam Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg085-seafoam-satin-dry",
+  "price": "$48.80"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG087",
+  "name": "Cedar Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg087-cedar-shino-dry",
+  "price": "$143.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG093",
+  "name": "Pistachio Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg093-pistachio-shino-dry-836466950",
+  "price": "$109.40"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG096",
+  "name": "Steel Gray Shino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg096-steel-gray-shino-dry",
+  "price": "$103.70"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG103",
+  "name": "Key Lime",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg103-key-lime-dry-836469216",
+  "price": "$42.40"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Coyote",
+  "line": "Dry Glaze",
+  "code": "MBG120",
+  "name": "Bronze Temmoku",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/mbg120-bronze-temmoku-dry",
+  "price": "$106.10"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-13",
+  "name": "Lemon Yellow",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-13-lemon-yellow-dry-839346232",
+  "price": "$42.44"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-15",
+  "name": "Ochre",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-15-ochre-dry-839346738",
+  "price": "$29.19"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-17",
+  "name": "Golden Green",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-17-golden-green-dry-839353269",
+  "price": "$26.46"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-29",
+  "name": "Clear Bright",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-29-clear-bright-dry-839352809",
+  "price": "$50.76"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-38",
+  "name": "Fern Mist",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-38-fern-mist-dry-839359456",
+  "price": "$33.33"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-41",
+  "name": "Batik Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-41-batik-blue-dry-839359709",
+  "price": "$58.86"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-46",
+  "name": "Agate",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-46-agate-dry-839359725",
+  "price": "$36.59"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-47",
+  "name": "Castile Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-47-castile-blue-dry-839359492",
+  "price": "$31.41"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-48",
+  "name": "Rafia",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-48-rafia-dry-839366532",
+  "price": "$19.63"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-49",
+  "name": "Oasis Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-49-oasis-blue-dry",
+  "price": "$62.69"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-50",
+  "name": "Dutch Sprinkle",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-50-dutch-sprinkle-dry-839367504",
+  "price": "$31.19"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-52",
+  "name": "Cerulean",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-52-cerulean-dry-839367510",
+  "price": "$29.28"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-54",
+  "name": "Emeraude",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-54-emeraude-dry-839366561",
+  "price": "$42.78"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-55",
+  "name": "Antique Blue",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-55-antique-blue-dry-839367285",
+  "price": "$35.01"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-57",
+  "name": "Cappucino",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-57-cappucino-dry-839367287",
+  "price": "$44.01"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-68",
+  "name": "Almond",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-68-almond-dry-839365842",
+  "price": "$76.75"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-77",
+  "name": "Jade",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-77-jade-dry-839366601",
+  "price": "$37.75"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-84",
+  "name": "Sunflower",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-84-sunflower-dry-839367330",
+  "price": "$38.28"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-94",
+  "name": "High Gloss Black",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-94-high-gloss-black-dry-839365908",
+  "price": "$61.68"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-95",
+  "name": "Peacock",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-95-peacock-dry-839366643",
+  "price": "$35.69"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-96",
+  "name": "Dynasty Red",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-96-dynasty-red-dry-5-6",
+  "price": "$83.73"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "MS-99",
+  "name": "Orange Satin",
+  "cone": "^5-6",
+  "url": "https://alligatorclay.com/products/ms-99-orange-satin-dry",
+  "price": "$59.88"
+ },
+ {
+  "kind": "glaze",
+  "brand": "Laguna",
+  "line": "Dry Glaze",
+  "code": "WC-108",
+  "name": "Power Turquoise",
+  "url": "https://alligatorclay.com/products/wc-108-power-turquoise-dry",
+  "price": "$50.20"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Earthenware",
+  "code": "MC101",
+  "name": "Rocket White",
+  "cone": "^07-03",
+  "url": "https://alligatorclay.com/products/mc101-rocket-white-25lb",
+  "price": "$23.00"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Earthenware",
+  "code": "MC105",
+  "name": "Gator White",
+  "cone": "^06-04",
+  "url": "https://alligatorclay.com/products/mc105-gator-white-25lb",
+  "price": "$22.00"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Earthenware",
+  "code": "MC107",
+  "name": "Gator Red",
+  "cone": "^06-2",
+  "url": "https://alligatorclay.com/products/mc107-gator-red-25lb",
+  "price": "$20.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Earthenware",
+  "code": "MC109",
+  "name": "Gator Tooth Red",
+  "cone": "^06-2",
+  "url": "https://alligatorclay.com/products/mc109-gator-tooth-red-25lb",
+  "price": "$23.00"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "code": "MC110",
+  "name": "Gumbo Clay",
+  "url": "https://alligatorclay.com/products/mc110-gumbo-clay-25",
+  "price": "$12.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Raku",
+  "code": "MC117",
+  "name": "Smooth Raku",
+  "url": "https://alligatorclay.com/products/mc117-smooth-raku-25lb",
+  "price": "$23.00"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Raku",
+  "code": "MC138",
+  "name": "Raku Lite",
+  "url": "https://alligatorclay.com/products/mc138-raku-lite-25lb",
+  "price": "$22.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Stoneware",
+  "code": "MC210",
+  "name": "Cinq Blanc",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/mc210-cinq-blanc-25lb",
+  "price": "$23.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Stoneware",
+  "code": "MC212",
+  "name": "Black Pepper",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/mc212-black-pepper-25lb",
+  "price": "$22.00"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Stoneware",
+  "code": "MC214",
+  "name": "Potsalot",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/mc214-potsalot-25lb",
+  "price": "$22.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Stoneware",
+  "code": "MC217",
+  "name": "Peppered Creole",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/mc217-peppered-creole-25lb",
+  "price": "$24.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Porcelain",
+  "code": "MC233",
+  "name": "Groove Mix",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/mc233-groove-mix-25lb",
+  "price": "$25.00"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Stoneware",
+  "code": "MC241",
+  "name": "Wheatstone",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/mc241-wheatstone-25lb",
+  "price": "$21.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Stoneware",
+  "code": "MC250",
+  "name": "Cinq Rouge",
+  "cone": "^4-6",
+  "url": "https://alligatorclay.com/products/mc250-cinq-rouge-25lb",
+  "price": "$28.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Stoneware",
+  "code": "MC285",
+  "name": "Griffin Brown",
+  "url": "https://alligatorclay.com/products/mc285-griffin-brown-25lb",
+  "price": "$24.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Porcelain",
+  "code": "MC299",
+  "name": "Grolleg Porcelain",
+  "cone": "^6",
+  "url": "https://alligatorclay.com/products/mc299-6-grolleg-porcelain-25lb",
+  "price": "$43.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Sculpture",
+  "code": "MC305",
+  "name": "Sculpture Clay",
+  "cone": "^6-10",
+  "url": "https://alligatorclay.com/products/mc305-sculpture-clay-25lb",
+  "price": "$25.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Stoneware",
+  "code": "MC318",
+  "name": "Class Clay",
+  "cone": "^6-10",
+  "url": "https://alligatorclay.com/products/mc318-class-clay-25lb",
+  "price": "$24.00"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Stoneware",
+  "code": "MC327",
+  "name": "Buffstone",
+  "cone": "^6-10",
+  "url": "https://alligatorclay.com/products/mc327-buffstone-25lb",
+  "price": "$23.00"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Stoneware",
+  "code": "MC344",
+  "name": "Barbuff",
+  "cone": "^6-12",
+  "url": "https://alligatorclay.com/products/mc344-barbuff-25lb",
+  "price": "$23.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Stoneware",
+  "code": "MC360",
+  "name": "Lovestone",
+  "cone": "^6-12",
+  "url": "https://alligatorclay.com/products/mc360-lovestone-25lb",
+  "price": "$31.50"
+ },
+ {
+  "kind": "clay",
+  "brand": "Alligator Clay",
+  "line": "Porcelain",
+  "code": "MC399",
+  "name": "Grolleg Porcelain",
+  "cone": "^10",
+  "url": "https://alligatorclay.com/products/mc399-grolleg-porcelain-10-25lb",
+  "price": "$47.50"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6000",
+  "name": "Shell Pink",
+  "url": "https://alligatorclay.com/products/6000-shell-pink",
+  "price": "$13.04"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6001",
+  "name": "Alpine Rose",
+  "url": "https://alligatorclay.com/products/6001-alpine-rose",
+  "price": "$12.95"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6006",
+  "name": "Deep Crimson",
+  "url": "https://alligatorclay.com/products/6006-deep-crimson",
+  "price": "$13.37"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6020",
+  "name": "Manganese Alumina Pink",
+  "url": "https://alligatorclay.com/products/6020-manganese-alumina-pink",
+  "price": "$6.15"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6021",
+  "name": "Red",
+  "url": "https://alligatorclay.com/products/6021-red",
+  "price": "$20.42"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6026",
+  "name": "Lobster",
+  "url": "https://alligatorclay.com/products/6026-lobster",
+  "price": "$12.50"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6027",
+  "name": "Tangerine",
+  "url": "https://alligatorclay.com/products/6027-tangerine",
+  "price": "$12.50"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6028",
+  "name": "Orange",
+  "url": "https://alligatorclay.com/products/6028-orange",
+  "price": "$19.80"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6030",
+  "name": "Mango",
+  "url": "https://alligatorclay.com/products/6030-mango",
+  "price": "$19.80"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6032",
+  "name": "Coral",
+  "url": "https://alligatorclay.com/products/6032-coral",
+  "price": "$8.21"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6100",
+  "name": "Woodland Brown",
+  "url": "https://alligatorclay.com/products/6100-woodland-brown",
+  "price": "$6.31"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6121",
+  "name": "Saturn Orange",
+  "url": "https://alligatorclay.com/products/6121-saturn-orange",
+  "price": "$6.31"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6129",
+  "name": "Golden Ambrosia",
+  "url": "https://alligatorclay.com/products/6129-golden-ambrosia",
+  "price": "$6.23"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6153",
+  "name": "Seal Brown",
+  "url": "https://alligatorclay.com/products/6153-seal-brown",
+  "price": "$4.66"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6201",
+  "name": "Celadon Green",
+  "url": "https://alligatorclay.com/products/6201-celadon-green",
+  "price": "$6.19"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6202",
+  "name": "Florentine Green",
+  "url": "https://alligatorclay.com/products/6202-florentine-green",
+  "price": "$8.87"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6204",
+  "name": "Victoria Green",
+  "url": "https://alligatorclay.com/products/6204-victoria-green",
+  "price": "$7.48"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6206",
+  "name": "Grass Green",
+  "url": "https://alligatorclay.com/products/6206-grass-green",
+  "price": "$6.15"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6219",
+  "name": "French Green",
+  "url": "https://alligatorclay.com/products/6219-french-green",
+  "price": "$6.68"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6236",
+  "name": "Chartreuse",
+  "url": "https://alligatorclay.com/products/6236-chartreuse",
+  "price": "$15.18"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6242",
+  "name": "Bermuda Green",
+  "url": "https://alligatorclay.com/products/6242-bermuda-green",
+  "price": "$9.20"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6263",
+  "name": "Victoria Green",
+  "url": "https://alligatorclay.com/products/6263-victoria-green",
+  "price": "$6.23"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6266",
+  "name": "Peacock Green",
+  "url": "https://alligatorclay.com/products/6266-peacock-green",
+  "price": "$15.63"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6268",
+  "name": "Sea Green",
+  "url": "https://alligatorclay.com/products/6268-sea-green",
+  "price": "$8.62"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6280",
+  "name": "Avocado",
+  "url": "https://alligatorclay.com/products/6280-avocado",
+  "price": "$12.13"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6304",
+  "name": "Violet Chrome Tin",
+  "url": "https://alligatorclay.com/products/6304-violet-chrome-tin",
+  "price": "$27.56"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6306",
+  "name": "Vivid Blue",
+  "url": "https://alligatorclay.com/products/6306-vivid-blue",
+  "price": "$8.99"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6310",
+  "name": "Wedgewood Blue",
+  "url": "https://alligatorclay.com/products/6310-wedgewood-blue",
+  "price": "$13.41"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6315",
+  "name": "Zirconium Vanadium Blue",
+  "url": "https://alligatorclay.com/products/6315-zirconium-vanadium-blue",
+  "price": "$8.83"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6319",
+  "name": "Lavender",
+  "url": "https://alligatorclay.com/products/6319-lavender",
+  "price": "$6.64"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6320",
+  "name": "Delft Blue",
+  "url": "https://alligatorclay.com/products/6320-delft-blue",
+  "price": "$18.48"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6363",
+  "name": "Sky Blue",
+  "url": "https://alligatorclay.com/products/6363-sky-blue",
+  "price": "$6.27"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6364",
+  "name": "Turquoise",
+  "url": "https://alligatorclay.com/products/6364-turquoise",
+  "price": "$8.91"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6371",
+  "name": "Dark Teal Blue",
+  "url": "https://alligatorclay.com/products/6371-dark-teal-blue",
+  "price": "$13.90"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6374",
+  "name": "Dark Turquoise",
+  "url": "https://alligatorclay.com/products/6374-dark-turquoise",
+  "price": "$9.36"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6376",
+  "name": "Robin's Egg Blue",
+  "url": "https://alligatorclay.com/products/6376-robins-egg-blue-639891659",
+  "price": "$8.62"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6381",
+  "name": "Blackberry Wine",
+  "url": "https://alligatorclay.com/products/6381-blackberry-wine",
+  "price": "$13.08"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6385",
+  "name": "Pansy Purple",
+  "url": "https://alligatorclay.com/products/6385-pansy-purple",
+  "price": "$13.70"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6404",
+  "name": "Vanadium Yellow",
+  "url": "https://alligatorclay.com/products/6404-vanadium-yellow",
+  "price": "$19.64"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6450",
+  "name": "Praseodymium Yellow",
+  "url": "https://alligatorclay.com/products/6450-praseodymium-yellow",
+  "price": "$9.90"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6464",
+  "name": "Zirconium Yellow",
+  "url": "https://alligatorclay.com/products/6464-zirconium-yellow-639892344",
+  "price": "$12.79"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6485",
+  "name": "Titanium Yellow",
+  "url": "https://alligatorclay.com/products/6485-titanium-yellow",
+  "price": "$6.68"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6500",
+  "name": "Sage Grey",
+  "url": "https://alligatorclay.com/products/6500-sage-grey-639892770",
+  "price": "$8.87"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6600",
+  "name": "Black",
+  "url": "https://alligatorclay.com/products/6600-black",
+  "price": "$10.60"
+ },
+ {
+  "kind": "stain",
+  "brand": "Mason",
+  "line": "Mason Stain",
+  "code": "6650",
+  "name": "Cobalt Free Black",
+  "url": "https://alligatorclay.com/products/6650-cobalt-free-black",
+  "price": "$7.22"
+ },
+ {
+  "kind": "chemical",
+  "name": "20 Mesh Grog (Med)",
+  "url": "https://alligatorclay.com/products/20-mesh-grog-med-bag-50lbs",
+  "price": "$37.50"
+ },
+ {
+  "kind": "chemical",
+  "name": "50 Mesh Grog (Fine)",
+  "url": "https://alligatorclay.com/products/50-mesh-grog-fine-bag-50lbs",
+  "price": "$39.63"
+ },
+ {
+  "kind": "chemical",
+  "name": "8 Mesh Grog (Coarse)",
+  "url": "https://alligatorclay.com/products/8-mesh-grog-coarse-bag-50lbs",
+  "price": "$28.95"
+ },
+ {
+  "kind": "chemical",
+  "name": "Alberta Slip Clay",
+  "url": "https://alligatorclay.com/products/alberta-slip-clay",
+  "price": "$8.19"
+ },
+ {
+  "kind": "chemical",
+  "name": "Alumina Hydrate H-30",
+  "url": "https://alligatorclay.com/products/alumina-hydrate-h-30",
+  "price": "$5.93"
+ },
+ {
+  "kind": "chemical",
+  "name": "Alumina Oxide, Calcined",
+  "url": "https://alligatorclay.com/products/alumina-oxide-calcined",
+  "price": "$6.49"
+ },
+ {
+  "kind": "chemical",
+  "name": "Barium Carbonate",
+  "url": "https://alligatorclay.com/products/barium-carbonate-639892791",
+  "price": "$8.38"
+ },
+ {
+  "kind": "chemical",
+  "name": "Barnard Clay Sub.",
+  "url": "https://alligatorclay.com/products/barnard-clay-sub",
+  "price": "$7.99"
+ },
+ {
+  "kind": "chemical",
+  "name": "Black Iron Oxide",
+  "url": "https://alligatorclay.com/products/black-iron-oxide",
+  "price": "$10.52"
+ },
+ {
+  "kind": "chemical",
+  "name": "Bone Ash (Natural)",
+  "url": "https://alligatorclay.com/products/bone-ash-natural",
+  "price": "$7.14"
+ },
+ {
+  "kind": "chemical",
+  "name": "Bone Ash (Synthetic) - Tricalcium Phosphate",
+  "url": "https://alligatorclay.com/products/bone-ash-synthetic-tricalcium-phosphate",
+  "price": "$14.70"
+ },
+ {
+  "kind": "chemical",
+  "name": "Borax, Granular",
+  "url": "https://alligatorclay.com/products/borax-granular",
+  "price": "$6.40"
+ },
+ {
+  "kind": "chemical",
+  "name": "Burnt Umber",
+  "url": "https://alligatorclay.com/products/burnt-umber",
+  "price": "$10.93"
+ },
+ {
+  "kind": "chemical",
+  "name": "CMC Gum Powder",
+  "url": "https://alligatorclay.com/products/cmc-gum-powder",
+  "price": "$16.90"
+ },
+ {
+  "kind": "chemical",
+  "name": "Cedar Heights Fire Clay",
+  "url": "https://alligatorclay.com/products/cedar-heights-fire-clay-bag-50lbs",
+  "price": "$33.81"
+ },
+ {
+  "kind": "chemical",
+  "name": "Chrome Oxide, Green",
+  "url": "https://alligatorclay.com/products/chrome-oxide-green",
+  "price": "$12.60"
+ },
+ {
+  "kind": "chemical",
+  "name": "Cobalt Carbonate",
+  "url": "https://alligatorclay.com/products/cobalt-carbonate",
+  "price": "$35.70"
+ },
+ {
+  "kind": "chemical",
+  "name": "Cobalt Oxide, Black",
+  "url": "https://alligatorclay.com/products/cobalt-oxide-black",
+  "price": "$32.21"
+ },
+ {
+  "kind": "chemical",
+  "name": "Copper Carbonate",
+  "url": "https://alligatorclay.com/products/copper-carbonate",
+  "price": "$14.42"
+ },
+ {
+  "kind": "chemical",
+  "name": "Copper Oxide - Black",
+  "url": "https://alligatorclay.com/products/copper-oxide-black",
+  "price": "$14.56"
+ },
+ {
+  "kind": "chemical",
+  "name": "Copper Oxide - Red",
+  "url": "https://alligatorclay.com/products/copper-oxide-red",
+  "price": "$9.67"
+ },
+ {
+  "kind": "chemical",
+  "name": "Cornwall Stone",
+  "url": "https://alligatorclay.com/products/cornwall-stone",
+  "price": "$7.93"
+ },
+ {
+  "kind": "chemical",
+  "name": "Cryolite, Synthetic",
+  "url": "https://alligatorclay.com/products/cryolite-synthetic",
+  "price": "$9.77"
+ },
+ {
+  "kind": "chemical",
+  "name": "Diamond Kaolin",
+  "url": "https://alligatorclay.com/products/diamond-kaolin",
+  "price": "$5.28"
+ },
+ {
+  "kind": "chemical",
+  "brand": "Ferro",
+  "line": "Frit",
+  "code": "3110",
+  "name": "Frit 3110",
+  "url": "https://alligatorclay.com/products/ferro-frit-3110",
+  "price": "$9.39"
+ },
+ {
+  "kind": "chemical",
+  "brand": "Ferro",
+  "line": "Frit",
+  "code": "3124",
+  "name": "Frit 3124",
+  "url": "https://alligatorclay.com/products/ferro-frit-3124",
+  "price": "$6.63"
+ },
+ {
+  "kind": "chemical",
+  "brand": "Ferro",
+  "line": "Frit",
+  "code": "3134",
+  "name": "Frit 3134",
+  "url": "https://alligatorclay.com/products/ferro-frit-3134",
+  "price": "$9.67"
+ },
+ {
+  "kind": "chemical",
+  "brand": "Ferro",
+  "line": "Frit",
+  "code": "3195",
+  "name": "Frit 3195",
+  "url": "https://alligatorclay.com/products/ferro-frit-3195",
+  "price": "$11.39"
+ },
+ {
+  "kind": "chemical",
+  "brand": "Ferro",
+  "line": "Frit",
+  "code": "3269",
+  "name": "Frit 3269",
+  "url": "https://alligatorclay.com/products/ferro-frit-3269",
+  "price": "$6.56"
+ },
+ {
+  "kind": "chemical",
+  "brand": "Ferro",
+  "line": "Frit",
+  "code": "3292",
+  "name": "Frit 3292",
+  "url": "https://alligatorclay.com/products/ferro-frit-3292",
+  "price": "$5.97"
+ },
+ {
+  "kind": "chemical",
+  "name": "Gerstley Borate Blend Sub",
+  "url": "https://alligatorclay.com/products/gerstley-borate-blend-sub",
+  "price": "$12.17"
+ },
+ {
+  "kind": "chemical",
+  "name": "Glomax - Calcined Kaolin",
+  "url": "https://alligatorclay.com/products/glomax-calcined-kaolin",
+  "price": "$14.57"
+ },
+ {
+  "kind": "chemical",
+  "name": "Gold Art Air Floated",
+  "url": "https://alligatorclay.com/products/gold-art-air-floated-bag-50lbs",
+  "price": "$33.15"
+ },
+ {
+  "kind": "chemical",
+  "name": "Grolleg - Kaolin",
+  "url": "https://alligatorclay.com/products/grolleg-kaolin-639891668",
+  "price": "$8.27"
+ },
+ {
+  "kind": "chemical",
+  "name": "Hawthorn Bond 35 Mesh (Fire Clay)",
+  "url": "https://alligatorclay.com/products/hawthorn-bond-35-mesh-fire-clay-bag-50lbs",
+  "price": "$27.09"
+ },
+ {
+  "kind": "chemical",
+  "name": "Hawthorne Bond 50 Mesh (Fire Clay)",
+  "url": "https://alligatorclay.com/products/hawthorne-bond-50-mesh-fire-clay-bag-50lbs",
+  "price": "$33.93"
+ },
+ {
+  "kind": "chemical",
+  "name": "Ilmenite, Granular",
+  "url": "https://alligatorclay.com/products/ilmenite-granular",
+  "price": "$7.68"
+ },
+ {
+  "kind": "chemical",
+  "name": "Iron Chromate",
+  "url": "https://alligatorclay.com/products/iron-chromate",
+  "price": "$6.02"
+ },
+ {
+  "kind": "chemical",
+  "name": "Kyanite 100 Mesh",
+  "url": "https://alligatorclay.com/products/kyanite-100-mesh-bag-50lbs",
+  "price": "$35.56"
+ },
+ {
+  "kind": "chemical",
+  "name": "Kyanite 35M",
+  "url": "https://alligatorclay.com/products/kyanite-35m-bag-50lbs",
+  "price": "$37.82"
+ },
+ {
+  "kind": "chemical",
+  "name": "Kyanite 48M",
+  "url": "https://alligatorclay.com/products/kyanite-48m-bag-50lbs",
+  "price": "$42.29"
+ },
+ {
+  "kind": "chemical",
+  "name": "Lithium Carbonate",
+  "url": "https://alligatorclay.com/products/lithium-carbonate",
+  "price": "$44.08"
+ },
+ {
+  "kind": "chemical",
+  "name": "Magnesium Carbonate",
+  "url": "https://alligatorclay.com/products/magnesium-carbonate",
+  "price": "$18.15"
+ },
+ {
+  "kind": "chemical",
+  "name": "Magnesium Oxide",
+  "url": "https://alligatorclay.com/products/magnesium-oxide",
+  "price": "$6.55"
+ },
+ {
+  "kind": "chemical",
+  "name": "Manganese Carbonate",
+  "url": "https://alligatorclay.com/products/manganese-carbonate",
+  "price": "$7.88"
+ },
+ {
+  "kind": "chemical",
+  "name": "Manganese Dioxide - 325 Mesh",
+  "url": "https://alligatorclay.com/products/manganese-dioxide-325-mesh",
+  "price": "$6.86"
+ },
+ {
+  "kind": "chemical",
+  "name": "Manganese Dioxide - 60-80 Mesh",
+  "url": "https://alligatorclay.com/products/manganese-dioxide-60-80-mesh",
+  "price": "$10.25"
+ },
+ {
+  "kind": "chemical",
+  "name": "Nickel Carbonate",
+  "url": "https://alligatorclay.com/products/nickel-carbonate",
+  "price": "$20.94"
+ },
+ {
+  "kind": "chemical",
+  "name": "Nickel Oxide, Black",
+  "url": "https://alligatorclay.com/products/nickel-oxide-black",
+  "price": "$15.44"
+ },
+ {
+  "kind": "chemical",
+  "name": "Ochre, Yellow",
+  "url": "https://alligatorclay.com/products/ochre-yellow",
+  "price": "$8.11"
+ },
+ {
+  "kind": "chemical",
+  "name": "P.V. (Plastic Vitrox) Clay",
+  "url": "https://alligatorclay.com/products/p-v-plastic-vitrox-clay",
+  "price": "$5.22"
+ },
+ {
+  "kind": "chemical",
+  "name": "Petalite",
+  "url": "https://alligatorclay.com/products/petalite",
+  "price": "$12.84"
+ },
+ {
+  "kind": "chemical",
+  "name": "Potassium Carbonate (Pearl Ash)",
+  "url": "https://alligatorclay.com/products/potassium-carbonate-pearl-ash",
+  "price": "$9.17"
+ },
+ {
+  "kind": "chemical",
+  "name": "Ravenscrag Slip Dry",
+  "url": "https://alligatorclay.com/products/ravenscrag-slip-dry",
+  "price": "$78.09"
+ },
+ {
+  "kind": "chemical",
+  "name": "Red Iron Oxide (Natural)",
+  "url": "https://alligatorclay.com/products/red-iron-oxide-natural",
+  "price": "$9.02"
+ },
+ {
+  "kind": "chemical",
+  "name": "Red Iron Oxide (Spanish)",
+  "url": "https://alligatorclay.com/products/red-iron-oxide-spanish",
+  "price": "$7.72"
+ },
+ {
+  "kind": "chemical",
+  "name": "Red Iron Oxide (Synthetic)",
+  "url": "https://alligatorclay.com/products/red-iron-oxide-synthetic-639892795",
+  "price": "$15.59"
+ },
+ {
+  "kind": "chemical",
+  "name": "Rutile (Dark)",
+  "url": "https://alligatorclay.com/products/rutile-dark",
+  "price": "$6.20"
+ },
+ {
+  "kind": "chemical",
+  "name": "Rutile (Granular)",
+  "url": "https://alligatorclay.com/products/rutile-granular",
+  "price": "$13.48"
+ },
+ {
+  "kind": "chemical",
+  "name": "Rutile (Light)",
+  "url": "https://alligatorclay.com/products/rutile-light",
+  "price": "$21.45"
+ },
+ {
+  "kind": "chemical",
+  "name": "Silica Sand 90M",
+  "url": "https://alligatorclay.com/products/silica-sand-90m-bag-50lbs",
+  "price": "$37.92"
+ },
+ {
+  "kind": "chemical",
+  "name": "Silicon Carbide - 60 Grit",
+  "url": "https://alligatorclay.com/products/silicon-carbide-60-grit",
+  "price": "$22.17"
+ },
+ {
+  "kind": "chemical",
+  "name": "Silicon Carbide 325 Mesh",
+  "url": "https://alligatorclay.com/products/silicon-carbide-325-mesh",
+  "price": "$10.05"
+ },
+ {
+  "kind": "chemical",
+  "name": "Soda Ash",
+  "url": "https://alligatorclay.com/products/soda-ash",
+  "price": "$6.65"
+ },
+ {
+  "kind": "chemical",
+  "name": "Sodium Silicate",
+  "url": "https://alligatorclay.com/products/sodium-silicate-639891738",
+  "price": "$5.65"
+ },
+ {
+  "kind": "chemical",
+  "name": "Spodumene",
+  "url": "https://alligatorclay.com/products/spodumene",
+  "price": "$34.53"
+ },
+ {
+  "kind": "chemical",
+  "name": "Strontium Carbonate",
+  "url": "https://alligatorclay.com/products/strontium-carbonate",
+  "price": "$9.83"
+ },
+ {
+  "kind": "chemical",
+  "name": "Talc - Aspect 15",
+  "url": "https://alligatorclay.com/products/talc-aspect-15",
+  "price": "$6.42"
+ },
+ {
+  "kind": "chemical",
+  "name": "Tin Oxide",
+  "url": "https://alligatorclay.com/products/tin-oxide",
+  "price": "$38.59"
+ },
+ {
+  "kind": "chemical",
+  "name": "Titanium Dioxide",
+  "url": "https://alligatorclay.com/products/titanium-dioxide",
+  "price": "$15.10"
+ },
+ {
+  "kind": "chemical",
+  "name": "Vee Gum T",
+  "url": "https://alligatorclay.com/products/vee-gum-t",
+  "price": "$22.58"
+ },
+ {
+  "kind": "chemical",
+  "name": "Yellow Iron Oxide",
+  "url": "https://alligatorclay.com/products/yellow-iron-oxide",
+  "price": "$7.12"
+ },
+ {
+  "kind": "chemical",
+  "name": "Zinc Oxide Calcined, Maximo 730",
+  "url": "https://alligatorclay.com/products/zinc-oxide-calcined-maximo-730",
+  "price": "$13.05"
+ },
+ {
+  "kind": "chemical",
+  "name": "Zinc Oxide, Maximo 910",
+  "url": "https://alligatorclay.com/products/zinc-oxide-maximo-910",
+  "price": "$14.83"
+ },
+ {
+  "kind": "chemical",
+  "name": "Zircopax / Ultrox",
+  "url": "https://alligatorclay.com/products/zircopax-ultrox",
+  "price": "$15.90"
+ },
+ {
+  "kind": "chemical",
+  "url": "https://alligatorclay.com/products/amaco-gum-solution-pint",
+  "price": "$11.00",
+  "brand": "Amaco",
+  "line": "Glaze Additive",
+  "name": "Gum Solution"
+ },
+ {
+  "kind": "chemical",
+  "url": "https://alligatorclay.com/products/bisque-fix-4oz",
+  "price": "$34.00",
+  "line": "Glaze Additive",
+  "name": "Bisque Fix"
+ },
+ {
+  "kind": "chemical",
+  "url": "https://alligatorclay.com/products/th-01-texturizer-high-fire-5-6-pint",
+  "price": "$16.50",
+  "brand": "Amaco",
+  "line": "Texturizer",
+  "code": "TH-01",
+  "name": "Texturizer High Fire",
+  "cone": "^5-6"
+ },
+ {
+  "kind": "chemical",
+  "url": "https://alligatorclay.com/products/tl-01-texturizer-low-fire-06-04-pint",
+  "price": "$21.50",
+  "brand": "Amaco",
+  "line": "Texturizer",
+  "code": "TL-01",
+  "name": "Texturizer Low Fire",
+  "cone": "^06-04"
+ },
+ {
+  "kind": "chemical",
+  "url": "https://alligatorclay.com/products/wax-resist",
+  "price": "$14.95",
+  "line": "Glaze Additive",
+  "name": "Wax Resist"
+ }
+]
