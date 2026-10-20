@@ -8,7 +8,7 @@ ALLOWED_ORIGIN = "https://rachelleethomas.github.io"
 # Create with: npx wrangler kv namespace create clayworks-usage  → paste the id here
 [[kv_namespaces]]
 binding = "USAGE"
-id = "REPLACE_WITH_KV_ID"
+id = "09f145bbddd647e9a1f658aa8c48255b"
 
 # Secrets (not in this file): npx wrangler secret put ANTHROPIC_API_KEY | SESSION_SECRET | USERS
 # Values for SESSION_SECRET and USERS are in private/secrets.json
