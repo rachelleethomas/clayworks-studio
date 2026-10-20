@@ -40,7 +40,7 @@ Porcelain, cone 6 oxidation mostly. Mason 6006 Deep Crimson, 6363 Sky Blue, 6364
 ## Status / next steps
 - [x] GitHub repo `rachelleethomas/clayworks-studio` (public); Pages from `main` → `/docs`: https://rachelleethomas.github.io/clayworks-studio/
 - [x] Worker deployed: https://clayworks-api.rachelleecampbell.workers.dev (KV `clayworks-usage`, SESSION_SECRET + USERS set). Redeploy: `cd worker && npx wrangler deploy`.
-- [ ] Rachel: `cd worker && npx wrangler secret put ANTHROPIC_API_KEY` (+ spend limit in console.anthropic.com).
+- [x] ANTHROPIC_API_KEY set on worker (+ spend limit in console.anthropic.com).
 - [ ] Share logins: Rachel (no cap), Grace ($3/week).
 - Ideas discussed: pre-generate a recipe library with the Batch API (50% off) for common colors to cut live calls; per-user BYO API key.
 
