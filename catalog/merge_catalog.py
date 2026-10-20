@@ -1,7 +1,7 @@
 import json, glob, os, re, sys
 D = os.path.dirname(os.path.abspath(__file__)); SRCDIR = os.path.join(D, "sources")
 SRC = {"laguna": "Laguna Clay", "alligator": "Alligator Clay", "sheffield": "Sheffield Pottery",
-       "ceramicshop": "The Ceramic Shop", "bailey": "Bailey Pottery", "dogwood": "Dogwood Ceramics"}
+       "ceramicshop": "The Ceramic Shop", "bailey": "Bailey Pottery", "dogwood": "Dogwood Ceramics", "pasler": "Pasler"}
 KINDS = {"clay", "glaze", "underglaze", "stain", "chemical"}
 def clean(v): return re.sub(r"\s+", " ", str(v or "")).strip()
 def key(it):

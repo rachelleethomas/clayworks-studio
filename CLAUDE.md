@@ -2,7 +2,7 @@
 
 A ceramics tool for Rachel (New Orleans potter, product designer). Two jobs:
 1. **Recipes** — turn hex codes or an inspiration photo into Mason stain recipes (% of dry weight + grams for a batch) for a chosen clay body, cone and use (clay body / slip / glaze).
-2. **Shelves** — her studio inventory (stains, glazes, underglazes, clay bodies, chemicals), searchable against ~2,560 real products scraped from supplier sites, with add-from-photo, browse-a-line, and paste-a-list.
+2. **Shelves** — her studio inventory (stains, glazes, underglazes, clay bodies, chemicals), searchable against ~2,590 real products scraped from supplier sites, with add-from-photo, browse-a-line, and paste-a-list.
 
 Rachel prefers short prompts and direct execution: make the change, verify it, report briefly. Don't over-ask.
 
@@ -22,7 +22,7 @@ Rachel prefers short prompts and direct execution: make the change, verify it, r
 - Users/caps: regenerate with `node scripts/mkusers.mjs` (prints new passwords + USERS JSON) or edit caps in the USERS secret. Current values live in `private/` (gitignored — never commit it).
 
 ## Catalog pipeline
-- `catalog/sources/catalog-<store>.json` — scraped per store (Oct 20 2026) via WebFetch: Laguna (818, complete), Sheffield Pottery (1,171, near complete), Alligator Clay (776, complete; Rachel's local New Orleans supplier), The Ceramic Shop (569, partial — site truncates paging), Bailey (202, partial — Magento nav swamps pages), Dogwood (0 — robots.txt blocks everything).
+- `catalog/sources/catalog-<store>.json` — scraped per store (Oct 20 2026) via WebFetch: Laguna (818, complete), Sheffield Pottery (1,171, near complete), Alligator Clay (776, complete; Rachel's local New Orleans supplier), The Ceramic Shop (569, partial — site truncates paging), Bailey (202, partial — Magento nav swamps pages), Dogwood (0 — robots.txt blocks everything). Pasler (34, complete; pulled Oct 20 2026 from the public WooCommerce Store API `/wp-json/wc/store/v1/products`, tools/freight skipped).
 - Item shape: `{kind: clay|glaze|underglaze|stain|chemical, brand, line, code, name, cone, url, source}`.
 - `python3 catalog/merge_catalog.py` dedupes across stores (key = kind|brand|code, or kind|brand|line|name), normalizes Mason stains (brand "Mason", 4-digit code), merges `source` as "Store A, Store B". Then `python3 scripts/embed_catalog.py` inlines `catalog.json` into the page's `<script id="catalogData">` (inlined because a sibling-file fetch failed in the artifact viewer).
 - The page also has a small built-in `CATALOG`/`STAINS` list (Mason stains with approximate raw colors + body-stain notes) that external items merge into via `keyOf()`.
