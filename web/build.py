@@ -17,8 +17,8 @@ rep("<h1>Your Studio</h1>", "<h1>Clayworks Studio</h1>")
 rep('<meta name="claude:viewport-fit-sides" content="cover">\n', "")
 rep("Open Your Studio in claude.ai while signed in to keep your studio on your account across devices.",
     "Log in to sync your shelves across devices.")
-rep('function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(studio))}catch{}}',
-    'function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(studio))}catch{};cwQueueSync()}')
+rep('function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(allDocs()))}catch{}}',
+    'function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(allDocs()))}catch{};cwQueueSync()}')
 rep('if(storeMode==="local"){n.hidden=false;', 'if(storeMode==="local"&&!CW.token){n.hidden=false;')
 rep("Recipe generation isn't available here. Open the page in claude.ai while signed in.", "Log in to get recipes.")
 # header user box + login overlay

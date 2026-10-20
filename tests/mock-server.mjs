@@ -10,7 +10,8 @@ const env={USAGE,SESSION_SECRET:"test-secret",USERS:JSON.stringify(USERS),ANTHRO
 const realFetch=globalThis.fetch;
 globalThis.fetch=async(u,o)=>{if(String(u).includes("anthropic.com")){const b=JSON.parse(o.body);
   const isRecipe=b.model.includes("sonnet");
-  const text=isRecipe?JSON.stringify({colors:[{hex:"ACB0AB",name:"Sage",options:[{title:"Mock",stains:[["6500","Sage",4]],predicted:"A9AEA6",note:"mock"}]}]}):JSON.stringify({items:[{kind:"glaze",brand:"Amaco",line:"Potter's Choice",code:"PC-20",name:"Blue Rutile"}]});
+  const isGlaze=JSON.stringify(b.messages).includes("glaze chemist");
+  const text=isGlaze?JSON.stringify({colors:[{hex:"70626E",name:"Bark plum",options:[{title:"Mock satin plum",base_name:"Mock satin base",base:[["Custer feldspar",25],["Silica",20],["Frit 3134",15],["EPK kaolin",20],["Whiting",20]],additions:[["6600 Best Black",1.5],["Red iron oxide",2]],predicted:"6E6068",note:"mock glaze",safety:"Test for leaching before using on food surfaces."}]}]}):isRecipe?JSON.stringify({colors:[{hex:"ACB0AB",name:"Sage",options:[{title:"Mock",stains:[["6500","Sage",4]],predicted:"A9AEA6",note:"mock"}]}]}):JSON.stringify({items:[{kind:"glaze",brand:"Amaco",line:"Potter's Choice",code:"PC-20",name:"Blue Rutile"}]});
   return new Response(JSON.stringify({content:[{type:"text",text}],usage:{input_tokens:2500,output_tokens:1500},stop_reason:"end_turn"}),{status:200,headers:{"content-type":"application/json"}})}
  return realFetch(u,o)};
 http.createServer(async(req,res)=>{const chunks=[];for await(const c of req)chunks.push(c);

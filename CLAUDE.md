@@ -1,7 +1,8 @@
 # Clayworks Studio
 
-A ceramics tool for Rachel (New Orleans potter, product designer). Two jobs:
-1. **Recipes** — turn hex codes or an inspiration photo into Mason stain recipes (% of dry weight + grams for a batch) for a chosen clay body, cone and use (clay body / slip / glaze).
+A ceramics tool for Rachel (New Orleans potter, product designer). Three jobs:
+1. **Recipes** — turn hex codes or an inspiration photo into either Mason stain recipes (% of dry weight + grams for a batch) for a chosen clay body, cone and use (clay body / slip / glaze), or full **glaze recipes** (base totaling 100 + colorant additions, surface/opacity/food-safe options, grams for a dry batch).
+1b. **Saved** — recipes saved from either mode or typed in ("Add your own", `+` lines = additions), with editable name, batch rescale and test notes. Stored as docs with `kind:"recipe"` in the same per-user store as shelves (`splitDocs`/`allDocs`), so they sync anywhere shelves do; rows are `{name,pct,add}` objects (no nested arrays).
 2. **Shelves** — her studio inventory (stains, glazes, underglazes, clay bodies, chemicals), searchable against ~2,590 real products scraped from supplier sites, with add-from-photo, browse-a-line, and paste-a-list.
 
 Rachel prefers short prompts and direct execution: make the change, verify it, report briefly. Don't over-ask.

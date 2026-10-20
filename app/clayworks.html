@@ -82,6 +82,28 @@ a{color:var(--accent)}
 
 /* Studio */
 .studio{display:grid;gap:22px}
+.stain-only[hidden],.glaze-only[hidden]{display:none!important}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;border:1px solid var(--line);border-radius:6px;padding:3px;background:var(--bg)}
+.seg button{font:600 13px var(--body);border:0;background:none;color:var(--muted);padding:8px 10px;border-radius:4px;cursor:pointer}
+.seg button[aria-checked="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+tr.sub td{font-weight:600;border-bottom:2px solid var(--line)}
+tr.add td:first-child{color:var(--accent)}
+.note.warn{color:var(--warn)}
+.savedtools{display:flex;gap:8px;align-items:center;flex:0 1 420px;min-width:0}
+.savedtools input{flex:1 1 auto;min-width:0}
+.savedtools .btn{white-space:nowrap}
+#savedStatus:empty{display:none}
+.rcard .batch{text-transform:none;letter-spacing:0;font-weight:400}
+.savedgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;align-items:start}
+.rcard{background:var(--surface);border:1px solid var(--line);border-radius:6px;display:grid;gap:10px;padding:0 0 14px;min-width:0}
+.rcard .glaze{height:46px;border-radius:5px 5px 0 0}
+.rcard .in{padding:0 14px;display:grid;gap:8px;min-width:0}
+.rcard .ttl{font:600 15px var(--body);border:1px solid transparent;background:none;padding:2px 4px;margin-left:-5px}
+.rcard .ttl:hover,.rcard .ttl:focus{border-color:var(--line);background:var(--bg)}
+.rcard .meta{font-size:12px;color:var(--muted);font-family:var(--mono)}
+.rcard .batch{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted)}
+.rcard .batch input{width:110px;padding:4px 8px}
+.rcard textarea{font-family:var(--body);font-size:13px;min-height:56px}
 .shelfbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
 .addmodal{width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:0;border:0;background:var(--bg);color:var(--ink)}
 .addmodal::backdrop{background:rgba(0,0,0,.35)}
@@ -142,6 +164,7 @@ a{color:var(--accent)}
     </div>
     <div class="tabs" role="tablist">
       <button role="tab" id="tab-recipes" aria-selected="true" aria-controls="view-recipes">Recipes</button>
+      <button role="tab" id="tab-saved" aria-selected="false" aria-controls="view-saved">Saved</button>
       <button role="tab" id="tab-studio" aria-selected="false" aria-controls="view-studio">Shelves</button>
     </div>
   </header>
@@ -149,6 +172,10 @@ a{color:var(--accent)}
   <!-- RECIPES -->
   <div class="grid" id="view-recipes" role="tabpanel">
     <form class="rail" id="form" novalidate>
+      <div class="seg" role="radiogroup" aria-label="Recipe type">
+        <button type="button" role="radio" aria-checked="true" data-mode="stain">Stain recipe</button>
+        <button type="button" role="radio" aria-checked="false" data-mode="glaze">Glaze recipe</button>
+      </div>
       <div class="field">
         <span class="lbl">Inspiration image</span>
         <div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload inspiration image">
@@ -176,7 +203,7 @@ a{color:var(--accent)}
             <option>Cone 04 oxidation</option>
           </select>
         </div>
-        <div class="field">
+        <div class="field stain-only">
           <label for="use">Stain goes in</label>
           <select id="use">
             <option>Clay body</option>
@@ -184,8 +211,23 @@ a{color:var(--accent)}
             <option>Glaze</option>
           </select>
         </div>
+        <div class="field glaze-only" hidden>
+          <label for="surface">Surface</label>
+          <select id="surface"><option>Glossy</option><option>Satin</option><option>Matte</option></select>
+        </div>
       </div>
-      <div class="row">
+      <div class="row glaze-only" hidden>
+        <div class="field">
+          <label for="opacity">Opacity</label>
+          <select id="opacity"><option>Opaque</option><option>Translucent</option><option>Transparent</option></select>
+        </div>
+        <div class="field">
+          <label for="gbatch">Batch (g dry)</label>
+          <input type="number" id="gbatch" min="0" step="any" value="1000" inputmode="decimal">
+        </div>
+      </div>
+      <label class="check glaze-only" hidden><input type="checkbox" id="foodSafe" checked> Food-safe (for mugs, bowls, liners)</label>
+      <div class="row stain-only">
         <div class="field">
           <label for="lbs">Batch (lb wet)</label>
           <input type="number" id="lbs" min="0" step="any" value="10" inputmode="decimal">
@@ -196,11 +238,11 @@ a{color:var(--accent)}
         </div>
       </div>
       <div class="field">
-        <span class="lbl">Stains on hand</span>
+        <span class="lbl" id="invLbl">Stains on hand</span>
         <div class="inv" id="invChips"></div>
         <button type="button" class="linkbtn" id="goStudio" style="justify-self:start">Edit on Shelves</button>
       </div>
-      <label class="check"><input type="checkbox" id="preferHave" checked> Prefer stains I already have</label>
+      <label class="check"><input type="checkbox" id="preferHave" checked> <span id="preferLbl">Prefer stains I already have</span></label>
       <div class="field">
         <label for="notes">Anything else</label>
         <input type="text" id="notes" placeholder="e.g. nerikomi, needs to match shrinkage">
@@ -209,6 +251,35 @@ a{color:var(--accent)}
       <p class="status" id="status" role="status"></p>
     </form>
     <section class="board" id="board" aria-live="polite"></section>
+  </div>
+
+  <!-- SAVED -->
+  <div class="studio" id="view-saved" role="tabpanel" hidden>
+    <div class="shelfbar">
+      <div class="filters" id="savedFilters"></div>
+      <div class="savedtools">
+        <input type="search" id="savedQ" placeholder="Search saved recipes" aria-label="Search saved recipes" autocomplete="off">
+        <button class="btn" type="button" id="ownBtn">Add your own</button>
+      </div>
+    </div>
+    <p class="status" id="savedStatus" role="status"></p>
+    <form class="paste" id="ownPanel" hidden novalidate>
+      <div class="row">
+        <div class="field"><label for="ownName">Name</label><input type="text" id="ownName" placeholder="e.g. Bark satin, test 3"></div>
+        <div class="field"><label for="ownType">Type</label><select id="ownType"><option value="glaze">Glaze</option><option value="stain">Stain recipe</option></select></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="ownCone">Firing</label><input type="text" id="ownCone" value="Cone 6 oxidation"></div>
+        <div class="field"><label for="ownHex">Color hex (optional)</label><input type="text" id="ownHex" placeholder="70626E"></div>
+      </div>
+      <div class="field">
+        <label for="ownRows">Ingredients, one per line with %</label>
+        <textarea id="ownRows" rows="7" placeholder="Custer feldspar 20&#10;Silica 20&#10;Frit 3134 20&#10;EPK kaolin 20&#10;Wollastonite 20&#10;+ 6600 Best Black 2"></textarea>
+        <span class="note">Start a line with + for colorant additions on top of the base.</span>
+      </div>
+      <div class="links"><button class="btn" type="submit">Save recipe</button><button class="linkbtn" type="button" id="ownCancel">Cancel</button><span class="status" id="ownMsg"></span></div>
+    </form>
+    <div class="savedgrid" id="savedList"></div>
   </div>
 
   <!-- STUDIO -->
@@ -332,9 +403,12 @@ const keyOf = it => (it.kind+"-"+(it.brand||"")+"-"+(it.line?it.line+"-":"")+(it
 let sampleNs=null, sampleImages=false;
 
 /* ---------- Studio store (account db, falls back to this browser) ---------- */
-let studio=[], studioColl=null, storeMode="loading";
-function loadLocal(){try{studio=JSON.parse(localStorage.getItem("stainlab-studio")||"[]")}catch{studio=[]}}
-function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(studio))}catch{}}
+let studio=[], recipes=[], studioColl=null, storeMode="loading";
+// Saved recipes share the shelf store as docs with kind "recipe", so they sync wherever shelves do.
+function splitDocs(arr){arr=Array.isArray(arr)?arr:[];studio=arr.filter(d=>d&&d.kind!=="recipe");recipes=arr.filter(d=>d&&d.kind==="recipe").sort((a,b)=>(b.savedAt||0)-(a.savedAt||0))}
+const allDocs=()=>[...studio,...recipes];
+function loadLocal(){try{splitDocs(JSON.parse(localStorage.getItem("stainlab-studio")||"[]"))}catch{studio=[];recipes=[]}}
+function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(allDocs()))}catch{}}
 async function addItem(it){
   const clean={kind:it.kind,name:String(it.name||"").slice(0,120),brand:it.brand||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",note:it.note||"",line:it.line||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",addedAt:Date.now()};
   if(!clean.name)return;
@@ -347,6 +421,17 @@ async function removeItem(id){
   if(studioColl){try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't remove that. "+(e?.message||""))}}
   else{studio=studio.filter(s=>s.id!==id);saveLocal();renderAll()}
 }
+async function putRecipe(r){
+  const {id:given,...doc}=r,id=given||"recipe-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  doc.kind="recipe";
+  if(studioColl){try{await studioColl.doc(id).set(doc)}catch(e){savedMsg("Couldn't save that. "+(e?.message||""));return null}}
+  else{const i=recipes.findIndex(x=>x.id===id);if(i>=0)recipes[i]={id,...doc};else recipes.unshift({id,...doc});saveLocal();renderAll()}
+  return id;
+}
+async function deleteRecipe(id){
+  if(studioColl){try{await studioColl.doc(id).delete()}catch(e){savedMsg("Couldn't delete that. "+(e?.message||""))}}
+  else{recipes=recipes.filter(r=>r.id!==id);saveLocal();renderAll()}
+}
 async function initStore(){
   try{
     const [db,user]=await Promise.all([window.claude?.use?.("db"),window.claude?.use?.("user")]);
@@ -354,7 +439,7 @@ async function initStore(){
     if(db&&uid){
       studioColl=db.collection("data/users/"+uid);
       storeMode="account";
-      studioColl.onSnapshot(snap=>{studio=snap.docs.map(d=>({id:d.id,...d.data()}));renderAll()},
+      studioColl.onSnapshot(snap=>{splitDocs(snap.docs.map(d=>({id:d.id,...d.data()})));renderAll()},
         ()=>{storeMode="local";studioColl=null;loadLocal();renderAll()});
       return;
     }
@@ -363,19 +448,39 @@ async function initStore(){
 }
 
 /* ---------- Tabs ---------- */
+const SUBS={
+  stain:"Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.",
+  glaze:"Drop in an inspiration image or hex codes, pick your firing and surface, and get glaze recipes: a base that totals 100 plus colorants, with grams for your batch.",
+  saved:"Recipes you've saved or written yourself, with your test notes. Change a batch size to rescale the grams.",
+  studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first."};
+let tab="recipes";
 function showTab(name){
-  const studioOn=name==="studio";
-  $("view-recipes").hidden=studioOn;$("view-studio").hidden=!studioOn;
-  $("tab-recipes").setAttribute("aria-selected",!studioOn);$("tab-studio").setAttribute("aria-selected",studioOn);
-  $("sub").textContent=studioOn?"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first.":"Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.";
-  try{history.replaceState(null,"",studioOn?"#studio":"#recipes")}catch{}
+  tab=name;
+  ["recipes","saved","studio"].forEach(t=>{$("view-"+t).hidden=t!==name;$("tab-"+t).setAttribute("aria-selected",String(t===name))});
+  $("sub").textContent=SUBS[name==="recipes"?mode:name];
+  try{history.replaceState(null,"",name==="recipes"?"#recipes":"#"+name)}catch{}
 }
 $("tab-recipes").onclick=()=>showTab("recipes");
+$("tab-saved").onclick=()=>showTab("saved");
 $("tab-studio").onclick=()=>showTab("studio");
 $("goStudio").onclick=()=>showTab("studio");
 
 /* ---------- Recipes ---------- */
-let hexList=[], imageBlob=null, last=EXAMPLE;
+let hexList=[], imageBlob=null, last=EXAMPLE, lastGlaze=null, mode="stain";
+function setMode(m){
+  mode=m==="glaze"?"glaze":"stain";
+  document.querySelectorAll(".seg button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.mode===mode)));
+  document.querySelectorAll(".stain-only").forEach(e=>e.hidden=mode!=="stain");
+  document.querySelectorAll(".glaze-only").forEach(e=>e.hidden=mode!=="glaze");
+  $("go").textContent=mode==="glaze"?"Get glaze recipes":"Get recipes";
+  $("invLbl").textContent=mode==="glaze"?"On hand":"Stains on hand";
+  $("preferLbl").textContent=mode==="glaze"?"Prefer materials I already have":"Prefer stains I already have";
+  if(tab==="recipes")$("sub").textContent=SUBS[mode];
+  $("status").textContent="";
+  try{localStorage.setItem("stainlab-mode",mode)}catch{}
+  renderInv();render();
+}
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
 function parseHexes(){
   const found=($("hexes").value.match(/#?[0-9a-f]{6}\b|#[0-9a-f]{3}\b/gi)||[]).map(normHex).filter(Boolean);
   hexList=[...new Set(found)];renderChips();
@@ -427,12 +532,13 @@ function renderBodySelect(){
 }
 function renderInv(){
   const c=$("invChips");c.textContent="";
-  const st=studioOf("stain");
+  const st=mode==="glaze"?[...studioOf("chemical"),...studioOf("stain")]:studioOf("stain");
   if(!st.length){c.append(el("span",{text:storeMode==="loading"?"Loading…":"None yet"}));return}
   st.forEach(s=>c.append(el("span",{text:s.code||s.name,title:label(s)})));
 }
 
 function render(){
+  if(mode==="glaze")return renderGlaze();
   const b=$("board");b.textContent="";
   const dry=dryGrams(),have=haveCodes(),useGlaze=last.use==="Glaze";
   b.append(el("div",{class:"boardhead"},el("h2",{text:last.example?"Example: your bark palette":"Test tiles"}),
@@ -460,7 +566,9 @@ function render(){
         tb,
         o.glaze?el("p",{class:"note",text:"Glaze: "+o.glaze}):null,
         el("p",{class:"note",text:(o.note||"")+(sum>12&&!useGlaze?` Total ${sum}% stain is high; check shrinkage and slumping.`:"")}),
-        el("div",{class:"links"},el("a",{href:glazyLink(o.stains),target:"_blank",rel:"noopener",text:"Fired results on Glazy"}),cp))));
+        el("div",{class:"links"},saveBtn(()=>({type:"stain",title:o.title||"Stain recipe",name:c.name||"",hex:c.hex,predicted:o.predicted||"",body:last.body,cone:last.cone,use:last.use,
+          rows:o.stains.map(([num,name,pct])=>({name:num+" "+name,pct,add:false})),note:o.note||"",glaze:o.glaze||"",batchG:useGlaze?1000:Math.round(dry)})),
+          el("a",{href:glazyLink(o.stains),target:"_blank",rel:"noopener",text:"Fired results on Glazy"}),cp))));
     });
     b.append(el("div",{class:"color"},el("div",{class:"colorhead"},t,el("div",{},el("h3",{text:"#"+c.hex}),el("p",{text:c.name||""}))),tiles));
   });
@@ -474,7 +582,72 @@ function render(){
     b.append(shop);
   }
 }
-["lbs","water"].forEach(id=>$(id).addEventListener("input",render));
+["lbs","water","gbatch"].forEach(id=>$(id).addEventListener("input",render));
+
+/* ---------- saving recipes ---------- */
+const sigOf=r=>[r.type,normHex(r.hex)||"",r.title,(r.rows||[]).map(x=>x.name+x.pct+(x.add?"+":"")).join("|")].join("~").toLowerCase();
+function saveBtn(make){
+  const sig=sigOf(make()),done=recipes.some(r=>sigOf(r)===sig);
+  const b=el("button",{type:"button",class:"ghost sm",text:done?"Saved":"Save",disabled:done||undefined});
+  b.onclick=async()=>{b.disabled=true;b.textContent="Saving…";const id=await putRecipe({...make(),myNotes:"",savedAt:Date.now()});b.textContent=id?"Saved":"Save";if(!id)b.disabled=false};
+  return b;
+}
+function recipeText(r,batch){
+  const g=pct=>batch?` / ${fmt(batch*pct/100)} g`:"";
+  return [`${r.title}${r.hex?" #"+r.hex:""}`,[r.cone,r.surface,r.body].filter(Boolean).join(" · "),r.baseName?"Base: "+r.baseName:"",
+    ...r.rows.map(x=>`${x.add?"+ ":""}${x.name}: ${x.pct}%${g(x.pct)}`),r.note||"",r.myNotes?"Notes: "+r.myNotes:""].filter(Boolean).join("\n");
+}
+function recipeTable(rows,batch){
+  const tb=el("table"),base=rows.filter(x=>!x.add),adds=rows.filter(x=>x.add),have=haveMaterial;
+  const tr=(x,cls)=>el("tr",{class:cls||""},el("td",{text:(x.add?"+ ":"")+x.name+(have(x.name)?"":" *")}),el("td",{class:"n",text:x.pct+"%"}),el("td",{class:"n",text:batch?fmt(batch*x.pct/100)+" g":""}));
+  base.forEach(x=>tb.append(tr(x)));
+  if(adds.length&&base.length){const t=base.reduce((s,x)=>s+x.pct,0);tb.append(el("tr",{class:"sub"},el("td",{text:"Base total"}),el("td",{class:"n",text:+t.toFixed(2)+"%"}),el("td",{class:"n",text:batch?fmt(batch*t/100)+" g":""})))}
+  adds.forEach(x=>tb.append(tr(x,"add")));
+  return tb;
+}
+function haveMaterial(name){
+  const n=nc(name),code=(String(name).match(/\b6\d{3}\b/)||[])[0];
+  if(code)return haveCodes().has(code);
+  return [...studioOf("chemical"),...studioOf("stain"),...studioOf("glaze")].some(s=>{const a=nc(s.name),b=nc(label(s));return a&&(n.includes(a)||a.includes(n)||b.includes(n))});
+}
+function gBatch(){return Math.max(0,parseFloat($("gbatch").value)||0)}
+function renderGlaze(){
+  const b=$("board");b.textContent="";const batch=gBatch(),L=lastGlaze;
+  b.append(el("div",{class:"boardhead"},el("h2",{text:"Glaze tests"}),
+    el("span",{class:"tag",text:L?`${L.cone} · ${L.surface.toLowerCase()} ${L.opacity.toLowerCase()} · ${fmt(batch)} g batch`:`${fmt(batch)} g batch`})));
+  if(!L?.colors?.length){b.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"Add hex codes or a photo, pick firing, surface and opacity, then Get glaze recipes. Each recipe is a base that totals 100% plus colorant additions, with grams for your batch. Save the ones you want to test."})));return}
+  const need={};
+  L.colors.forEach(c=>{
+    const t=el("div",{class:"target"});t.style.background="#"+c.hex;
+    const tiles=el("div",{class:"tiles"});
+    (c.options||[]).forEach((o,oi)=>{
+      const rows=[...o.base.map(([name,pct])=>({name,pct,add:false})),...o.additions.map(([name,pct])=>({name,pct,add:true}))];
+      const missing=rows.filter(x=>!haveMaterial(x.name));
+      if(oi===0)missing.forEach(x=>{need[x.name]=(need[x.name]||0)+batch*x.pct/100});
+      const gl=el("div",{class:"glaze"},el("span",{text:o.predicted?"expected #"+o.predicted:"target"}));gl.style.background="#"+(o.predicted||c.hex);
+      const make=()=>({type:"glaze",title:o.title||"Glaze",name:c.name||"",hex:c.hex,predicted:o.predicted||"",body:L.body,cone:L.cone,surface:L.surface+", "+L.opacity.toLowerCase(),
+        foodSafe:L.foodSafe,baseName:o.base_name||"",rows,note:o.note||"",safety:o.safety||"",batchG:batch||1000});
+      const cp=el("button",{type:"button",class:"ghost sm",text:"Copy"});
+      cp.onclick=()=>navigator.clipboard.writeText(recipeText(make(),batch)).then(()=>cp.textContent="Copied",()=>cp.textContent="Copy failed");
+      tiles.append(el("article",{class:"tile"},gl,el("div",{class:"in"},
+        el("h4",{text:o.title||("Option "+(oi+1))}),
+        o.base_name?el("p",{class:"note",text:"Base: "+o.base_name}):null,
+        el("span",{class:"pill "+(missing.length?"buy":"have"),text:missing.length?`Needs ${missing.length} material${missing.length>1?"s":""}`:"All on hand"}),
+        recipeTable(rows,batch),
+        o.fixed?el("p",{class:"note warn",text:o.fixed}):null,
+        el("p",{class:"note",text:o.note||""}),
+        o.safety?el("p",{class:"note warn",text:o.safety}):null,
+        el("div",{class:"links"},saveBtn(make),cp))));
+    });
+    b.append(el("div",{class:"color"},el("div",{class:"colorhead"},t,el("div",{},el("h3",{text:"#"+c.hex}),el("p",{text:c.name||""}))),tiles));
+  });
+  const shop=el("div",{class:"shop"},el("h3",{text:"Shopping list"}),
+    el("p",{class:"note",text:"Materials not on your shelves (marked *), for the first option of each color at this batch size, plus about 25% for retests. Test every glaze on a tile before using it on ware."}));
+  const items=Object.entries(need);
+  if(!items.length)shop.append(el("p",{class:"note",text:"Everything in the first options is already on your shelves."}));
+  else{const tb=el("table");items.forEach(([n,g])=>tb.append(el("tr",{},el("td",{text:n}),el("td",{class:"n",text:fmt(g*1.25)+" g"}))));shop.append(tb)}
+  b.append(shop);
+}
 
 $("form").addEventListener("submit",async e=>{
   e.preventDefault();parseHexes();
@@ -483,6 +656,7 @@ $("form").addEventListener("submit",async e=>{
   if(!hexList.length&&!imageBlob){st.className="status err";st.textContent="Add at least one hex code or an image.";return}
   const body=$("body").value,cone=$("cone").value,use=$("use").value;
   const list=k=>studioOf(k).map(label).join("; ")||"none listed";
+  if(mode==="glaze")return glazeSubmit({body,cone,list,st});
   const prompt=`You are an expert ceramic colorist. Give Mason stain recipes to match target colors.
 Clay body: ${body}. Firing: ${cone}. Stain goes in: ${use}.
 Target hex colors: ${hexList.join(", ")||"(pull 3-6 key colors from the attached image; if it's a photo of a finished ceramic piece, match the clay and surface colors you see)"}.
@@ -503,6 +677,35 @@ Return JSON: {"colors":[{"hex":"RRGGBB","name":"short color name","options":[{"t
   }catch(err){st.className="status err";st.textContent=sampleErr(err)}
   finally{$("go").disabled=false}
 });
+async function glazeSubmit({body,cone,list,st}){
+  const surface=$("surface").value,opacity=$("opacity").value,foodSafe=$("foodSafe").checked;
+  const prompt=`You are an expert glaze chemist. Write glaze recipes that match target colors.
+Firing: ${cone}. Surface: ${surface}. Opacity: ${opacity}. Clay body under the glaze: ${body}.
+${foodSafe?"These go on food surfaces (mug and bowl interiors): use well-melted, balanced bases with adequate silica and alumina, no barium carbonate, no lead, lithium and boron kept moderate, copper and manganese kept low. If a color can't be food-safe, say so in safety.":"Decorative or exterior use; still never use lead."}
+Target hex colors: ${hexList.join(", ")||"(pull 3-6 key colors from the attached image; if it's a photo of a glazed piece, match the glaze colors and surface you see)"}.
+The potter's studio — chemicals: ${list("chemical")}. Stains: ${list("stain")}. Commercial glazes: ${list("glaze")}.
+${$("preferHave").checked?"Prefer materials already on hand. When a base needs something not on hand, use common, widely sold materials.":""}
+Extra notes: ${$("notes").value||"none"}.
+Stain reference (number, name, behavior): ${STAINS.map(s=>s[0]+" "+s[1]+" "+s[3]).join("; ")}.
+Rules: Each recipe is a base glaze whose ingredients total exactly 100, plus colorant/opacifier additions as % of the base. Prefer well-documented published bases for this cone and surface (for example from Mastering Cone 6 Glazes, Digitalfire or Glazy) and name the base and its source. Use only real, commonly sold materials: Ferro frits by number, named feldspars, nepheline syenite, EPK or other kaolins, silica, whiting, wollastonite, talc, dolomite, zinc oxide, Gerstley borate, strontium carbonate, and so on. Colorants: Mason stains from the reference by number and name (never Pasler; their chemistry is unpublished), or oxides and carbonates (red iron oxide, cobalt carbonate or oxide, copper carbonate, rutile, titanium dioxide, chrome oxide, manganese dioxide, tin oxide, Zircopax). Chrome-tin pinks and purples need a zinc-free base with plenty of calcium. Zinc turns chrome greens brown. Use tin oxide or Zircopax for opacity. Keep stain additions about 2-10% and oxides at realistic levels. Account for the clay body under the glaze. These are starting points to test, not guaranteed results.
+Return JSON: {"colors":[{"hex":"RRGGBB","name":"short color name","options":[{"title":"2-4 words","base_name":"base name and source","base":[["Custer feldspar",20]],"additions":[["6600 Best Black",2]],"predicted":"RRGGBB expected fired color","note":"one or two plain sentences: what to expect and how to adjust","safety":"one plain sentence on food safety or handling"}]}]}. 2 options per color, best first. Hex without #.`;
+  $("go").disabled=true;st.className="status";st.textContent="Working out glaze recipes…";
+  try{
+    const opts={modelTier:"complex"};if(imageBlob&&sampleImages)opts.images=[imageBlob];
+    const res=await sampleNs.json(prompt,opts);
+    if(!res?.colors?.length)throw {message:"No recipes came back. Try again with fewer colors."};
+    const rows=a=>(Array.isArray(a)?a:[]).filter(x=>Array.isArray(x)&&x.length>=2&&isFinite(+x[1])&&+x[1]>0).map(x=>[String(x[0]),+(+x[1]).toFixed(2)]);
+    lastGlaze={body,cone,surface,opacity,foodSafe,colors:res.colors.map(c=>({...c,hex:normHex(c.hex)||"888888",options:(c.options||[]).map(o=>{
+      let base=rows(o.base),fixed="";const t=base.reduce((s,x)=>s+x[1],0);
+      if(base.length&&Math.abs(t-100)>0.5){base=base.map(([n,p])=>[n,+(p*100/t).toFixed(2)]);fixed=`Base came back totaling ${+t.toFixed(2)}%; rescaled to 100.`}
+      return {...o,predicted:normHex(o.predicted),base,additions:rows(o.additions),fixed};
+    }).filter(o=>o.base.length)})).filter(c=>c.options.length)};
+    if(!lastGlaze.colors.length)throw {message:"The recipes that came back were incomplete. Try again."};
+    try{localStorage.setItem("stainlab-last-glaze",JSON.stringify(lastGlaze))}catch{}
+    render();st.textContent="Done. Change the batch to recalculate grams. Save the ones you want to test.";
+  }catch(err){st.className="status err";st.textContent=sampleErr(err)}
+  finally{$("go").disabled=false}
+}
 function sampleErr(err){return err?.code==="not_granted"?"Claude access was declined for this page. Allow it from the page's permissions to use this.":err?.code==="rate_limited"?"Too many requests right now. Wait a minute and try again.":(err?.message||"Something went wrong. Try again.")}
 
 /* ---------- Studio UI ---------- */
@@ -718,12 +921,78 @@ Return JSON {"inspiration":false,"items":[{"kind":"stain|glaze|underglaze|clay|c
   }catch(err){right.textContent="";right.append(el("p",{class:"status err",text:sampleErr(err)}))}
 }
 
-function renderAll(){updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render()}
+/* ---------- Saved recipes ---------- */
+let savedFilter="all";
+function savedMsg(t){const m=$("savedStatus");m.textContent=t;setTimeout(()=>{if(m.textContent===t)m.textContent=""},5000)}
+function renderSaved(){
+  const f=$("savedFilters");f.textContent="";
+  [["all","All",recipes.length],["glaze","Glazes",recipes.filter(r=>r.type==="glaze").length],["stain","Stain recipes",recipes.filter(r=>r.type!=="glaze").length]].forEach(([k,v,n])=>
+    f.append(el("button",{type:"button","aria-pressed":String(savedFilter===k),onclick:()=>{savedFilter=k;renderSaved()}},v,el("b",{text:String(n)}))));
+  const list=$("savedList"),ae=document.activeElement;if(list.contains(ae)&&/^(INPUT|TEXTAREA)$/.test(ae.tagName))return; // don't clobber a card being edited
+  list.textContent="";
+  const q=$("savedQ").value.trim().toLowerCase();
+  const shown=recipes.filter(r=>(savedFilter==="all"||(savedFilter==="glaze")===(r.type==="glaze"))&&(!q||[r.title,r.name,r.cone,r.body,r.baseName,r.myNotes,...(r.rows||[]).map(x=>x.name)].join(" ").toLowerCase().includes(q)));
+  if(storeMode==="loading"){list.append(el("div",{class:"empty",text:"Loading your recipes…"}));return}
+  if(!recipes.length){list.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"No saved recipes yet. Tap Save on any stain or glaze recipe, or Add your own to type in one you already use."})));return}
+  if(!shown.length){list.append(el("p",{class:"note",text:"Nothing matches."}));return}
+  shown.forEach(r=>list.append(recipeCard(r)));
+}
+function recipeCard(r){
+  const sw=el("div",{class:"glaze"});sw.style.background="#"+(normHex(r.predicted)||normHex(r.hex)||"D8DAD5");
+  const cur=()=>recipes.find(x=>x.id===r.id)||r;
+  const ttl=el("input",{type:"text",class:"ttl",value:r.title||"","aria-label":"Recipe name"});
+  ttl.onchange=()=>putRecipe({...cur(),title:ttl.value.trim()||r.title});
+  let batch=+r.batchG||1000;
+  const tableBox=el("div",{},recipeTable(r.rows||[],batch));
+  const bIn=el("input",{type:"number",min:"0",step:"any",value:String(batch),inputmode:"decimal","aria-label":"Batch grams"});
+  bIn.oninput=()=>{batch=Math.max(0,parseFloat(bIn.value)||0);tableBox.textContent="";tableBox.append(recipeTable(r.rows||[],batch))};
+  bIn.onchange=()=>{if(batch&&batch!==+cur().batchG)putRecipe({...cur(),batchG:batch})};
+  const notes=el("textarea",{placeholder:"Test notes: how it fired, what to change next…","aria-label":"Test notes"});notes.value=r.myNotes||"";
+  notes.onchange=()=>putRecipe({...cur(),myNotes:notes.value});
+  const cp=el("button",{type:"button",class:"ghost sm",text:"Copy"});
+  cp.onclick=()=>navigator.clipboard.writeText(recipeText({...r,myNotes:notes.value},batch)).then(()=>cp.textContent="Copied",()=>cp.textContent="Copy failed");
+  const acts=el("div",{class:"links"},cp);
+  const del=el("button",{type:"button",class:"linkbtn",text:"Delete"});
+  del.onclick=()=>{del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, delete",onclick:()=>deleteRecipe(r.id)}))};
+  acts.append(del);
+  const kind=r.type==="glaze"?"Glaze":"Stain"+(r.use?" in "+r.use.toLowerCase():"");
+  const meta=[kind,r.cone,r.surface,r.body].filter(Boolean).join(" · ");
+  const when=r.savedAt?new Date(r.savedAt).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"}):"";
+  return el("article",{class:"rcard"},sw,el("div",{class:"in"},ttl,
+    el("div",{class:"meta",text:meta+(when?" · saved "+when:"")+(r.source==="mine"?" · yours":"")}),
+    r.baseName?el("p",{class:"note",text:"Base: "+r.baseName}):null,
+    el("label",{class:"batch"},"Batch",bIn,r.type==="glaze"?"g dry glaze":"g dry clay"),
+    tableBox,
+    r.note?el("p",{class:"note",text:r.note}):null,
+    r.safety?el("p",{class:"note warn",text:r.safety}):null,
+    notes,acts));
+}
+$("savedQ").addEventListener("input",renderSaved);
+$("ownBtn").onclick=()=>{const p=$("ownPanel");p.hidden=!p.hidden;if(!p.hidden)$("ownName").focus()};
+$("ownCancel").onclick=()=>{$("ownPanel").hidden=true};
+function parseRows(text){
+  return text.split(/\n+/).map(l=>l.trim()).filter(Boolean).map(l=>{
+    const add=/^\+/.test(l),m=l.replace(/^\+\s*/,"").match(/^(.*?)[\s:=-]*(\d+(?:[.,]\d+)?)\s*%?\s*$/);
+    return m&&m[1].trim()?{name:m[1].trim(),pct:+m[2].replace(",","."),add}:null}).filter(Boolean);
+}
+$("ownPanel").addEventListener("submit",async e=>{
+  e.preventDefault();const msg=$("ownMsg");
+  const rows=parseRows($("ownRows").value),title=$("ownName").value.trim();
+  if(!title){msg.textContent="Give it a name.";return}
+  if(!rows.length){msg.textContent="Add at least one ingredient with a %.";return}
+  const id=await putRecipe({type:$("ownType").value,title,hex:normHex($("ownHex").value)||"",cone:$("ownCone").value.trim(),rows,batchG:1000,source:"mine",myNotes:"",savedAt:Date.now()});
+  if(id){msg.textContent="";["ownName","ownHex","ownRows"].forEach(i=>$(i).value="");$("ownPanel").hidden=true;savedMsg("Saved “"+title+"”.")}
+});
+
+function renderAll(){updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved()}
 
 /* ---------- boot ---------- */
 try{const s=JSON.parse(localStorage.getItem("stainlab-last")||"null");if(s?.colors?.length)last=s}catch{}
 $("hexes").value=last.example?"ACB0AB, BAABAB, 48333B":last.colors.map(c=>c.hex).join(", ");parseHexes();
+try{const g=JSON.parse(localStorage.getItem("stainlab-last-glaze")||"null");if(g?.colors?.length)lastGlaze=g}catch{}
+try{if(localStorage.getItem("stainlab-mode")==="glaze")setMode("glaze")}catch{}
 if(location.hash==="#studio")showTab("studio");
+else if(location.hash==="#saved")showTab("saved");
 renderAll();
 initStore();
 (()=>{let arr=[];try{arr=JSON.parse(document.getElementById("catalogData").textContent)}catch{}

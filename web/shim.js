@@ -40,13 +40,13 @@ let cwSyncTimer = null;
 function cwQueueSync() {
   if (!CW.token) return;
   clearTimeout(cwSyncTimer);
-  cwSyncTimer = setTimeout(() => cwApi("/studio", { method: "PUT", body: JSON.stringify({ items: studio }) }).catch(e => flash("Couldn't sync shelves. " + e.message)), 600);
+  cwSyncTimer = setTimeout(() => cwApi("/studio", { method: "PUT", body: JSON.stringify({ items: allDocs() }) }).catch(e => flash("Couldn't sync shelves. " + e.message)), 600);
 }
 async function cwPullStudio() {
   try {
     const { items } = await cwApi("/studio");
-    if (items.length) { studio = items; try { localStorage.setItem("stainlab-studio", JSON.stringify(studio)); } catch {} }
-    else if (studio.length) cwQueueSync();
+    if (items.length) { splitDocs(items); try { localStorage.setItem("stainlab-studio", JSON.stringify(allDocs())); } catch {} }
+    else if (allDocs().length) cwQueueSync();
     renderAll();
   } catch {}
 }
@@ -63,7 +63,7 @@ function cwRenderUser() {
 }
 function cwLogout(msg) {
   CW.token = null; CW.me = null; try { localStorage.removeItem("cw-token"); localStorage.removeItem("stainlab-studio"); } catch {}
-  studio = []; renderAll(); cwRenderUser(); cwShowLogin(msg);
+  studio = []; recipes = []; renderAll(); cwRenderUser(); cwShowLogin(msg);
 }
 function cwShowLogin(msg) {
   document.getElementById("cwLogin").hidden = false; document.querySelector(".wrap").setAttribute("inert", "");
