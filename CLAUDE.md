@@ -38,8 +38,9 @@ Rachel prefers short prompts and direct execution: make the change, verify it, r
 Porcelain, cone 6 oxidation mostly. Mason 6006 Deep Crimson, 6363 Sky Blue, 6364 Turquoise, 6219 French Green, Pasler 12-color set. Working on a bark palette (ACB0AB, BAABAB, 70626E, 48333B, 20161B) in 5–10 lb porcelain batches; Sheffield Pottery is where she orders Mason stains.
 
 ## Status / next steps
-- [ ] Rachel: Anthropic API key + spend limit; Cloudflare worker deployed (steps in `private/SETUP.md`, or `npx wrangler deploy` from `worker/` after `wrangler login`); GitHub repo `rachelleethomas/clayworks-studio`.
-- [ ] Run `python3 web/build.py https://clayworks-api.<sub>.workers.dev`, commit, enable Pages from `main` → `/docs`. Site URL: https://rachelleethomas.github.io/clayworks-studio/
+- [x] GitHub repo `rachelleethomas/clayworks-studio` (public); Pages from `main` → `/docs`: https://rachelleethomas.github.io/clayworks-studio/
+- [x] Worker deployed: https://clayworks-api.rachelleecampbell.workers.dev (KV `clayworks-usage`, SESSION_SECRET + USERS set). Redeploy: `cd worker && npx wrangler deploy`.
+- [ ] Rachel: `cd worker && npx wrangler secret put ANTHROPIC_API_KEY` (+ spend limit in console.anthropic.com).
 - [ ] Share logins: Rachel (no cap), Grace ($3/week).
 - Ideas discussed: pre-generate a recipe library with the Batch API (50% off) for common colors to cut live calls; per-user BYO API key.
 
