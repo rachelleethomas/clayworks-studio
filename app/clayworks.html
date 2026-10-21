@@ -168,9 +168,25 @@ tr.add td:first-child{color:var(--accent)}
 @media (prefers-reduced-motion:no-preference){.tile,.item{animation:rise .3s ease both}@keyframes rise{from{transform:translateY(4px)}to{transform:none}}}
 
 /* ---------- Skin: cream paper, serif headlines, pills, soft rounded cards ---------- */
-body{font-size:15.5px;-webkit-font-smoothing:antialiased}
+body{font-size:15.5px;-webkit-font-smoothing:antialiased;padding-top:0}
 .wrap{gap:32px}
-h1{font-family:var(--display);font-weight:400;font-size:clamp(42px,7.5vw,76px);line-height:.95;letter-spacing:-.035em}
+/* top bar: wordmark · tabs · account */
+html,body{overflow-x:clip}
+.topbar{position:sticky;top:0;z-index:20;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;
+  padding:max(12px,env(safe-area-inset-top,0px)) 0 12px;isolation:isolate}
+.topbar::before{content:"";position:absolute;inset:0 -100vmax;z-index:-1;border-bottom:1px solid var(--line);
+  background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px)}
+.brand{display:inline-flex;align-items:center;gap:10px;justify-self:start;color:var(--ink);text-decoration:none;min-width:0}
+.brand .mark{width:26px;height:26px;border-radius:50% 50% 46% 46%/60% 60% 40% 40%;background:linear-gradient(160deg,var(--accent),color-mix(in srgb,var(--accent) 45%,#E269A4));flex:none}
+.brand-name{font:400 23px/1 var(--display);letter-spacing:-.02em;white-space:nowrap}
+.topbar .tabs{justify-self:center}
+.acct{justify-self:end;position:relative}
+@media (max-width:640px){
+  .topbar{grid-template-columns:1fr auto;row-gap:10px}
+  .topbar .tabs{grid-column:1/-1;grid-row:2;justify-self:stretch;display:grid;grid-template-columns:repeat(3,1fr)}
+}
+.intro{display:grid;gap:4px;margin-top:-4px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,6.5vw,68px);line-height:.98;letter-spacing:-.035em}
 h2,.addhead h2{font-family:var(--display);font-weight:400;letter-spacing:-.02em}
 h2{font-size:28px}
 .sub{font-size:17px;line-height:1.45;margin-top:12px}
@@ -233,17 +249,19 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 </style>
 
 <div class="wrap">
-  <header>
-    <div>
-      <h1>Your Studio</h1>
-      <p class="sub" id="sub">Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.</p>
-    </div>
-    <div class="tabs" role="tablist">
+  <header class="topbar">
+    <a class="brand" href="#recipes" aria-label="Your Studio, home"><span class="mark" aria-hidden="true"></span><span class="brand-name">Your Studio</span></a>
+    <div class="tabs" role="tablist" aria-label="Sections">
       <button role="tab" id="tab-recipes" aria-selected="true" aria-controls="view-recipes">Recipes</button>
       <button role="tab" id="tab-saved" aria-selected="false" aria-controls="view-saved">Saved</button>
       <button role="tab" id="tab-studio" aria-selected="false" aria-controls="view-studio">Shelves</button>
     </div>
+    <div class="acct" id="acct"></div>
   </header>
+  <div class="intro">
+    <h1 id="pageTitle">Recipes</h1>
+    <p class="sub" id="sub">Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.</p>
+  </div>
 
   <!-- RECIPES -->
   <div class="grid" id="view-recipes" role="tabpanel">
@@ -554,11 +572,13 @@ function showTab(name){
   tab=name;
   ["recipes","saved","studio"].forEach(t=>{$("view-"+t).hidden=t!==name;$("tab-"+t).setAttribute("aria-selected",String(t===name))});
   $("sub").textContent=SUBS[name==="recipes"?mode:name];
+  $("pageTitle").textContent={recipes:"Recipes",saved:"Saved recipes",studio:"Shelves"}[name];
   try{history.replaceState(null,"",name==="recipes"?"#recipes":"#"+name)}catch{}
 }
 $("tab-recipes").onclick=()=>showTab("recipes");
 $("tab-saved").onclick=()=>showTab("saved");
 $("tab-studio").onclick=()=>showTab("studio");
+document.querySelector(".brand").onclick=e=>{e.preventDefault();showTab("recipes");window.scrollTo({top:0,behavior:"smooth"})};
 $("goStudio").onclick=()=>showTab("studio");
 
 /* ---------- Recipes ---------- */

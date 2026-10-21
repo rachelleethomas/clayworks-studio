@@ -52,14 +52,34 @@ async function cwPullStudio() {
 }
 
 /* login UI */
-function cwRenderUser() {
-  const box = document.getElementById("cwUser"); if (!box) return; box.textContent = "";
+document.addEventListener("click", () => CW.closeMenu && CW.closeMenu());
+document.addEventListener("keydown", e => { if (e.key === "Escape" && CW.closeMenu) CW.closeMenu(true); });
+function cwRenderUser(open = false) {
+  const box = document.getElementById("cwUser"); if (!box) return; box.textContent = ""; CW.closeMenu = null;
   if (!CW.me) return;
-  const m = CW.me, capTxt = m.cap == null ? `$${m.spent.toFixed(2)} this week` : `$${m.spent.toFixed(2)} of $${m.cap} this week`;
-  const meter = el("span", { class: "cw-meter" });
-  if (m.cap != null) { const f = el("i"); f.style.width = Math.min(100, (m.spent / m.cap) * 100) + "%"; if (m.spent >= m.cap) f.className = "full"; meter.append(f); }
-  box.append(...[el("b", { text: m.user }), m.cap != null ? meter : null, el("span", { text: capTxt, title: m.cap != null ? "Resets " + m.resetLabel : "" }),
-    el("button", { type: "button", class: "linkbtn", text: "Log out", onclick: () => cwLogout() })].filter(Boolean));
+  const m = CW.me, initial = (m.user || "?").slice(0, 1).toUpperCase();
+  const avatar = (tag, props = {}) => el(tag, { class: "cw-avatar", text: initial, ...props });
+  const btn = avatar("button", { type: "button", "aria-haspopup": "true", "aria-expanded": "false", "aria-label": "Account: " + m.user, title: m.user });
+  const spend = el("div", { class: "cw-spend" }, el("span", { class: "lbl", text: "Spent this week" }),
+    el("div", { class: "amt" }, "$" + m.spent.toFixed(2), m.cap != null ? el("span", { text: "of $" + Number(m.cap).toFixed(2) }) : el("span", { text: "no weekly limit" })));
+  if (m.cap != null) {
+    const meter = el("span", { class: "cw-meter" }), f = el("i");
+    f.style.width = Math.min(100, (m.spent / m.cap) * 100) + "%"; if (m.spent >= m.cap) f.className = "full"; meter.append(f);
+    spend.append(meter, el("span", { class: "note", text: m.spent >= m.cap ? "Limit reached. Resets " + m.resetLabel + "." : "Resets " + m.resetLabel + "." }));
+  }
+  const menu = el("div", { class: "cw-menu", role: "dialog", "aria-label": "Account", hidden: true },
+    el("div", { class: "who" }, avatar("span", { "aria-hidden": "true" }), el("div", {}, el("b", { text: m.user }), el("small", { text: "Signed in" }))),
+    spend,
+    el("button", { type: "button", class: "ghost out", text: "Log out", onclick: () => cwLogout() }));
+  const setOpen = o => { menu.hidden = !o; btn.setAttribute("aria-expanded", String(o)); };
+  CW.closeMenu = refocus => { if (menu.hidden) return; setOpen(false); if (refocus) btn.focus(); };
+  btn.onclick = e => {
+    e.stopPropagation(); const o = menu.hidden; setOpen(o);
+    if (o) cwApi("/me").then(me => { if (menu.hidden) return; CW.me = me; cwRenderUser(true); }).catch(() => {}); // fresh spend
+  };
+  menu.onclick = e => e.stopPropagation();
+  box.append(btn, menu);
+  if (open) setOpen(true);
 }
 function cwLogout(msg) {
   CW.token = null; CW.me = null; try { localStorage.removeItem("cw-token"); localStorage.removeItem("stainlab-studio"); } catch {}

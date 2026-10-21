@@ -13,7 +13,8 @@ def rep(a, b, count=1):
     s = s.replace(a, b)
 
 rep("<title>Your Studio</title>", "<title>Clayworks Studio</title>")
-rep("<h1>Your Studio</h1>", "<h1>Clayworks Studio</h1>")
+rep('<span class="brand-name">Your Studio</span>', '<span class="brand-name">Clayworks Studio</span>')
+rep('aria-label="Your Studio, home"', 'aria-label="Clayworks Studio, home"')
 rep('<meta name="claude:viewport-fit-sides" content="cover">\n', "")
 rep("Open Your Studio in claude.ai while signed in to keep your studio on your account across devices.",
     "Log in to sync your shelves across devices.")
@@ -22,8 +23,7 @@ rep('function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.string
 rep('if(storeMode==="local"){n.hidden=false;', 'if(storeMode==="local"&&!CW.token){n.hidden=false;')
 rep("Recipe generation isn't available here. Open the page in claude.ai while signed in.", "Log in to get recipes.")
 # header user box + login overlay
-rep('<div class="tabs" role="tablist">', '<div class="cw-head"><div class="cw-user" id="cwUser"></div><div class="tabs" role="tablist">')
-rep('aria-controls="view-studio">Shelves</button>\n    </div>', 'aria-controls="view-studio">Shelves</button>\n    </div></div>')
+rep('<div class="acct" id="acct"></div>', '<div class="acct" id="acct"><div class="cw-user" id="cwUser"></div></div>')
 login = '''<div class="cw-login" id="cwLogin" hidden>
   <form class="cw-card" id="cwForm">
     <h2>Clayworks Studio</h2>
@@ -36,11 +36,23 @@ login = '''<div class="cw-login" id="cwLogin" hidden>
 </div>
 '''
 css = '''
-.cw-head{display:grid;gap:8px;justify-items:end}
-@media (max-width:560px){.cw-head{justify-items:start}}
-.cw-user{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
-.cw-user b{color:var(--ink)}
-.cw-meter{width:70px;height:6px;border-radius:999px;background:var(--line);overflow:hidden;display:inline-block}
+.cw-user{position:relative}
+.cw-avatar{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;
+  font:600 15px var(--body);color:var(--ink);background:var(--tint-purple);transition:box-shadow .15s}
+.cw-avatar:hover,.cw-avatar[aria-expanded="true"]{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.cw-menu{position:absolute;right:0;top:calc(100% + 10px);width:min(280px,calc(100vw - 32px));z-index:30;display:grid;gap:14px;padding:16px;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.14)}
+.cw-menu .who{display:flex;gap:12px;align-items:center}
+.cw-menu .who .cw-avatar{cursor:default;box-shadow:none}
+.cw-menu .who b{display:block;font:500 20px/1.1 var(--display);letter-spacing:-.01em}
+.cw-menu .who small{color:var(--muted);font-size:12px}
+.cw-spend{display:grid;gap:6px;background:var(--bg);border-radius:12px;padding:12px}
+.cw-spend .lbl{font-family:var(--mono)}
+.cw-spend .amt{font:400 28px/1 var(--display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.cw-spend .amt span{font:400 13px var(--body);color:var(--muted);letter-spacing:0;margin-left:4px}
+.cw-spend .note{font-size:12px}
+.cw-menu .out{justify-self:stretch}
+.cw-meter{width:100%;height:6px;border-radius:999px;background:var(--line);overflow:hidden;display:block}
 .cw-meter i{display:block;height:100%;background:var(--ok)}.cw-meter i.full{background:var(--warn)}
 .cw-login{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-items:center;
   padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}

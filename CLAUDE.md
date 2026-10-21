@@ -13,6 +13,7 @@ Rachel prefers short prompts and direct execution: make the change, verify it, r
   - renames the title, wraps a full HTML document skeleton,
   - injects `web/shim.js` *before* the app script; it defines `window.claude.use("sample")` backed by the Worker, a login screen, a weekly-spend meter, and shelf sync (`saveLocal` → PUT /studio).
   - `db` resolves null there, so the app runs in "local" mode and the shim syncs to the Worker.
+- Header: `.topbar` (wordmark · tabs · `#acct`) + `.intro` (`#pageTitle` follows the tab). In the GitHub build, `build.py` fills `#acct` with `#cwUser`, which the shim renders as an initial avatar + account menu (spend, cap meter, reset, Log out); the artifact shows no avatar.
 - Make feature changes in `app/clayworks.html`, then rebuild `docs/`. Anything only for the GitHub version goes in `web/shim.js` or `web/build.py` string replacements (they assert each target string exists exactly once, so update them if you change those lines).
 
 ## Backend: `worker/worker.js` (Cloudflare Worker)
