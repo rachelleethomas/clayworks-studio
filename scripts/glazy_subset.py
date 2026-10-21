@@ -4,7 +4,10 @@ Source: https://github.com/derekphilipau/glazy-data (glazy_YYYYMMDD.yaml.gz, see
 Glazy data is CC BY-NC-SA 4.0: keep attribution (author + glazy.org link) on every recipe shown.
 Glazy's robots.txt blocks AI agents and /api/, /export/ on glazy.org, so only use the GitHub export.
 
-    python3 -I scripts/glazy_subset.py <path/to/glazy_YYYYMMDD.yaml.gz>
+    python3 -I scripts/glazy_subset.py <path/to/glazy_YYYYMMDD.yaml.gz> [--colors glazy-data-glazes-20211130.csv]
+
+--colors adds "h" (RRGGBB) from the 2021 CSV's rgb_r/g/b, which Glazy notes is usually sampled from a photo
+and "not reliable". Pure 0/255 values (white, black, primaries) are placeholders and skipped.
 
 Keeps: Type Recipe, State Production, Subtype "Glaze...", cone within 5-6 (e.g. "6", "5 - 6").
 Output (compact, to keep the page small):
@@ -12,9 +15,10 @@ Output (compact, to keep the page small):
         {"i": id, "n": name, "a": author, "c": cone, "s": surface, "t": transparency,
          "m": atmospheres, "k": subtype, "d": short description,
          "g": [[material_index, pct], ...]        # base
-         "x": [[material_index, pct], ...]}]}     # additions (only if any)
+         "x": [[material_index, pct], ...],       # additions (only if any)
+         "h": "RRGGBB"}]}                         # approx. color from the 2021 CSV (only with --colors)
 """
-import gzip, json, os, re, sys
+import csv, gzip, json, os, re, sys
 
 KEEP_STATES = {"Production"}
 DESC_MAX = 180
@@ -66,7 +70,18 @@ def cone_5_6(c):
 def atmospheres(v):
     return [unq(x) for x in re.findall(r"'[^']*'|[A-Za-z]+", (v or "").strip("[]"))]
 
-def main(src, out):
+def load_colors(path):
+    colors = {}
+    with open(path, encoding="utf-8", newline="") as f:
+        for r in csv.DictReader(f):
+            try: c = tuple(int(r[k]) for k in ("rgb_r", "rgb_g", "rgb_b"))
+            except (ValueError, KeyError): continue
+            if all(x in (0, 255) for x in c) or not all(0 <= x <= 255 for x in c): continue
+            colors[int(r["id"])] = "%02X%02X%02X" % c
+    return colors
+
+def main(src, out, colors=None):
+    colors = colors or {}
     mats, mat_ix, recipes = [], {}, []
     def mi(name):
         if name not in mat_ix: mat_ix[name] = len(mats); mats.append(name)
@@ -86,6 +101,7 @@ def main(src, out):
                 "s": r.get("Surface", ""), "t": r.get("Transparency", ""), "m": atmospheres(r.get("Atmospheres")),
                 "k": r.get("Subtype", ""), "d": d[:DESC_MAX] + ("…" if len(d) > DESC_MAX else ""), "g": base}
         if adds: item["x"] = adds
+        if item["i"] in colors: item["h"] = colors[item["i"]]
         recipes.append({k: v for k, v in item.items() if v not in ("", [])})
     recipes.sort(key=lambda x: x.get("n", "").lower())
     version = re.search(r"(\d{8})", os.path.basename(src))
@@ -93,9 +109,13 @@ def main(src, out):
             "materials": mats, "recipes": recipes}
     s = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     open(out, "w", encoding="utf-8").write(s)
-    print(f"{len(recipes)} recipes, {len(mats)} materials, {len(s):,} bytes -> {out}")
+    print(f"{len(recipes)} recipes ({sum('h' in r for r in recipes)} with a 2021 color), {len(mats)} materials, {len(s):,} bytes -> {out}")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2: sys.exit(__doc__)
+    args = sys.argv[1:]
+    if not args: sys.exit(__doc__)
+    colors = {}
+    if "--colors" in args:
+        i = args.index("--colors"); colors = load_colors(args[i + 1]); del args[i:i + 2]
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    main(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else os.path.join(root, "catalog", "glazy.json"))
+    main(args[0], args[1] if len(args) > 1 else os.path.join(root, "catalog", "glazy.json"), colors)
