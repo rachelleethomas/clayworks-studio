@@ -318,7 +318,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     <button type="button" role="radio" aria-checked="false" data-sub="studio">Shelves</button>
   </div>
 
-  <!-- MY STUDIO: what you're working on (to be designed) -->
+  <!-- MY WORK: what you're working on (to be designed) -->
   <div class="studio" id="view-work" role="tabpanel" hidden>
     <div class="empty">
       <p style="margin:0;font:400 24px/1.2 var(--display)">Coming soon</p>
@@ -654,12 +654,12 @@ const SUBS={
   studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first."};
 let tab="recipes";
 // Two layouts, picked from the profile menu. "studio" (B1) is the default; "ask" (A4) is the prompt-first one.
-const TABS=[["ask","Discover"],["work","My Studio"],["mystudio","My Inventory"]],START="ask";
+const TABS=[["ask","Discover"],["work","My Work"],["mystudio","My Inventory"]],START="ask";
 // "My Inventory" holds two views, switched by a small segmented control under the title.
 const GROUPS={mystudio:{subs:["saved","studio"],seg:"mineSeg",title:"My Inventory"}};
 const groupSub={mystudio:"saved"};
 const VIEWS=["ask","work","recipes","library","saved","studio"];
-const TITLES={ask:"Discover",work:"My Studio",recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves"};
+const TITLES={ask:"Discover",work:"My Work",recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves"};
 function renderTabs(){
   const t=$("tabs");t.textContent="";
   TABS.forEach(([k,v])=>t.append(el("button",{role:"tab",id:"tab-"+k,type:"button","aria-selected":"false",onclick:()=>showTab(k)},v)));
