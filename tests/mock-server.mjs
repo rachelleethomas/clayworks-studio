@@ -6,9 +6,11 @@ const enc=new TextEncoder(),hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).
 async function mk(pw,salt){const key=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
  return hex(await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:Uint8Array.from(salt.match(/../g).map(h=>parseInt(h,16))),iterations:100000},key,256))}
 const USERS={rachel:{salt:"aa11",hash:await mk("clay-rachel","aa11"),cap:null},grace:{salt:"bb22",hash:await mk("clay-grace","bb22"),cap:0.03}};
-const env={USAGE,SESSION_SECRET:"test-secret",USERS:JSON.stringify(USERS),ANTHROPIC_API_KEY:"x",ALLOWED_ORIGIN:"http://localhost:8765"};
+const env={USAGE,SESSION_SECRET:"test-secret",USERS:JSON.stringify(USERS),ANTHROPIC_API_KEY:"x",ALLOWED_ORIGIN:"http://localhost:8765",ADMIN_USERS:"rachel",RESEND_API_KEY:"test",FEEDBACK_TO:"rachel@example.test"};
 const realFetch=globalThis.fetch;
-globalThis.fetch=async(u,o)=>{if(String(u).includes("anthropic.com")){const b=JSON.parse(o.body);
+globalThis.sentEmails=[];
+globalThis.fetch=async(u,o)=>{if(String(u).includes("api.resend.com")){const b=JSON.parse(o.body);sentEmails.push(b);console.log("[mock resend] to",b.to.join(","),"|",b.subject);return new Response(JSON.stringify({id:"mock-"+sentEmails.length}),{status:200,headers:{"content-type":"application/json"}})}
+ if(String(u).includes("anthropic.com")){const b=JSON.parse(o.body);
   const isRecipe=b.model.includes("sonnet");
   const isGlaze=JSON.stringify(b.messages).includes("glaze chemist");const gid=+((JSON.stringify(b.messages).match(/#(\d+) \\"/)||[])[1]||0)||null;
   const text=isGlaze?JSON.stringify({colors:[{hex:"70626E",name:"Bark plum",options:[{title:"Mock satin plum",base_name:"Mock satin base",base:[["Custer feldspar",25],["Silica",20],["Frit 3134",15],["EPK kaolin",20],["Whiting",20]],additions:[["6600 Best Black",1.5],["Red iron oxide",2]],predicted:"6E6068",note:"mock glaze",safety:"Test for leaching before using on food surfaces.",glazy_id:gid}]}]}):isRecipe?JSON.stringify({colors:[{hex:"ACB0AB",name:"Sage",options:[{title:"Mock",stains:[["6500","Sage",4]],predicted:"A9AEA6",note:"mock"}]}]}):JSON.stringify({items:[{kind:"glaze",brand:"Amaco",line:"Potter's Choice",code:"PC-20",name:"Blue Rutile"}]});

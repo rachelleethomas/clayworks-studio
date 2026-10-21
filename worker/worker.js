@@ -4,7 +4,9 @@
 // Bindings (Cloudflare dashboard → Worker → Settings):
 //   KV namespace:  USAGE
 //   Secrets:       ANTHROPIC_API_KEY, SESSION_SECRET, USERS
-//   Variable:      ALLOWED_ORIGIN  (e.g. https://rachelleethomas.github.io)
+//                  RESEND_API_KEY, FEEDBACK_TO  (optional: email each idea via Resend's free plan)
+//   Variables:     ALLOWED_ORIGIN  (e.g. https://rachelleethomas.github.io)
+//                  ADMIN_USERS     (comma list allowed to read the ideas inbox; default "rachel")
 //
 // USERS is JSON: {"rachel":{"hash":"<pbkdf2 hex>","salt":"<hex>","cap":null},
 //                 "grace": {"hash":"...","salt":"...","cap":3}}
@@ -16,6 +18,7 @@ const MODELS = {
 };
 const SESSION_DAYS = 60;
 const MAX_STUDIO_BYTES = 400_000;
+const MAX_IDEAS_PER_DAY = 30;
 
 export default {
   async fetch(req, env) {
@@ -43,7 +46,7 @@ export default {
         const hash = await pbkdf2(String(password || ""), u ? u.salt : "00");
         if (!u || !timingSafeEqual(hash, u.hash)) return json({ error: "Wrong username or password." }, 401);
         const token = await sign(env, { u: name, exp: Date.now() + SESSION_DAYS * 864e5 });
-        return json({ token, ...(await usage(env, name, u)) });
+        return json({ token, ...(await usage(env, name, u)), admin: isAdmin(env, name) });
       }
 
       // everything below needs a session
@@ -52,7 +55,47 @@ export default {
       if (!session || !users[session.u]) return json({ error: "Please log in again." }, 401);
       const name = session.u, u = users[name];
 
-      if (url.pathname === "/me" && req.method === "GET") return json(await usage(env, name, u));
+      if (url.pathname === "/me" && req.method === "GET") return json({ ...(await usage(env, name, u)), admin: isAdmin(env, name) });
+
+      // ideas from friends: stored in KV, emailed to Rachel when Resend is configured
+      if (url.pathname === "/feedback" && req.method === "POST") {
+        const body = await req.json().catch(() => ({}));
+        const text = String(body.text || "").trim().slice(0, 4000);
+        if (!text) return json({ error: "Write your idea first." }, 400);
+        const dayKey = "ideas:" + name + ":" + new Date().toISOString().slice(0, 10);
+        const n = +((await env.USAGE.get(dayKey)) || 0);
+        if (n >= MAX_IDEAS_PER_DAY) return json({ error: "That's a lot of ideas for one day. Try again tomorrow." }, 429);
+        await env.USAGE.put(dayKey, String(n + 1), { expirationTtl: 2 * 86400 });
+        const item = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), user: name, text,
+          page: String(body.page || "").slice(0, 80), at: new Date().toISOString(), done: false };
+        const list = JSON.parse((await env.USAGE.get("feedback")) || "[]");
+        list.unshift(item);
+        await env.USAGE.put("feedback", JSON.stringify(list.slice(0, 500)));
+        let emailed = false;
+        if (env.RESEND_API_KEY && env.FEEDBACK_TO) {
+          const r = await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + env.RESEND_API_KEY, "Content-Type": "application/json" },
+            body: JSON.stringify({ from: "Clayworks Studio <onboarding@resend.dev>", to: [env.FEEDBACK_TO],
+              subject: `Clayworks idea from ${name}`,
+              text: `${text}\n\n— ${name}${item.page ? ", on " + item.page : ""} · ${item.at.slice(0, 16).replace("T", " ")} UTC` }),
+          }).catch(() => null);
+          emailed = !!(r && r.ok);
+        }
+        return json({ ok: true, emailed });
+      }
+      if (url.pathname === "/feedback" && (req.method === "GET" || req.method === "PUT")) {
+        if (!isAdmin(env, name)) return json({ error: "Only Rachel can read ideas." }, 403);
+        const list = JSON.parse((await env.USAGE.get("feedback")) || "[]");
+        if (req.method === "PUT") {
+          const { id, done } = await req.json().catch(() => ({}));
+          const it = list.find(x => x.id === id);
+          if (!it) return json({ error: "Not found." }, 404);
+          it.done = !!done;
+          await env.USAGE.put("feedback", JSON.stringify(list));
+        }
+        return json({ items: list });
+      }
 
       if (url.pathname === "/studio" && req.method === "GET") {
         const data = await env.USAGE.get("studio:" + name);
@@ -110,6 +153,9 @@ function weekStart(now = new Date()) {
   const day = (local.getUTCDay() + 6) % 7; // Monday = 0
   const start = new Date(Date.UTC(local.getUTCFullYear(), local.getUTCMonth(), local.getUTCDate() - day));
   return { key: start.toISOString().slice(0, 10), resetsAt: new Date(start.getTime() + 7 * 864e5 + offset * 36e5) };
+}
+function isAdmin(env, name) {
+  return (env.ADMIN_USERS || "rachel").split(",").map(s => s.trim().toLowerCase()).includes(name);
 }
 async function usage(env, name, u) {
   const w = weekStart();

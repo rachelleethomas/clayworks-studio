@@ -70,6 +70,8 @@ function cwRenderUser(open = false) {
   const menu = el("div", { class: "cw-menu", role: "dialog", "aria-label": "Account", hidden: true },
     el("div", { class: "who" }, avatar("span", { "aria-hidden": "true" }), el("div", {}, el("b", { text: m.user }), el("small", { text: "Signed in" }))),
     spend,
+    el("button", { type: "button", class: "ghost out", text: "Send an idea", onclick: () => { CW.closeMenu && CW.closeMenu(); cwOpenIdea(); } }),
+    m.admin ? el("button", { type: "button", class: "ghost out", text: "Ideas inbox" + (CW.newIdeas ? " · " + CW.newIdeas + " new" : ""), onclick: () => { CW.closeMenu && CW.closeMenu(); cwOpenInbox(); } }) : null,
     el("button", { type: "button", class: "ghost out", text: "Log out", onclick: () => cwLogout() }));
   const setOpen = o => { menu.hidden = !o; btn.setAttribute("aria-expanded", String(o)); };
   CW.closeMenu = refocus => { if (menu.hidden) return; setOpen(false); if (refocus) btn.focus(); };
@@ -80,6 +82,69 @@ function cwRenderUser(open = false) {
   menu.onclick = e => e.stopPropagation();
   box.append(btn, menu);
   if (open) setOpen(true);
+}
+/* ideas: friends send them, Rachel reads them (worker stores + emails) */
+function cwDialog(id, title) {
+  let d = document.getElementById(id);
+  if (!d) { d = el("dialog", { id, class: "cw-dialog", "aria-labelledby": id + "-t" }); document.body.append(d); }
+  d.textContent = "";
+  const body = el("div", { class: "cw-dbody" });
+  d.append(el("div", { class: "cw-dhead" }, el("h2", { id: id + "-t", text: title }),
+    el("button", { type: "button", class: "linkbtn", text: "Close", onclick: () => d.close() })), body);
+  return { d, body };
+}
+function cwOpenIdea() {
+  const { d, body } = cwDialog("cwIdea", CW.me && CW.me.admin ? "Jot down an idea" : "Send Rachel an idea");
+  const page = (document.getElementById("pageTitle") || {}).textContent || "";
+  const ta = el("textarea", { id: "cwIdeaText", rows: "6", maxlength: "4000", placeholder: "What would make Clayworks better? A feature, something confusing, a glaze you wish it knew about…" });
+  const msg = el("p", { class: "status", role: "status" });
+  const send = el("button", { type: "submit", class: "btn", text: "Send" });
+  const form = el("form", { class: "cw-ideaform" }, el("label", { for: "cwIdeaText", class: "lbl", text: "Your idea" }), ta,
+    el("p", { class: "note", text: "Sent with your name and the page you're on" + (page ? " (" + page + ")" : "") + "." }),
+    el("div", { class: "links" }, send, el("button", { type: "button", class: "linkbtn", text: "Cancel", onclick: () => d.close() })), msg);
+  form.onsubmit = async e => {
+    e.preventDefault(); const text = ta.value.trim();
+    if (!text) { msg.className = "status err"; msg.textContent = "Write your idea first."; return; }
+    send.disabled = true; msg.className = "status"; msg.textContent = "Sending…";
+    try {
+      await cwApi("/feedback", { method: "POST", body: JSON.stringify({ text, page }) });
+      body.textContent = ""; body.append(el("p", { style: "margin:0;font:400 22px/1.2 var(--display)", text: "Thanks, got it." }),
+        el("p", { class: "note", text: "Rachel will see this. Send another anytime from your profile menu." }),
+        el("div", { class: "links" }, el("button", { type: "button", class: "btn", text: "Done", onclick: () => d.close() })));
+    } catch (err) { msg.className = "status err"; msg.textContent = err.message; send.disabled = false; }
+  };
+  body.append(form); d.showModal(); ta.focus();
+}
+async function cwOpenInbox() {
+  const { d, body } = cwDialog("cwInbox", "Ideas inbox");
+  body.append(el("p", { class: "note", text: "Loading…" })); d.showModal();
+  let items = [];
+  try { items = (await cwApi("/feedback")).items || []; } catch (e) { body.textContent = ""; body.append(el("p", { class: "status err", text: e.message })); return; }
+  let showDone = false;
+  const paint = () => {
+    body.textContent = "";
+    const open = items.filter(x => !x.done), shown = showDone ? items : open;
+    CW.newIdeas = open.length;
+    body.append(el("div", { class: "links", style: "justify-content:space-between" }, el("span", { class: "lbl", text: open.length + " open · " + (items.length - open.length) + " done" }),
+      el("button", { type: "button", class: "linkbtn", text: showDone ? "Hide done" : "Show done", onclick: () => { showDone = !showDone; paint(); } })));
+    if (!shown.length) body.append(el("p", { class: "note", text: items.length ? "Nothing open. Nice." : "No ideas yet. When Grace, Erica or Hannah send one, it shows up here and in your email." }));
+    shown.forEach(it => {
+      const when = new Date(it.at).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+      body.append(el("article", { class: "cw-idea" + (it.done ? " done" : "") },
+        el("div", { class: "cw-ideameta" }, el("b", { text: it.user }), el("span", { text: when + (it.page ? " · " + it.page : "") })),
+        el("p", { text: it.text }),
+        el("button", { type: "button", class: "ghost sm", text: it.done ? "Reopen" : "Mark done", onclick: async e => {
+          e.target.disabled = true;
+          try { items = (await cwApi("/feedback", { method: "PUT", body: JSON.stringify({ id: it.id, done: !it.done }) })).items; paint(); cwRenderUser(); }
+          catch (err) { e.target.disabled = false; e.target.textContent = err.message; }
+        } })));
+    });
+  };
+  paint(); cwRenderUser();
+}
+async function cwCountIdeas() {
+  if (!CW.me || !CW.me.admin) return;
+  try { CW.newIdeas = ((await cwApi("/feedback")).items || []).filter(x => !x.done).length; cwRenderUser(); } catch {}
 }
 function cwLogout(msg) {
   CW.token = null; CW.me = null; try { localStorage.removeItem("cw-token"); localStorage.removeItem("stainlab-studio"); } catch {}
@@ -106,5 +171,5 @@ document.getElementById("cwForm").addEventListener("submit", async e => {
     try { const res = await cwApi("/dev-login"); CW.token = res.token; try { localStorage.setItem("cw-token", res.token); } catch {} } catch {}
   }
   if (!CW.token) { cwShowLogin(); return; }
-  try { CW.me = await cwApi("/me"); cwRenderUser(); cwPullStudio(); } catch { if (!CW.token) return; cwShowLogin("Couldn't reach the server. Check your connection and log in."); }
+  try { CW.me = await cwApi("/me"); cwRenderUser(); cwPullStudio(); cwCountIdeas(); } catch { if (!CW.token) return; cwShowLogin("Couldn't reach the server. Check your connection and log in."); }
 })();

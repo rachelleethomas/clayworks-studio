@@ -22,7 +22,8 @@ Rachel prefers short prompts and direct execution: make the change, verify it, r
 - `POST /login {user,password}` → HMAC-signed session token (60 days). Passwords are PBKDF2-SHA256 (100k iters) with per-user salt, stored in the `USERS` secret: `{"rachel":{"salt","hash","cap":null},"grace":{"salt","hash","cap":3}}`.
 - `POST /claude {prompt, images[], task}` → Anthropic Messages API. `task:"recipe"` → `claude-sonnet-5-5` ($2/$10 per M tokens); everything else → `claude-haiku-5-5` ($0.10/$0.50). Cost computed from `usage` and added to KV `spend:<user>:<week-start>`; weeks reset Monday 00:00 America/Chicago. Over cap → 429 `cap_reached` (checked before the call, so the last call can overshoot by a few cents).
 - `GET /me` → spend/cap/reset. `GET|PUT /studio` → shelves JSON per user in KV `studio:<user>`.
-- Bindings: KV `USAGE`; secrets `ANTHROPIC_API_KEY`, `SESSION_SECRET`, `USERS`; var `ALLOWED_ORIGIN`. See `worker/wrangler.toml`.
+- Ideas: `POST /feedback {text,page}` (any user, ≤30/day) stores in KV `feedback` and emails `FEEDBACK_TO` via Resend (`RESEND_API_KEY`, free plan, sender onboarding@resend.dev, which only delivers to the Resend account's own email) when both secrets exist. `GET|PUT /feedback` (mark done) only for `ADMIN_USERS` (wrangler.toml, default rachel); `/me` returns `admin`. UI: profile menu → Send an idea / Ideas inbox (shim).
+- Bindings: KV `USAGE`; secrets `ANTHROPIC_API_KEY`, `SESSION_SECRET`, `USERS`, `FEEDBACK_TO` (set), `RESEND_API_KEY` (Rachel to add); vars `ALLOWED_ORIGIN`, `ADMIN_USERS`. See `worker/wrangler.toml`.
 - Users/caps: regenerate with `node scripts/mkusers.mjs` (prints new passwords + USERS JSON) or edit caps in the USERS secret. Current values live in `private/` (gitignored — never commit it).
 
 ## Catalog pipeline

@@ -4,6 +4,7 @@ compatibility_date = "2026-09-01"
 
 [vars]
 ALLOWED_ORIGIN = "https://rachelleethomas.github.io"
+ADMIN_USERS = "rachel"   # who can read the ideas inbox
 
 # Create with: npx wrangler kv namespace create clayworks-usage  → paste the id here
 [[kv_namespaces]]
@@ -11,4 +12,5 @@ binding = "USAGE"
 id = "09f145bbddd647e9a1f658aa8c48255b"
 
 # Secrets (not in this file): npx wrangler secret put ANTHROPIC_API_KEY | SESSION_SECRET | USERS
+# Optional, to email ideas: RESEND_API_KEY (resend.com, free plan) and FEEDBACK_TO (the email you signed up with)
 # Values for SESSION_SECRET and USERS are in private/secrets.json

@@ -53,6 +53,19 @@ css = '''
 .cw-spend .note{font-size:12px}
 .cw-menu .out{justify-self:stretch}
 .cw-meter{width:100%;height:6px;border-radius:999px;background:var(--line);overflow:hidden;display:block}
+.cw-dialog{width:min(520px,calc(100vw - 32px));max-height:calc(100vh - 64px);border:1px solid var(--line);border-radius:18px;padding:0;background:var(--surface);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.18)}
+.cw-dialog::backdrop{background:rgba(20,18,24,.35)}
+.cw-dhead{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px 0}
+.cw-dhead h2{margin:0;font:400 26px/1.1 var(--display);letter-spacing:-.02em}
+.cw-dbody{padding:14px 20px 20px;display:grid;gap:12px;overflow:auto}
+.cw-ideaform{display:grid;gap:10px}
+.cw-ideaform textarea{width:100%;font:inherit;min-height:120px;border-radius:12px}
+.cw-idea{display:grid;gap:6px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--bg)}
+.cw-idea.done{opacity:.6}
+.cw-idea p{margin:0;white-space:pre-wrap}
+.cw-idea .ghost{justify-self:start}
+.cw-ideameta{display:flex;gap:8px;align-items:baseline;font-size:12.5px;color:var(--muted)}
+.cw-ideameta b{color:var(--ink);font-size:14px}
 .cw-meter i{display:block;height:100%;background:var(--ok)}.cw-meter i.full{background:var(--warn)}
 .cw-login{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-items:center;
   padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
