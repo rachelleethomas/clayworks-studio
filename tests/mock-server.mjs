@@ -15,5 +15,6 @@ globalThis.fetch=async(u,o)=>{if(String(u).includes("anthropic.com")){const b=JS
   return new Response(JSON.stringify({content:[{type:"text",text}],usage:{input_tokens:2500,output_tokens:1500},stop_reason:"end_turn"}),{status:200,headers:{"content-type":"application/json"}})}
  return realFetch(u,o)};
 http.createServer(async(req,res)=>{const chunks=[];for await(const c of req)chunks.push(c);
+ if(req.url==="/dev-login"){req={...req,url:"/login",method:"POST",headers:{...req.headers,"content-type":"application/json"}};chunks.length=0;chunks.push(Buffer.from(JSON.stringify({user:"rachel",password:"clay-rachel"})))} // dev only: auto-login for localhost
  const r=new Request("http://localhost:8787"+req.url,{method:req.method,headers:req.headers,body:["GET","HEAD","OPTIONS"].includes(req.method)?undefined:Buffer.concat(chunks)});
  const out=await worker.fetch(r,env);res.writeHead(out.status,Object.fromEntries(out.headers));res.end(Buffer.from(await out.arrayBuffer()))}).listen(8787,()=>console.log("mock up"));

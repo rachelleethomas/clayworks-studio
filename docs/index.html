@@ -434,6 +434,10 @@ document.getElementById("cwForm").addEventListener("submit", async e => {
   finally { btn.disabled = false; }
 });
 (async () => {
+  // Local dev: the mock worker hands out a session, so no login screen. Add ?login to the URL to see it anyway.
+  if (!CW.token && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(API_BASE) && !/[?&]login\b/.test(location.search)) {
+    try { const res = await cwApi("/dev-login"); CW.token = res.token; try { localStorage.setItem("cw-token", res.token); } catch {} } catch {}
+  }
   if (!CW.token) { cwShowLogin(); return; }
   try { CW.me = await cwApi("/me"); cwRenderUser(); cwPullStudio(); } catch { if (!CW.token) return; cwShowLogin("Couldn't reach the server. Check your connection and log in."); }
 })();

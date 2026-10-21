@@ -46,6 +46,6 @@ Porcelain, cone 6 oxidation mostly. Mason 6006 Deep Crimson, 6363 Sky Blue, 6364
 - Ideas discussed: pre-generate a recipe library with the Batch API (50% off) for common colors to cut live calls; per-user BYO API key.
 
 ## Testing
-- `node tests/mock-server.mjs` runs the Worker locally on :8787 with in-memory KV and a fake Anthropic API (test logins: `grace`/`clay-grace` with a $0.03 cap, `rachel`/`clay-rachel`).
+- `node tests/mock-server.mjs` runs the Worker locally on :8787 with in-memory KV and a fake Anthropic API (test logins: `grace`/`clay-grace` with a $0.03 cap, `rachel`/`clay-rachel`). A localhost build auto-logs in as rachel via the mock-only `GET /dev-login`; add `?login` to the URL to get the login screen (e2e does).
 - Build with `python3 web/build.py http://localhost:8787`, serve `docs/` on :8765 (`python3 -m http.server 8765 -d docs`), then `node tests/e2e.js` (Playwright) — checks bad password, login, cap enforcement, shelf sync across logout/login.
 - Known gotcha fixed: `<input type=number step>` must allow the default value or the browser silently blocks form submit (now `step="any"` + `novalidate`).

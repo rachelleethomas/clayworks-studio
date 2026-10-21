@@ -1,7 +1,7 @@
 const { chromium } = require('playwright');
 (async()=>{const b=await chromium.launch();const p=await b.newPage();
 p.on('pageerror',e=>console.log('ERR',e.message));
-await p.goto('http://localhost:8765/');await p.waitForTimeout(500);
+await p.goto('http://localhost:8765/?login');await p.waitForTimeout(500);
 console.log('login visible',await p.isVisible('#cwLogin'));
 await p.fill('#cwName','grace');await p.fill('#cwPass','nope');await p.click('#cwForm button');await p.waitForTimeout(500);
 console.log('bad pw:',await p.textContent('#cwMsg'));
