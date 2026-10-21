@@ -70,6 +70,7 @@ function cwRenderUser(open = false) {
   const menu = el("div", { class: "cw-menu", role: "dialog", "aria-label": "Account", hidden: true },
     el("div", { class: "who" }, avatar("span", { "aria-hidden": "true" }), el("div", {}, el("b", { text: m.user }), el("small", { text: "Signed in" }))),
     spend,
+    typeof layoutMenu === "function" ? layoutMenu() : null,
     el("button", { type: "button", class: "ghost out", text: "Log out", onclick: () => cwLogout() }));
   const setOpen = o => { menu.hidden = !o; btn.setAttribute("aria-expanded", String(o)); };
   CW.closeMenu = refocus => { if (menu.hidden) return; setOpen(false); if (refocus) btn.focus(); };
