@@ -98,7 +98,6 @@ tr.add td:first-child{color:var(--accent)}
 .savedtools input{flex:1 1 auto;min-width:0}
 .savedtools .btn{white-space:nowrap}
 #savedStatus:empty{display:none}
-.srcseg{max-width:360px}
 .gtools{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center}
 .gtools .check{grid-column:auto}
 .gsw{height:46px;border-radius:5px 5px 0 0;position:relative}
@@ -184,7 +183,8 @@ html,body{overflow-x:clip}
 .acct{justify-self:end;position:relative}
 @media (max-width:640px){
   .topbar{grid-template-columns:1fr auto;row-gap:10px}
-  .topbar .tabs{grid-column:1/-1;grid-row:2;justify-self:stretch;display:grid;grid-template-columns:repeat(3,1fr)}
+  .topbar .tabs{grid-column:1/-1;grid-row:2;justify-self:stretch;display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between}
+  .topbar .tabs button{padding:8px 12px;font-size:13.5px}
 }
 .intro{display:grid;gap:4px;margin-top:-4px}
 h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,6.5vw,68px);line-height:.98;letter-spacing:-.035em}
@@ -253,14 +253,15 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
   <header class="topbar">
     <a class="brand" href="#recipes" aria-label="Your Studio, home"><span class="mark" aria-hidden="true"></span><span class="brand-name">Your Studio</span></a>
     <div class="tabs" role="tablist" aria-label="Sections">
-      <button role="tab" id="tab-recipes" aria-selected="true" aria-controls="view-recipes">Recipes</button>
-      <button role="tab" id="tab-saved" aria-selected="false" aria-controls="view-saved">Saved</button>
+      <button role="tab" id="tab-recipes" aria-selected="true" aria-controls="view-recipes">Match</button>
+      <button role="tab" id="tab-library" aria-selected="false" aria-controls="view-library">Library</button>
+      <button role="tab" id="tab-saved" aria-selected="false" aria-controls="view-saved">My recipes</button>
       <button role="tab" id="tab-studio" aria-selected="false" aria-controls="view-studio">Shelves</button>
     </div>
     <div class="acct" id="acct"></div>
   </header>
   <div class="intro">
-    <h1 id="pageTitle">Recipes</h1>
+    <h1 id="pageTitle">Color match</h1>
     <p class="sub" id="sub">Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.</p>
   </div>
 
@@ -350,11 +351,6 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 
   <!-- SAVED -->
   <div class="studio" id="view-saved" role="tabpanel" hidden>
-    <div class="seg srcseg" role="radiogroup" aria-label="Recipe source">
-      <button type="button" role="radio" aria-checked="true" data-src="mine">My recipes</button>
-      <button type="button" role="radio" aria-checked="false" data-src="glazy">Glazy library</button>
-    </div>
-    <div id="mineView" class="studio">
     <div class="shelfbar">
       <div class="filters" id="savedFilters"></div>
       <div class="savedtools">
@@ -380,8 +376,10 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
       <div class="links"><button class="btn" type="submit">Save recipe</button><button class="linkbtn" type="button" id="ownCancel">Cancel</button><span class="status" id="ownMsg"></span></div>
     </form>
     <div class="savedgrid" id="savedList"></div>
-    </div>
-    <div id="glazyView" class="studio" hidden>
+  </div>
+
+  <!-- LIBRARY -->
+  <div class="studio" id="view-library" role="tabpanel" hidden>
       <div class="gtools">
         <input type="search" id="gq" placeholder="Search Glazy recipes: name, material, or a hex like 70626E" aria-label="Search Glazy recipes" autocomplete="off">
         <select id="gSurf" aria-label="Surface"><option value="">Any surface</option><option>Glossy</option><option>Satin</option><option>Matte</option></select>
@@ -393,7 +391,6 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
       <div class="savedgrid" id="gList"></div>
       <button class="ghost" type="button" id="gMore" hidden>Show more</button>
       <p class="note" id="gCredit"></p>
-    </div>
   </div>
 
   <!-- STUDIO -->
@@ -566,17 +563,20 @@ async function initStore(){
 const SUBS={
   stain:"Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.",
   glaze:"Drop in an inspiration image or hex codes, pick your firing and surface, and get glaze recipes: a base that totals 100 plus colorants, with grams for your batch.",
-  saved:"Recipes you've saved or written yourself, with your test notes. Change a batch size to rescale the grams.",
+  saved:"Recipes you've saved from Match or the Library, or written yourself, with your test notes. Change a batch size to rescale the grams.",
+  library:"Tested cone 5–6 glazes from Glazy, marked Production by their makers. Search by name, material or color, and save the ones you want to try.",
   studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first."};
 let tab="recipes";
 function showTab(name){
   tab=name;
-  ["recipes","saved","studio"].forEach(t=>{$("view-"+t).hidden=t!==name;$("tab-"+t).setAttribute("aria-selected",String(t===name))});
+  ["recipes","library","saved","studio"].forEach(t=>{$("view-"+t).hidden=t!==name;$("tab-"+t).setAttribute("aria-selected",String(t===name))});
   $("sub").textContent=SUBS[name==="recipes"?mode:name];
-  $("pageTitle").textContent={recipes:"Recipes",saved:"Saved recipes",studio:"Shelves"}[name];
+  $("pageTitle").textContent={recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves"}[name];
+  if(name==="library")renderGlazy();
   try{history.replaceState(null,"",name==="recipes"?"#recipes":"#"+name)}catch{}
 }
 $("tab-recipes").onclick=()=>showTab("recipes");
+$("tab-library").onclick=()=>showTab("library");
 $("tab-saved").onclick=()=>showTab("saved");
 $("tab-studio").onclick=()=>showTab("studio");
 document.querySelector(".brand").onclick=e=>{e.preventDefault();showTab("recipes");window.scrollTo({top:0,behavior:"smooth"})};
@@ -1119,7 +1119,7 @@ const glazyLine=r=>`#${r.id} "${r.name}" (${[r.surface,r.opacity].filter(Boolean
   r.rows.filter(x=>!x.add).map(x=>x.name+" "+x.pct).join(", ")+(r.rows.some(x=>x.add)?"; additions: "+r.rows.filter(x=>x.add).map(x=>x.name+" "+x.pct).join(", "):"");
 const glazyRecipe=r=>({type:"glaze",title:r.name,hex:r.hex||"",photo:r.photo||"",cone:"Cone "+r.cone,surface:[r.surface,r.opacity.toLowerCase()].filter(Boolean).join(", "),
   rows:r.rows,note:r.desc,batchG:1000,source:"glazy",glazyId:r.id,glazyUrl:glazyUrl(r.id),author:r.author});
-let gShown=30,savedSrc="mine";
+let gShown=30;
 function renderGlazy(){
   const G=glazy(),raw=$("gq").value.trim(),sf=$("gSurf").value,op=$("gOpac").value,have=$("gHave").checked,sw=$("gSw").checked;
   const near=/^#?[0-9a-f]{6}$/i.test(raw)?normHex(raw):null,q=near?"":raw.toLowerCase();
@@ -1149,11 +1149,7 @@ let gTimer;
 $("gq").addEventListener("input",()=>{clearTimeout(gTimer);gTimer=setTimeout(()=>{gShown=30;renderGlazy()},120)});
 ["gSurf","gOpac","gHave","gSw"].forEach(id=>$(id).addEventListener("change",()=>{gShown=30;renderGlazy()}));
 $("gMore").onclick=()=>{gShown+=30;renderGlazy()};
-function setSavedSrc(src){
-  savedSrc=src;document.querySelectorAll(".srcseg button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.src===src)));
-  $("mineView").hidden=src!=="mine";$("glazyView").hidden=src!=="glazy";if(src==="glazy")renderGlazy();
-}
-document.querySelectorAll(".srcseg button").forEach(b=>b.onclick=()=>setSavedSrc(b.dataset.src));
+
 
 /* ---------- Saved recipes ---------- */
 let savedFilter="all";
@@ -1167,7 +1163,7 @@ function renderSaved(){
   const q=$("savedQ").value.trim().toLowerCase();
   const shown=recipes.filter(r=>(savedFilter==="all"||(savedFilter==="glaze")===(r.type==="glaze"))&&(!q||[r.title,r.name,r.cone,r.body,r.baseName,r.myNotes,...(r.rows||[]).map(x=>x.name)].join(" ").toLowerCase().includes(q)));
   if(storeMode==="loading"){list.append(el("div",{class:"empty",text:"Loading your recipes…"}));return}
-  if(!recipes.length){list.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"No saved recipes yet. Tap Save on any stain or glaze recipe, or Add your own to type in one you already use."})));return}
+  if(!recipes.length){list.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"No saved recipes yet. Tap Save on a recipe in Match or the Library, or Add your own to type in one you already use."})));return}
   if(!shown.length){list.append(el("p",{class:"note",text:"Nothing matches."}));return}
   shown.forEach(r=>list.append(recipeCard(r)));
 }
@@ -1229,6 +1225,7 @@ try{const g=JSON.parse(localStorage.getItem("stainlab-last-glaze")||"null");if(g
 try{if(localStorage.getItem("stainlab-mode")==="glaze")setMode("glaze")}catch{}
 if(location.hash==="#studio")showTab("studio");
 else if(location.hash==="#saved")showTab("saved");
+else if(location.hash==="#library")showTab("library");
 renderAll();
 initStore();
 (()=>{let arr=[];try{arr=JSON.parse(document.getElementById("catalogData").textContent)}catch{}
