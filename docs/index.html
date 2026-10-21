@@ -356,11 +356,11 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
   <!-- ASK (Ask the studio layout) -->
   <div class="studio" id="view-ask" role="tabpanel" hidden>
     <form class="askbox" id="askForm" novalidate>
-      <label for="askQ" class="sr-only">Describe what you're making</label>
-      <input type="search" id="askQ" autocomplete="off" placeholder="Satin plum for porcelain mug interiors, or paste hex codes like 70626E">
+      <label for="askQ" class="sr-only">Search recipes</label>
+      <input type="search" id="askQ" autocomplete="off" placeholder="Search Glazy and your notebook: satin plum, celadon, or hex codes like 70626E">
       <button class="ghost" type="button" id="askPhoto">Photo</button>
       <input type="file" id="askFile" accept="image/*" hidden>
-      <button class="btn" type="submit" id="askGo">Ask</button>
+      <button class="btn" type="submit" id="askGo">Search</button>
     </form>
     <div class="chips" id="askChips"></div>
     <div class="asklayout">
@@ -379,6 +379,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
       <section class="askresults" aria-live="polite">
         <p class="status" id="askStatus" role="status"></p>
         <div id="askResults"></div>
+        <button class="ghost" type="button" id="askMore" hidden>Show more</button>
       </section>
     </div>
   </div>
@@ -807,18 +808,18 @@ const SUBS={
   glaze:"Drop in an inspiration image or hex codes, pick your firing and surface, and get glaze recipes: a base that totals 100 plus colorants, with grams for your batch.",
   saved:"Recipes you've saved or written yourself, with your test notes. Change a batch size to rescale the grams.",
   home:"What's on the go in your studio: the palette you're working on, tests waiting for notes, library picks and your shelves.",
-  ask:"Describe what you're making, paste hex codes or add a photo. Results mix new recipes, tested Glazy recipes and your own.",
+  ask:"Browse tested Glazy recipes, search them and your notebook, or paste hex codes and add a photo to get new recipes made for you.",
   library:"Tested cone 5–6 glazes from Glazy, marked Production by their makers. Search by name, material or color, and save the ones you want to try.",
   studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first."};
 let tab="recipes";
 // Two layouts, picked from the profile menu. "studio" (B1) is the default; "ask" (A4) is the prompt-first one.
 const LAYOUTS={
   studio:{label:"Studio home",tabs:[["home","Home"],["discover","Discover"],["saved","Notebook"],["studio","Shelves"]],start:"home"},
-  ask:{label:"Ask the studio",tabs:[["ask","Ask"],["saved","My recipes"],["studio","Shelves"]],start:"ask"}};
+  ask:{label:"Discover first",tabs:[["ask","Discover"],["saved","My recipes"],["studio","Shelves"]],start:"ask"}};
 let layout="studio",discSub="recipes";
 try{const l=localStorage.getItem("cw-layout");if(LAYOUTS[l])layout=l}catch{}
 const VIEWS=["home","ask","recipes","library","saved","studio"];
-const TITLES={home:"Your studio",ask:"Ask the studio",recipes:"Color match",library:"Glazy library",studio:"Shelves"};
+const TITLES={home:"Your studio",ask:"Discover",recipes:"Color match",library:"Glazy library",studio:"Shelves"};
 function renderTabs(){
   const t=$("tabs");t.textContent="";
   LAYOUTS[layout].tabs.forEach(([k,v])=>t.append(el("button",{role:"tab",id:"tab-"+k,type:"button","aria-selected":"false",onclick:()=>showTab(k)},v)));
@@ -838,6 +839,7 @@ function showTab(name){
   $("pageTitle").textContent=name==="saved"?(layout==="studio"?"Notebook":"My recipes"):TITLES[name];
   if(name==="library")renderGlazy();
   if(name==="home")renderHome();
+  if(name==="ask"&&!askQuery&&!askItems.length){askItems=askBrowse();renderAsk()}
   try{history.replaceState(null,"","#"+name)}catch{}
 }
 document.querySelectorAll("#discSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
@@ -1471,7 +1473,7 @@ function renderHome(){
 }
 
 /* ---------- Ask (Ask the studio layout) ---------- */
-let askItems=[],askQuery="";
+let askItems=[],askQuery="",askLimit=30;
 const STOP=new Set("a an and the for of on in to with like this that my me i want make making glaze glazes recipe recipes cone some".split(" "));
 function parseAsk(q){
   const hexes=[...new Set((q.match(/#?\b[0-9a-f]{6}\b/gi)||[]).map(normHex).filter(Boolean))];
@@ -1484,14 +1486,22 @@ function parseAsk(q){
   const words=low.replace(/#?\b[0-9a-f]{6}\b/g," ").split(/[^a-z0-9-]+/).filter(w=>w.length>2&&!STOP.has(w));
   return {hexes,surface,opacity,food,stain,cone,words};
 }
+const glazyItem=r=>({src:"glazy",key:"g"+r.id,title:r.name,hex:r.hex,photo:r.photo,surface:r.surface,food:!(/crystal/i.test(r.kind)||r.rows.some(x=>/barium|lithium carb/i.test(x.name))),
+  meta:[`Glazy #${r.id}`,r.author,"cone "+r.cone,r.surface,r.opacity].filter(Boolean).join(" · "),note:r.desc,rows:r.rows,batch:1000,link:glazyUrl(r.id),
+  make:()=>({...glazyRecipe(r),myNotes:"",savedAt:Date.now()})});
+function askBrowse(){ // no query: the whole library, photos first, then swatches
+  return [...glazy().recipes].sort((a,b)=>(!!b.photo-!!a.photo)||(!!b.hex-!!a.hex)).map(glazyItem);
+}
 function askFromGlazy(P){
   const G=glazy().recipes;let list;
-  if(P.hexes.length)list=glazyCandidates({surface:P.surface||"Glossy",opacity:P.opacity||"Opaque",foodSafe:P.food,hexes:P.hexes},12);
-  else if(P.words.length)list=G.map(r=>[P.words.filter(w=>r.hay.includes(w)).length,r]).filter(([n])=>n).sort((a,b)=>b[0]-a[0]||(!!b[1].photo-!!a[1].photo)).slice(0,12).map(([,r])=>r);
+  if(P.hexes.length)list=glazyCandidates({surface:P.surface||"Glossy",opacity:P.opacity||"Opaque",foodSafe:P.food,hexes:P.hexes},40);
+  else if(P.words.length){
+    const scored=G.map(r=>[P.words.filter(w=>r.hay.includes(w)).length,r]).filter(([n])=>n);
+    const all=scored.filter(([n])=>n===P.words.length); // every word matches; fall back to partial matches only if none do
+    list=(all.length?all:scored).sort((a,b)=>b[0]-a[0]||(!!b[1].photo-!!a[1].photo)||(!!b[1].hex-!!a[1].hex)).map(([,r])=>r);
+  }
   else list=[];
-  return list.map(r=>({src:"glazy",key:"g"+r.id,title:r.name,hex:r.hex,photo:r.photo,surface:r.surface,food:!(/crystal/i.test(r.kind)||r.rows.some(x=>/barium|lithium carb/i.test(x.name))),
-    meta:[`Glazy #${r.id}`,r.author,"cone "+r.cone,r.surface,r.opacity].filter(Boolean).join(" · "),note:r.desc,rows:r.rows,batch:1000,link:glazyUrl(r.id),
-    make:()=>({...glazyRecipe(r),myNotes:"",savedAt:Date.now()})}));
+  return list.map(glazyItem);
 }
 function askFromMine(P){
   return recipes.filter(r=>P.hexes.length?P.hexes.some(h=>hexDist(h,r.predicted||r.hex)<70):P.words.some(w=>[r.title,r.name,r.cone,r.surface,r.baseName,r.myNotes,...(r.rows||[]).map(x=>x.name)].join(" ").toLowerCase().includes(w)))
@@ -1535,10 +1545,13 @@ function renderAsk(){
   const on=k=>document.querySelector(`[data-af="${k}"]`).checked;
   const sf=$("askSurf").value,food=$("askFood").checked,have=$("askHave").checked,pic=$("askPic").checked;
   const shown=askItems.filter(it=>on(it.src)&&(!sf||!it.surface||(SURF[sf]||[sf]).some(x=>String(it.surface).toLowerCase().includes(x.toLowerCase())))&&(!food||it.food)&&(!have||it.rows.every(x=>haveMaterial(x.name)))&&(!pic||it.photo||it.hex));
-  if(!askQuery){box.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"Try “satin plum for porcelain mug interiors”, “celadon”, or paste hex codes like 70626E, 48333B. Add a photo for new recipes matched to it."})));return}
-  if(!shown.length){box.append(el("p",{class:"note",text:askItems.length?"Nothing matches these filters.":"No matches yet."}));return}
+  $("askMore").hidden=true;
+  if(!shown.length){box.append(el("p",{class:"note",text:askItems.length?"Nothing matches these filters.":"No matches. Try fewer words, or paste hex codes."}));return}
   const order={new:0,glazy:1,mine:2};
-  shown.sort((a,b)=>order[a.src]-order[b.src]).forEach(it=>box.append(askCard(it)));
+  if(askQuery)shown.sort((a,b)=>order[a.src]-order[b.src]);
+  box.append(el("p",{class:"note",text:askQuery?`${shown.length} result${shown.length===1?"":"s"}`:`Browsing ${shown.length.toLocaleString()} Glazy recipes, photos first. Search above to narrow it down.`}));
+  shown.slice(0,askLimit).forEach(it=>box.append(askCard(it)));
+  $("askMore").hidden=shown.length<=askLimit;
 }
 function renderAskChips(P){
   const c=$("askChips");c.textContent="";
@@ -1548,12 +1561,20 @@ function renderAskChips(P){
 }
 $("askPhoto").onclick=()=>$("askFile").click();
 $("askFile").onchange=e=>{const f=e.target.files[0];if(!f)return;hexList=[];$("hexes").value="";takeFile(f);setTimeout(()=>renderAskChips(),400)};
-document.querySelectorAll(".askfilters input,.askfilters select").forEach(x=>x.addEventListener("change",renderAsk));
+document.querySelectorAll(".askfilters input,.askfilters select").forEach(x=>x.addEventListener("change",()=>{askLimit=30;renderAsk()}));
+$("askMore").onclick=()=>{askLimit+=30;renderAsk()};
+function askInstant(){ // library + notebook only, no Claude call
+  const q=$("askQ").value.trim();askLimit=30;
+  if(!q&&!imageBlob){askQuery="";askItems=askBrowse();$("askChips").textContent="";$("askStatus").textContent="";renderAsk();return}
+  askQuery=q;const P=parseAsk(q);
+  askItems=[...askItems.filter(it=>it.src==="new"&&askQuery),...askFromGlazy(P),...askFromMine(P)];renderAsk();
+}
+let askTimer;$("askQ").addEventListener("input",()=>{clearTimeout(askTimer);askTimer=setTimeout(()=>{askItems=askItems.filter(it=>it.src!=="new");askInstant()},200)});
 $("askForm").addEventListener("submit",async e=>{
   e.preventDefault();
   const q=$("askQ").value.trim(),st=$("askStatus");st.className="status";st.textContent="";
   if(!q&&!imageBlob){st.textContent="Describe a glaze, paste hex codes, or add a photo.";return}
-  askQuery=q||"photo";const P=parseAsk(q);
+  askQuery=q||"photo";askLimit=30;const P=parseAsk(q);
   if(P.hexes.length){hexList=P.hexes;$("hexes").value=P.hexes.join(", ");renderChips()}
   if(P.surface)$("surface").value=P.surface;if(P.opacity)$("opacity").value=P.opacity;$("foodSafe").checked=P.food;$("askFood").checked=P.food;
   if(P.surface)$("askSurf").value=P.surface;
@@ -1562,7 +1583,7 @@ $("askForm").addEventListener("submit",async e=>{
   renderAskChips(P);
   const Pall={...P,hexes:hexList.length?hexList:P.hexes};
   askItems=[...askFromGlazy(Pall),...askFromMine(Pall)];renderAsk();
-  if(!hexList.length&&!imageBlob){st.textContent="Showing the library and your notebook. Add hex codes or a photo to also get new recipes made for this.";return}
+  if(!P.hexes.length&&!imageBlob){st.textContent="Showing the library and your notebook. Add hex codes or a photo to also get new recipes made for this.";return}
   if(!sampleNs){st.className="status err";st.textContent="New recipes need a login here; showing the library and your notebook.";return}
   const before=mode==="glaze"?lastGlaze:last;
   $("askGo").disabled=true;st.textContent=mode==="glaze"?"Working out new glaze recipes…":"Working out new stain recipes…";
