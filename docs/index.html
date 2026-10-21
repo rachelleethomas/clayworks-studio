@@ -348,6 +348,11 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     <button type="button" role="radio" aria-checked="false" data-sub="library">Glazy library</button>
   </div>
 
+  <div class="seg discseg" id="mineSeg" role="radiogroup" aria-label="My studio" hidden>
+    <button type="button" role="radio" aria-checked="true" data-sub="saved">Recipes</button>
+    <button type="button" role="radio" aria-checked="false" data-sub="studio">Shelves</button>
+  </div>
+
   <!-- HOME (Studio home layout) -->
   <div class="studio" id="view-home" role="tabpanel" hidden>
     <div class="homegrid" id="homeGrid"></div>
@@ -814,35 +819,38 @@ const SUBS={
 let tab="recipes";
 // Two layouts, picked from the profile menu. "studio" (B1) is the default; "ask" (A4) is the prompt-first one.
 const LAYOUTS={
-  studio:{label:"Studio home",tabs:[["home","Home"],["discover","Discover"],["saved","Notebook"],["studio","Shelves"]],start:"home"},
-  ask:{label:"Discover first",tabs:[["ask","Discover"],["saved","My recipes"],["studio","Shelves"]],start:"ask"}};
-let layout="studio",discSub="recipes";
+  studio:{label:"Studio home",tabs:[["home","Home"],["discover","Discover"],["mystudio","My studio"]],start:"home"},
+  ask:{label:"Discover first",tabs:[["ask","Discover"],["mystudio","My studio"]],start:"ask"}};
+// Tabs that hold two views, switched by a small segmented control under the title.
+const GROUPS={discover:{subs:["recipes","library"],seg:"discSeg",layouts:["studio"],title:null},
+  mystudio:{subs:["saved","studio"],seg:"mineSeg",layouts:["studio","ask"],title:"My studio"}};
+const groupSub={discover:"recipes",mystudio:"saved"};
+let layout="studio";
 try{const l=localStorage.getItem("cw-layout");if(LAYOUTS[l])layout=l}catch{}
 const VIEWS=["home","ask","recipes","library","saved","studio"];
-const TITLES={home:"Your studio",ask:"Discover",recipes:"Color match",library:"Glazy library",studio:"Shelves"};
+const TITLES={home:"Your studio",ask:"Discover",recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves"};
 function renderTabs(){
   const t=$("tabs");t.textContent="";
   LAYOUTS[layout].tabs.forEach(([k,v])=>t.append(el("button",{role:"tab",id:"tab-"+k,type:"button","aria-selected":"false",onclick:()=>showTab(k)},v)));
 }
 function showTab(name){
-  if(name==="discover")name=discSub;
+  if(GROUPS[name])name=groupSub[name];
   if(!VIEWS.includes(name))name=LAYOUTS[layout].start;
   tab=name;
-  const inDiscover=name==="recipes"||name==="library";
-  if(inDiscover)discSub=name;
+  const grp=Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name)&&GROUPS[g].layouts.includes(layout));
+  if(grp)groupSub[grp]=name;
   VIEWS.forEach(v=>$("view-"+v).hidden=v!==name);
-  const tabKey=inDiscover&&layout==="studio"?"discover":name;
-  [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+tabKey)));
-  $("discSeg").hidden=!(inDiscover&&layout==="studio");
-  document.querySelectorAll("#discSeg button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.sub===name)));
+  [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+(grp||name))));
+  Object.entries(GROUPS).forEach(([g,G])=>{$(G.seg).hidden=g!==grp;
+    document.querySelectorAll("#"+G.seg+" button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.sub===name)))});
   $("sub").textContent=SUBS[name==="recipes"?mode:name];
-  $("pageTitle").textContent=name==="saved"?(layout==="studio"?"Notebook":"My recipes"):TITLES[name];
+  $("pageTitle").textContent=(grp&&GROUPS[grp].title)||TITLES[name];
   if(name==="library")renderGlazy();
   if(name==="home")renderHome();
   if(name==="ask"&&!askQuery&&!askItems.length){askItems=askBrowse();renderAsk()}
   try{history.replaceState(null,"","#"+name)}catch{}
 }
-document.querySelectorAll("#discSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
+document.querySelectorAll("#discSeg button,#mineSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
 function setLayout(l){
   if(!LAYOUTS[l])return;layout=l;try{localStorage.setItem("cw-layout",l)}catch{}
   renderTabs();showTab(LAYOUTS[l].start);
@@ -1458,7 +1466,7 @@ function renderHome(){
   g.append(el("section",{class:"hcard"},el("span",{class:"lbl",text:"Waiting for your notes"}),
     el("h3",{text:waiting.length?waiting.length+(waiting.length===1?" recipe":" recipes")+" without test notes":recipes.length?"All saved recipes have notes":"No saved recipes yet"}),
     waiting.length?el("div",{class:"hthumbs"},...waiting.slice(0,4).map(r=>thumbFor(r,()=>{$("savedQ").value=r.title;showTab("saved");renderSaved()}))):null,
-    el("div",{class:"links"},el("button",{type:"button",class:"ghost",text:"Open notebook",onclick:()=>showTab("saved")}))));
+    el("div",{class:"links"},el("button",{type:"button",class:"ghost",text:"Open my recipes",onclick:()=>showTab("saved")}))));
   const picks=glazy().recipes.length?glazyCandidates({surface:$("surface").value,opacity:$("opacity").value,foodSafe:$("foodSafe").checked,hexes:pal},6):[];
   const withPic=[...picks.filter(r=>r.photo||r.hex),...picks.filter(r=>!(r.photo||r.hex))].slice(0,3);
   g.append(el("section",{class:"hcard wide"},el("span",{class:"lbl",text:"From the Glazy library for your palette"}),
