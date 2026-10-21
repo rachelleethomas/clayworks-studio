@@ -313,7 +313,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     <p class="sub" id="sub">Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.</p>
   </div>
 
-  <div class="seg mineseg" id="mineSeg" role="radiogroup" aria-label="My studio" hidden>
+  <div class="seg mineseg" id="mineSeg" role="radiogroup" aria-label="My Inventory" hidden>
     <button type="button" role="radio" aria-checked="true" data-sub="saved">Recipes</button>
     <button type="button" role="radio" aria-checked="false" data-sub="studio">Shelves</button>
   </div>
@@ -644,9 +644,9 @@ const SUBS={
   studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first."};
 let tab="recipes";
 // Two layouts, picked from the profile menu. "studio" (B1) is the default; "ask" (A4) is the prompt-first one.
-const TABS=[["ask","Discover"],["mystudio","My studio"]],START="ask";
-// "My studio" holds two views, switched by a small segmented control under the title.
-const GROUPS={mystudio:{subs:["saved","studio"],seg:"mineSeg",title:"My studio"}};
+const TABS=[["ask","Discover"],["mystudio","My Inventory"]],START="ask";
+// "My Inventory" holds two views, switched by a small segmented control under the title.
+const GROUPS={mystudio:{subs:["saved","studio"],seg:"mineSeg",title:"My Inventory"}};
 const groupSub={mystudio:"saved"};
 const VIEWS=["ask","recipes","library","saved","studio"];
 const TITLES={ask:"Discover",recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves"};
