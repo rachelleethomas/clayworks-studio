@@ -124,7 +124,16 @@ tr.add td:first-child{color:var(--accent)}
 .askbox{display:flex;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 6px 6px 8px;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 14%,transparent)}
 .askbox input[type=search]{flex:1;min-width:0;border:0;background:none;font-size:17px;padding:10px 12px}
 .askbox input[type=search]:focus-visible{outline:none}
-.asklayout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:28px;align-items:start}
+.asklayout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;align-items:start}
+.asklayout.collapsed{grid-template-columns:minmax(0,1fr)}
+.asklayout.collapsed .askfilters{display:none}
+.fbarhead{display:flex;justify-content:flex-start}
+.ftoggle[aria-expanded="false"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.askfilters .fchips-wrap{gap:12px}
+.askfilters .fchips{gap:5px}
+.askfilters .fchips .lbl{flex-basis:100%;min-width:0}
+.askfilters .fchip{padding:4px 10px;font-size:12.5px}
+.askfilters{max-height:calc(100vh - 110px);overflow:auto;padding-right:4px}
 @media (max-width:760px){.asklayout{grid-template-columns:minmax(0,1fr)}.askfilters{grid-template-columns:repeat(2,minmax(0,1fr))}.askfilters .lbl{grid-column:1/-1}}
 .askfilters{display:grid;gap:8px;position:sticky;top:86px}
 .askfilters .lbl{margin-top:8px}
@@ -358,7 +367,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     <div class="asklayout">
       <aside class="askfilters" aria-label="Filter results" id="askSide"></aside>
       <section class="askresults" aria-live="polite">
-        <div id="askChipRow"></div>
+        <div class="fbarhead"><button class="ghost sm ftoggle" type="button" id="askFiltToggle" aria-controls="askSide" aria-expanded="true">Hide filters</button></div>
         <p class="status" id="askStatus" role="status"></p>
         <div id="askResults"></div>
         <button class="ghost" type="button" id="askMore" hidden>Show more</button>
@@ -486,6 +495,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 
 
       </div>
+      <div class="fbarhead"><button class="ghost sm ftoggle" type="button" id="gFiltToggle" aria-controls="gFilters" aria-expanded="true">Hide filters</button></div>
       <div class="gfilters" id="gFilters"></div>
       <p class="note" id="gCount"></p>
       <div class="savedgrid" id="gList"></div>
@@ -1269,8 +1279,9 @@ const glazyRecipe=r=>({type:"glaze",title:r.name,hex:r.hex||"",photo:r.photo||""
 let gShown=30;
 let GF=null;
 function renderGlazy(){
-  if(!GF){GF=filterUI("gf",{onChange:()=>{gShown=30;renderGlazy()}});$("gFilters").append(GF.chips,GF.side)}
-  const G=glazy(),raw=$("gq").value.trim(),S=GF.state();
+  if(!GF){GF=filterUI("gf",{onChange:()=>{gShown=30;renderGlazy()}});$("gFilters").append(GF.chips,GF.side);
+    renderGlazy.paint=filterToggle($("gFiltToggle"),"cw-filters-lib",open=>{$("gFilters").hidden=!open},()=>GF.state())}
+  const G=glazy(),raw=$("gq").value.trim(),S=GF.state();renderGlazy.paint();
   const near=/^#?[0-9a-f]{6}$/i.test(raw)?normHex(raw):null,q=near?"":raw.toLowerCase();
   $("gCredit").textContent="";
   $("gCredit").append("Recipes from ",el("a",{href:"https://glazy.org",target:"_blank",rel:"noopener",text:"Glazy"}),
@@ -1413,6 +1424,17 @@ function sortItems(list,S,fallback){
   const by={photo:(a,b)=>(!!b.photo-!!a.photo)||(!!b.hex-!!a.hex),fewest:(a,b)=>a.rows.length-b.rows.length,name:(a,b)=>a.title.localeCompare(b.title)}[S.sort]||fallback;
   return by?[...list].sort(by):list;
 }
+function activeCount(S){
+  return (S.src?3-S.src.size:0)+(S.make?1:0)+S.fams.size+[S.surf,S.opac,S.style,S.colorant].filter(Boolean).length+[S.food,S.pic,S.notes,S.base].filter(Boolean).length
+    +S.leave.length+(S.missing!==""?1:0)+(S.ox?0:1)+(S.sort!=="best"?1:0);
+}
+// A Filters button that hides/shows a filter panel; remembered per device, collapsed by default on phones.
+function filterToggle(btn,key,apply,getState){
+  let open;try{const v=localStorage.getItem(key);open=v===null?!matchMedia("(max-width:760px)").matches:v==="1"}catch{open=true}
+  const paint=()=>{const n=getState?activeCount(getState()):0;btn.setAttribute("aria-expanded",String(open));btn.textContent=open?"Hide filters":"Filters"+(n?" · "+n:"");apply(open)};
+  btn.onclick=()=>{open=!open;try{localStorage.setItem(key,open?"1":"0")}catch{};paint()};
+  return paint;
+}
 const stainNote=S=>S.make==="stain"?el("p",{class:"fnote",text:"The Glazy library is glazes only. Stain-in-clay recipes come from your notebook and from new recipes in Color match."}):null;
 
 /* ---------- Ask (Ask the studio layout) ---------- */
@@ -1484,10 +1506,11 @@ function askCard(it){
     el("details",{},el("summary",{text:"Recipe"}),recipeTable(it.rows,it.batch))),acts);
 }
 const AF=filterUI("af",{sources:true,notes:true,onChange:()=>{askLimit=30;renderAsk()}});
-$("askSide").append(AF.side);$("askChipRow").append(AF.chips);
+$("askSide").append(AF.chips,AF.side);
+const paintAskToggle=filterToggle($("askFiltToggle"),"cw-filters-ask",open=>document.querySelector("#view-ask .asklayout").classList.toggle("collapsed",!open),()=>AF.state());
 function renderAsk(){
   const box=$("askResults");box.textContent="";
-  const S=AF.state(),order={new:0,glazy:1,mine:2};
+  const S=AF.state(),order={new:0,glazy:1,mine:2};paintAskToggle();
   const shown=sortItems(askItems.filter(it=>passes(it,S)),S,askQuery?(a,b)=>order[a.src]-order[b.src]:null);
   $("askMore").hidden=true;
   const note=stainNote(S);if(note)box.append(note);
