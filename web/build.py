@@ -40,13 +40,13 @@ css = '''
 @media (max-width:560px){.cw-head{justify-items:start}}
 .cw-user{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .cw-user b{color:var(--ink)}
-.cw-meter{width:70px;height:6px;border-radius:3px;background:var(--line);overflow:hidden;display:inline-block}
+.cw-meter{width:70px;height:6px;border-radius:999px;background:var(--line);overflow:hidden;display:inline-block}
 .cw-meter i{display:block;height:100%;background:var(--ok)}.cw-meter i.full{background:var(--warn)}
 .cw-login{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-items:center;
   padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
-.cw-card{width:min(360px,100%);display:grid;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:22px}
-.cw-card input[type=password]{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:8px 10px}
-.cw-card h2{font-family:var(--display);font-weight:700;font-size:28px}
+.cw-card{width:min(380px,100%);display:grid;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:0 24px 80px rgba(0,0,0,.08)}
+.cw-card input[type=password]{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.cw-card h2{font-family:var(--display);font-weight:400;font-size:36px;letter-spacing:-.03em;line-height:1}
 </style>'''
 rep("</style>", css)
 i = s.index("<script")
