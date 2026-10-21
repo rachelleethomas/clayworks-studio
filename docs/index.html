@@ -350,6 +350,15 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     <button type="button" role="radio" aria-checked="false" data-sub="studio">Shelves</button>
   </div>
 
+  <!-- MY STUDIO: what you're working on (to be designed) -->
+  <div class="studio" id="view-work" role="tabpanel" hidden>
+    <div class="empty">
+      <p style="margin:0;font:400 24px/1.2 var(--display)">Coming soon</p>
+      <p style="margin:0">This will be the place for what you're working on: current projects and palettes, test tiles waiting for results, and upcoming firings.</p>
+      <div class="links"><button type="button" class="ghost" id="workToDiscover">Find recipes in Discover</button><button type="button" class="ghost" id="workToInventory">See your saved recipes</button></div>
+    </div>
+  </div>
+
   <!-- ASK (Ask the studio layout) -->
   <div class="studio" id="view-ask" role="tabpanel" hidden>
     <form class="askbox" id="askForm" novalidate>
@@ -793,18 +802,19 @@ async function initStore(){
 const SUBS={
   stain:"Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.",
   glaze:"Drop in an inspiration image or hex codes, pick your firing and surface, and get glaze recipes: a base that totals 100 plus colorants, with grams for your batch.",
+  work:"What you're working on right now. This space is still being designed.",
   saved:"Recipes you've saved or written yourself, with your test notes. Change a batch size to rescale the grams.",
   ask:"Browse tested Glazy recipes, search them and your notebook, or paste hex codes and add a photo to get new recipes made for you.",
   library:"Tested cone 5–6 glazes from Glazy, marked Production by their makers. Search by name, material or color, and save the ones you want to try.",
   studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first."};
 let tab="recipes";
 // Two layouts, picked from the profile menu. "studio" (B1) is the default; "ask" (A4) is the prompt-first one.
-const TABS=[["ask","Discover"],["mystudio","My Inventory"]],START="ask";
+const TABS=[["ask","Discover"],["work","My Studio"],["mystudio","My Inventory"]],START="ask";
 // "My Inventory" holds two views, switched by a small segmented control under the title.
 const GROUPS={mystudio:{subs:["saved","studio"],seg:"mineSeg",title:"My Inventory"}};
 const groupSub={mystudio:"saved"};
-const VIEWS=["ask","recipes","library","saved","studio"];
-const TITLES={ask:"Discover",recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves"};
+const VIEWS=["ask","work","recipes","library","saved","studio"];
+const TITLES={ask:"Discover",work:"My Studio",recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves"};
 function renderTabs(){
   const t=$("tabs");t.textContent="";
   TABS.forEach(([k,v])=>t.append(el("button",{role:"tab",id:"tab-"+k,type:"button","aria-selected":"false",onclick:()=>showTab(k)},v)));
@@ -827,6 +837,8 @@ function showTab(name){
 }
 document.querySelectorAll("#mineSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
 $("openMatch").onclick=()=>showTab("recipes");
+$("workToDiscover").onclick=()=>showTab("ask");
+$("workToInventory").onclick=()=>showTab("saved");
 document.querySelector(".brand").onclick=e=>{e.preventDefault();showTab(START);window.scrollTo({top:0,behavior:"smooth"})};
 $("goStudio").onclick=()=>showTab("studio");
 
