@@ -16,7 +16,8 @@ Output (compact, to keep the page small):
          "m": atmospheres, "k": subtype, "d": short description,
          "g": [[material_index, pct], ...]        # base
          "x": [[material_index, pct], ...],       # additions (only if any)
-         "h": "RRGGBB"}]}                         # approx. color from the 2021 CSV (only with --colors)
+         "h": "RRGGBB",                           # approx. color from the 2021 CSV (only with --colors)
+         "p": "06/906.6ad6e8ce631ef.jpg"}]}      # photo path, from catalog/glazy-photos.json (scripts/glazy_photos.py)
 """
 import csv, gzip, json, os, re, sys
 
@@ -82,6 +83,8 @@ def load_colors(path):
 
 def main(src, out, colors=None):
     colors = colors or {}
+    ppath = os.path.join(os.path.dirname(os.path.abspath(out)), "glazy-photos.json")
+    photos = json.load(open(ppath)) if os.path.exists(ppath) else {}
     mats, mat_ix, recipes = [], {}, []
     def mi(name):
         if name not in mat_ix: mat_ix[name] = len(mats); mats.append(name)
@@ -102,6 +105,7 @@ def main(src, out, colors=None):
                 "k": r.get("Subtype", ""), "d": d[:DESC_MAX] + ("…" if len(d) > DESC_MAX else ""), "g": base}
         if adds: item["x"] = adds
         if item["i"] in colors: item["h"] = colors[item["i"]]
+        if str(item["i"]) in photos: item["p"] = photos[str(item["i"])]  # from scripts/glazy_photos.py
         recipes.append({k: v for k, v in item.items() if v not in ("", [])})
     recipes.sort(key=lambda x: x.get("n", "").lower())
     version = re.search(r"(\d{8})", os.path.basename(src))
