@@ -154,7 +154,26 @@ tr.add td:first-child{color:var(--accent)}
 .laysw .seg button{padding:7px 8px;font-size:12.5px}
 .lay-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;color:var(--ink)}
 .lay-menu{position:absolute;right:0;top:calc(100% + 10px);width:min(280px,calc(100vw - 32px));z-index:30;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.14)}
-.gtools{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center}
+.gtools{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;align-items:center}
+/* shared filters (Discover + Library) */
+.fchips-wrap{display:grid;gap:8px}
+.fchips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.fchips .lbl{min-width:50px}
+.fchip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 12px;font:500 13px var(--body);cursor:pointer}
+.fchip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.fchip i{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.18);display:block}
+.fchip i.clear{background:linear-gradient(135deg,#FFFFFF 45%,#CFD6DC 55%)}
+.fside{display:grid;gap:12px}
+.fsel{display:grid;gap:4px}
+.fgroup{display:grid;gap:6px}
+.fmore{display:grid;gap:8px}
+.fmore summary{cursor:pointer;font:600 13px var(--body);color:var(--accent);padding:2px 0;list-style-position:outside}
+.fmore[open]>*:not(summary){margin-top:2px}
+.gfilters{display:grid;gap:14px}
+.gfilters .fside{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));align-items:start}
+.gfilters .fmore{grid-column:1/-1;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));align-items:start}
+.gfilters .fmore summary{grid-column:1/-1}
+.fnote{font-size:13px;color:var(--muted);background:var(--tint-blue);border-radius:12px;padding:10px 14px;margin:0}
 .gtools .check{grid-column:auto}
 .gsw{height:46px;border-radius:5px 5px 0 0;position:relative}
 .gphoto{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;background:var(--bg)}
@@ -369,19 +388,9 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     </form>
     <div class="chips" id="askChips"></div>
     <div class="asklayout">
-      <aside class="askfilters" aria-label="Filter results">
-        <span class="lbl">Source</span>
-        <label class="check"><input type="checkbox" data-af="new" checked> New recipes</label>
-        <label class="check"><input type="checkbox" data-af="glazy" checked> Glazy library</label>
-        <label class="check"><input type="checkbox" data-af="mine" checked> My recipes</label>
-        <span class="lbl">Surface</span>
-        <select id="askSurf" aria-label="Surface"><option value="">Any surface</option><option>Glossy</option><option>Satin</option><option>Matte</option></select>
-        <span class="lbl">Practical</span>
-        <label class="check"><input type="checkbox" id="askFood"> Food-safe</label>
-        <label class="check"><input type="checkbox" id="askHave"> Only my shelves</label>
-        <label class="check"><input type="checkbox" id="askPic"> Has photo or swatch</label>
-      </aside>
+      <aside class="askfilters" aria-label="Filter results" id="askSide"></aside>
       <section class="askresults" aria-live="polite">
+        <div id="askChipRow"></div>
         <p class="status" id="askStatus" role="status"></p>
         <div id="askResults"></div>
         <button class="ghost" type="button" id="askMore" hidden>Show more</button>
@@ -506,11 +515,10 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
   <div class="studio" id="view-library" role="tabpanel" hidden>
       <div class="gtools">
         <input type="search" id="gq" placeholder="Search Glazy recipes: name, material, or a hex like 70626E" aria-label="Search Glazy recipes" autocomplete="off">
-        <select id="gSurf" aria-label="Surface"><option value="">Any surface</option><option>Glossy</option><option>Satin</option><option>Matte</option></select>
-        <select id="gOpac" aria-label="Opacity"><option value="">Any opacity</option><option>Opaque</option><option>Translucent</option><option>Transparent</option></select>
-        <label class="check"><input type="checkbox" id="gHave"> Only what's on my shelves</label>
-        <label class="check"><input type="checkbox" id="gSw"> Only with a photo or swatch</label>
+
+
       </div>
+      <div class="gfilters" id="gFilters"></div>
       <p class="note" id="gCount"></p>
       <div class="savedgrid" id="gList"></div>
       <button class="ghost" type="button" id="gMore" hidden>Show more</button>
@@ -1415,18 +1423,21 @@ const glazyLine=r=>`#${r.id} "${r.name}" (${[r.surface,r.opacity].filter(Boolean
 const glazyRecipe=r=>({type:"glaze",title:r.name,hex:r.hex||"",photo:r.photo||"",cone:"Cone "+r.cone,surface:[r.surface,r.opacity.toLowerCase()].filter(Boolean).join(", "),
   rows:r.rows,note:r.desc,batchG:1000,source:"glazy",glazyId:r.id,glazyUrl:glazyUrl(r.id),author:r.author});
 let gShown=30;
+let GF=null;
 function renderGlazy(){
-  const G=glazy(),raw=$("gq").value.trim(),sf=$("gSurf").value,op=$("gOpac").value,have=$("gHave").checked,sw=$("gSw").checked;
+  if(!GF){GF=filterUI("gf",{onChange:()=>{gShown=30;renderGlazy()}});$("gFilters").append(GF.chips,GF.side)}
+  const G=glazy(),raw=$("gq").value.trim(),S=GF.state();
   const near=/^#?[0-9a-f]{6}$/i.test(raw)?normHex(raw):null,q=near?"":raw.toLowerCase();
   $("gCredit").textContent="";
   $("gCredit").append("Recipes from ",el("a",{href:"https://glazy.org",target:"_blank",rel:"noopener",text:"Glazy"}),
     ` contributors, shared under CC BY-NC-SA 4.0. Cone 5–6 glazes marked Production, from the Glazy export dated ${G.version.replace(/(\d{4})(\d\d)(\d\d)/,"$1-$2-$3")||"(unknown)"}. Photos load from Glazy for recipes you've collected from its Print page; swatches are approximate colors from Glazy's 2021 data. Open a recipe on Glazy for all of its photos. Each recipe credits its author; always test before using on ware.`);
-  let list=G.recipes.filter(r=>(!q||q.split(/\s+/).every(t=>r.hay.includes(t)))&&(!sf||SURF[sf].includes(r.surface))&&(!op||OPAC[op].includes(r.opacity))&&(!have||r.rows.every(x=>haveMaterial(x.name)))&&(!(sw||near)||r.hex||(sw&&r.photo)));
-  if(!near)list.sort((a,b)=>(!!b.photo-!!a.photo)||(!!b.hex-!!a.hex));
-  if(near)list=list.map(r=>[hexDist(near,r.hex),r]).filter(([d])=>d<70).sort((a,b)=>a[0]-b[0]).map(([,r])=>r);
+  let list=G.recipes.map(glazyItem).filter(it=>(!q||q.split(/\s+/).every(t=>it.hay.includes(t)))&&(!near||it.hex)&&passes(it,S));
+  if(near)list=list.map(it=>[hexDist(near,it.hex),it]).filter(([d])=>d<70).sort((a,b)=>a[0]-b[0]).map(([,it])=>it);
+  else list=sortItems(list,S,(a,b)=>(!!b.photo-!!a.photo)||(!!b.hex-!!a.hex));
   $("gCount").textContent=`${list.length.toLocaleString()} of ${G.recipes.length.toLocaleString()} recipes`+(near?` with a 2021 swatch near #${near}, closest first`:"");
   const box=$("gList");box.textContent="";
-  list.slice(0,gShown).forEach(r=>box.append(glazyCard(r)));
+  const note=stainNote(S);if(note)box.append(note);
+  list.slice(0,gShown).forEach(it=>box.append(glazyCard(it.rec)));
   $("gMore").hidden=list.length<=gShown;
 }
 function glazyCard(r){
@@ -1442,7 +1453,7 @@ function glazyCard(r){
 }
 let gTimer;
 $("gq").addEventListener("input",()=>{clearTimeout(gTimer);gTimer=setTimeout(()=>{gShown=30;renderGlazy()},120)});
-["gSurf","gOpac","gHave","gSw"].forEach(id=>$(id).addEventListener("change",()=>{gShown=30;renderGlazy()}));
+
 $("gMore").onclick=()=>{gShown+=30;renderGlazy()};
 
 
@@ -1480,6 +1491,86 @@ function renderHome(){
     el("div",{class:"links"},el("button",{type:"button",class:"ghost",text:studio.length?"Open shelves":"Add what you have",onclick:()=>showTab("studio")}))));
 }
 
+/* ---------- Shared filters: Discover and the Glazy library ---------- */
+const FAMS=[["clear","Clear",""],["white","White","#F2F0EA"],["gray","Gray","#9A9A9A"],["black","Black","#222222"],["brown","Brown","#7A5634"],["red","Red","#B23A3A"],["orange","Orange","#E2722E"],
+  ["yellow","Yellow","#E8C44C"],["green","Green","#3D7A63"],["teal","Teal","#2C8C8C"],["blue","Blue","#2C4FA8"],["purple","Purple","#6A3A82"],["pink","Pink","#D9868C"]];
+const COLORANTS=[["Cobalt",/cobalt/],["Copper",/copper/],["Iron",/iron|ochre|\brio\b|crocus/],["Rutile",/rutile/],["Chrome",/chrom/],["Manganese",/mangan/],["Mason stain",/\b6\d{3}\b|mason|\bstain\b/]];
+const STYLES=[["Celadon",/celadon/],["Clear / liner",/\bclear\b|\bliner\b|transparent/],["Matte base",/\bmatte?\b|\bmatt\b/],["Crystalline",/crystal/],["Shino",/shino/],["Tenmoku",/tenmoku|temmoku/],["Floating blue",/float/],["Rutile",/rutile/],["Ash",/\bash\b/]];
+const LEAVE=[["Zinc",/zinc/],["Barium",/barium/],["Lithium",/lithium|spodumene|petalite/],["Gerstley borate",/gerstley/]];
+const slug=t=>t.toLowerCase().replace(/[^a-z0-9]+/g,"-");
+function facets(it){
+  if(it._f)return it._f;
+  const words=(it.title+" "+(it.kind||"")).toLowerCase(),mats=it.rows.map(x=>x.name.toLowerCase()).join(" | ");
+  const fams=new Set();
+  if(it.hex)hueOf(it.hex).forEach(f=>fams.add(f));
+  Object.keys(HUES).forEach(f=>{if(HUES[f][0].test(words))fams.add(f)});
+  const top=(it.kind||"").replace(/^Glaze\s*-?\s*/,"").split(" - ")[0].toLowerCase();
+  if(top==="clear"||/\bclear\b|\bliner\b/.test(words))fams.add("clear");
+  if(top==="iron"&&!fams.size)fams.add("brown");
+  const colorants=COLORANTS.filter(([,re])=>re.test(mats)).map(([n])=>n);
+  return it._f={fams,colorants,styles:STYLES.filter(([,re])=>re.test(words)).map(([n])=>n),leave:LEAVE.filter(([,re])=>re.test(mats)).map(([n])=>n),
+    base:!it.rows.some(x=>x.add)&&!colorants.length,type:it.type||"glaze",opac:String(it.opacity||"").toLowerCase(),atm:it.atm||[]};
+}
+function filterUI(p,{sources=false,notes=false,onChange}){
+  const pill=(g,v,label,dot)=>{
+    const b=el("button",{type:"button",class:"fchip","data-g":g,"data-v":v,"aria-pressed":"false"});
+    if(dot!==undefined){const i=el("i",{class:dot?"":"clear"});if(dot)i.style.background=dot;b.append(i)}
+    b.append(label);
+    b.onclick=()=>{const on=b.getAttribute("aria-pressed")!=="true";
+      if(g==="make")b.parentNode.querySelectorAll("[data-g=make]").forEach(x=>x.setAttribute("aria-pressed","false"));
+      b.setAttribute("aria-pressed",String(on));onChange()};
+    return b;
+  };
+  const sel=(id,label,opts)=>el("label",{class:"fsel"},el("span",{class:"lbl",text:label}),el("select",{id:p+"-"+id},...opts.map(([v,t])=>el("option",{value:v,text:t}))));
+  const chk=(id,label,on)=>el("label",{class:"check"},el("input",{type:"checkbox",id:p+"-"+id,checked:on||undefined}),label);
+  const chips=el("div",{class:"fchips-wrap",id:p+"-chips"},
+    el("div",{class:"fchips",role:"group","aria-label":"Make"},el("span",{class:"lbl",text:"Make"}),pill("make","glaze","Glaze"),pill("make","stain","Stain in clay")),
+    el("div",{class:"fchips",role:"group","aria-label":"Color family"},el("span",{class:"lbl",text:"Color"}),...FAMS.map(([k,l,c])=>pill("fam",k,l,c))));
+  const side=el("div",{class:"fside"},
+    sources?el("div",{class:"fgroup"},el("span",{class:"lbl",text:"Source"}),chk("src-new","New recipes",1),chk("src-glazy","Glazy library",1),chk("src-mine","My recipes",1)):null,
+    sel("surf","Surface",[["","Any surface"],["Glossy","Glossy"],["Satin","Satin"],["Matte","Matte"]]),
+    sel("opac","Opacity",[["","Any opacity"],["Opaque","Opaque"],["Translucent","Translucent"],["Transparent","Transparent"]]),
+    sel("style","Style",[["","Any style"],...STYLES.map(([n])=>[n,n])]),
+    sel("colorant","Colorant",[["","Any colorant"],...COLORANTS.map(([n])=>[n,n])]),
+    el("div",{class:"fgroup"},el("span",{class:"lbl",text:"Practical"}),chk("food","Food-safe"),chk("pic","Has photo or swatch"),notes?chk("notes","Has my test notes"):null),
+    el("details",{class:"fmore"},el("summary",{text:"More filters"}),
+      chk("base","Base only (no colorants)"),
+      el("div",{class:"fgroup"},el("span",{class:"lbl",text:"Leave out"}),...LEAVE.map(([n])=>chk("no-"+slug(n),"No "+n.toLowerCase()))),
+      sel("missing","On my shelves",[["","Doesn't matter"],["0","Everything on hand"],["1","Missing at most 1"],["2","Missing at most 2"]]),
+      el("div",{class:"fgroup"},el("span",{class:"lbl",text:"Kiln"}),chk("ox","Works in oxidation",1)),
+      sel("sort","Sort",[["best","Best match"],["photo","Photos first"],["fewest","Fewest ingredients"],["name","Name A–Z"]])));
+  side.addEventListener("change",onChange);
+  const v=id=>$(p+"-"+id);
+  const pressed=g=>[...chips.querySelectorAll(`[data-g=${g}][aria-pressed=true]`)].map(b=>b.dataset.v);
+  const state=()=>({src:sources?new Set(["new","glazy","mine"].filter(k=>v("src-"+k).checked)):null,make:pressed("make")[0]||"",fams:new Set(pressed("fam")),
+    surf:v("surf").value,opac:v("opac").value,style:v("style").value,colorant:v("colorant").value,food:v("food").checked,pic:v("pic").checked,notes:notes&&v("notes").checked,
+    base:v("base").checked,leave:LEAVE.map(([n])=>n).filter(n=>v("no-"+slug(n)).checked),missing:v("missing").value,ox:v("ox").checked,sort:v("sort").value});
+  return {chips,side,state,set:(id,val)=>{const x=v(id);if(x.type==="checkbox")x.checked=!!val;else x.value=val}};
+}
+function passes(it,S){
+  const f=facets(it);
+  if(S.src&&!S.src.has(it.src))return false;
+  if(S.make&&f.type!==S.make)return false;
+  if(S.fams.size&&![...S.fams].some(x=>f.fams.has(x)))return false;
+  if(S.surf&&!(SURF[S.surf]||[S.surf]).some(x=>String(it.surface||"").toLowerCase().includes(x.toLowerCase())))return false;
+  if(S.opac&&!(OPAC[S.opac]||[]).some(x=>f.opac.includes(x.toLowerCase())))return false;
+  if(S.style&&!f.styles.includes(S.style))return false;
+  if(S.colorant&&!f.colorants.includes(S.colorant))return false;
+  if(S.base&&!f.base)return false;
+  if(S.leave.some(x=>f.leave.includes(x)))return false;
+  if(S.missing!==""&&it.rows.filter(x=>!haveMaterial(x.name)).length>+S.missing)return false;
+  if(S.ox&&f.atm.includes("Reduction")&&!f.atm.includes("Oxidation"))return false;
+  if(S.food&&!it.food)return false;
+  if(S.pic&&!(it.photo||it.hex))return false;
+  if(S.notes&&!it.hasNotes)return false;
+  return true;
+}
+function sortItems(list,S,fallback){
+  const by={photo:(a,b)=>(!!b.photo-!!a.photo)||(!!b.hex-!!a.hex),fewest:(a,b)=>a.rows.length-b.rows.length,name:(a,b)=>a.title.localeCompare(b.title)}[S.sort]||fallback;
+  return by?[...list].sort(by):list;
+}
+const stainNote=S=>S.make==="stain"?el("p",{class:"fnote",text:"The Glazy library is glazes only. Stain-in-clay recipes come from your notebook and from new recipes in Color match."}):null;
+
 /* ---------- Ask (Ask the studio layout) ---------- */
 let askItems=[],askQuery="",askLimit=30;
 const STOP=new Set("a an and the for of on in to with like this that my me i want make making glaze glazes recipe recipes cone some".split(" "));
@@ -1494,7 +1585,7 @@ function parseAsk(q){
   const words=low.replace(/#?\b[0-9a-f]{6}\b/g," ").split(/[^a-z0-9-]+/).filter(w=>w.length>2&&!STOP.has(w));
   return {hexes,surface,opacity,food,stain,cone,words};
 }
-const glazyItem=r=>({src:"glazy",key:"g"+r.id,title:r.name,hex:r.hex,photo:r.photo,surface:r.surface,food:!(/crystal/i.test(r.kind)||r.rows.some(x=>/barium|lithium carb/i.test(x.name))),
+const glazyItem=r=>r._item||(r._item={src:"glazy",key:"g"+r.id,rec:r,type:"glaze",kind:r.kind,atm:r.atm,opacity:r.opacity,hay:r.hay,title:r.name,hex:r.hex,photo:r.photo,surface:r.surface,food:!(/crystal/i.test(r.kind)||r.rows.some(x=>/barium|lithium carb/i.test(x.name))),
   meta:[`Glazy #${r.id}`,r.author,"cone "+r.cone,r.surface,r.opacity].filter(Boolean).join(" · "),note:r.desc,rows:r.rows,batch:1000,link:glazyUrl(r.id),
   make:()=>({...glazyRecipe(r),myNotes:"",savedAt:Date.now()})});
 function askBrowse(){ // no query: the whole library, photos first, then swatches
@@ -1513,7 +1604,7 @@ function askFromGlazy(P){
 }
 function askFromMine(P){
   return recipes.filter(r=>P.hexes.length?P.hexes.some(h=>hexDist(h,r.predicted||r.hex)<70):P.words.some(w=>[r.title,r.name,r.cone,r.surface,r.baseName,r.myNotes,...(r.rows||[]).map(x=>x.name)].join(" ").toLowerCase().includes(w)))
-    .map(r=>({src:"mine",key:"m"+r.id,title:r.title,hex:r.predicted||r.hex,photo:r.photo,surface:r.surface||"",food:r.foodSafe!==false,
+    .map(r=>({src:"mine",key:"m"+r.id,type:r.type==="glaze"?"glaze":"stain",kind:r.baseName||"",atm:[],opacity:r.surface||"",hasNotes:!!String(r.myNotes||"").trim(),title:r.title,hex:r.predicted||r.hex,photo:r.photo,surface:r.surface||"",food:r.foodSafe!==false,
       meta:[r.type==="glaze"?"Glaze":"Stain",r.cone,r.surface,r.myNotes?"has notes":"no notes yet"].filter(Boolean).join(" · "),note:r.myNotes||r.note,rows:r.rows||[],batch:+r.batchG||1000,
       open:()=>{$("savedQ").value=r.title;showTab("saved");renderSaved()}}));
 }
@@ -1521,7 +1612,7 @@ function askFromNew(){
   const out=[];
   if(mode==="glaze"&&lastGlaze?.colors)lastGlaze.colors.forEach(c=>c.options.forEach(o=>{
     const rows=[...o.base.map(([name,pct])=>({name,pct,add:false})),...o.additions.map(([name,pct])=>({name,pct,add:true}))];
-    out.push({src:"new",key:"n"+c.hex+o.title,title:o.title,hex:o.predicted||c.hex,surface:lastGlaze.surface,food:lastGlaze.foodSafe,
+    out.push({src:"new",key:"n"+c.hex+o.title,type:"glaze",kind:o.base_name||"",atm:[],opacity:lastGlaze.opacity,title:o.title,hex:o.predicted||c.hex,surface:lastGlaze.surface,food:lastGlaze.foodSafe,
       meta:["Glaze for #"+c.hex,c.name,o.glazy?`adapted from Glazy #${o.glazy.id}`:o.base_name].filter(Boolean).join(" · "),note:o.note,safety:o.safety,rows,batch:gBatch()||1000,
       make:()=>({type:"glaze",title:o.title||"Glaze",name:c.name||"",hex:c.hex,predicted:o.predicted||"",body:lastGlaze.body,cone:lastGlaze.cone,surface:lastGlaze.surface+", "+lastGlaze.opacity.toLowerCase(),
         foodSafe:lastGlaze.foodSafe,baseName:o.base_name||"",rows,note:o.note||"",safety:o.safety||"",batchG:gBatch()||1000,myNotes:"",savedAt:Date.now(),
@@ -1529,7 +1620,7 @@ function askFromNew(){
   }));
   if(mode==="stain"&&last?.colors&&!last.example)last.colors.forEach(c=>(c.options||[]).forEach(o=>{
     const rows=o.stains.map(([num,name,pct])=>({name:num+" "+name,pct,add:false}));
-    out.push({src:"new",key:"n"+c.hex+o.title,title:o.title,hex:o.predicted||c.hex,surface:"",food:true,
+    out.push({src:"new",key:"n"+c.hex+o.title,type:"stain",kind:"",atm:[],opacity:"",title:o.title,hex:o.predicted||c.hex,surface:"",food:true,
       meta:["Stain for #"+c.hex,c.name,last.use,last.cone].filter(Boolean).join(" · "),note:o.note,rows,batch:Math.round(dryGrams()),
       make:()=>({type:"stain",title:o.title||"Stain recipe",name:c.name||"",hex:c.hex,predicted:o.predicted||"",body:last.body,cone:last.cone,use:last.use,rows,note:o.note||"",batchG:Math.round(dryGrams()),myNotes:"",savedAt:Date.now()})});
   }));
@@ -1548,16 +1639,16 @@ function askCard(it){
     it.note?el("p",{class:"note",text:it.note}):null,it.safety?el("p",{class:"note warn",text:it.safety}):null,
     el("details",{},el("summary",{text:"Recipe"}),recipeTable(it.rows,it.batch))),acts);
 }
+const AF=filterUI("af",{sources:true,notes:true,onChange:()=>{askLimit=30;renderAsk()}});
+$("askSide").append(AF.side);$("askChipRow").append(AF.chips);
 function renderAsk(){
   const box=$("askResults");box.textContent="";
-  const on=k=>document.querySelector(`[data-af="${k}"]`).checked;
-  const sf=$("askSurf").value,food=$("askFood").checked,have=$("askHave").checked,pic=$("askPic").checked;
-  const shown=askItems.filter(it=>on(it.src)&&(!sf||!it.surface||(SURF[sf]||[sf]).some(x=>String(it.surface).toLowerCase().includes(x.toLowerCase())))&&(!food||it.food)&&(!have||it.rows.every(x=>haveMaterial(x.name)))&&(!pic||it.photo||it.hex));
+  const S=AF.state(),order={new:0,glazy:1,mine:2};
+  const shown=sortItems(askItems.filter(it=>passes(it,S)),S,askQuery?(a,b)=>order[a.src]-order[b.src]:null);
   $("askMore").hidden=true;
+  const note=stainNote(S);if(note)box.append(note);
   if(!shown.length){box.append(el("p",{class:"note",text:askItems.length?"Nothing matches these filters.":"No matches. Try fewer words, or paste hex codes."}));return}
-  const order={new:0,glazy:1,mine:2};
-  if(askQuery)shown.sort((a,b)=>order[a.src]-order[b.src]);
-  box.append(el("p",{class:"note",text:askQuery?`${shown.length} result${shown.length===1?"":"s"}`:`Browsing ${shown.length.toLocaleString()} Glazy recipes, photos first. Search above to narrow it down.`}));
+  box.append(el("p",{class:"note",text:askQuery?`${shown.length} result${shown.length===1?"":"s"}`:(shown.length===askItems.length?`Browsing ${shown.length.toLocaleString()} Glazy recipes, photos first. Search above, or use the filters, to narrow it down.`:`${shown.length.toLocaleString()} of ${askItems.length.toLocaleString()} Glazy recipes match these filters`)}));
   shown.slice(0,askLimit).forEach(it=>box.append(askCard(it)));
   $("askMore").hidden=shown.length<=askLimit;
 }
@@ -1569,7 +1660,6 @@ function renderAskChips(P){
 }
 $("askPhoto").onclick=()=>$("askFile").click();
 $("askFile").onchange=e=>{const f=e.target.files[0];if(!f)return;hexList=[];$("hexes").value="";takeFile(f);setTimeout(()=>renderAskChips(),400)};
-document.querySelectorAll(".askfilters input,.askfilters select").forEach(x=>x.addEventListener("change",()=>{askLimit=30;renderAsk()}));
 $("askMore").onclick=()=>{askLimit+=30;renderAsk()};
 function askInstant(){ // library + notebook only, no Claude call
   const q=$("askQ").value.trim();askLimit=30;
@@ -1584,8 +1674,8 @@ $("askForm").addEventListener("submit",async e=>{
   if(!q&&!imageBlob){st.textContent="Describe a glaze, paste hex codes, or add a photo.";return}
   askQuery=q||"photo";askLimit=30;const P=parseAsk(q);
   if(P.hexes.length){hexList=P.hexes;$("hexes").value=P.hexes.join(", ");renderChips()}
-  if(P.surface)$("surface").value=P.surface;if(P.opacity)$("opacity").value=P.opacity;$("foodSafe").checked=P.food;$("askFood").checked=P.food;
-  if(P.surface)$("askSurf").value=P.surface;
+  if(P.surface)$("surface").value=P.surface;if(P.opacity)$("opacity").value=P.opacity;$("foodSafe").checked=P.food;AF.set("food",P.food);
+  if(P.surface)AF.set("surf",P.surface);if(P.opacity)AF.set("opac",P.opacity);
   if(P.cone){const o=[...$("cone").options].find(o=>o.text.toLowerCase().startsWith("cone "+P.cone));if(o)$("cone").value=o.value}
   setMode(P.stain?"stain":"glaze");$("notes").value=q;
   renderAskChips(P);
