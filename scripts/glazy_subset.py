@@ -62,9 +62,14 @@ def parse(path):
                 if m and ing is not None: ing[m.group(1)] = unq(m.group(2))
     if rec: yield rec
 
+def cone_num(p):
+    m = re.fullmatch(r"(\d+)(?:\s+(\d)/(\d))?", p)  # "6", "5 1/2"
+    if not m: raise ValueError(p)
+    return int(m.group(1)) + (int(m.group(2)) / int(m.group(3)) if m.group(2) else 0)
+
 def cone_5_6(c):
     parts = [p.strip() for p in re.split(r"\s+-\s+", c or "") if p.strip()]
-    try: nums = [float(p) for p in parts if not p.startswith("0")]
+    try: nums = [cone_num(p) for p in parts if not p.startswith("0")]
     except ValueError: return False
     return bool(nums) and len(nums) == len(parts) and min(nums) >= 5 and max(nums) <= 6
 
