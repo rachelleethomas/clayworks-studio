@@ -99,27 +99,7 @@ tr.add td:first-child{color:var(--accent)}
 .savedtools .btn{white-space:nowrap}
 #savedStatus:empty{display:none}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.discseg{max-width:340px;margin-top:-8px}
-/* Home dashboard */
-.homegrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-@media (max-width:860px){.homegrid{grid-template-columns:minmax(0,1fr)}}
-.hcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;display:grid;gap:12px;align-content:start;min-width:0}
-.hcard.wide{grid-column:span 2}
-@media (max-width:860px){.hcard.wide{grid-column:auto}}
-.hcard.accent{border-color:color-mix(in srgb,var(--accent) 55%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 30%,transparent)}
-.hcard h3{margin:0;font:400 24px/1.1 var(--display);letter-spacing:-.01em}
-.hpal{display:flex;border-radius:12px;overflow:hidden;height:64px;border:1px solid var(--line)}
-.hpal i{flex:1}
-.hthumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.hthumbs.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-.hthumb{display:grid;gap:6px;min-width:0;font-size:13px;text-align:left;background:none;border:0;padding:0;color:var(--ink);cursor:pointer}
-.hthumb .im{aspect-ratio:1;border-radius:10px;background:var(--bg);border:1px solid var(--line);overflow:hidden}
-.hthumb .im img{width:100%;height:100%;object-fit:cover;display:block}
-.hthumb span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.hstats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.hstats div{background:var(--bg);border-radius:12px;padding:10px 12px}
-.hstats b{display:block;font:400 26px/1 var(--display)}
-.hstats span{font-size:12px;color:var(--muted)}
+.mineseg{max-width:340px;margin-top:-8px}
 /* Ask */
 .askbox{display:flex;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 6px 6px 8px;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 14%,transparent)}
 .askbox input[type=search]{flex:1;min-width:0;border:0;background:none;font-size:17px;padding:10px 12px}
@@ -152,12 +132,6 @@ tr.add td:first-child{color:var(--accent)}
 .srcb.glazy{background:var(--tint-blue);color:var(--ink)}
 .srcb.mine{background:var(--tint-green);color:var(--ok)}
 @media (max-width:560px){.acard{grid-template-columns:72px minmax(0,1fr)}.acard .im{width:72px;height:72px}.acard .acts{grid-column:1/-1;justify-items:start;display:flex;gap:8px}}
-/* layout switch (profile menu, or a settings button where there is no login) */
-.laysw{display:grid;gap:8px}
-.laysw .seg{grid-template-columns:1fr 1fr;padding:3px}
-.laysw .seg button{padding:7px 8px;font-size:12.5px}
-.lay-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;color:var(--ink)}
-.lay-menu{position:absolute;right:0;top:calc(100% + 10px);width:min(280px,calc(100vw - 32px));z-index:30;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.14)}
 .gtools{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;align-items:center}
 /* shared filters (Discover + Library) */
 .fchips-wrap{display:grid;gap:8px}
@@ -339,19 +313,9 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     <p class="sub" id="sub">Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.</p>
   </div>
 
-  <div class="seg discseg" id="discSeg" role="radiogroup" aria-label="Discover" hidden>
-    <button type="button" role="radio" aria-checked="true" data-sub="recipes">Color match</button>
-    <button type="button" role="radio" aria-checked="false" data-sub="library">Glazy library</button>
-  </div>
-
-  <div class="seg discseg" id="mineSeg" role="radiogroup" aria-label="My studio" hidden>
+  <div class="seg mineseg" id="mineSeg" role="radiogroup" aria-label="My studio" hidden>
     <button type="button" role="radio" aria-checked="true" data-sub="saved">Recipes</button>
     <button type="button" role="radio" aria-checked="false" data-sub="studio">Shelves</button>
-  </div>
-
-  <!-- HOME (Studio home layout) -->
-  <div class="studio" id="view-home" role="tabpanel" hidden>
-    <div class="homegrid" id="homeGrid"></div>
   </div>
 
   <!-- ASK (Ask the studio layout) -->
@@ -364,6 +328,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
       <button class="btn" type="submit" id="askGo">Search</button>
     </form>
     <div class="chips" id="askChips"></div>
+    <p class="note" style="margin:-6px 0 0">Need batch sizes, water % or slip options? <button type="button" class="linkbtn" id="openMatch">Open the full Color match form</button></p>
     <div class="asklayout">
       <aside class="askfilters" aria-label="Filter results" id="askSide"></aside>
       <section class="askresults" aria-live="polite">
@@ -674,68 +639,40 @@ const SUBS={
   stain:"Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.",
   glaze:"Drop in an inspiration image or hex codes, pick your firing and surface, and get glaze recipes: a base that totals 100 plus colorants, with grams for your batch.",
   saved:"Recipes you've saved or written yourself, with your test notes. Change a batch size to rescale the grams.",
-  home:"What's on the go in your studio: the palette you're working on, tests waiting for notes, library picks and your shelves.",
   ask:"Browse tested Glazy recipes, search them and your notebook, or paste hex codes and add a photo to get new recipes made for you.",
   library:"Tested cone 5–6 glazes from Glazy, marked Production by their makers. Search by name, material or color, and save the ones you want to try.",
   studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first."};
 let tab="recipes";
 // Two layouts, picked from the profile menu. "studio" (B1) is the default; "ask" (A4) is the prompt-first one.
-const LAYOUTS={
-  studio:{label:"Studio home",tabs:[["home","Home"],["discover","Discover"],["mystudio","My studio"]],start:"home"},
-  ask:{label:"Discover first",tabs:[["ask","Discover"],["mystudio","My studio"]],start:"ask"}};
-// Tabs that hold two views, switched by a small segmented control under the title.
-const GROUPS={discover:{subs:["recipes","library"],seg:"discSeg",layouts:["studio"],title:null},
-  mystudio:{subs:["saved","studio"],seg:"mineSeg",layouts:["studio","ask"],title:"My studio"}};
-const groupSub={discover:"recipes",mystudio:"saved"};
-let layout="studio";
-try{const l=localStorage.getItem("cw-layout");if(LAYOUTS[l])layout=l}catch{}
-const VIEWS=["home","ask","recipes","library","saved","studio"];
-const TITLES={home:"Your studio",ask:"Discover",recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves"};
+const TABS=[["ask","Discover"],["mystudio","My studio"]],START="ask";
+// "My studio" holds two views, switched by a small segmented control under the title.
+const GROUPS={mystudio:{subs:["saved","studio"],seg:"mineSeg",title:"My studio"}};
+const groupSub={mystudio:"saved"};
+const VIEWS=["ask","recipes","library","saved","studio"];
+const TITLES={ask:"Discover",recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves"};
 function renderTabs(){
   const t=$("tabs");t.textContent="";
-  LAYOUTS[layout].tabs.forEach(([k,v])=>t.append(el("button",{role:"tab",id:"tab-"+k,type:"button","aria-selected":"false",onclick:()=>showTab(k)},v)));
+  TABS.forEach(([k,v])=>t.append(el("button",{role:"tab",id:"tab-"+k,type:"button","aria-selected":"false",onclick:()=>showTab(k)},v)));
 }
 function showTab(name){
   if(GROUPS[name])name=groupSub[name];
-  if(!VIEWS.includes(name))name=LAYOUTS[layout].start;
+  if(!VIEWS.includes(name))name=START;
   tab=name;
-  const grp=Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name)&&GROUPS[g].layouts.includes(layout));
+  const grp=Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name));
   if(grp)groupSub[grp]=name;
   VIEWS.forEach(v=>$("view-"+v).hidden=v!==name);
-  [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+(grp||name))));
+  [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+(grp||(name==="recipes"||name==="library"?"ask":name)))));
   Object.entries(GROUPS).forEach(([g,G])=>{$(G.seg).hidden=g!==grp;
     document.querySelectorAll("#"+G.seg+" button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.sub===name)))});
   $("sub").textContent=SUBS[name==="recipes"?mode:name];
   $("pageTitle").textContent=(grp&&GROUPS[grp].title)||TITLES[name];
   if(name==="library")renderGlazy();
-  if(name==="home")renderHome();
   if(name==="ask"&&!askQuery&&!askItems.length){askItems=askBrowse();renderAsk()}
   try{history.replaceState(null,"","#"+name)}catch{}
 }
-document.querySelectorAll("#discSeg button,#mineSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
-function setLayout(l){
-  if(!LAYOUTS[l])return;layout=l;try{localStorage.setItem("cw-layout",l)}catch{}
-  renderTabs();showTab(LAYOUTS[l].start);
-  document.querySelectorAll(".laysw button[data-lay]").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.lay===l)));
-}
-// Used by the profile menu (web/shim.js) and by the settings button below.
-function layoutMenu(){
-  return el("div",{class:"laysw"},el("span",{class:"lbl",text:"Layout"}),
-    el("div",{class:"seg",role:"radiogroup","aria-label":"Layout"},...Object.entries(LAYOUTS).map(([k,v])=>
-      el("button",{type:"button",role:"radio","data-lay":k,"aria-checked":String(k===layout),onclick:()=>setLayout(k)},v.label))));
-}
-function renderAcctFallback(){
-  const acct=$("acct");if(!acct||$("cwUser"))return; // the GitHub build puts the layout switch in the profile menu
-  acct.textContent="";
-  const menu=el("div",{class:"lay-menu",hidden:true},layoutMenu());
-  const btn=el("button",{type:"button",class:"lay-btn","aria-label":"Settings","aria-haspopup":"true","aria-expanded":"false"});
-  btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>';
-  const set=o=>{menu.hidden=!o;btn.setAttribute("aria-expanded",String(o))};
-  btn.onclick=e=>{e.stopPropagation();set(menu.hidden)};menu.onclick=e=>e.stopPropagation();
-  document.addEventListener("click",()=>set(false));document.addEventListener("keydown",e=>{if(e.key==="Escape")set(false)});
-  acct.append(btn,menu);
-}
-document.querySelector(".brand").onclick=e=>{e.preventDefault();showTab(LAYOUTS[layout].start);window.scrollTo({top:0,behavior:"smooth"})};
+document.querySelectorAll("#mineSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
+$("openMatch").onclick=()=>showTab("recipes");
+document.querySelector(".brand").onclick=e=>{e.preventDefault();showTab(START);window.scrollTo({top:0,behavior:"smooth"})};
 $("goStudio").onclick=()=>showTab("studio");
 
 /* ---------- Recipes ---------- */
@@ -1312,40 +1249,6 @@ $("gq").addEventListener("input",()=>{clearTimeout(gTimer);gTimer=setTimeout(()=
 $("gMore").onclick=()=>{gShown+=30;renderGlazy()};
 
 
-/* ---------- Home (Studio home layout) ---------- */
-function thumbFor(r,onclick){
-  const im=el("div",{class:"im"});
-  if(r.photo)im.append(photoEl(r.photo,r.name||r.title,""));else im.style.background="#"+(normHex(r.predicted)||normHex(r.hex)||"D8DAD5");
-  return el("button",{type:"button",class:"hthumb",onclick},im,el("span",{text:r.name||r.title}));
-}
-function renderHome(){
-  const g=$("homeGrid");if(!g)return;g.textContent="";
-  const pal=hexList.length?hexList:[];
-  const palBar=el("div",{class:"hpal"});pal.forEach(h=>{const i=el("i");i.style.background="#"+h;palBar.append(i)});
-  g.append(el("section",{class:"hcard wide accent"},
-    el("div",{class:"links",style:"justify-content:space-between"},el("span",{class:"lbl",text:"Your palette"}),el("span",{class:"lbl",text:pal.length?pal.length+" colors":"no colors yet"})),
-    el("h3",{text:pal.length?(mode==="glaze"?"Glaze":"Stain")+" · "+$("cone").value+" · "+$("body").value:"Start from a color or a photo"}),
-    pal.length?palBar:el("p",{class:"note",text:"Paste hex codes or drop an inspiration photo in Discover, and it shows up here."}),
-    el("div",{class:"links"},el("button",{type:"button",class:"btn",text:pal.length?"Find recipes":"Start in Discover",onclick:()=>showTab("recipes")}),
-      pal.length?el("button",{type:"button",class:"ghost",text:"Library matches",onclick:()=>{$("gq").value=pal[0];showTab("library")}}):null)));
-  const waiting=recipes.filter(r=>!String(r.myNotes||"").trim());
-  g.append(el("section",{class:"hcard"},el("span",{class:"lbl",text:"Waiting for your notes"}),
-    el("h3",{text:waiting.length?waiting.length+(waiting.length===1?" recipe":" recipes")+" without test notes":recipes.length?"All saved recipes have notes":"No saved recipes yet"}),
-    waiting.length?el("div",{class:"hthumbs"},...waiting.slice(0,4).map(r=>thumbFor(r,()=>{$("savedQ").value=r.title;showTab("saved");renderSaved()}))):null,
-    el("div",{class:"links"},el("button",{type:"button",class:"ghost",text:"Open my recipes",onclick:()=>showTab("saved")}))));
-  const picks=glazy().recipes.length?glazyCandidates({surface:$("surface").value,opacity:$("opacity").value,foodSafe:$("foodSafe").checked,hexes:pal},6):[];
-  const withPic=[...picks.filter(r=>r.photo||r.hex),...picks.filter(r=>!(r.photo||r.hex))].slice(0,3);
-  g.append(el("section",{class:"hcard wide"},el("span",{class:"lbl",text:"From the Glazy library for your palette"}),
-    el("h3",{text:withPic.length?"Tested starting points":"Library not loaded"}),
-    withPic.length?el("div",{class:"hthumbs three"},...withPic.map(r=>thumbFor(r,()=>{$("gq").value=r.name;showTab("library")}))):null,
-    el("div",{class:"links"},el("button",{type:"button",class:"ghost",text:"Browse the library",onclick:()=>{$("gq").value="";showTab("library")}}))));
-  const counts=Object.entries(KINDS).map(([k,v])=>[v,studioOf(k).length]).filter(([,n])=>n);
-  g.append(el("section",{class:"hcard"},el("span",{class:"lbl",text:"Shelves"}),
-    el("h3",{text:studio.length?studio.length+(studio.length===1?" item":" items")+" on hand":"Shelves are empty"}),
-    counts.length?el("div",{class:"hstats"},...counts.slice(0,4).map(([v,n])=>el("div",{},el("b",{text:String(n)}),el("span",{text:v})))):null,
-    el("div",{class:"links"},el("button",{type:"button",class:"ghost",text:studio.length?"Open shelves":"Add what you have",onclick:()=>showTab("studio")}))));
-}
-
 /* ---------- Shared filters: Discover and the Glazy library ---------- */
 const FAMS=[["clear","Clear",""],["white","White","#F2F0EA"],["gray","Gray","#9A9A9A"],["black","Black","#222222"],["brown","Brown","#7A5634"],["red","Red","#B23A3A"],["orange","Orange","#E2722E"],
   ["yellow","Yellow","#E8C44C"],["green","Green","#3D7A63"],["teal","Teal","#2C8C8C"],["blue","Blue","#2C4FA8"],["purple","Purple","#6A3A82"],["pink","Pink","#D9868C"]];
@@ -1623,15 +1526,15 @@ $("ownPanel").addEventListener("submit",async e=>{
   if(id){msg.textContent="";["ownName","ownHex","ownRows"].forEach(i=>$(i).value="");$("ownPanel").hidden=true;savedMsg("Saved “"+title+"”.")}
 });
 
-function renderAll(){updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();if(tab==="home")renderHome()}
+function renderAll(){updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved()}
 
 /* ---------- boot ---------- */
 try{const s=JSON.parse(localStorage.getItem("stainlab-last")||"null");if(s?.colors?.length)last=s}catch{}
 $("hexes").value=last.example?"ACB0AB, BAABAB, 48333B":last.colors.map(c=>c.hex).join(", ");parseHexes();
 try{const g=JSON.parse(localStorage.getItem("stainlab-last-glaze")||"null");if(g?.colors?.length)lastGlaze=g}catch{}
 try{if(localStorage.getItem("stainlab-mode")==="glaze")setMode("glaze")}catch{}
-renderTabs();renderAcctFallback();
-showTab((location.hash||"").slice(1)||LAYOUTS[layout].start);
+renderTabs();
+showTab((location.hash||"").slice(1)||START);
 renderAll();
 initStore();
 (()=>{let arr=[];try{arr=JSON.parse(document.getElementById("catalogData").textContent)}catch{}
