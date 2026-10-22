@@ -171,7 +171,11 @@ document.getElementById("cwForm").addEventListener("submit", async e => {
 (async () => {
   // Local dev: the mock worker hands out a session, so no login screen. Add ?login to the URL to see it anyway.
   if (!CW.token && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(API_BASE) && !/[?&]login\b/.test(location.search)) {
-    try { const res = await cwApi("/dev-login"); CW.token = res.token; try { localStorage.setItem("cw-token", res.token); } catch {} } catch {}
+    try { const res = await cwApi("/dev-login"); CW.token = res.token; try { localStorage.setItem("cw-token", res.token); } catch {} }
+    catch { // test server not running: still no login locally; shelves stay in this browser, recipe generation is off
+      cwHideLogin(); const st = document.getElementById("status"); if (st) st.textContent = "Local test server isn't running, so recipe generation is off. Start it with: bash scripts/dev.sh";
+      return;
+    }
   }
   if (!CW.token) { cwShowLogin(); return; }
   try { CW.me = await cwApi("/me"); cwRenderUser(); cwPullStudio(); cwCountIdeas(); } catch { if (!CW.token) return; cwShowLogin("Couldn't reach the server. Check your connection and log in."); }

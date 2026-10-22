@@ -1,5 +1,5 @@
 """Build the GitHub Pages version of Clayworks Studio from the artifact page.
-usage: python3 build.py <API_BASE>   → writes docs/index.html
+usage: python3 build.py <API_BASE> [OUT_DIR]   → writes OUT_DIR/index.html (default docs/; local dev uses .local-site/)
 """
 import os, sys
 D = os.path.dirname(os.path.abspath(__file__))
@@ -90,7 +90,8 @@ s = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
      '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
      '<style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>\n'
      + s[:j] + "\n</head>\n<body>\n" + s[j:] + "\n</body>\n</html>\n")
-os.makedirs(os.path.join(D, "..", "docs"), exist_ok=True)
-open(os.path.join(D, "..", "docs", "index.html"), "w").write(s)
-open(os.path.join(D, "..", "docs", ".nojekyll"), "w").write("")
-print("wrote docs/index.html", len(s), "bytes, API_BASE =", api)
+out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(D, "..", "docs")
+os.makedirs(out, exist_ok=True)
+open(os.path.join(out, "index.html"), "w").write(s)
+open(os.path.join(out, ".nojekyll"), "w").write("")
+print("wrote", os.path.join(os.path.relpath(out, os.path.join(D, "..")), "index.html"), len(s), "bytes, API_BASE =", api)
