@@ -699,9 +699,12 @@ async function cwSample(input, opts = {}) {
 }
 cwSample.json = async (input, opts = {}) => {
   const ask = (typeof input === "string" ? input : input.map(m => m.content).join("\n\n")) + "\n\nRespond with only the JSON, no other text.";
-  const { text } = await cwSample(ask, opts);
+  const { text, truncated } = await cwSample(ask, opts);
   const a = text.indexOf("{"), b = text.lastIndexOf("}");
-  try { return JSON.parse(text.slice(a, b + 1)); } catch { throw { code: "bad_json", message: "Claude's answer couldn't be read. Try again." }; }
+  try { return JSON.parse(text.slice(a, b + 1)); } catch {
+    throw truncated ? { code: "truncated", message: "Claude's answer ran too long and got cut off. Try fewer colors at once (3 or 4), then Get recipes again." }
+                    : { code: "bad_json", message: "Claude's answer couldn't be read. Try again." };
+  }
 };
 cwSample.limits = async () => ({ images: true });
 window.claude = { use: async name => (name === "sample" ? cwSample : null) };

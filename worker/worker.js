@@ -13,7 +13,7 @@
 // cap = weekly dollar limit; null = no limit.
 
 const MODELS = {
-  recipe:   { id: "claude-sonnet-5-5", inPerM: 2.0,  outPerM: 10.0, maxTokens: 4000 },
+  recipe:   { id: "claude-sonnet-5-5", inPerM: 2.0,  outPerM: 10.0, maxTokens: 8000 },
   default:  { id: "claude-haiku-5-5",  inPerM: 0.10, outPerM: 0.50, maxTokens: 2000 },
 };
 const SESSION_DAYS = 60;
