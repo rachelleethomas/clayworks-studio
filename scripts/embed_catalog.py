@@ -14,6 +14,13 @@ if os.path.exists(ipath):
         if v and v.get("img"): it["img"] = v["img"]; hit += 1
         if v and v.get("ph"): it["ph"] = v["ph"]
     print("attached photos to", hit, "products")
+ppath = os.path.join(R, "catalog", "catalog-prices.json")  # scripts/catalog_prices.py: per-pound price, smallest bag
+if os.path.exists(ppath):
+    prices = json.load(open(ppath)); hit = 0
+    for it in cat:
+        v = prices.get(f'{it.get("url")}|{it.get("code") or ""}|{it.get("name")}')
+        if v: it["perLb"] = v["perLb"]; it["size"] = v["size"]; it["sizes"] = v.get("sizes") or [[float(v["size"].split()[0]), v["price"]]]; hit += 1
+    print("attached prices to", hit, "products")
 data = json.dumps(cat, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
 new, n = re.subn(r'(<script type="application/json" id="catalogData">)(.*?)(</script>)', lambda m: m.group(1) + data + m.group(3), s, count=1, flags=re.S)
 assert n == 1, "catalogData block not found"
