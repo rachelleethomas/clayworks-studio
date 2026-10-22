@@ -1,0 +1,111 @@
+// Each story renders the same markup and classes the app builds, so styles come straight from app/clayworks.html.
+export default { title: "Components" };
+
+const row = (...items) => `<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">${items.join("")}</div>`;
+const stack = (...items) => `<div style="display:grid;gap:22px;max-width:960px">${items.join("")}</div>`;
+const label = (t) => `<span class="lbl">${t}</span>`;
+const sw = (hex) => `background:#${hex}`;
+const table = (rows, batch) => `<table>${rows.map(([n, p, cls]) =>
+  `<tr class="${cls || ""}"><td>${cls === "add" ? "+ " : ""}${n}</td><td class="n">${p}%</td><td class="n">${batch ? Math.round(batch * p / 100) + " g" : ""}</td></tr>`).join("")}</table>`;
+const baseRows = [["Custer Feldspar *", 20], ["EP Kaolin *", 20], ["Ferro Frit 3134 *", 20], ["Silica *", 20], ["Wollastonite *", 20], ["Base total", 100, "sub"], ["Yellow Ochre *", 8, "add"]];
+
+export const Buttons = {
+  args: { label: "Get recipes" },
+  render: ({ label: l }) => stack(
+    label("Primary · .btn"), row(`<button class="btn" type="button">${l}</button>`, `<button class="btn" type="button" disabled>Working…</button>`),
+    label("Secondary · .ghost and .ghost.sm"), row(`<button class="ghost" type="button">Search &amp; add</button>`, `<button class="ghost sm" type="button">Save</button>`, `<button class="ghost sm" type="button">Copy</button>`),
+    label("Text · .linkbtn"), row(`<button class="linkbtn" type="button">Edit on Shelves</button>`, `<button class="linkbtn" type="button">Delete</button>`)),
+};
+
+export const TabsAndSwitches = () => stack(
+  label("Top-level tabs · .topbar .tabs"),
+  `<header class="topbar" style="position:static"><a class="brand" href="#"><span class="mark" aria-hidden="true"></span><span class="brand-name">Clayworks Studio</span></a>
+    <div class="tabs" role="tablist"><button role="tab" aria-selected="true">Discover</button><button role="tab" aria-selected="false">My Studio</button><button role="tab" aria-selected="false">My Work</button></div>
+    <div class="acct"><div class="cw-user"><button class="cw-avatar" type="button" aria-label="Account">R</button></div></div></header>`,
+  label("Segmented switch · .seg"),
+  `<div class="seg dmode" role="radiogroup" style="max-width:320px"><button role="radio" aria-checked="true">Search</button><button role="radio" aria-checked="false">Match colors</button></div>`,
+  `<div class="seg" role="radiogroup" style="max-width:420px"><button role="radio" aria-checked="true">Glaze</button><button role="radio" aria-checked="false">Stain in clay or slip</button></div>`,
+  label("Filter pills · .filters (My Studio)"),
+  `<div class="filters"><button aria-pressed="true">All<b>12</b></button><button aria-pressed="false">Stains<b>5</b></button><button aria-pressed="false">Glazes<b>4</b></button><button aria-pressed="false">Chemicals<b>3</b></button></div>`);
+TabsAndSwitches.storyName = "Tabs and switches";
+
+export const ChipsAndBadges = () => stack(
+  label("Color chips · .fchip (filters)"),
+  `<div class="fchips">${[["Clear", ""], ["White", "F2F0EA"], ["Gray", "9A9A9A"], ["Blue", "2C4FA8"], ["Purple", "6A3A82"], ["Pink", "D9868C"]].map(([n, c], i) =>
+    `<button class="fchip" aria-pressed="${i === 3}">${c ? `<i style="${sw(c)}"></i>` : `<i class="clear"></i>`}${n}</button>`).join("")}</div>`,
+  label("Active filter · .fx with Clear all"),
+  row(`<button class="fx">Blue<b>×</b></button>`, `<button class="fx">Oxidation<b>×</b></button>`, `<button class="fclear">Clear all</button>`),
+  label("Hex chips · .chip"),
+  `<div class="chips">${["ACB0AB", "BAABAB", "48333B"].map((h) => `<span class="chip"><i style="${sw(h)}"></i>${h}<button type="button" aria-label="Remove ${h}">×</button></span>`).join("")}</div>`,
+  label("Source badges · .srcb"),
+  row(`<span class="srcb new">New</span>`, `<span class="srcb glazy">Glazy</span>`, `<span class="srcb mine">Mine</span>`),
+  label("Status pills · .pill"),
+  row(`<span class="pill have">On hand</span>`, `<span class="pill buy">Needs stain</span>`));
+ChipsAndBadges.storyName = "Chips and badges";
+
+export const Inputs = () => stack(
+  label("Search box · .askbox"),
+  `<form class="askbox" onsubmit="return false"><label class="sr-only" for="sb-q">Search</label><input type="search" id="sb-q" placeholder="Search Glazy and your recipes: celadon, satin black, or a hex like 70626E"><button class="btn" type="submit">Search</button></form>`,
+  `<div class="row" style="max-width:520px"><div class="field"><label for="sb-cone">Firing</label><select id="sb-cone"><option>Cone 6 oxidation</option></select></div><div class="field"><label for="sb-batch">Batch (g dry)</label><input type="number" id="sb-batch" value="1000"></div></div>`,
+  `<div class="field" style="max-width:520px"><label for="sb-hex">Hex codes</label><textarea id="sb-hex">ACB0AB, BAABAB, 48333B</textarea></div>`,
+  `<label class="check"><input type="checkbox" checked> Food-safe (for mugs, bowls, liners)</label>`,
+  `<div class="drop" style="max-width:520px">Drop, paste, or tap to take a photo. A palette, bark, or a pot you love all work.</div>`);
+
+export const DiscoverResult = () => `<div id="askResults" style="max-width:980px">
+  <article class="acard new"><div class="im" style="${sw("70626E")}"></div><div class="body"><span class="srcb new">New</span><h4>Bark satin</h4><div class="meta">Glaze for #70626E · adapted from Glazy #3033</div><p class="note">Satin gray with a plum cast. Add 0.5% red iron oxide if it reads too cool.</p><p class="note warn">Test for leaching before using on food surfaces.</p><details><summary>Recipe</summary>${table(baseRows, 1000)}</details></div><div class="acts"><button class="ghost sm">Save</button></div></article>
+  <article class="acard glazy"><div class="im" style="background:repeating-linear-gradient(45deg,#E6E2DB 0 8px,#EFEBE5 8px 16px)"></div><div class="body"><span class="srcb glazy">Glazy</span><h4>AC Semi-Matte Dark Grey</h4><div class="meta">Glazy #3030 · Alisa Liskin Clausen · cone 6 · Semi-matte</div><details><summary>Recipe</summary>${table(baseRows, 1000)}</details></div><div class="acts"><button class="ghost sm">Save</button><a class="note" href="#">View on Glazy</a></div></article>
+</div>`;
+DiscoverResult.storyName = "Discover result card";
+
+export const RecipeCard = () => `<div class="savedgrid" style="max-width:700px">
+  <article class="rcard"><div class="glaze" style="${sw("D8DAD5")}"></div><div class="in"><input type="text" class="ttl" value="amber celadon" aria-label="Recipe name"><div class="meta">Glaze · Cone 6 · Satin · saved Oct 20, 2026</div><p class="note">From Glazy #9199 by chance taylor · <a href="#">view</a></p><label class="batch">Batch<input type="number" value="1000">g dry glaze</label>${table(baseRows, 1000)}<textarea placeholder="Test notes: how it fired, what to change next…" aria-label="Test notes"></textarea><div class="links"><button class="ghost sm">Copy</button><button class="linkbtn">Delete</button></div></div></article>
+  <article class="rcard"><div class="gsw" style="${sw("726A85")}"><span>≈ #726A85 · 2021</span></div><div class="in"><h4>Kittens Clear Purple/Gray</h4><div class="meta">Glazy #10886 · Meghan Yarnell · cone 6 · Glossy · Translucent</div>${table([["Silica *", 32.8], ["Nepheline Syenite *", 24], ["Gerstley Borate *", 16.8], ["Base total", 100, "sub"], ["Cobalt Carbonate *", .25, "add"]], 0)}<div class="links"><button class="ghost sm">Save</button><a href="#">View on Glazy</a></div></div></article>
+</div>`;
+RecipeCard.storyName = "Recipe card (My Studio, Library)";
+
+export const TestTile = () => `<div class="tiles" style="max-width:640px">
+  <article class="tile"><div class="glaze" style="${sw("ACB0AB")}"><span>target</span></div><div class="in"><h4>Clean sage</h4><span class="pill buy">Needs stain</span>${table([["6500 Sage *", 4], ["6020 Manganese Alumina Pink *", .5]], 3629)}<p class="note">6020 warms the green toward bark gray.</p><div class="links"><button class="ghost sm">Save</button><a href="#">Fired results on Glazy</a><button class="ghost sm">Copy</button></div></div></article>
+  <article class="tile"><div class="glaze" style="${sw("48333B")}"><span>expected #48333B</span></div><div class="in"><h4>Iron plum</h4><span class="pill have">On hand</span>${table([["6110 Violet Iron", 7], ["6600 Best Black", 2]], 3629)}<div class="links"><button class="ghost sm">Save</button></div></div></article>
+</div>`;
+TestTile.storyName = "Test tile (Color match)";
+
+export const ShelfItem = () => `<div class="items" style="max-width:720px">
+  <div class="item"><span class="sw" style="${sw("1E1E20")}"></span><div><h4>6600 Best Black</h4><div class="meta">Mason</div><a class="note" href="#">View at Sheffield Pottery</a><div class="note">body OK</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div>
+  <div class="item"><span class="sw jar" style="${sw("5C6F86")}"></span><div><h4>PC-20 Blue Rutile</h4><div class="meta">Amaco · Potter's Choice · Cone 5–6</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div>
+  <div class="item"><span class="sw bag" style="${sw("E6E4DE")}"></span><div><h4>Frit 3134</h4><div class="meta">Ferro</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div>
+</div>`;
+
+export const FilterBar = () => `<div style="max-width:1100px">
+  <div class="fbar">
+    <div class="fddw"><button class="fdd" type="button">Make ▾</button></div>
+    <div class="fddw"><button class="fdd set" type="button" aria-expanded="true">Color · 1 ▾</button>
+      <div class="fpop" role="dialog" aria-label="Color"><div class="fchips">${[["White", "F2F0EA"], ["Gray", "9A9A9A"], ["Blue", "2C4FA8"], ["Teal", "2C8C8C"], ["Purple", "6A3A82"]].map(([n, c]) => `<button class="fchip" aria-pressed="${n === "Blue"}"><i style="${sw(c)}"></i>${n}</button>`).join("")}</div></div></div>
+    <div class="fddw"><button class="fdd" type="button">Surface ▾</button></div>
+    <div class="fddw"><button class="fdd" type="button">Opacity ▾</button></div>
+    <div class="fddw"><button class="fdd" type="button">Style ▾</button></div>
+    <div class="fddw"><button class="fdd" type="button">Colorant ▾</button></div>
+    <div class="fddw"><button class="fdd" type="button">More ▾</button></div>
+    <div class="factive"><span style="width:1px;height:22px;background:var(--line);margin:0 4px"></span><button class="fx">Blue<b>×</b></button><button class="fx">Oxidation<b>×</b></button><button class="fclear">Clear all</button></div>
+  </div>
+  <div class="fcount" style="margin-top:10px"><p class="note">471 of 3,309 Glazy recipes</p><label class="fsort"><span class="lbl">Sort</span><select><option>Best match</option></select></label></div>
+  <div style="height:220px"></div>
+</div>`;
+FilterBar.storyName = "Filter bar (open Color dropdown)";
+
+export const AccountMenu = () => `<div class="cw-user" style="display:inline-block;margin-left:300px">
+  <button class="cw-avatar" type="button" aria-expanded="true">G</button>
+  <div class="cw-menu" style="position:absolute"><div class="who"><span class="cw-avatar" aria-hidden="true">G</span><div><b>grace</b><small>Signed in</small></div></div>
+    <div class="cw-spend"><span class="lbl">Spent this week</span><div class="amt">$0.42<span>of $3.00</span></div><span class="cw-meter"><i style="width:14%"></i></span><span class="note">Resets Mon, Oct 26.</span></div>
+    <button class="ghost out" type="button">Send an idea</button><button class="ghost out" type="button">Log out</button></div></div>`;
+AccountMenu.storyName = "Account menu";
+
+export const IdeaDialog = () => `<dialog open class="cw-dialog" style="position:static;margin:0"><div class="cw-dhead"><h2>Send Rachel an idea</h2><button class="linkbtn">Close</button></div>
+  <div class="cw-dbody"><form class="cw-ideaform" onsubmit="return false"><label class="lbl" for="sb-idea">Your idea</label><textarea id="sb-idea" rows="5" placeholder="What would make Clayworks better?"></textarea><p class="note">Sent with your name and the page you're on (Discover).</p><div class="links"><button class="btn">Send</button><button class="linkbtn" type="button">Cancel</button></div></form></div></dialog>`;
+IdeaDialog.storyName = "Dialog (Send an idea)";
+
+export const EmptyAndNotices = () => stack(
+  `<div class="empty"><p style="margin:0">Your studio is empty. Tap Search &amp; add to find stains, glazes, clay bodies and chemicals.</p><button class="ghost" type="button">Add what I have</button></div>`,
+  `<div class="banner">Saving to this browser only. Log in to keep your studio on your account.</div>`,
+  `<p class="fnote">The Glazy library is glazes only. Stain-in-clay recipes come from your notebook and from new recipes.</p>`,
+  `<div class="shop"><h3>Shopping list</h3><p class="note">Stains not in your studio, for the first option of each color, plus about 25% for test tiles.</p><table><tr><td>6500 Sage</td><td class="n">145 g</td><td class="n">0.5 lb</td></tr><tr><td>6020 Manganese Alumina Pink</td><td class="n">18 g</td><td class="n">0.25 lb</td></tr></table></div>`);
+EmptyAndNotices.storyName = "Empty states and notices";

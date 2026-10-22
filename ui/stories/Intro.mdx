@@ -1,0 +1,13 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Intro" />
+
+# Clayworks component library
+
+Every component here uses the app's real CSS. `npm run storybook` copies the styles from `app/clayworks.html` (and the account/login styles from `web/build.py`) into `ui/styles/clayworks.css` before starting, so the app stays the single source. Edit styles in the app, not in `ui/`.
+
+- **Foundations**: color tokens (live, with a light/dark switch in the toolbar), type, radius and elevation.
+- **Components**: buttons, tabs, switches, chips, inputs, cards, the filter bar, menus and dialogs, rendered with the same markup the app builds.
+- **Explorations / Tines-inspired**: palette, font and button directions to pick from. Nothing there is in the app yet.
+
+Run it locally from `ui/`: `npm install` once, then `npm run storybook`. `npm run build-storybook` writes a static copy to `docs/storybook/`, which GitHub Pages serves next to the app.

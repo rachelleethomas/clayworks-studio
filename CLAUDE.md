@@ -18,6 +18,12 @@ Rachel prefers short prompts and direct execution: make the change, verify it, r
 - Header: `.topbar` (wordmark · tabs · `#acct`) + `.intro` (`#pageTitle` follows the tab). In the GitHub build, `build.py` fills `#acct` with `#cwUser`, which the shim renders as an initial avatar + account menu (spend, cap meter, reset, Log out); the artifact shows no avatar.
 - Make feature changes in `app/clayworks.html`, then rebuild `docs/`. Anything only for the GitHub version goes in `web/shim.js` or `web/build.py` string replacements (they assert each target string exists exactly once, so update them if you change those lines).
 
+## Storybook: `ui/`
+- Storybook 8.6 (html-vite) documents the components with the app's real CSS. `scripts/extract_css.py` copies the `<style>` from `app/clayworks.html` plus the account/login CSS from `web/build.py` into `ui/styles/clayworks.css` (generated, don't edit) before every run, so the app stays the single source of styles.
+- Stories: `ui/stories/Foundations` (live tokens, light/dark toolbar switch), `Components` (same markup/classes the app builds: buttons, tabs, chips, inputs, cards, filter bar, account menu, dialog, empty states), `Explorations/Tines-inspired` (glaze-named 11-ramp OKLCH palette, a color per section, 4 Google-font pairings + pixel accent, Tines-style buttons; not in the app yet).
+- Run: `cd ui && npm install && npm run storybook` (or the `storybook` launch config, port 6006). `npm run build-storybook` → `docs/storybook/`, served at https://rachelleethomas.github.io/clayworks-studio/storybook/.
+- Tines fonts (Roobert, Reckless, Pangea) are commercial; only use them with a license.
+
 ## Backend: `worker/worker.js` (Cloudflare Worker)
 - `POST /login {user,password}` → HMAC-signed session token (60 days). Passwords are PBKDF2-SHA256 (100k iters) with per-user salt, stored in the `USERS` secret: `{"rachel":{"salt","hash","cap":null},"grace":{"salt","hash","cap":3}}`.
 - `POST /claude {prompt, images[], task}` → Anthropic Messages API. `task:"recipe"` → `claude-sonnet-5-5` ($2/$10 per M tokens); everything else → `claude-haiku-5-5` ($0.10/$0.50). Cost computed from `usage` and added to KV `spend:<user>:<week-start>`; weeks reset Monday 00:00 America/Chicago. Over cap → 429 `cap_reached` (checked before the call, so the last call can overshoot by a few cents).
