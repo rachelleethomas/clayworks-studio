@@ -38,7 +38,7 @@ login = '''<div class="cw-login" id="cwLogin" hidden>
 css = '''
 .cw-user{position:relative}
 .cw-avatar{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;
-  font:600 15px var(--body);color:var(--ink);background:var(--tint-purple);transition:box-shadow .15s}
+  font:600 15px var(--body);color:var(--tint-purple-ink);background:var(--tint-purple);border:1px solid var(--tint-purple-line);transition:box-shadow .15s}
 .cw-avatar:hover,.cw-avatar[aria-expanded="true"]{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
 .cw-menu{position:absolute;right:0;top:calc(100% + 10px);width:min(280px,calc(100vw - 32px));z-index:30;display:grid;gap:14px;padding:16px;
   background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.14)}
