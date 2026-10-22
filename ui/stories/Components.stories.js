@@ -200,3 +200,20 @@ export const IdeasInbox = () => `<dialog open class="cw-dialog" style="position:
   <div class="cw-dbody"><div class="cw-idea"><div class="cw-ideameta"><b>grace</b>Oct 21 · Discover</div><p>Could the shopping list say which store has each stain?</p><button class="ghost sm" type="button">Mark done</button></div>
   <div class="cw-idea done"><div class="cw-ideameta"><b>hannah</b>Oct 20 · My Studio</div><p>Dark mode please!</p></div></div></dialog>`;
 IdeasInbox.storyName = "Ideas inbox (admin)";
+
+export const RecipeSummaryCards = () => `<div class="savedgrid" style="max-width:900px">${[
+  ["D8DAD5", "Amber celadon", "Glaze · Cone 6 · Satin", "testing", "Testing", true, "Pooled amber in the throwing lines, too thin on rims."],
+  ["6E6068", "Satin plum", "Glaze · Cone 6 · Satin, opaque", "keeper", "Keeper", false, "Great on porcelain, 3 pieces."],
+  ["A9AEA6", "Sage body", "Stain in clay body · Cone 6", "idea", "Idea", false, ""]].map(([c, t, m, k, l, ok, n]) =>
+  `<article class="rcard rsum" tabindex="0" role="link"><div class="glaze" style="${sw(c)}"></div><div class="in"><div class="rhead"><h4>${t}</h4><span class="rst ${k}">${l}</span></div><div class="meta">${m}</div><div class="rshelf ${ok ? "ok" : "miss"}">${ok ? "✓ All on your shelves" : "○ Missing 1: Frit 3134"}</div><p class="rnote">${n ? "“" + n + "”" : "No test notes yet"}</p></div></article>`).join("")}</div>`;
+RecipeSummaryCards.storyName = "Recipe summary cards (tap to open)";
+
+export const RecipePage = () => `<div id="recipePage" style="max-width:1100px">
+  <div class="rp-head"><div class="rp-sw" style="${sw("D8DAD5")}"></div><div class="rp-id"><button class="linkbtn rp-back" type="button">‹ My Studio · Recipes</button><input type="text" class="rp-title" value="Amber celadon"><div class="meta">Glaze · Cone 6 · Satin · saved Oct 20, 2026 · From Glazy #9199 by chance taylor · <a href="#" target="_blank" rel="noopener">view</a></div></div>
+    <div class="rp-acts"><div class="seg rp-status" role="radiogroup"><button role="radio" aria-checked="false">Idea</button><button role="radio" aria-checked="true">Testing</button><button role="radio" aria-checked="false">Keeper</button></div><div class="links"><button class="ghost sm">Copy</button><button class="ghost sm">Print</button><button class="linkbtn">Delete</button></div></div></div>
+  <div class="rp-nav" role="tablist"><button role="tab" aria-selected="true">Recipe</button>${["Tests & versions", "Swap", "Lab", "Cost & availability", "Used in"].map((t) => `<button role="tab" aria-selected="false" disabled>${t}<small>soon</small></button>`).join("")}</div>
+  <div class="rp-body"><section class="rp-main"><div class="rp-batch"><label class="batch">Batch<input type="number" value="1000">g dry glaze</label><div class="rp-scale"><span class="lbl">Scale</span><button class="fdd">100 g</button><button class="fdd">300 g</button><button class="fdd">1 kg</button><button class="fdd">5 kg</button></div></div>
+    <table class="rp-table"><tr class="hd"><th>Material</th><th class="n">%</th><th class="n">Grams</th><th class="n">Shelf</th></tr>${[["Custer Feldspar", 20, 1], ["EP Kaolin", 20, 1], ["Ferro Frit 3134", 20, 0], ["Silica", 20, 1], ["Wollastonite", 20, 1]].map(([n, p, h]) => `<tr><td>${n}</td><td class="n">${p}%</td><td class="n">${p * 10} g</td><td class="n ${h ? "ok" : "miss"}">${h ? "✓" : "○ need"}</td></tr>`).join("")}<tr class="sub"><td>Base total</td><td class="n">100%</td><td class="n">1000 g</td><td></td></tr><tr class="add"><td>+ Yellow Ochre</td><td class="n">8%</td><td class="n">80 g</td><td class="n ok">✓</td></tr></table></section>
+  <aside class="rp-side"><div class="rp-box"><span class="lbl">On your shelves</span><p class="rshelf miss">○ Missing 1: Ferro Frit 3134</p><button class="linkbtn">Find them in Search &amp; add</button></div><div class="rp-box"><label class="lbl">Test notes</label><textarea rows="5">Pooled amber in the throwing lines, too thin on rims. Try 2 coats.</textarea></div></aside></div>
+</div>`;
+RecipePage.storyName = "Recipe page";

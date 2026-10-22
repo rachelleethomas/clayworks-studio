@@ -339,7 +339,58 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .rcard .batch{display:flex;gap:10px;align-items:center;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
 .rcard .batch input{width:110px;padding:5px 12px;font:500 15px var(--body);letter-spacing:0}
 .rcard textarea{font:400 var(--in-fs)/1.45 var(--body);min-height:64px;border-color:var(--purple-100)}
-.savedgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;align-items:start}
+.savedgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;align-items:start}
+/* recipe summary card (My Studio > Recipes): tap to open the recipe page */
+.rsum{cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .12s}
+.rsum:hover{border-color:var(--purple-300);box-shadow:0 6px 20px rgba(84,47,156,.10)}
+.rsum:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.rsum .glaze{height:72px}
+.rsum .in{gap:6px}
+.rhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.rst{flex:none;border-radius:999px;padding:3px 9px;font:400 10.5px var(--pixel);letter-spacing:.08em;text-transform:uppercase}
+.rst.idea{background:var(--tint-purple);color:var(--tint-purple-ink)}
+.rst.testing{background:var(--tint-yellow);color:var(--tint-yellow-ink)}
+.rst.keeper{background:var(--tint-green);color:var(--tint-green-ink)}
+.rshelf{font:500 13px var(--body);margin:0}
+.rshelf.ok{color:var(--ok)}
+.rshelf.miss{color:var(--warn)}
+.rnote{margin:0;font-size:13px;color:var(--muted);font-style:italic;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* recipe page */
+#view-recipe{grid-template-columns:minmax(0,1fr)}
+#recipePage{display:grid;gap:18px;min-width:0}
+.rp-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center}
+.rp-sw{width:84px;height:84px;border-radius:16px;border:1px solid var(--line)}
+img.rp-sw{object-fit:cover}
+.rp-id{display:grid;gap:4px;min-width:0}
+.rp-back{justify-self:start;font-size:13px}
+input.rp-title{font:300 clamp(30px,4.5vw,44px)/1.1 var(--display);letter-spacing:-.025em;border:1px solid transparent;border-radius:10px;background:none;padding:2px 8px;margin-left:-9px;width:100%;color:var(--ink)}
+input.rp-title:hover{border-color:var(--purple-100)}
+input.rp-title:focus{border-color:var(--purple-300);background:var(--purple-50);box-shadow:none}
+.rp-acts{display:grid;gap:10px;justify-items:end}
+.rp-status{grid-template-columns:repeat(3,auto)}
+.rp-nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--line);margin-top:-6px}
+.rp-nav::-webkit-scrollbar{display:none}
+.rp-nav button{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:12px 14px;font:600 14px var(--body);color:var(--muted);border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap;cursor:pointer}
+.rp-nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.rp-nav button[disabled]{cursor:default;opacity:.75}
+.rp-nav small{font:400 10px var(--pixel);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--wash);border-radius:999px;padding:2px 7px}
+.rp-body{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:start}
+.rp-main,.rp-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:grid;gap:12px;box-shadow:var(--shadow-card)}
+.rp-side{display:grid;gap:12px}
+.rp-batch{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;justify-content:space-between}
+.rp-batch .batch{display:flex;gap:10px;align-items:center;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.rp-batch .batch input{width:120px;padding:6px 12px;font:500 16px var(--body);letter-spacing:0}
+.rp-scale{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.rp-table{font-size:14px}
+.rp-table th{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:4px 0 8px;border-bottom:1px solid var(--purple-200)}
+.rp-table th.n{text-align:right}
+.rp-table td{padding:8px 0}
+.rp-table td.ok{color:var(--ok)}
+.rp-table td.miss{color:var(--warn);font-size:12.5px}
+.rp-box textarea{font:400 var(--in-fs)/1.45 var(--body);border-color:var(--purple-100)}
+@media (max-width:860px){.rp-body{grid-template-columns:minmax(0,1fr)}.rp-head{grid-template-columns:auto minmax(0,1fr)}.rp-acts{grid-column:1/-1;justify-items:start}}
+@media (max-width:560px){.rp-sw{width:64px;height:64px}}
+@media print{.topbar,.rp-nav,.rp-acts,.rp-back,.rp-scale,.rp-side,#mineSeg{display:none!important}.rp-body{grid-template-columns:1fr}.rp-main{box-shadow:none;border:0}}
 .savedtools{display:flex;gap:8px;align-items:center;flex:0 1 420px;min-width:0}
 .savedtools input{flex:1 1 auto;min-width:0}
 /* Match results board */
@@ -528,6 +579,9 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
     </form>
     <section class="board" id="board" aria-live="polite"></section>
   </div>
+
+  <!-- ONE RECIPE (tap a saved recipe) -->
+  <div class="studio" id="view-recipe" role="tabpanel" hidden><div id="recipePage"></div></div>
 
   <!-- SAVED -->
   <div class="studio" id="view-saved" role="tabpanel" hidden>
@@ -744,7 +798,7 @@ const SUBS={
   stain:"Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.",
   glaze:"Drop in an inspiration image or hex codes, pick your firing and surface, and get glaze recipes: a base that totals 100 plus colorants, with grams for your batch.",
   work:"What you're working on right now. This space is still being designed.",
-  saved:"Recipes you've saved or written yourself, with your test notes. Change a batch size to rescale the grams.",
+  saved:"Recipes you've saved or written yourself. Tap one to see grams for any batch, what's on your shelves, and your test notes.",
   ask:"Search tested Glazy recipes and your own, or switch to Match colors to get new stain and glaze recipes for a palette or photo.",
   library:"Tested cone 5–6 glazes from Glazy, marked Production by their makers. Search by name, material or color, and save the ones you want to try.",
   studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first."};
@@ -754,8 +808,8 @@ const TABS=[["ask","Discover"],["mystudio","My Studio"],["work","My Work"]],STAR
 // "My Studio" holds two views, switched by a small segmented control under the title.
 const GROUPS={mystudio:{subs:["saved","studio"],seg:"mineSeg",title:"My Studio"}};
 const groupSub={mystudio:"saved"};
-const VIEWS=["ask","work","recipes","library","saved","studio"];
-const TITLES={ask:"Discover",work:"My Work",recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves"};
+const VIEWS=["ask","work","recipes","library","saved","studio","recipe"];
+const TITLES={ask:"Discover",work:"My Work",recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves",recipe:"Recipe"};
 function renderTabs(){
   const t=$("tabs");t.textContent="";
   TABS.forEach(([k,v])=>t.append(el("button",{role:"tab",id:"tab-"+k,type:"button","aria-selected":"false",onclick:()=>showTab(k)},v)));
@@ -765,17 +819,19 @@ function showTab(name){
   if(name==="recipes"){name="ask";setTimeout(()=>setDmode("match"))} // Color match now lives in Discover
   if(!VIEWS.includes(name))name=START;
   tab=name;
-  const grp=Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name));
-  if(grp)groupSub[grp]=name;
+  const grp=name==="recipe"?"mystudio":Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name));
+  if(grp&&name!=="recipe")groupSub[grp]=name;
+  document.querySelector(".intro").hidden=name==="recipe";
   VIEWS.forEach(v=>$("view-"+v).hidden=v!==name);
   [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+(grp||(name==="recipes"||name==="library"?"ask":name)))));
-  Object.entries(GROUPS).forEach(([g,G])=>{$(G.seg).hidden=g!==grp;
+  Object.entries(GROUPS).forEach(([g,G])=>{$(G.seg).hidden=g!==grp||name==="recipe";
     document.querySelectorAll("#"+G.seg+" button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.sub===name)))});
   $("sub").textContent=SUBS[name==="recipes"?mode:name];
   $("pageTitle").textContent=(grp&&GROUPS[grp].title)||TITLES[name];
   if(name==="library")renderGlazy();
   if(name==="ask"&&dmode==="search"&&!askQuery&&!askItems.length){askItems=askBrowse();renderAsk()}
-  try{history.replaceState(null,"","#"+name)}catch{}
+  if(name==="recipe")renderRecipePage();
+  try{history.replaceState(null,"","#"+(name==="recipe"&&openId?"recipe/"+openId:name))}catch{}
 }
 document.querySelectorAll("#mineSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
 $("workToDiscover").onclick=()=>showTab("ask");
@@ -1722,16 +1778,99 @@ let savedFilter="all";
 function savedMsg(t){const m=$("savedStatus");m.textContent=t;setTimeout(()=>{if(m.textContent===t)m.textContent=""},5000)}
 function renderSaved(){
   const f=$("savedFilters");f.textContent="";
-  [["all","All",recipes.length],["glaze","Glazes",recipes.filter(r=>r.type==="glaze").length],["stain","Stain recipes",recipes.filter(r=>r.type!=="glaze").length]].forEach(([k,v,n])=>
+  [["all","All",recipes.length],["glaze","Glazes",recipes.filter(r=>r.type==="glaze").length],["stain","Stain recipes",recipes.filter(r=>r.type!=="glaze").length],
+   ...STATUSES.map(([k,l])=>["st-"+k,l,recipes.filter(r=>statusOf(r)===k).length]).filter(x=>x[2])].forEach(([k,v,n])=>
     f.append(el("button",{type:"button","aria-pressed":String(savedFilter===k),onclick:()=>{savedFilter=k;renderSaved()}},v,el("b",{text:String(n)}))));
   const list=$("savedList"),ae=document.activeElement;if(list.contains(ae)&&/^(INPUT|TEXTAREA)$/.test(ae.tagName))return; // don't clobber a card being edited
   list.textContent="";
   const q=$("savedQ").value.trim().toLowerCase();
-  const shown=recipes.filter(r=>(savedFilter==="all"||(savedFilter==="glaze")===(r.type==="glaze"))&&(!q||[r.title,r.name,r.cone,r.body,r.baseName,r.myNotes,...(r.rows||[]).map(x=>x.name)].join(" ").toLowerCase().includes(q)));
+  const shown=recipes.filter(r=>(savedFilter==="all"||(savedFilter.startsWith("st-")?statusOf(r)===savedFilter.slice(3):(savedFilter==="glaze")===(r.type==="glaze")))&&(!q||[r.title,r.name,r.cone,r.body,r.baseName,r.myNotes,...(r.rows||[]).map(x=>x.name)].join(" ").toLowerCase().includes(q)));
   if(storeMode==="loading"){list.append(el("div",{class:"empty",text:"Loading your recipes…"}));return}
   if(!recipes.length){list.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"No saved recipes yet. Tap Save on a recipe in Match or the Library, or Add your own to type in one you already use."})));return}
   if(!shown.length){list.append(el("p",{class:"note",text:"Nothing matches."}));return}
-  shown.forEach(r=>list.append(recipeCard(r)));
+  shown.forEach(r=>list.append(recipeSummary(r)));
+}
+/* ---------- One recipe: summary card in the list, full page when tapped ---------- */
+const STATUSES=[["idea","Idea"],["testing","Testing"],["keeper","Keeper"]];
+const statusOf=r=>r.status||(String(r.myNotes||"").trim()?"testing":"idea");
+const shelfCheck=r=>{const miss=(r.rows||[]).filter(x=>!haveMaterial(x.name)).map(x=>x.name);return {miss,ok:!miss.length}};
+let openId=null;
+function openRecipe(id){openId=id;showTab("recipe");window.scrollTo({top:0})}
+function recipeSwatch(r,cls){
+  let sw=el("div",{class:cls});sw.style.background="#"+(normHex(r.predicted)||normHex(r.hex)||"D8DAD5");
+  if(r.photo){const im=photoEl(r.photo,r.title);im.onerror=()=>im.replaceWith(sw);return im}
+  return sw;
+}
+function recipeSummary(r){
+  const st=statusOf(r),{miss,ok}=shelfCheck(r),note=String(r.myNotes||"").trim();
+  const kind=r.type==="glaze"?"Glaze":"Stain"+(r.use?" in "+r.use.toLowerCase():"");
+  const card=el("article",{class:"rcard rsum",tabindex:"0",role:"link","aria-label":"Open "+(r.title||"recipe")},
+    recipeSwatch(r,"glaze"),el("div",{class:"in"},
+      el("div",{class:"rhead"},el("h4",{text:r.title||"Untitled"}),el("span",{class:"rst "+st,text:STATUSES.find(x=>x[0]===st)[1]})),
+      el("div",{class:"meta",text:[kind,r.cone,r.surface].filter(Boolean).join(" · ")}),
+      el("div",{class:"rshelf "+(ok?"ok":"miss"),text:ok?"✓ All on your shelves":`○ Missing ${miss.length}: ${miss.slice(0,2).join(", ")}${miss.length>2?"…":""}`}),
+      el("p",{class:"rnote",text:note?"“"+note.split("\n")[0]+"”":"No test notes yet"})));
+  card.onclick=()=>openRecipe(r.id);
+  card.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openRecipe(r.id)}};
+  return card;
+}
+function renderRecipePage(){
+  const box=$("recipePage"),ae=document.activeElement;
+  if(box.contains(ae)&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))return; // don't clobber typing
+  const r=recipes.find(x=>x.id===openId);box.textContent="";
+  if(!r){box.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:storeMode==="loading"?"Loading…":"That recipe isn't here anymore."}),
+    el("button",{type:"button",class:"ghost",text:"Back to recipes",onclick:()=>showTab("saved")})));return}
+  const cur=()=>recipes.find(x=>x.id===r.id)||r,st=statusOf(r);
+  const kind=r.type==="glaze"?"Glaze":"Stain"+(r.use?" in "+r.use.toLowerCase():"");
+  const when=r.savedAt?new Date(r.savedAt).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"}):"";
+  // header
+  const ttl=el("input",{type:"text",class:"rp-title",value:r.title||"","aria-label":"Recipe name"});
+  ttl.onchange=()=>putRecipe({...cur(),title:ttl.value.trim()||r.title});
+  const stSeg=el("div",{class:"seg rp-status",role:"radiogroup","aria-label":"Status"},...STATUSES.map(([k,l])=>
+    el("button",{type:"button",role:"radio","aria-checked":String(st===k),text:l,onclick:()=>putRecipe({...cur(),status:k})})));
+  const src=r.glazyUrl?el("span",{},(r.source==="glazy"?"From Glazy":"Adapted from Glazy")+` #${r.glazyId}`+(r.author?" by "+r.author:"")+" · ",
+    el("a",{href:r.glazyUrl,target:"_blank",rel:"noopener",text:"view"})):r.source==="mine"?el("span",{text:"Your own recipe"}):null;
+  let batch=+r.batchG||1000;
+  const copy=el("button",{type:"button",class:"ghost sm",text:"Copy"});
+  copy.onclick=()=>navigator.clipboard.writeText(recipeText({...cur()},batch)).then(()=>copy.textContent="Copied",()=>copy.textContent="Copy failed");
+  const del=el("button",{type:"button",class:"linkbtn",text:"Delete"});
+  del.onclick=()=>del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, delete",onclick:async()=>{await deleteRecipe(r.id);showTab("saved")}}));
+  const head=el("div",{class:"rp-head"},recipeSwatch(r,"rp-sw"),
+    el("div",{class:"rp-id"},el("button",{type:"button",class:"linkbtn rp-back",text:"‹ My Studio · Recipes",onclick:()=>showTab("saved")}),ttl,
+      el("div",{class:"meta"},[kind,r.cone,r.surface,r.body].filter(Boolean).join(" · ")+(when?" · saved "+when:""),src?" · ":"",src)),
+    el("div",{class:"rp-acts"},stSeg,el("div",{class:"links"},copy,el("button",{type:"button",class:"ghost sm",text:"Print",onclick:()=>window.print()}),del)));
+  // section nav: Recipe now, the rest designed (wireframes E1–E4, H3) and coming
+  const nav=el("div",{class:"rp-nav",role:"tablist"},...[["Recipe",1],["Tests & versions"],["Swap"],["Lab"],["Cost & availability"],["Used in"]].map(([l,on])=>
+    el("button",{type:"button",role:"tab","aria-selected":String(!!on),disabled:on?undefined:true,title:on?"":"Coming soon"},l,on?null:el("small",{text:"soon"}))));
+  // recipe table with an on-shelf column
+  const tableBox=el("div",{});
+  const draw=()=>{tableBox.textContent="";const tb=el("table",{class:"rp-table"}),base=(r.rows||[]).filter(x=>!x.add),adds=(r.rows||[]).filter(x=>x.add);
+    tb.append(el("tr",{class:"hd"},el("th",{text:"Material"}),el("th",{class:"n",text:"%"}),el("th",{class:"n",text:"Grams"}),el("th",{class:"n",text:"Shelf"})));
+    const tr=(x,cls)=>{const h=haveMaterial(x.name);return el("tr",{class:cls||""},el("td",{text:(x.add?"+ ":"")+x.name}),el("td",{class:"n",text:x.pct+"%"}),
+      el("td",{class:"n",text:batch?fmt(batch*x.pct/100)+" g":""}),el("td",{class:"n "+(h?"ok":"miss"),text:h?"✓":"○ need"}))};
+    base.forEach(x=>tb.append(tr(x)));
+    if(adds.length&&base.length){const t=base.reduce((s,x)=>s+x.pct,0);tb.append(el("tr",{class:"sub"},el("td",{text:"Base total"}),el("td",{class:"n",text:+t.toFixed(2)+"%"}),el("td",{class:"n",text:batch?fmt(batch*t/100)+" g":""}),el("td")))}
+    adds.forEach(x=>tb.append(tr(x,"add")));tableBox.append(tb)};
+  draw();
+  const bIn=el("input",{type:"number",min:"0",step:"any",value:String(batch),inputmode:"decimal","aria-label":"Batch grams"});
+  const setBatch=v=>{batch=Math.max(0,v||0);bIn.value=String(batch);draw()};
+  bIn.oninput=()=>setBatch(parseFloat(bIn.value));
+  bIn.onchange=()=>{if(batch&&batch!==+cur().batchG)putRecipe({...cur(),batchG:batch})};
+  const scale=el("div",{class:"rp-scale"},el("span",{class:"lbl",text:"Scale"}),...[100,300,1000,5000].map(g=>
+    el("button",{type:"button",class:"fdd",text:g>=1000?g/1000+" kg":g+" g",onclick:()=>{setBatch(g);putRecipe({...cur(),batchG:g})}})));
+  const {miss,ok}=shelfCheck(r);
+  const main=el("section",{class:"rp-main"},
+    el("div",{class:"rp-batch"},el("label",{class:"batch"},"Batch",bIn,r.type==="glaze"?"g dry glaze":"g dry clay"),scale),
+    r.baseName?el("p",{class:"note",text:"Base: "+r.baseName}):null,tableBox,
+    r.note?el("p",{class:"note",text:r.note}):null,r.safety?el("p",{class:"note warn",text:r.safety}):null);
+  const notes=el("textarea",{placeholder:"How it fired, what to change next…","aria-label":"Test notes",rows:"6"});notes.value=r.myNotes||"";
+  notes.onchange=()=>putRecipe({...cur(),myNotes:notes.value,status:cur().status||(notes.value.trim()?"testing":undefined)});
+  const side=el("aside",{class:"rp-side"},
+    el("div",{class:"rp-box"},el("span",{class:"lbl",text:"On your shelves"}),
+      el("p",{class:"rshelf "+(ok?"ok":"miss"),text:ok?"✓ Everything for this recipe is on your shelves.":`○ Missing ${miss.length}: ${miss.join(", ")}`}),
+      ok?null:el("button",{type:"button",class:"linkbtn",text:"Find them in Search & add",onclick:()=>{showTab("studio");setTimeout(()=>$("openAdd")?.click(),50)}})),
+    el("div",{class:"rp-box"},el("label",{class:"lbl",text:"Test notes"}),notes,el("p",{class:"note",text:"Logging each firing with photos and versions is coming in Tests & versions."})));
+  box.append(head,nav,el("div",{class:"rp-body"},main,side));
 }
 function recipeCard(r){
   let sw=el("div",{class:"glaze"});sw.style.background="#"+(normHex(r.predicted)||normHex(r.hex)||"D8DAD5");
@@ -1782,7 +1921,7 @@ $("ownPanel").addEventListener("submit",async e=>{
   if(id){msg.textContent="";["ownName","ownHex","ownRows"].forEach(i=>$(i).value="");$("ownPanel").hidden=true;savedMsg("Saved “"+title+"”.")}
 });
 
-function renderAll(){updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved()}
+function renderAll(){updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();if(tab==="recipe")renderRecipePage()}
 
 /* ---------- boot ---------- */
 try{const s=JSON.parse(localStorage.getItem("stainlab-last")||"null");if(s?.colors?.length)last=s}catch{}
@@ -1790,7 +1929,7 @@ $("hexes").value=last.example?"ACB0AB, BAABAB, 48333B":last.colors.map(c=>c.hex)
 try{const g=JSON.parse(localStorage.getItem("stainlab-last-glaze")||"null");if(g?.colors?.length)lastGlaze=g}catch{}
 try{if(localStorage.getItem("stainlab-mode")==="glaze")setMode("glaze")}catch{}
 renderTabs();
-showTab((location.hash||"").slice(1)||START);
+{const h=(location.hash||"").slice(1);if(h.startsWith("recipe/")){openId=decodeURIComponent(h.slice(7));showTab("recipe")}else showTab(h||START)}
 renderAll();
 initStore();
 (()=>{let arr=[];try{arr=JSON.parse(document.getElementById("catalogData").textContent)}catch{}
