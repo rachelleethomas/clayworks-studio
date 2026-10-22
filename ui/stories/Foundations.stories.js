@@ -36,13 +36,13 @@ export const Colors = () => fillTokens(el(
 
 export const Typography = () => el(`
   <div style="display:grid;gap:22px;max-width:900px">
-    <div><span class="lbl">Display · var(--display) · Newsreader 400, -0.035em</span><h1 style="margin:6px 0 0">Discover</h1></div>
+    <div><span class="lbl">Display · var(--display) · Fraunces (soft) 400, -0.035em</span><h1 style="margin:6px 0 0">Discover</h1></div>
     <div><span class="lbl">Section heading · 28px</span><h2 style="margin:6px 0 0">Shopping list</h2></div>
     <div><span class="lbl">Card title · 20px display</span><div class="rcard" style="border:0;background:none"><div class="in" style="padding:0"><h4 style="margin:6px 0 0;font:500 20px/1.2 var(--display)">Satin Slate</h4></div></div></div>
-    <div><span class="lbl">Body · var(--body) · Hanken Grotesk 15.5px</span><p style="margin:6px 0 0;max-width:60ch">Drop in an inspiration photo or hex codes, pick your clay body and cone, and get recipes with gram weights for your batch.</p></div>
+    <div><span class="lbl">Body · var(--body) · Inter Tight 15.5px</span><p style="margin:6px 0 0;max-width:60ch">Drop in an inspiration photo or hex codes, pick your clay body and cone, and get recipes with gram weights for your batch.</p></div>
     <div><span class="lbl">Secondary · .note</span><p class="note" style="margin:6px 0 0">Recipes from Glazy contributors, shared under CC BY-NC-SA 4.0.</p></div>
     <div><span class="lbl">Label · .lbl · var(--mono) uppercase</span><div style="margin-top:6px"><span class="lbl">Batch (g dry)</span></div></div>
-    <div><span class="lbl">Data · .meta · DM Mono</span><div class="meta" style="margin-top:6px;font-family:var(--mono)">Glazy #3030 · cone 6 · semi-matte</div></div>
+    <div><span class="lbl">Data · .meta · JetBrains Mono</span><div class="meta" style="margin-top:6px;font-family:var(--mono)">Glazy #3030 · cone 6 · semi-matte</div></div>
   </div>`);
 
 export const ShapeAndElevation = () => el(

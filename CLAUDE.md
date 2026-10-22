@@ -20,7 +20,7 @@ Rachel prefers short prompts and direct execution: make the change, verify it, r
 
 ## Storybook: `ui/`
 - Storybook 8.6 (html-vite) documents the components with the app's real CSS. `scripts/extract_css.py` copies the `<style>` from `app/clayworks.html` plus the account/login CSS from `web/build.py` into `ui/styles/clayworks.css` (generated, don't edit) before every run, so the app stays the single source of styles.
-- Stories: `ui/stories/Foundations` (live tokens, light/dark toolbar switch), `Components` (same markup/classes the app builds: buttons, tabs, chips, inputs, cards, filter bar, account menu, dialog, empty states), `Explorations/Tines-inspired` (glaze-named 11-ramp OKLCH palette, a color per section, 4 Google-font pairings + pixel accent, Tines-style buttons; not in the app yet).
+- Stories: `ui/stories/Foundations` (live tokens, light/dark toolbar switch), `Components` (same markup/classes the app builds: buttons, tabs, chips, inputs, cards, filter bar, account menu, dialog, empty states), `Explorations/Tines-inspired` (glaze-named 11-ramp OKLCH palette, a color per section, font pairings, Tines-style buttons) and `Explorations/Pixel accents` (14 free pixel fonts, shortlist Silkscreen / Pixelify Sans / Tiny5 / Doto in context, section kickers, kiln-display readouts, bucket labels, pixel glaze-drop mark). App fonts: **Soft clay** = Fraunces (SOFT 100) display, Inter Tight body, JetBrains Mono data.
 - Run: `cd ui && npm install && npm run storybook` (or the `storybook` launch config, port 6006). `npm run build-storybook` → `docs/storybook/`, served at https://rachelleethomas.github.io/clayworks-studio/storybook/.
 - Tines fonts (Roobert, Reckless, Pangea) are commercial; only use them with a license.
 

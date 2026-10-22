@@ -42,8 +42,8 @@ export const SectionColors = () => {
 SectionColors.storyName = "A color per section";
 
 const PAIRS = [
-  { name: "Current", fonts: ["Newsreader:opsz,wght@6..72,400;6..72,500", "Hanken+Grotesk:wght@400;500;600", "DM+Mono:wght@500"], display: "Newsreader", body: "Hanken Grotesk", mono: "DM Mono", note: "Calm editorial serif, friendly grotesk." },
-  { name: "Soft clay", fonts: ["Fraunces:opsz,wght,SOFT@9..144,400,100", "Inter+Tight:wght@400;500;600", "JetBrains+Mono:wght@500"], display: "Fraunces", body: "Inter Tight", mono: "JetBrains Mono", note: "Rounder, softer serif, closest to Reckless' warmth." },
+  { name: "Previous", fonts: ["Newsreader:opsz,wght@6..72,400;6..72,500", "Hanken+Grotesk:wght@400;500;600", "DM+Mono:wght@500"], display: "Newsreader", body: "Hanken Grotesk", mono: "DM Mono", note: "Calm editorial serif, friendly grotesk. Replaced by Soft clay." },
+  { name: "Soft clay · in the app", fonts: ["Fraunces:opsz,wght,SOFT@9..144,400,100", "Inter+Tight:wght@400;500;600", "JetBrains+Mono:wght@500"], display: "Fraunces", body: "Inter Tight", mono: "JetBrains Mono", note: "Rounder, softer serif, closest to Reckless' warmth." },
   { name: "Studio journal", fonts: ["Instrument+Serif", "Schibsted+Grotesk:wght@400;500;600", "Space+Mono"], display: "Instrument Serif", body: "Schibsted Grotesk", mono: "Space Mono", note: "Condensed, elegant display with a sturdy grotesk." },
   { name: "Workshop", fonts: ["Young+Serif", "Figtree:wght@400;500;600", "IBM+Plex+Mono:wght@500"], display: "Young Serif", body: "Figtree", mono: "IBM Plex Mono", note: "Chunkier serif, very legible body. Most playful." },
 ];
