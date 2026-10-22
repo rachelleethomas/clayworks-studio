@@ -137,11 +137,8 @@ tr.add td:first-child{color:var(--accent)}
 .discbar .askbox{flex:1 1 420px;min-width:0}
 .dmode{grid-template-columns:auto auto;width:auto}
 .dmode button{white-space:nowrap}
-#matchPanel #form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 22px;border:2px solid var(--purple-300);border-radius:var(--radius);background:var(--surface);padding:18px}
-#matchPanel #form>.seg{grid-column:1/-1;max-width:440px}
-#matchPanel #form>#go,#matchPanel #form>.status{grid-column:1/-1}
-#matchPanel #form>#go{justify-self:start;padding-inline:28px}
-@media (max-width:700px){#matchPanel #form{grid-template-columns:minmax(0,1fr)}}
+#matchPanel #form{display:grid;gap:14px;border:2px solid var(--purple-300);border-radius:var(--radius);background:var(--surface);padding:18px}
+#matchPanel #form>.seg{max-width:440px}
 .fbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .fddw{position:relative}
 .fdd{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 14px;font:500 13.5px var(--body);cursor:pointer;white-space:nowrap}
@@ -437,6 +434,47 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .empty .note{color:var(--tint-purple-ink)}
 .empty h2,.empty h3,.shop h2,.shop h3{color:inherit}
 /* Tines surfaces: dot grid (hands-on building, like a test-tile board) and blueprint grid (planning). Cover the whole surface. */
+/* Match colors form, Tines "rows" style: one white card, fields are rows split by hairlines, small label inside each cell */
+.mcard{background:var(--surface);border:1px solid var(--purple-200);border-radius:12px;overflow:hidden}
+.mrow{display:flex;border-top:1px solid var(--purple-100)}
+.mrow:first-child{border-top:0}
+.mrow[hidden]{display:none}
+.mcell{flex:1 1 0;display:grid;gap:2px;align-content:start;padding:10px 20px 9px;min-width:0;transition:background .15s}
+.mcell[hidden]{display:none}
+.mrow>.mcell~.mcell:not([hidden]){border-left:1px solid var(--purple-100)}
+.mcell:focus-within{background:var(--purple-50)}
+.mcell>label,.mcell>.lbl{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);cursor:pointer}
+.mform .mcell input,.mform .mcell select,.mform .mcell textarea{border:0;border-radius:0;background-color:transparent;padding:3px 0;font:500 max(16px,var(--ctl-body-fs)) var(--body);color:var(--ink);width:100%;box-shadow:none}
+.mform .mcell select{padding-left:0;padding-right:26px;background-position:right 2px center}
+.mcell input:focus-visible,.mcell select:focus-visible,.mcell textarea:focus-visible{outline:none}
+.mform .mcell textarea{min-height:46px;resize:vertical;font:500 16px var(--mono)}
+.mcell .chips{margin-top:6px}
+.mcell .chips:empty{display:none}
+.mform .drop{flex:1;display:flex;align-items:center;gap:12px;border:0;border-radius:0;background:transparent;padding:14px 20px;text-align:left;color:var(--accent);font:500 15px var(--body)}
+.mform .drop:hover,.mform .drop.on,.mform .drop:focus-visible{background:var(--purple-50);outline:none}
+.mform .drop .mplus{display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:50%;background:var(--purple-100);font-size:19px;font-weight:400}
+.mform .drop img{max-height:72px;margin:0;border-radius:8px}
+.mform .drop img:not([hidden])+.mplus{display:none}
+.minv{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:4px}
+.mtoggles{flex-wrap:wrap;gap:8px;padding:12px 20px}
+.mtog{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--purple-300);border-radius:999px;padding:6px 14px 6px 7px;font:500 13.5px var(--body);color:var(--accent);cursor:pointer;text-transform:none;letter-spacing:0;transition:background .15s}
+.mtog[hidden]{display:none}
+.mtog input{position:absolute;opacity:0;width:1px;height:1px}
+.mtog i{width:28px;height:16px;border-radius:999px;background:var(--purple-100);position:relative;flex:none;transition:background .15s}
+.mtog i::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:transform .15s}
+.mtog:has(input:checked){background:var(--purple-50)}
+.mtog:has(input:checked) i{background:var(--accent)}
+.mtog:has(input:checked) i::after{transform:translateX(12px)}
+.mtog:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.mfoot{padding:12px;border-top:1px solid var(--purple-100);display:flex}
+.mfoot .btn{flex:1}
+@media (max-width:640px){
+  .mrow{flex-direction:column}
+  .mrow>.mcell~.mcell:not([hidden]){border-left:0;border-top:1px solid var(--purple-100)}
+  .mcell{padding:10px 16px 9px}
+  .mform .drop{padding:12px 16px}
+  .mtoggles{flex-direction:row;padding:12px 16px}
+}
 .dotgrid,#matchPanel #form{--dot:var(--purple-100);background-color:var(--surface);background-image:radial-gradient(circle,var(--dot) 1.3px,transparent 1.5px);background-size:18px 18px;background-position:9px 9px}
 .blueprint{--gl:var(--purple-50);background-color:var(--surface);background-image:linear-gradient(var(--gl) 1px,transparent 1px),linear-gradient(90deg,var(--gl) 1px,transparent 1px);background-size:24px 24px}
 /* bento: evenly spaced rounded boxes */
@@ -461,6 +499,12 @@ textarea{font-size:max(16px,13px)}
   .fcount{flex-wrap:nowrap}
   .fcount .note{font-size:13px}
 }
+/* selects: our own chevron, inset to match the text padding (native arrows hug the edge) */
+:root{--chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1.5 1.75 6 6.25l4.5-4.5' fill='none' stroke='%2367646D' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1.5 1.75 6 6.25l4.5-4.5' fill='none' stroke='%23A9A5AE' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}}
+:root[data-theme="dark"]{--chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1.5 1.75 6 6.25l4.5-4.5' fill='none' stroke='%23A9A5AE' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+select:not([multiple]){-webkit-appearance:none;appearance:none;background-image:var(--chev);background-repeat:no-repeat;background-position:right 14px center;background-size:12px 8px;padding-left:14px;padding-right:40px}
+input[type=text],input[type=number],input[type=search]{padding-left:14px;padding-right:14px}
 .fcount select{font-size:max(16px,var(--ctl-body-fs));padding-block:clamp(5px,4px + .3vw,7px);border-radius:999px;width:auto;max-width:160px}
 .filters button{border:0;background:var(--wash);font-weight:600}
 .filters button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
@@ -516,83 +560,60 @@ textarea{font-size:max(16px,13px)}
 
   <!-- RECIPES -->
   <div class="grid" id="view-recipes" role="tabpanel">
-    <form class="rail" id="form" novalidate>
+    <form class="rail mform" id="form" novalidate>
       <div class="seg" role="radiogroup" aria-label="Recipe type">
         <button type="button" role="radio" aria-checked="false" data-mode="glaze">Glaze</button>
         <button type="button" role="radio" aria-checked="true" data-mode="stain">Stain in clay or slip</button>
       </div>
-      <div class="field">
-        <span class="lbl">Inspiration image</span>
-        <div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload inspiration image">
-          <img id="preview" hidden alt="">
-          <span id="dropText">Drop, paste, or tap to take a photo. A palette, bark, or a pot you love all work.</span>
+      <div class="mcard">
+        <div class="mrow">
+          <div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload inspiration image">
+            <img id="preview" hidden alt="">
+            <b class="mplus" aria-hidden="true">+</b><span id="dropText">Drop, paste, or tap to add an inspiration photo. A palette, bark, or a pot you love all work.</span>
+          </div>
+          <input type="file" id="file" accept="image/*" hidden>
         </div>
-        <input type="file" id="file" accept="image/*" hidden>
-      </div>
-      <div class="field">
-        <label for="hexes">Hex codes</label>
-        <textarea id="hexes" placeholder="ACB0AB, BAABAB, 70626E"></textarea>
-        <div class="chips" id="chips"></div>
-      </div>
-      <div class="field">
-        <label for="body">Clay body</label>
-        <select id="body"></select>
-      </div>
-      <div class="row">
-        <div class="field">
-          <label for="cone">Firing</label>
-          <select id="cone">
+        <div class="mrow">
+          <div class="mcell"><label for="hexes">Hex codes</label><textarea id="hexes" placeholder="ACB0AB, BAABAB, 70626E"></textarea><div class="chips" id="chips"></div></div>
+        </div>
+        <div class="mrow">
+          <div class="mcell"><label for="body">Clay body</label><select id="body"></select></div>
+          <div class="mcell"><label for="cone">Firing</label>
+            <select id="cone">
             <option>Cone 6 oxidation</option>
             <option>Cone 10 oxidation</option>
             <option>Cone 10 reduction</option>
             <option>Cone 04 oxidation</option>
-          </select>
-        </div>
-        <div class="field stain-only">
-          <label for="use">Stain goes in</label>
-          <select id="use">
+          </select></div>
+          <div class="mcell stain-only"><label for="use">Stain goes in</label>
+            <select id="use">
             <option>Clay body</option>
             <option>Slip / engobe</option>
             <option>Glaze</option>
-          </select>
+          </select></div>
+          <div class="mcell glaze-only" hidden><label for="surface">Surface</label><select id="surface"><option>Glossy</option><option>Satin</option><option>Matte</option></select></div>
         </div>
-        <div class="field glaze-only" hidden>
-          <label for="surface">Surface</label>
-          <select id="surface"><option>Glossy</option><option>Satin</option><option>Matte</option></select>
+        <div class="mrow glaze-only" hidden>
+          <div class="mcell"><label for="opacity">Opacity</label><select id="opacity"><option>Opaque</option><option>Translucent</option><option>Transparent</option></select></div>
+          <div class="mcell"><label for="gbatch">Batch (g dry)</label><input type="number" id="gbatch" min="0" step="any" value="1000" inputmode="decimal"></div>
         </div>
+        <div class="mrow stain-only">
+          <div class="mcell"><label for="lbs">Batch (lb wet)</label><input type="number" id="lbs" min="0" step="any" value="10" inputmode="decimal"></div>
+          <div class="mcell"><label for="water">Water %</label><input type="number" id="water" min="0" max="60" step="any" value="20" inputmode="decimal"></div>
+        </div>
+        <div class="mrow">
+          <div class="mcell"><label for="notes">Anything else</label><input type="text" id="notes" placeholder="e.g. nerikomi, needs to match shrinkage"></div>
+        </div>
+        <div class="mrow">
+          <div class="mcell"><span class="lbl" id="invLbl">Stains on hand</span>
+            <div class="minv"><div class="inv" id="invChips"></div><button type="button" class="linkbtn" id="goStudio">Edit on Shelves</button></div></div>
+        </div>
+        <div class="mrow mtoggles">
+          <label class="mtog glaze-only" hidden><input type="checkbox" id="foodSafe" checked><i aria-hidden="true"></i>Food-safe</label>
+          <label class="mtog"><input type="checkbox" id="preferHave" checked><i aria-hidden="true"></i><span id="preferLbl">Prefer stains I already have</span></label>
+        </div>
+        <div class="mfoot"><button class="btn" id="go" type="submit">Get recipes</button></div>
       </div>
-      <div class="row glaze-only" hidden>
-        <div class="field">
-          <label for="opacity">Opacity</label>
-          <select id="opacity"><option>Opaque</option><option>Translucent</option><option>Transparent</option></select>
-        </div>
-        <div class="field">
-          <label for="gbatch">Batch (g dry)</label>
-          <input type="number" id="gbatch" min="0" step="any" value="1000" inputmode="decimal">
-        </div>
-      </div>
-      <label class="check glaze-only" hidden><input type="checkbox" id="foodSafe" checked> Food-safe (for mugs, bowls, liners)</label>
-      <div class="row stain-only">
-        <div class="field">
-          <label for="lbs">Batch (lb wet)</label>
-          <input type="number" id="lbs" min="0" step="any" value="10" inputmode="decimal">
-        </div>
-        <div class="field">
-          <label for="water">Water %</label>
-          <input type="number" id="water" min="0" max="60" step="any" value="20" inputmode="decimal">
-        </div>
-      </div>
-      <div class="field">
-        <span class="lbl" id="invLbl">Stains on hand</span>
-        <div class="inv" id="invChips"></div>
-        <button type="button" class="linkbtn" id="goStudio" style="justify-self:start">Edit on Shelves</button>
-      </div>
-      <label class="check"><input type="checkbox" id="preferHave" checked> <span id="preferLbl">Prefer stains I already have</span></label>
-      <div class="field">
-        <label for="notes">Anything else</label>
-        <input type="text" id="notes" placeholder="e.g. nerikomi, needs to match shrinkage">
-      </div>
-      <button class="btn" id="go" type="submit">Get recipes</button>
       <p class="status" id="status" role="status"></p>
     </form>
     <section class="board" id="board" aria-live="polite"></section>
