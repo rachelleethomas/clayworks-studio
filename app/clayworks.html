@@ -219,6 +219,7 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .srcb.new{background:var(--tint-purple);color:var(--tint-purple-ink)}
 .srcb.glazy{background:var(--tint-blue);color:var(--tint-blue-ink)}
 .srcb.mine{background:var(--tint-green);color:var(--tint-green-ink)}
+.srcb.store{background:var(--tint-teal);color:var(--tint-teal-ink)}
 .pill.have{background:var(--tint-green);color:var(--tint-green-ink)}
 .pill.buy{background:var(--tint-orange);color:var(--tint-orange-ink)}
 
@@ -1358,6 +1359,7 @@ const FAMS=[["clear","Clear",""],["white","White","#F2F0EA"],["gray","Gray","#9A
 const COLORANTS=[["Cobalt",/cobalt/],["Copper",/copper/],["Iron",/iron|ochre|\brio\b|crocus/],["Rutile",/rutile/],["Chrome",/chrom/],["Manganese",/mangan/],["Mason stain",/\b6\d{3}\b|mason|\bstain\b/]];
 const STYLES=[["Celadon",/celadon/],["Clear / liner",/\bclear\b|\bliner\b|transparent/],["Matte base",/\bmatte?\b|\bmatt\b/],["Crystalline",/crystal/],["Shino",/shino/],["Tenmoku",/tenmoku|temmoku/],["Floating blue",/float/],["Rutile",/rutile/],["Ash",/\bash\b/]];
 const LEAVE=[["Zinc",/zinc/],["Barium",/barium/],["Lithium",/lithium|spodumene|petalite/],["Gerstley borate",/gerstley/]];
+const SRCS=[["new","New recipes"],["glazy","Glazy library"],["mine","My recipes"],["store","Premade glazes"]];
 const slug=t=>t.toLowerCase().replace(/[^a-z0-9]+/g,"-");
 function facets(it){
   if(it._f)return it._f;
@@ -1370,7 +1372,7 @@ function facets(it){
   if(top==="iron"&&!fams.size)fams.add("brown");
   const colorants=COLORANTS.filter(([,re])=>re.test(mats)).map(([n])=>n);
   return it._f={fams,colorants,styles:STYLES.filter(([,re])=>re.test(words)).map(([n])=>n),leave:LEAVE.filter(([,re])=>re.test(mats)).map(([n])=>n),
-    base:!it.rows.some(x=>x.add)&&!colorants.length,type:it.type||"glaze",opac:String(it.opacity||"").toLowerCase(),atm:it.atm||[]};
+    base:it.src!=="store"&&!it.rows.some(x=>x.add)&&!colorants.length,type:it.type||"glaze",opac:String(it.opacity||"").toLowerCase(),atm:it.atm||[]};
 }
 function filterUI(p,{sources=false,notes=false,onChange}){
   const pill=(g,v,label,dot)=>{
@@ -1464,7 +1466,7 @@ function filterBar(p,{sources=false,notes=false,onChange}){
     ["colorant","Colorant",sel("colorant","Colorant",[["","Any colorant"],...COLORANTS.map(([n])=>[n,n])])],
     ["more","More",el("div",{class:"fgroup",style:"gap:8px"},
       sources?el("span",{class:"lbl",text:"Show"}):null,
-      ...(sources?[chk("src-new","New recipes",1),chk("src-glazy","Glazy library",1),chk("src-mine","My recipes",1)]:[]),
+      ...(sources?SRCS.map(([k,l])=>chk("src-"+k,l,1)):[]),
       el("span",{class:"lbl",text:"Practical"}),chk("food","Food-safe"),chk("pic","Has photo or swatch"),notes?chk("notes","Has my test notes"):null,chk("base","Base only (no colorants)"),
       el("span",{class:"lbl",text:"Leave out"}),...LEAVE.map(([n])=>chk("no-"+slug(n),"No "+n.toLowerCase())),
       el("span",{class:"lbl",text:"On my shelves"}),sel("missing","On my shelves",[["","Doesn't matter"],["0","Everything on hand"],["1","Missing at most 1"],["2","Missing at most 2"]]),
@@ -1486,7 +1488,7 @@ function filterBar(p,{sources=false,notes=false,onChange}){
   sort.addEventListener("change",ch);
   const v=id=>$(p+"-"+id);
   const pressed=g=>[...bar.querySelectorAll(`[data-g=${g}][aria-pressed=true]`)].map(b=>b.dataset.v);
-  const state=()=>({src:sources?new Set(["new","glazy","mine"].filter(k=>v("src-"+k).checked)):null,make:pressed("make")[0]||"",fams:new Set(pressed("fam")),
+  const state=()=>({src:sources?new Set(SRCS.map(([k])=>k).filter(k=>v("src-"+k).checked)):null,make:pressed("make")[0]||"",fams:new Set(pressed("fam")),
     surf:v("surf").value,opac:v("opac").value,style:v("style").value,colorant:v("colorant").value,food:v("food").checked,pic:v("pic").checked,notes:notes&&v("notes").checked,
     base:v("base").checked,leave:LEAVE.map(([n])=>n).filter(n=>v("no-"+slug(n)).checked),missing:v("missing").value,ox:v("ox").checked,sort:v("sort").value});
   const unpress=(g,val)=>bar.querySelectorAll(`[data-g=${g}]`).forEach(b=>{if(!val||b.dataset.v===val)b.setAttribute("aria-pressed","false")});
@@ -1496,7 +1498,7 @@ function filterBar(p,{sources=false,notes=false,onChange}){
     if(S.make)list.push([S.make==="glaze"?"Glaze":"Stain in clay",()=>unpress("make")]);
     S.fams.forEach(k=>list.push([famName(k),()=>unpress("fam",k)]));
     [["surf",S.surf],["opac",S.opac],["style",S.style],["colorant",S.colorant]].forEach(([id,val])=>{if(val)list.push([val,()=>{v(id).value=""}])});
-    if(S.src)["new","glazy","mine"].forEach(k=>{if(!S.src.has(k))list.push(["Hiding "+{new:"new recipes",glazy:"Glazy",mine:"my recipes"}[k],()=>{v("src-"+k).checked=true}])});
+    if(S.src)SRCS.forEach(([k,l])=>{if(!S.src.has(k))list.push(["Hiding "+l.toLowerCase(),()=>{v("src-"+k).checked=true}])});
     [["food","Food-safe"],["pic","Has photo"],["notes","Has my notes"],["base","Base only"]].forEach(([id,l])=>{if(S[id])list.push([l,()=>{v(id).checked=false}])});
     S.leave.forEach(n=>list.push(["No "+n.toLowerCase(),()=>{v("no-"+slug(n)).checked=false}]));
     if(S.missing!=="")list.push([S.missing==="0"?"All on hand":"Missing ≤ "+S.missing,()=>{v("missing").value=""}]);
@@ -1506,9 +1508,9 @@ function filterBar(p,{sources=false,notes=false,onChange}){
       actives.append(el("span",{style:"width:1px;height:22px;background:var(--line);margin:0 4px"}));
       list.forEach(([l,clear])=>actives.append(el("button",{type:"button",class:"fx","aria-label":"Remove filter "+l,onclick:()=>{clear();onChange();paint()}},l,el("b",{"aria-hidden":"true",text:"×"}))));
       actives.append(el("button",{type:"button",class:"fclear",text:"Clear all",onclick:()=>{unpress("make");unpress("fam");["surf","opac","style","colorant","missing"].forEach(id=>v(id).value="");
-        ["food","pic","base","ox",...(notes?["notes"]:[]),...LEAVE.map(([n])=>"no-"+slug(n))].forEach(id=>v(id).checked=false);if(S.src)["new","glazy","mine"].forEach(k=>v("src-"+k).checked=true);onChange();paint()}}));
+        ["food","pic","base","ox",...(notes?["notes"]:[]),...LEAVE.map(([n])=>"no-"+slug(n))].forEach(id=>v(id).checked=false);if(S.src)SRCS.forEach(([k])=>v("src-"+k).checked=true);onChange();paint()}}));
     }
-    const moreN=(S.src?3-S.src.size:0)+[S.food,S.pic,S.notes,S.base].filter(Boolean).length+S.leave.length+(S.missing!==""?1:0);
+    const moreN=(S.src?SRCS.length-S.src.size:0)+[S.food,S.pic,S.notes,S.base].filter(Boolean).length+S.leave.length+(S.missing!==""?1:0);
     pops.forEach(({k,label,btn})=>{
       let txt=label,on=false;
       if(k==="make"&&S.make){txt=S.make==="glaze"?"Glaze":"Stain in clay";on=true}
@@ -1540,7 +1542,7 @@ const glazyItem=r=>r._item||(r._item={src:"glazy",key:"g"+r.id,rec:r,type:"glaze
   meta:[`Glazy #${r.id}`,r.author,"cone "+r.cone,r.surface,r.opacity].filter(Boolean).join(" · "),note:r.desc,rows:r.rows,batch:1000,link:glazyUrl(r.id),
   make:()=>({...glazyRecipe(r),myNotes:"",savedAt:Date.now()})});
 function askBrowse(){ // no query: the whole library, photos first, then swatches
-  return [...glazy().recipes].sort((a,b)=>(!!b.photo-!!a.photo)||(!!b.hex-!!a.hex)).map(glazyItem);
+  return [...[...glazy().recipes].sort((a,b)=>(!!b.photo-!!a.photo)||(!!b.hex-!!a.hex)).map(glazyItem),...storeItems()];
 }
 function askFromGlazy(P){
   const G=glazy().recipes;let list;
@@ -1577,30 +1579,102 @@ function askFromNew(){
   }));
   return out;
 }
+/* ---------- Premade glazes from supplier catalogs: no published colors, so estimate one from the name ---------- */
+const COLOR_WORDS=Object.entries({ // term → approximate fired color
+  "terra cotta":"C0643F","terracotta":"C0643F","sea foam":"A8D5C2","seafoam":"A8D5C2","robin's egg":"9FD6D2","robins egg":"9FD6D2","oxblood":"6E1F22","ox blood":"6E1F22",
+  "white":"F2F0EA","snow":"F6F6F2","chalk":"EFEDE6","bone":"E8E0CC","ivory":"EEE6D0","cream":"EDE3C8","vanilla":"EFE4C6","eggshell":"ECE5D3","oatmeal":"D9CBB0","linen":"E6DCC8","sand":"D6C29B","wheat":"D9C08C","clear":"ECEDE8","transparent":"ECEDE8",
+  "black":"242226","onyx":"26252A","obsidian":"1F1E23","ebony":"2A2421","licorice":"221F22","charcoal":"3B3A3F","midnight":"1F2A44","tenmoku":"3A2418","temmoku":"3A2418",
+  "gray":"8E8E8C","grey":"8E8E8C","slate":"5F6B76","smoke":"8C8A88","fog":"B9BDBD","mist":"C9D0D0","pewter":"8C8F8F","silver":"B8BBBC","stone":"9C978E","granite":"7D7A76","ash":"A9A69E","storm":"5E6670",
+  "brown":"6E4A33","chocolate":"4A2E22","cocoa":"5B3B2C","coffee":"5A3E2E","mocha":"6B4A38","espresso":"3B2A22","walnut":"5C4030","bark":"5A4637","tea dust":"5E5A2E","teadust":"5E5A2E","tan":"C2A27A","toffee":"9A6A3C","caramel":"A86A35","cinnamon":"9B5530","umber":"5E4330","sepia":"704C34","iron":"7A4A2E","rust":"9A4A26","copper":"A55A35","bronze":"8C6A3A",
+  "red":"B23A3A","crimson":"9E1B32","cherry":"A3202E","ruby":"9B1B30","cranberry":"8E2236","raspberry":"B5385A","brick":"9C4A3A","burgundy":"6E1F2E","wine":"6B2034","scarlet":"C8312C",
+  "orange":"E2722E","tangerine":"F08A3A","pumpkin":"D96B2B","persimmon":"D9622F","apricot":"F2A66E","peach":"F3B996","coral":"EE7F6B","salmon":"EA8E7A",
+  "yellow":"E8C44C","lemon":"F0D84E","butter":"F2DE8F","butterscotch":"D79A3E","honey":"C98B2E","amber":"B97A2A","gold":"C9A23A","golden":"C9A23A","goldenrod":"D4A12A","mustard":"C9A13A","saffron":"E0A12C","marigold":"E8A23A","sunflower":"E9B832","ochre":"BF8A36",
+  "green":"3D7A63","celadon":"A9C5B0","jade":"5FA88A","emerald":"2E8B5E","mint":"A8DABF","sage":"9AAE92","olive":"77783F","moss":"6E7B45","fern":"5B8A55","forest":"2F5E3E","lime":"A8C94A","chartreuse":"B8C94A","matcha":"9AAB5F","pistachio":"B5C995","pine":"2E5A45","avocado":"6F7F3A","leaf":"5E8F4E","grass":"6FA24E",
+  "teal":"2C8C8C","turquoise":"3FB0B0","aqua":"6CC8C8","lagoon":"3A9AA6","peacock":"1F7E86","ocean":"2E6E8E","sea":"4E8EA0","caribbean":"2AA3B0",
+  "blue":"2C4FA8","cobalt":"1F3F99","sapphire":"23408E","navy":"1F2D55","indigo":"2E3577","denim":"4A6890","sky":"8DB7DE","azure":"4C8CD0","cornflower":"6E8FD8","periwinkle":"8C94D6","powder blue":"B6CCE3","steel":"5F7488","stormy blue":"546A80",
+  "purple":"6A3A82","plum":"6B3352","grape":"5E3A6E","eggplant":"3F2A3D","violet":"7552A0","lavender":"B7A3D6","lilac":"C3A9D6","wisteria":"A895C9","amethyst":"8A63A8","orchid":"B57AB8","mauve":"A7838F","heather":"9E8CA6",
+  "kiwi":"8FA84A","fig":"6E4A5E","blueberry":"3E4F8C","mulberry":"6B2E4F","berry":"8E2F55","pear":"C8C86A","apple":"9CB84A","mango":"F0A642","papaya":"F09A5E","melon":"F2B48A","watermelon":"E06A7A","citrus":"E8C64A","cinnabar":"C2452F","vermilion":"D9452B","ember":"B8452A","flame":"E0582E","lava":"8A2E22","sunset":"E5835A","dusk":"6E6080","twilight":"4A4A78","glacier":"BFDCE2","ice":"D7E8EC","frost":"DCE6E6","arctic":"CFE2E8","cloud":"DADDDD","spruce":"2E5248","juniper":"4F6E5E","cedar":"8A5A3C","cypress":"4F6B4A","birch":"E3DCCB","maple":"B0602E","sea glass":"A6D0C2","seaglass":"A6D0C2","wintergreen":"5FA885","bamboo":"C9C08A","jasper":"9A4E3A","agate":"8A6A5A","opal":"E6E8E2","pearl":"EDE9E0","coal":"2B2A2C","soot":"3A3838","oyster":"D8D2C4","putty":"C9BEA6","khaki":"B5A47A","camel":"B58A5A","fawn":"C2A285","nutmeg":"8A5A3A","ginger":"B8743A","paprika":"B04A2A","chili":"A8352A",
+  "pink":"E79AA9","rose":"D47A8A","blush":"E8B2B0","bubblegum":"F08CB4","magenta":"B83A84","fuchsia":"C13D8E","flamingo":"F08C99","dusty rose":"C4919A"
+}).sort((a,b)=>b[0].length-a[0].length).map(([t,h])=>[new RegExp("\\b"+t.replace(/'/g,"'?")+"\\b"),h]);
+const WEAK_COLOR=/^(ash|stone|sea|iron|smoke|sand|steel|leaf|grass)$/;
+function nameHex(text){
+  let t=String(text||"").toLowerCase();const hits=[],weak=[];
+  for(const [re,h] of COLOR_WORDS){if(hits.length>=3)break;if(re.test(t)){(WEAK_COLOR.test(re.source.slice(2,-2))?weak:hits).push(h);t=t.replace(re," ")}}
+  if(!hits.length&&weak.length)hits.push(weak[0]);
+  if(!hits.length)return "";
+  let rgb=[0,2,4].map(i=>hits.reduce((s,h)=>s+parseInt(h.slice(i,i+2),16),0)/hits.length);
+  const low=String(text).toLowerCase(),mix=(c,k)=>rgb=rgb.map((v,i)=>v+(c[i]-v)*k);
+  if(/\b(light|pale|soft|pastel|baby)\b/.test(low))mix([255,255,255],.35);
+  if(/\b(dark|deep|midnight|rich)\b/.test(low))mix([20,18,24],.3);
+  return rgb.map(v=>Math.round(v).toString(16).padStart(2,"0")).join("").toUpperCase();
+}
+function coneRange(c){ // "^5-6" → [5,6]; "^06-10" → [-6,10]; cone 06 is below cone 1
+  const t=String(c||"").replace(/[–—]/g,"-").match(/0?\d+/g);if(!t)return null;
+  const n=t.map(x=>x.length>1&&x[0]==="0"?-parseInt(x,10):parseInt(x,10));return [Math.min(...n),Math.max(...n)];
+}
+const coversCone=(c,n)=>{const r=coneRange(c);return !!r&&n>=r[0]&&n<=r[1]};
+let storeCache=null,storeN=-1;
+function storeItems(){
+  if(storeCache&&storeN===CATALOG.length)return storeCache;storeN=CATALOG.length;
+  const merged=new Map();
+  CATALOG.filter(c=>(c.kind==="glaze"||c.kind==="underglaze")&&c.url).forEach(c=>{
+    const k=[c.brand||"",(String(c.code||"").match(/\d+/)||[""])[0],String(c.name||"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim()].join("|"),ex=merged.get(k);
+    if(!ex)merged.set(k,{...c});else ex.source=[...new Set([...String(ex.source||"").split(", "),...String(c.source||"").split(", ")].filter(Boolean))].join(", ");
+  });
+  storeCache=[...merged.values()].map((c,i)=>{
+    const name=c.name||"",title=[c.brand,c.code&&!name.includes(c.code)?c.code:"",name].filter(Boolean).join(" ");
+    const hex=nameHex(name)||nameHex(c.line),stores=String(c.source||"").split(", ").filter(Boolean);
+    const words=(name+" "+(c.line||"")).toLowerCase();
+    return {src:"store",key:"s"+i,type:"glaze",kind:c.line||"",atm:[],opacity:/\bclear|transparent\b/.test(words)?"transparent":/opaque/.test(words)?"opaque":"",
+      title,hex,est:!!hex,surface:/\bmatte?\b|\bmatt\b/.test(words)?"Matte":/\bsatin\b/.test(words)?"Satin":"",food:false,cone:c.cone||"",
+      under:c.kind==="underglaze",
+      meta:[c.kind==="underglaze"?"Underglaze":"Glaze",/^(under)?glaze$/i.test(c.line||"")?"":c.line,c.cone?"cone "+String(c.cone).replace(/^\^/,""):""].filter(Boolean).join(" · "),
+      note:hex?"Color estimated from the name. Check the supplier's photo before you buy.":"",rows:[],batch:0,
+      buy:{url:c.url,store:stores[0]||"store",also:stores.slice(1)},hay:(title+" "+(c.line||"")+" "+(c.code||"")).toLowerCase()};
+  });
+  return storeCache;
+}
+function askFromStore(P,{cone=null,perHex=4}={}){
+  const all=storeItems();
+  if(P.hexes.length){
+    const pool=all.filter(it=>it.hex&&!it.under&&(cone==null||coversCone(it.cone,cone))),seen=new Set(),out=[];
+    P.hexes.forEach(h=>pool.map(it=>[hexDist(h,it.hex),it]).filter(([d])=>d<55).sort((a,b)=>a[0]-b[0]).slice(0,perHex)
+      .forEach(([,it])=>{if(!seen.has(it.key)){seen.add(it.key);out.push(it)}}));
+    return out;
+  }
+  if(!P.words.length)return [];
+  const scored=all.map(it=>[P.words.filter(w=>it.hay.includes(w)).length,it]).filter(([n])=>n);
+  scored.forEach(([n,it])=>it._full=n===P.words.length); // exact product hits rank above Glazy in search
+  return scored.sort((a,b)=>b[0]-a[0]).map(([,it])=>it);
+}
+const formCone=()=>{const m=String($("cone").value).match(/cone\s*(0?\d+)/i);return m?(m[1].length>1&&m[1][0]==="0"?-parseInt(m[1],10):parseInt(m[1],10)):6};
 function askCard(it){
   const im=el("div",{class:"im"});
   if(it.photo)im.append(photoEl(it.photo,it.title,""));else im.style.background="#"+(normHex(it.hex)||"D8DAD5");
-  const badge={new:"New",glazy:"Glazy",mine:"Mine"}[it.src];
+  if(it.est)im.title="Approximate color, estimated from the product name";
+  const badge={new:"New",glazy:"Glazy",mine:"Mine",store:"Premade"}[it.src];
   const acts=el("div",{class:"acts"});
   if(it.make)acts.append(saveBtn(it.make));
   if(it.open)acts.append(el("button",{type:"button",class:"ghost sm",text:"Open",onclick:it.open}));
   if(it.link)acts.append(el("a",{href:it.link,target:"_blank",rel:"noopener",class:"note",text:"View on Glazy"}));
+  if(it.buy)acts.append(el("a",{href:it.buy.url,target:"_blank",rel:"noopener",class:"ghost sm",text:"Buy at "+it.buy.store}));
   return el("article",{class:"acard "+it.src},im,el("div",{class:"body"},
     el("span",{class:"srcb "+it.src,text:badge}),el("h4",{text:it.title}),el("div",{class:"meta",text:it.meta}),
     it.note?el("p",{class:"note",text:it.note}):null,it.safety?el("p",{class:"note warn",text:it.safety}):null,
-    el("details",{},el("summary",{text:"Recipe"}),recipeTable(it.rows,it.batch))),acts);
+    it.buy&&it.buy.also.length?el("p",{class:"note",text:"Also at "+it.buy.also.join(", ")}):null,
+    it.rows.length?el("details",{},el("summary",{text:"Recipe"}),recipeTable(it.rows,it.batch)):null),acts);
 }
 const AF=filterBar("af",{sources:true,notes:true,onChange:()=>{askLimit=30;renderAsk()}});
 $("askBar").append(AF.bar);$("askSort").append(AF.sort);AF.paint();
 function renderAsk(){
   const box=$("askResults");box.textContent="";
-  const S=AF.state(),order={new:0,glazy:1,mine:2};
-  const shown=sortItems(askItems.filter(it=>passes(it,S)),S,askQuery?(a,b)=>order[a.src]-order[b.src]:null);
+  const S=AF.state(),rank=it=>({new:0,mine:1,glazy:3}[it.src]??(it._full?2:4));
+  const shown=sortItems(askItems.filter(it=>passes(it,S)),S,askQuery?(a,b)=>rank(a)-rank(b):null);
   $("askMore").hidden=true;
   const note=stainNote(S);if(note)box.append(note);
-  const nGlazy=askItems.filter(it=>it.src==="glazy").length;
-  $("askCount").textContent=dmode==="match"?(askItems.length?`${shown.length} result${shown.length===1?"":"s"} · new recipes first, then the closest tested Glazy recipes`:""):
-    askQuery?`${shown.length} result${shown.length===1?"":"s"} for “${askQuery}”`:`${shown.length.toLocaleString()} of ${nGlazy.toLocaleString()} Glazy recipes`;
+  const nGlazy=askItems.filter(it=>it.src==="glazy").length,nStore=askItems.filter(it=>it.src==="store").length;
+  $("askCount").textContent=dmode==="match"?(askItems.length?`${shown.length} result${shown.length===1?"":"s"} · new recipes first, then premade glazes close to your colors, then tested Glazy recipes`:""):
+    askQuery?`${shown.length} result${shown.length===1?"":"s"} for “${askQuery}”`:`Showing ${shown.length.toLocaleString()} of ${nGlazy.toLocaleString()} Glazy recipes and ${nStore.toLocaleString()} premade glazes`;
   if(!shown.length){box.append(el("p",{class:"note",text:askItems.length?"Nothing matches these filters. Remove a filter above, or Clear all.":dmode==="match"?"":"No matches. Try fewer words, or paste hex codes."}));return}
   if(false)box.append(el("p",{class:"note",text:askQuery?`${shown.length} result${shown.length===1?"":"s"}`:(shown.length===askItems.length?`Browsing ${shown.length.toLocaleString()} Glazy recipes, photos first. Search above, or use the filters, to narrow it down.`:`${shown.length.toLocaleString()} of ${askItems.length.toLocaleString()} Glazy recipes match these filters`)}));
   shown.slice(0,askLimit).forEach(it=>box.append(askCard(it)));
@@ -1621,7 +1695,7 @@ $("matchPanel").append($("form"));
 async function afterMatch(){
   if(tab!=="ask"||dmode!=="match")return;
   const P={hexes:hexList,surface:$("surface").value,opacity:$("opacity").value,food:$("foodSafe").checked,words:[]};
-  matchItems=[...askFromNew(),...(mode==="glaze"&&hexList.length?askFromGlazy(P):[])];
+  matchItems=[...askFromNew(),...(mode==="glaze"&&hexList.length?[...askFromStore(P,{cone:formCone()}),...askFromGlazy(P)]:[])];
   askItems=matchItems;askLimit=30;
   const st=$("status");$("askStatus").className=st.className;$("askStatus").textContent=/err/.test(st.className)?st.textContent:"";
   renderAsk();
@@ -1631,7 +1705,7 @@ function askInstant(){ // library + notebook only, no Claude call
   const q=$("askQ").value.trim();askLimit=30;
   if(!q){askQuery="";askItems=askBrowse();$("askStatus").textContent="";renderAsk();return}
   askQuery=q;const P=parseAsk(q);
-  askItems=[...askItems.filter(it=>it.src==="new"&&askQuery),...askFromGlazy(P),...askFromMine(P)];renderAsk();
+  askItems=[...askItems.filter(it=>it.src==="new"&&askQuery),...askFromGlazy(P),...askFromMine(P),...askFromStore(P)];renderAsk();
 }
 let askTimer;$("askQ").addEventListener("input",()=>{clearTimeout(askTimer);askTimer=setTimeout(askInstant,200)});
 $("askForm").addEventListener("submit",e=>{e.preventDefault();askInstant()});
@@ -1721,6 +1795,7 @@ initStore();
   const stores=[...new Set(arr.map(i=>i.source).join(", ").split(", ").filter(Boolean))].sort();
   stores.forEach(s=>$("store").append(el("option",{value:s,text:s})));
   renderLineSelect();renderResults();
+  if(tab==="ask"&&dmode==="search")askInstant(); // premade glazes arrive with the catalog
 })();
 (async()=>{
   try{const ns=await window.claude?.use?.("sample");if(ns){sampleNs=ns;try{sampleImages=!!(await ns.limits())?.images}catch{}}}catch{}

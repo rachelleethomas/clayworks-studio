@@ -217,6 +217,7 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .srcb.new{background:var(--tint-purple);color:var(--tint-purple-ink)}
 .srcb.glazy{background:var(--tint-blue);color:var(--tint-blue-ink)}
 .srcb.mine{background:var(--tint-green);color:var(--tint-green-ink)}
+.srcb.store{background:var(--tint-teal);color:var(--tint-teal-ink)}
 .pill.have{background:var(--tint-green);color:var(--tint-green-ink)}
 .pill.buy{background:var(--tint-orange);color:var(--tint-orange-ink)}
 
