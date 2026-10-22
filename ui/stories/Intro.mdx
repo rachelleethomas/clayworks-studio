@@ -7,7 +7,9 @@ import { Meta } from "@storybook/blocks";
 Every component here uses the app's real CSS. `npm run storybook` copies the styles from `app/clayworks.html` (and the account/login styles from `web/build.py`) into `ui/styles/clayworks.css` before starting, so the app stays the single source. Edit styles in the app, not in `ui/`.
 
 - **Foundations**: color tokens (live, with a light/dark switch in the toolbar), type, radius and elevation.
-- **Components**: buttons, tabs, switches, chips, inputs, cards, the filter bar, menus and dialogs, rendered with the same markup the app builds.
-- **Explorations / Tines-inspired**: palette, font and button directions to pick from. Nothing there is in the app yet.
+- **Components**: every piece of the app, rendered with the same markup and classes the app builds: buttons, tabs and switches, chips and badges, inputs, checkboxes and toggles, the Match colors form (pulled live from the app), result and recipe cards, test tiles and the shopping list, shelves, Search & add, paste and photo flows, filter bar, account menu, dialogs, login, status messages.
+- **Explorations**: directions that aren't in the app yet (palette, fonts, tabs, inputs, brand surfaces, pottery illustrations).
+
+The app's stylesheet is organized one block per component (tokens · base · header · controls · chips · Discover · forms · cards · shelves · surfaces · motion), so changing a component here changes it everywhere.
 
 Run it locally from `ui/`: `npm install` once, then `npm run storybook`. `npm run build-storybook` writes a static copy to `docs/storybook/`, which GitHub Pages serves next to the app.

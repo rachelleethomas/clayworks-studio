@@ -1,4 +1,5 @@
 // Each story renders the same markup and classes the app builds, so styles come straight from app/clayworks.html.
+import FRAG from "../styles/fragments.js";
 export default { title: "Components" };
 
 const row = (...items) => `<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">${items.join("")}</div>`;
@@ -48,8 +49,7 @@ export const Inputs = () => stack(
   `<form class="askbox" onsubmit="return false"><label class="sr-only" for="sb-q">Search</label><input type="search" id="sb-q" placeholder="Search Glazy and your recipes: celadon, satin black, or a hex like 70626E"><button class="btn" type="submit">Search</button></form>`,
   `<div class="row" style="max-width:520px"><div class="field"><label for="sb-cone">Firing</label><select id="sb-cone"><option>Cone 6 oxidation</option></select></div><div class="field"><label for="sb-batch">Batch (g dry)</label><input type="number" id="sb-batch" value="1000"></div></div>`,
   `<div class="field" style="max-width:520px"><label for="sb-hex">Hex codes</label><textarea id="sb-hex">ACB0AB, BAABAB, 48333B</textarea></div>`,
-  `<label class="check"><input type="checkbox" checked> Food-safe (for mugs, bowls, liners)</label>`,
-  `<div class="drop" style="max-width:520px">Drop, paste, or tap to take a photo. A palette, bark, or a pot you love all work.</div>`);
+  label("Sort / small select · .fcount select"), `<div class="fcount" style="max-width:520px;margin:0"><p class="note">471 of 3,309 Glazy recipes</p><label class="fsort"><span class="lbl">Sort</span><select><option>Best match</option><option>Name</option></select></label></div>`);
 
 export const DiscoverResult = () => `<div id="askResults" style="max-width:980px">
   <article class="acard new"><div class="im" style="${sw("70626E")}"></div><div class="body"><span class="srcb new">New</span><h4>Bark satin</h4><div class="meta">Glaze for #70626E · adapted from Glazy #3033</div><p class="note">Satin gray with a plum cast. Add 0.5% red iron oxide if it reads too cool.</p><p class="note warn">Test for leaching before using on food surfaces.</p><details><summary>Recipe</summary>${table(baseRows, 1000)}</details></div><div class="acts"><button class="ghost sm">Save</button></div></article>
@@ -96,7 +96,7 @@ export const AccountMenu = () => `<div class="cw-user" style="display:inline-blo
   <button class="cw-avatar" type="button" aria-expanded="true">G</button>
   <div class="cw-menu" style="position:absolute"><div class="who"><span class="cw-avatar" aria-hidden="true">G</span><div><b>grace</b><small>Signed in</small></div></div>
     <div class="cw-spend"><span class="lbl">Spent this week</span><div class="amt">$0.42<span>of $3.00</span></div><span class="cw-meter"><i style="width:14%"></i></span><span class="note">Resets Mon, Oct 26.</span></div>
-    <button class="ghost out" type="button">Send an idea</button><button class="ghost out" type="button">Log out</button></div></div>`;
+    <button class="cw-mitem" type="button">Send an idea</button><button class="cw-mitem out" type="button">Log out</button></div></div>`;
 AccountMenu.storyName = "Account menu";
 
 export const IdeaDialog = () => `<dialog open class="cw-dialog" style="position:static;margin:0"><div class="cw-dhead"><h2>Send Rachel an idea</h2><button class="linkbtn">Close</button></div>
@@ -109,3 +109,93 @@ export const EmptyAndNotices = () => stack(
   `<p class="fnote">The Glazy library is glazes only. Stain-in-clay recipes come from your notebook and from new recipes.</p>`,
   `<div class="shop"><h3>Shopping list</h3><p class="note">Stains not in your studio, for the first option of each color, plus about 25% for test tiles.</p><table><tr><td>6500 Sage</td><td class="n">145 g</td><td class="n">0.5 lb</td></tr><tr><td>6020 Manganese Alumina Pink</td><td class="n">18 g</td><td class="n">0.25 lb</td></tr></table></div>`);
 EmptyAndNotices.storyName = "Empty states and notices";
+
+export const CheckboxesAndToggles = () => stack(
+  label("Checkbox · .check (More filters, Search & add)"),
+  row(`<label class="check"><input type="checkbox" checked> Glazy library</label>`, `<label class="check"><input type="checkbox"> No zinc</label>`, `<label class="check"><input type="checkbox" disabled> Disabled</label>`),
+  label("Toggle pill · .mtog (Match colors)"),
+  row(`<label class="mtog"><input type="checkbox" checked><i aria-hidden="true"></i>Food-safe</label>`, `<label class="mtog"><input type="checkbox"><i aria-hidden="true"></i>Prefer stains I already have</label>`));
+CheckboxesAndToggles.storyName = "Checkboxes and toggles";
+
+// Pulled live from app/clayworks.html by scripts/extract_css.py
+export const MatchForm = () => {
+  const d = document.createElement("div");
+  d.id = "matchPanel"; d.style.maxWidth = "880px";
+  d.innerHTML = FRAG.matchForm || "<p class='note'>Run npm run sync-css</p>";
+  const f = d.querySelector("form"); f.onsubmit = (e) => e.preventDefault();
+  const body = d.querySelector("#body"); if (body) body.innerHTML = "<option>White porcelain</option><option>Buff stoneware</option>";
+  const chips = d.querySelector("#chips"); if (chips) chips.innerHTML = `<span class="chip"><i style="${sw("ACB0AB")}"></i>ACB0AB<button type="button">×</button></span>`;
+  const inv = d.querySelector("#invChips"); if (inv) inv.innerHTML = ["6006", "6363", "6364", "6219"].map((c) => `<span>${c}</span>`).join("");
+  const hex = d.querySelector("#hexes"); if (hex) hex.value = "ACB0AB";
+  const seg = [...d.querySelectorAll(".seg button")];
+  const mode = (m) => { seg.forEach((b) => b.setAttribute("aria-checked", String(b.dataset.mode === m)));
+    d.querySelectorAll(".stain-only").forEach((e) => (e.hidden = m !== "stain")); d.querySelectorAll(".glaze-only").forEach((e) => (e.hidden = m !== "glaze")); };
+  seg.forEach((b) => (b.onclick = () => mode(b.dataset.mode))); mode("glaze");
+  return d;
+};
+MatchForm.storyName = "Match colors form (live markup)";
+
+export const MatchResults = () => `<div class="board" style="max-width:900px">
+  <div class="boardhead"><h2>Test tiles</h2><span class="tag">White porcelain · Cone 6 oxidation · 3629 g dry clay</span></div>
+  <section class="color"><div class="colorhead"><span class="target" style="${sw("ACB0AB")}"></span><div><h3>#ACB0AB</h3><p>Sage gray, cool</p></div></div>
+    <div class="tiles"><article class="tile"><div class="glaze" style="${sw("A9AEA6")}"><span>expected #A9AEA6</span></div><div class="in"><h4>Clean sage</h4><span class="pill buy">Needs stain</span>${table([["6500 Sage *", 4]], 3629)}<div class="links"><button class="ghost sm">Save</button><a href="#">Fired results on Glazy</a></div></div></article></div></section>
+  <div class="shop"><h3>Shopping list</h3><p class="note">Stains not in your studio, plus about 25% for test tiles.</p><table><tr><td>6500 Sage</td><td class="n">145 g</td><td class="n">0.5 lb</td></tr></table></div>
+</div>`;
+MatchResults.storyName = "Match results (board, tiles, shopping list)";
+
+export const ShelvesPage = () => `<div class="studio" style="max-width:1000px">
+  <div class="seg mineseg" role="radiogroup"><button role="radio" aria-checked="false">Recipes</button><button role="radio" aria-checked="true">Shelves</button></div>
+  <div class="shelfbar"><div class="filters"><button aria-pressed="true">All<b>6</b></button><button aria-pressed="false">Stains<b>5</b></button><button aria-pressed="false">Clay bodies<b>1</b></button></div><button class="btn" type="button">Search &amp; add</button></div>
+  <div class="shelves"><section class="shelf"><div class="shelfhead"><h2>Stains</h2><span>5 items</span></div>
+    <div class="items"><div class="item"><span class="sw" style="${sw("8A2A35")}"></span><div><h4>6006 Deep Crimson</h4><div class="meta">Mason</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div>
+    <div class="item"><span class="sw" style="${sw("86A6D6")}"></span><div><h4>6363 Sky Blue</h4><div class="meta">Mason</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div></div></section></div>
+</div>`;
+ShelvesPage.storyName = "Shelves page (switch, filters, shelf)";
+
+export const SearchAndAdd = () => `<div class="addinner" style="padding:0;max-width:1000px">
+  <div class="addhead"><h2>Search &amp; add</h2><button class="ghost" type="button">Done</button></div>
+  <div class="searchbar"><input type="search" value="blue" aria-label="Search"><button class="btn" type="button">Add from photo</button></div>
+  <div class="quick"><select><option>All stores</option></select><select><option>All types</option></select><select><option>Browse a product line…</option></select><button class="ghost" type="button">Paste a list</button></div>
+  <div class="bulkbar"><button class="btn" type="button">Add 1 selected</button><button class="linkbtn" type="button">Clear</button></div>
+  <div class="results"><div style="display:flex;gap:12px;align-items:center"><h3>203 matches</h3><button class="linkbtn" type="button">Select all shown</button></div>
+    <div class="rlist">${[["Laguna SG-98 Blue", "Glaze · ^5 · Laguna Clay", "D6D6D2", false], ["Amaco Celadon C-11 Blue Spark", "Glaze · Cone 5–6 · The Ceramic Shop", "60789F", true], ["Mason 6363 Sky Blue", "Stain · body OK · Sheffield Pottery", "86A6D6", false]].map(([n, m, c, on]) =>
+      `<div class="ritem" ${on ? 'style="background:var(--wash)"' : ""}><input type="checkbox" ${on ? "checked" : ""} aria-label="Select"><span class="sw" style="${sw(c)}"></span><div class="nm"><b>${n}</b><small>${m}</small></div><button class="ghost sm" type="button">Add</button></div>`).join("")}</div></div>
+</div>`;
+SearchAndAdd.storyName = "Search & add panel";
+
+export const StatusMessages = () => stack(
+  `<p class="status">Done. Change batch size or water % to recalculate grams.</p>`,
+  `<p class="status err">Couldn't reach the recipe service. Try again in a minute.</p>`,
+  `<p class="note">Recipes from Glazy contributors, shared under CC BY-NC-SA 4.0.</p>`,
+  `<p class="note warn">Test for leaching before using on food surfaces.</p>`);
+StatusMessages.storyName = "Status and notes";
+
+export const LoginCard = () => `<div style="display:grid;place-items:center;padding:24px;background:var(--bg)">
+  <form class="cw-card" onsubmit="return false"><span class="brand"><span class="mark" aria-hidden="true"></span><span class="brand-name">Clayworks Studio</span></span><h2>Log in</h2>
+    <div class="field"><label for="lg-u">Name</label><input type="text" id="lg-u" value="grace"></div><div class="field"><label for="lg-p">Password</label><input type="password" id="lg-p" value="········"></div>
+    <button class="btn" type="submit">Log in</button><p class="status err">That name and password don't match.</p></form></div>`;
+LoginCard.storyName = "Login card (GitHub build)";
+
+export const PageHeader = () => `<div class="wrap" style="max-width:1000px">
+  <div class="intro"><h1>Discover</h1><p class="sub">Search tested Glazy recipes and your own, or switch to Match colors to get new stain and glaze recipes for a palette or photo.</p></div>
+  <div class="discbar"><div class="seg dmode" role="radiogroup"><button role="radio" aria-checked="true">Search</button><button role="radio" aria-checked="false">Match colors</button></div>
+    <form class="askbox" onsubmit="return false"><input type="search" aria-label="Search" placeholder="Search Glazy and your recipes: celadon, satin black, Frit 3134…"><button class="btn" type="submit">Search</button></form></div>
+</div>`;
+PageHeader.storyName = "Page header (title, intro, search bar)";
+
+export const PasteAndPhoto = () => stack(
+  label("Paste a list · .paste"),
+  `<div class="paste"><label for="pl">One item per line</label><textarea id="pl">6600 Best Black
+Frit 3134
+Amaco PC-20</textarea><div class="links"><button class="btn" type="button">Find these</button><button class="linkbtn" type="button">Cancel</button></div></div>`,
+  label("Add from photo · .photo + .found"),
+  `<div class="photo"><div style="width:120px;height:120px;border-radius:8px;background:repeating-linear-gradient(45deg,#E6E2DB 0 8px,#EFEBE5 8px 16px)"></div>
+    <div class="found">${[["Mason 6363 Sky Blue", "86A6D6", true], ["Amaco PC-20 Blue Rutile", "5C6F86", true], ["Unknown jar", "C9C3B8", false]].map(([n, c, on]) =>
+      `<label class="f"><input type="checkbox" ${on ? "checked" : ""}><span class="sw" style="${sw(c)}"></span><span>${n}</span><select><option>Stain</option><option>Glaze</option></select></label>`).join("")}
+      <div class="links"><button class="btn" type="button">Add 2 to shelves</button></div></div></div>`);
+PasteAndPhoto.storyName = "Paste a list and Add from photo";
+
+export const IdeasInbox = () => `<dialog open class="cw-dialog" style="position:static;margin:0"><div class="cw-dhead"><h2>Ideas inbox</h2><button class="linkbtn">Close</button></div>
+  <div class="cw-dbody"><div class="cw-idea"><div class="cw-ideameta"><b>grace</b>Oct 21 · Discover</div><p>Could the shopping list say which store has each stain?</p><button class="ghost sm" type="button">Mark done</button></div>
+  <div class="cw-idea done"><div class="cw-ideameta"><b>hannah</b>Oct 20 · My Studio</div><p>Dark mode please!</p></div></div></dialog>`;
+IdeasInbox.storyName = "Ideas inbox (admin)";

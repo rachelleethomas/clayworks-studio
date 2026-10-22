@@ -39,19 +39,24 @@ css = '''
 .cw-user{position:relative}
 .cw-avatar{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;
   font:600 15px var(--body);color:var(--tint-purple-ink);background:var(--tint-purple);border:1px solid var(--tint-purple-line);transition:box-shadow .15s}
-.cw-avatar:hover,.cw-avatar[aria-expanded="true"]{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.cw-avatar:hover,.cw-avatar[aria-expanded="true"]{box-shadow:0 0 0 3px var(--purple-200)}
 .cw-menu{position:absolute;right:0;top:calc(100% + 10px);width:min(280px,calc(100vw - 32px));z-index:30;display:grid;gap:14px;padding:16px;
   background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.14)}
 .cw-menu .who{display:flex;gap:12px;align-items:center}
 .cw-menu .who .cw-avatar{cursor:default;box-shadow:none}
 .cw-menu .who b{display:block;font:500 20px/1.1 var(--display);letter-spacing:-.01em}
 .cw-menu .who small{color:var(--muted);font-size:12px}
-.cw-spend{display:grid;gap:6px;background:var(--bg);border-radius:12px;padding:12px}
+.cw-spend{display:grid;gap:6px;background:var(--purple-50);border-radius:12px;padding:12px}
 .cw-spend .lbl{font-family:var(--mono)}
 .cw-spend .amt{font:400 28px/1 var(--display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .cw-spend .amt span{font:400 13px var(--body);color:var(--muted);letter-spacing:0;margin-left:4px}
 .cw-spend .note{font-size:12px}
-.cw-menu .out{justify-self:stretch}
+.cw-mitem{display:flex;align-items:center;width:100%;border:0;background:none;text-align:left;font:500 15px var(--body);color:var(--accent);padding:9px 10px;margin:0 -6px;width:calc(100% + 12px);border-radius:10px;cursor:pointer;transition:background .15s}
+.cw-mitem:hover{background:var(--wash)}
+.cw-mitem.out{color:var(--muted);border-top:1px solid var(--line);border-radius:0 0 10px 10px;margin-top:2px;padding-top:12px}
+.cw-mitem.out:hover{color:var(--ink)}
+.cw-menu{gap:4px!important}
+.cw-menu .cw-spend{margin:10px 0 8px}
 .cw-meter{width:100%;height:6px;border-radius:999px;background:var(--line);overflow:hidden;display:block}
 .cw-dialog{width:min(520px,calc(100vw - 32px));max-height:calc(100vh - 64px);border:1px solid var(--line);border-radius:18px;padding:0;background:var(--surface);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.18)}
 .cw-dialog::backdrop{background:rgba(20,18,24,.35)}
@@ -70,7 +75,7 @@ css = '''
 .cw-login{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-items:center;
   padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .cw-card{width:min(380px,100%);display:grid;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:0 24px 80px rgba(0,0,0,.08)}
-.cw-card input[type=password]{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+
 .cw-card h2{font-family:var(--display);font-weight:400;font-size:36px;letter-spacing:-.03em;line-height:1}
 </style>'''
 rep("</style>", css)
