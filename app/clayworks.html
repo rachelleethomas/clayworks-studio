@@ -104,6 +104,37 @@ tr.add td:first-child{color:var(--accent)}
 .askbox{display:flex;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 6px 6px 8px;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 14%,transparent)}
 .askbox input[type=search]{flex:1;min-width:0;border:0;background:none;font-size:17px;padding:10px 12px}
 .askbox input[type=search]:focus-visible{outline:none}
+.discbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.discbar .askbox{flex:1 1 420px;min-width:0}
+.dmode{grid-template-columns:auto auto;width:auto}
+.dmode button{white-space:nowrap}
+#matchPanel #form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 22px;border:2px solid color-mix(in srgb,var(--accent) 55%,var(--line));border-radius:var(--radius);background:var(--surface);padding:18px}
+#matchPanel #form>.seg{grid-column:1/-1;max-width:440px}
+#matchPanel #form>#go,#matchPanel #form>.status{grid-column:1/-1}
+#matchPanel #form>#go{justify-self:start;padding-inline:28px}
+@media (max-width:700px){#matchPanel #form{grid-template-columns:minmax(0,1fr)}}
+.fbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fddw{position:relative}
+.fdd{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 14px;font:500 13.5px var(--body);cursor:pointer;white-space:nowrap}
+.fdd:hover{border-color:color-mix(in srgb,var(--ink) 35%,var(--line))}
+.fdd.set{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.fpop{position:absolute;top:calc(100% + 8px);left:0;z-index:25;width:max-content;max-width:min(380px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 18px 50px rgba(0,0,0,.14);display:grid;gap:10px}
+.fpop select{min-width:200px}
+.fpop .fchips{max-width:340px}
+@media (max-width:560px){.fpop{position:fixed;left:16px;right:16px;top:auto;bottom:16px;max-width:none;width:auto;max-height:70vh;overflow:auto}}
+.factive{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.factive:empty{display:none}
+.fx{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font:600 12.5px var(--body);background:var(--tint-purple);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);cursor:pointer}
+.fx b{font-weight:700}
+.fclear{border:0;background:none;color:var(--accent);font:600 13px var(--body);text-decoration:underline;cursor:pointer;padding:0 4px}
+.fcount{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:-8px}
+.fcount .note{margin:0;color:var(--ink)}
+.fsort{display:flex;gap:8px;align-items:center}
+.fsort select{width:auto;padding:6px 12px;border-radius:999px}
+.fpop select,.fsort select{font-family:var(--body)}
+#askResults{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:12px}
+@media (max-width:560px){#askResults{grid-template-columns:minmax(0,1fr)}}
+#askResults>.fnote,#askResults>.note{grid-column:1/-1}
 .asklayout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;align-items:start}
 .asklayout.collapsed{grid-template-columns:minmax(0,1fr)}
 .asklayout.collapsed .askfilters{display:none}
@@ -329,32 +360,33 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 
   <!-- ASK (Ask the studio layout) -->
   <div class="studio" id="view-ask" role="tabpanel" hidden>
-    <form class="askbox" id="askForm" novalidate>
-      <label for="askQ" class="sr-only">Search recipes</label>
-      <input type="search" id="askQ" autocomplete="off" placeholder="Search Glazy and your notebook: satin plum, celadon, or hex codes like 70626E">
-      <button class="ghost" type="button" id="askPhoto">Photo</button>
-      <input type="file" id="askFile" accept="image/*" hidden>
-      <button class="btn" type="submit" id="askGo">Search</button>
-    </form>
-    <div class="chips" id="askChips"></div>
-    <p class="note" style="margin:-6px 0 0">Need batch sizes, water % or slip options? <button type="button" class="linkbtn" id="openMatch">Open the full Color match form</button></p>
-    <div class="asklayout">
-      <aside class="askfilters" aria-label="Filter results" id="askSide"></aside>
-      <section class="askresults" aria-live="polite">
-        <div class="fbarhead"><button class="ghost sm ftoggle" type="button" id="askFiltToggle" aria-controls="askSide" aria-expanded="true">Hide filters</button></div>
-        <p class="status" id="askStatus" role="status"></p>
-        <div id="askResults"></div>
-        <button class="ghost" type="button" id="askMore" hidden>Show more</button>
-      </section>
+    <div class="discbar">
+      <div class="seg dmode" role="radiogroup" aria-label="Discover mode">
+        <button type="button" role="radio" aria-checked="true" data-dmode="search">Search</button>
+        <button type="button" role="radio" aria-checked="false" data-dmode="match">Match colors</button>
+      </div>
+      <form class="askbox" id="askForm" novalidate>
+        <label for="askQ" class="sr-only">Search recipes</label>
+        <input type="search" id="askQ" autocomplete="off" placeholder="Search Glazy and your recipes: celadon, satin black, Frit 3134, or a hex like 70626E">
+        <button class="btn" type="submit" id="askGo">Search</button>
+      </form>
     </div>
+    <div id="matchPanel" hidden></div>
+    <div id="askBar"></div>
+    <div class="fcount"><p class="note" id="askCount" role="status"></p><div id="askSort"></div></div>
+    <p class="status" id="askStatus" role="status"></p>
+    <section class="askresults" aria-live="polite">
+      <div id="askResults"></div>
+      <button class="ghost" type="button" id="askMore" hidden>Show more</button>
+    </section>
   </div>
 
   <!-- RECIPES -->
   <div class="grid" id="view-recipes" role="tabpanel">
     <form class="rail" id="form" novalidate>
       <div class="seg" role="radiogroup" aria-label="Recipe type">
-        <button type="button" role="radio" aria-checked="true" data-mode="stain">Stain recipe</button>
-        <button type="button" role="radio" aria-checked="false" data-mode="glaze">Glaze recipe</button>
+        <button type="button" role="radio" aria-checked="false" data-mode="glaze">Glaze</button>
+        <button type="button" role="radio" aria-checked="true" data-mode="stain">Stain in clay or slip</button>
       </div>
       <div class="field">
         <span class="lbl">Inspiration image</span>
@@ -649,7 +681,7 @@ const SUBS={
   glaze:"Drop in an inspiration image or hex codes, pick your firing and surface, and get glaze recipes: a base that totals 100 plus colorants, with grams for your batch.",
   work:"What you're working on right now. This space is still being designed.",
   saved:"Recipes you've saved or written yourself, with your test notes. Change a batch size to rescale the grams.",
-  ask:"Browse tested Glazy recipes, search them and your notebook, or paste hex codes and add a photo to get new recipes made for you.",
+  ask:"Search tested Glazy recipes and your own, or switch to Match colors to get new stain and glaze recipes for a palette or photo.",
   library:"Tested cone 5–6 glazes from Glazy, marked Production by their makers. Search by name, material or color, and save the ones you want to try.",
   studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first."};
 let tab="recipes";
@@ -666,6 +698,7 @@ function renderTabs(){
 }
 function showTab(name){
   if(GROUPS[name])name=groupSub[name];
+  if(name==="recipes"){name="ask";setTimeout(()=>setDmode("match"))} // Color match now lives in Discover
   if(!VIEWS.includes(name))name=START;
   tab=name;
   const grp=Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name));
@@ -677,11 +710,10 @@ function showTab(name){
   $("sub").textContent=SUBS[name==="recipes"?mode:name];
   $("pageTitle").textContent=(grp&&GROUPS[grp].title)||TITLES[name];
   if(name==="library")renderGlazy();
-  if(name==="ask"&&!askQuery&&!askItems.length){askItems=askBrowse();renderAsk()}
+  if(name==="ask"&&dmode==="search"&&!askQuery&&!askItems.length){askItems=askBrowse();renderAsk()}
   try{history.replaceState(null,"","#"+name)}catch{}
 }
 document.querySelectorAll("#mineSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
-$("openMatch").onclick=()=>showTab("recipes");
 $("workToDiscover").onclick=()=>showTab("ask");
 $("workToInventory").onclick=()=>showTab("saved");
 document.querySelector(".brand").onclick=e=>{e.preventDefault();showTab(START);window.scrollTo({top:0,behavior:"smooth"})};
@@ -874,7 +906,7 @@ function renderGlaze(){
   b.append(shop);
 }
 
-$("form").addEventListener("submit",e=>{e.preventDefault();runMatch()});
+$("form").addEventListener("submit",e=>{e.preventDefault();runMatch().then(()=>afterMatch())});
 async function runMatch(){
   parseHexes();
   const st=$("status");
@@ -1134,7 +1166,7 @@ Return JSON {"inspiration":false,"items":[{"kind":"stain|glaze|underglaze|clay|c
     const items=(res?.items||[]).filter(it=>it&&it.name);
     if(!items.length){
       right.append(el("p",{class:"note",text:res?.inspiration?"This looks like inspiration rather than a supply.":"I couldn't read a product label in this photo."}),
-        el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"Use as recipe inspiration",onclick:()=>{showTab("recipes");takeFile(f);p.hidden=true}}),
+        el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"Use as recipe inspiration",onclick:()=>{showTab("ask");setDmode("match");takeFile(f);p.hidden=true}}),
           el("button",{type:"button",class:"ghost",text:"Dismiss",onclick:()=>{p.hidden=true}})));
       return;
     }
@@ -1147,7 +1179,7 @@ Return JSON {"inspiration":false,"items":[{"kind":"stain|glaze|underglaze|clay|c
     });
     const add=el("button",{type:"button",class:"btn",text:"Add to studio"});
     add.onclick=async()=>{add.disabled=true;for(const r of rows)if(r.cb.checked)await addItem({...r.it,kind:r.ks.value});p.hidden=true;$("q").value="";renderResults()};
-    right.append(el("div",{class:"links"},add,el("button",{type:"button",class:"ghost",text:"Use as inspiration instead",onclick:()=>{showTab("recipes");takeFile(f);p.hidden=true}}),
+    right.append(el("div",{class:"links"},add,el("button",{type:"button",class:"ghost",text:"Use as inspiration instead",onclick:()=>{showTab("ask");setDmode("match");takeFile(f);p.hidden=true}}),
       el("button",{type:"button",class:"linkbtn",text:"Cancel",onclick:()=>{p.hidden=true}})));
   }catch(err){right.textContent="";right.append(el("p",{class:"status err",text:sampleErr(err)}))}
 }
@@ -1350,6 +1382,85 @@ function filterToggle(btn,key,apply,getState){
   btn.onclick=()=>{open=!open;try{localStorage.setItem(key,open?"1":"0")}catch{};paint()};
   return paint;
 }
+// Horizontal filter bar: dropdown chips + removable active chips. Same control ids as filterUI, so passes() works unchanged.
+function filterBar(p,{sources=false,notes=false,onChange}){
+  const ch=()=>{onChange();paint()};
+  const pill=(g,v,label,dot)=>{
+    const b=el("button",{type:"button",class:"fchip","data-g":g,"data-v":v,"aria-pressed":"false"});
+    if(dot!==undefined){const i=el("i",{class:dot?"":"clear"});if(dot)i.style.background=dot;b.append(i)}
+    b.append(label);
+    b.onclick=()=>{const on=b.getAttribute("aria-pressed")!=="true";
+      if(g==="make")b.parentNode.querySelectorAll("[data-g=make]").forEach(x=>x.setAttribute("aria-pressed","false"));
+      b.setAttribute("aria-pressed",String(on));ch()};
+    return b;
+  };
+  const sel=(id,label,opts)=>el("select",{id:p+"-"+id,"aria-label":label},...opts.map(([v,t])=>el("option",{value:v,text:t})));
+  const chk=(id,label,on)=>el("label",{class:"check"},el("input",{type:"checkbox",id:p+"-"+id,checked:on||undefined}),label);
+  const groups=[
+    ["make","Make",el("div",{class:"fchips"},pill("make","glaze","Glaze"),pill("make","stain","Stain in clay"))],
+    ["fam","Color",el("div",{class:"fchips"},...FAMS.map(([k,l,c])=>pill("fam",k,l,c)))],
+    ["surf","Surface",sel("surf","Surface",[["","Any surface"],["Glossy","Glossy"],["Satin","Satin"],["Matte","Matte"]])],
+    ["opac","Opacity",sel("opac","Opacity",[["","Any opacity"],["Opaque","Opaque"],["Translucent","Translucent"],["Transparent","Transparent"]])],
+    ["style","Style",sel("style","Style",[["","Any style"],...STYLES.map(([n])=>[n,n])])],
+    ["colorant","Colorant",sel("colorant","Colorant",[["","Any colorant"],...COLORANTS.map(([n])=>[n,n])])],
+    ["more","More",el("div",{class:"fgroup",style:"gap:8px"},
+      sources?el("span",{class:"lbl",text:"Show"}):null,
+      ...(sources?[chk("src-new","New recipes",1),chk("src-glazy","Glazy library",1),chk("src-mine","My recipes",1)]:[]),
+      el("span",{class:"lbl",text:"Practical"}),chk("food","Food-safe"),chk("pic","Has photo or swatch"),notes?chk("notes","Has my test notes"):null,chk("base","Base only (no colorants)"),
+      el("span",{class:"lbl",text:"Leave out"}),...LEAVE.map(([n])=>chk("no-"+slug(n),"No "+n.toLowerCase())),
+      el("span",{class:"lbl",text:"On my shelves"}),sel("missing","On my shelves",[["","Doesn't matter"],["0","Everything on hand"],["1","Missing at most 1"],["2","Missing at most 2"]]),
+      el("span",{class:"lbl",text:"Kiln"}),chk("ox","Works in oxidation",1))]];
+  const bar=el("div",{class:"fbar"}),pops=[];
+  const closeAll=()=>pops.forEach(x=>{x.pop.hidden=true;x.btn.setAttribute("aria-expanded","false")});
+  groups.forEach(([k,label,content])=>{
+    const btn=el("button",{type:"button",class:"fdd","aria-expanded":"false","aria-haspopup":"true"},label+" ▾");
+    const pop=el("div",{class:"fpop",hidden:true,role:"dialog","aria-label":label},content);
+    btn.onclick=e=>{e.stopPropagation();const open=pop.hidden;closeAll();pop.hidden=!open;btn.setAttribute("aria-expanded",String(open))};
+    pop.onclick=e=>e.stopPropagation();
+    pops.push({k,label,btn,pop});bar.append(el("div",{class:"fddw"},btn,pop));
+  });
+  const actives=el("div",{class:"factive"});bar.append(actives);
+  document.addEventListener("click",closeAll);
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
+  bar.addEventListener("change",ch);
+  const sort=el("label",{class:"fsort"},el("span",{class:"lbl",text:"Sort"}),sel("sort","Sort",[["best","Best match"],["photo","Photos first"],["fewest","Fewest ingredients"],["name","Name A–Z"]]));
+  sort.addEventListener("change",ch);
+  const v=id=>$(p+"-"+id);
+  const pressed=g=>[...bar.querySelectorAll(`[data-g=${g}][aria-pressed=true]`)].map(b=>b.dataset.v);
+  const state=()=>({src:sources?new Set(["new","glazy","mine"].filter(k=>v("src-"+k).checked)):null,make:pressed("make")[0]||"",fams:new Set(pressed("fam")),
+    surf:v("surf").value,opac:v("opac").value,style:v("style").value,colorant:v("colorant").value,food:v("food").checked,pic:v("pic").checked,notes:notes&&v("notes").checked,
+    base:v("base").checked,leave:LEAVE.map(([n])=>n).filter(n=>v("no-"+slug(n)).checked),missing:v("missing").value,ox:v("ox").checked,sort:v("sort").value});
+  const unpress=(g,val)=>bar.querySelectorAll(`[data-g=${g}]`).forEach(b=>{if(!val||b.dataset.v===val)b.setAttribute("aria-pressed","false")});
+  function paint(){
+    const S=state(),famName=k=>(FAMS.find(f=>f[0]===k)||[,k])[1];
+    const list=[];
+    if(S.make)list.push([S.make==="glaze"?"Glaze":"Stain in clay",()=>unpress("make")]);
+    S.fams.forEach(k=>list.push([famName(k),()=>unpress("fam",k)]));
+    [["surf",S.surf],["opac",S.opac],["style",S.style],["colorant",S.colorant]].forEach(([id,val])=>{if(val)list.push([val,()=>{v(id).value=""}])});
+    if(S.src)["new","glazy","mine"].forEach(k=>{if(!S.src.has(k))list.push(["Hiding "+{new:"new recipes",glazy:"Glazy",mine:"my recipes"}[k],()=>{v("src-"+k).checked=true}])});
+    [["food","Food-safe"],["pic","Has photo"],["notes","Has my notes"],["base","Base only"]].forEach(([id,l])=>{if(S[id])list.push([l,()=>{v(id).checked=false}])});
+    S.leave.forEach(n=>list.push(["No "+n.toLowerCase(),()=>{v("no-"+slug(n)).checked=false}]));
+    if(S.missing!=="")list.push([S.missing==="0"?"All on hand":"Missing ≤ "+S.missing,()=>{v("missing").value=""}]);
+    if(S.ox)list.push(["Oxidation",()=>{v("ox").checked=false}]);
+    actives.textContent="";
+    if(list.length){
+      actives.append(el("span",{style:"width:1px;height:22px;background:var(--line);margin:0 4px"}));
+      list.forEach(([l,clear])=>actives.append(el("button",{type:"button",class:"fx","aria-label":"Remove filter "+l,onclick:()=>{clear();onChange();paint()}},l,el("b",{"aria-hidden":"true",text:"×"}))));
+      actives.append(el("button",{type:"button",class:"fclear",text:"Clear all",onclick:()=>{unpress("make");unpress("fam");["surf","opac","style","colorant","missing"].forEach(id=>v(id).value="");
+        ["food","pic","base","ox",...(notes?["notes"]:[]),...LEAVE.map(([n])=>"no-"+slug(n))].forEach(id=>v(id).checked=false);if(S.src)["new","glazy","mine"].forEach(k=>v("src-"+k).checked=true);onChange();paint()}}));
+    }
+    const moreN=(S.src?3-S.src.size:0)+[S.food,S.pic,S.notes,S.base].filter(Boolean).length+S.leave.length+(S.missing!==""?1:0);
+    pops.forEach(({k,label,btn})=>{
+      let txt=label,on=false;
+      if(k==="make"&&S.make){txt=S.make==="glaze"?"Glaze":"Stain in clay";on=true}
+      if(k==="fam"&&S.fams.size){txt="Color · "+S.fams.size;on=true}
+      if(["surf","opac","style","colorant"].includes(k)&&S[k]){txt=S[k];on=true}
+      if(k==="more"&&moreN){txt="More · "+moreN;on=true}
+      btn.textContent=txt+" ▾";btn.classList.toggle("set",on);
+    });
+  }
+  return {bar,sort,state,paint,set:(id,val)=>{const x=v(id);if(x.type==="checkbox")x.checked=!!val;else x.value=val}};
+}
 const stainNote=S=>S.make==="stain"?el("p",{class:"fnote",text:"The Glazy library is glazes only. Stain-in-clay recipes come from your notebook and from new recipes in Color match."}):null;
 
 /* ---------- Ask (Ask the studio layout) ---------- */
@@ -1420,58 +1531,51 @@ function askCard(it){
     it.note?el("p",{class:"note",text:it.note}):null,it.safety?el("p",{class:"note warn",text:it.safety}):null,
     el("details",{},el("summary",{text:"Recipe"}),recipeTable(it.rows,it.batch))),acts);
 }
-const AF=filterUI("af",{sources:true,notes:true,onChange:()=>{askLimit=30;renderAsk()}});
-$("askSide").append(AF.chips,AF.side);
-const paintAskToggle=filterToggle($("askFiltToggle"),"cw-filters-ask",open=>document.querySelector("#view-ask .asklayout").classList.toggle("collapsed",!open),()=>AF.state());
+const AF=filterBar("af",{sources:true,notes:true,onChange:()=>{askLimit=30;renderAsk()}});
+$("askBar").append(AF.bar);$("askSort").append(AF.sort);AF.paint();
 function renderAsk(){
   const box=$("askResults");box.textContent="";
-  const S=AF.state(),order={new:0,glazy:1,mine:2};paintAskToggle();
+  const S=AF.state(),order={new:0,glazy:1,mine:2};
   const shown=sortItems(askItems.filter(it=>passes(it,S)),S,askQuery?(a,b)=>order[a.src]-order[b.src]:null);
   $("askMore").hidden=true;
   const note=stainNote(S);if(note)box.append(note);
-  if(!shown.length){box.append(el("p",{class:"note",text:askItems.length?"Nothing matches these filters.":"No matches. Try fewer words, or paste hex codes."}));return}
-  box.append(el("p",{class:"note",text:askQuery?`${shown.length} result${shown.length===1?"":"s"}`:(shown.length===askItems.length?`Browsing ${shown.length.toLocaleString()} Glazy recipes, photos first. Search above, or use the filters, to narrow it down.`:`${shown.length.toLocaleString()} of ${askItems.length.toLocaleString()} Glazy recipes match these filters`)}));
+  const nGlazy=askItems.filter(it=>it.src==="glazy").length;
+  $("askCount").textContent=dmode==="match"?(askItems.length?`${shown.length} result${shown.length===1?"":"s"} · new recipes first, then the closest tested Glazy recipes`:""):
+    askQuery?`${shown.length} result${shown.length===1?"":"s"} for “${askQuery}”`:`${shown.length.toLocaleString()} of ${nGlazy.toLocaleString()} Glazy recipes`;
+  if(!shown.length){box.append(el("p",{class:"note",text:askItems.length?"Nothing matches these filters. Remove a filter above, or Clear all.":dmode==="match"?"":"No matches. Try fewer words, or paste hex codes."}));return}
+  if(false)box.append(el("p",{class:"note",text:askQuery?`${shown.length} result${shown.length===1?"":"s"}`:(shown.length===askItems.length?`Browsing ${shown.length.toLocaleString()} Glazy recipes, photos first. Search above, or use the filters, to narrow it down.`:`${shown.length.toLocaleString()} of ${askItems.length.toLocaleString()} Glazy recipes match these filters`)}));
   shown.slice(0,askLimit).forEach(it=>box.append(askCard(it)));
   $("askMore").hidden=shown.length<=askLimit;
 }
-function renderAskChips(P){
-  const c=$("askChips");c.textContent="";
-  hexList.forEach(h=>{const i=el("i");i.style.background="#"+h;c.append(el("span",{class:"chip"},i,h))});
-  if(imageBlob)c.append(el("span",{class:"chip",text:"photo added"}));
-  if(P){[P.surface,P.opacity,P.food?"food-safe":"",P.stain?"stain in clay":"glaze"].filter(Boolean).forEach(t=>c.append(el("span",{class:"chip",style:"padding-left:10px",text:t})))}
+let dmode="search",matchItems=[];
+function setDmode(m){
+  dmode=m==="match"?"match":"search";
+  document.querySelectorAll(".dmode button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.dmode===dmode)));
+  $("askForm").hidden=dmode!=="search";$("matchPanel").hidden=dmode!=="match";
+  $("askStatus").className="status";$("askStatus").textContent="";askLimit=30;
+  if(dmode==="search"){askItems=[];askInstant()}
+  else{askQuery="";askItems=matchItems;if(!matchItems.length)$("askStatus").textContent="Add colors or a photo above, choose what you're making, then Get recipes.";renderAsk()}
 }
-$("askPhoto").onclick=()=>$("askFile").click();
-$("askFile").onchange=e=>{const f=e.target.files[0];if(!f)return;hexList=[];$("hexes").value="";takeFile(f);setTimeout(()=>renderAskChips(),400)};
+document.querySelectorAll(".dmode button").forEach(b=>b.onclick=()=>setDmode(b.dataset.dmode));
+// The Color match form lives inside Discover as the Match colors panel.
+$("matchPanel").append($("form"));
+async function afterMatch(){
+  if(tab!=="ask"||dmode!=="match")return;
+  const P={hexes:hexList,surface:$("surface").value,opacity:$("opacity").value,food:$("foodSafe").checked,words:[]};
+  matchItems=[...askFromNew(),...(mode==="glaze"&&hexList.length?askFromGlazy(P):[])];
+  askItems=matchItems;askLimit=30;
+  const st=$("status");$("askStatus").className=st.className;$("askStatus").textContent=/err/.test(st.className)?st.textContent:"";
+  renderAsk();
+}
 $("askMore").onclick=()=>{askLimit+=30;renderAsk()};
 function askInstant(){ // library + notebook only, no Claude call
   const q=$("askQ").value.trim();askLimit=30;
-  if(!q&&!imageBlob){askQuery="";askItems=askBrowse();$("askChips").textContent="";$("askStatus").textContent="";renderAsk();return}
+  if(!q){askQuery="";askItems=askBrowse();$("askStatus").textContent="";renderAsk();return}
   askQuery=q;const P=parseAsk(q);
   askItems=[...askItems.filter(it=>it.src==="new"&&askQuery),...askFromGlazy(P),...askFromMine(P)];renderAsk();
 }
-let askTimer;$("askQ").addEventListener("input",()=>{clearTimeout(askTimer);askTimer=setTimeout(()=>{askItems=askItems.filter(it=>it.src!=="new");askInstant()},200)});
-$("askForm").addEventListener("submit",async e=>{
-  e.preventDefault();
-  const q=$("askQ").value.trim(),st=$("askStatus");st.className="status";st.textContent="";
-  if(!q&&!imageBlob){st.textContent="Describe a glaze, paste hex codes, or add a photo.";return}
-  askQuery=q||"photo";askLimit=30;const P=parseAsk(q);
-  if(P.hexes.length){hexList=P.hexes;$("hexes").value=P.hexes.join(", ");renderChips()}
-  if(P.surface)$("surface").value=P.surface;if(P.opacity)$("opacity").value=P.opacity;$("foodSafe").checked=P.food;AF.set("food",P.food);
-  if(P.surface)AF.set("surf",P.surface);if(P.opacity)AF.set("opac",P.opacity);
-  if(P.cone){const o=[...$("cone").options].find(o=>o.text.toLowerCase().startsWith("cone "+P.cone));if(o)$("cone").value=o.value}
-  setMode(P.stain?"stain":"glaze");$("notes").value=q;
-  renderAskChips(P);
-  const Pall={...P,hexes:hexList.length?hexList:P.hexes};
-  askItems=[...askFromGlazy(Pall),...askFromMine(Pall)];renderAsk();
-  if(!P.hexes.length&&!imageBlob){st.textContent="Showing the library and your notebook. Add hex codes or a photo to also get new recipes made for this.";return}
-  if(!sampleNs){st.className="status err";st.textContent="New recipes need a login here; showing the library and your notebook.";return}
-  const before=mode==="glaze"?lastGlaze:last;
-  $("askGo").disabled=true;st.textContent=mode==="glaze"?"Working out new glaze recipes…":"Working out new stain recipes…";
-  try{await runMatch()}finally{$("askGo").disabled=false}
-  const after=mode==="glaze"?lastGlaze:last;
-  if(after&&after!==before){askItems=[...askFromNew(),...askItems];st.textContent="";renderAsk()}
-  else{st.className=$("status").className;st.textContent=$("status").textContent||"No new recipes came back."}
-});
+let askTimer;$("askQ").addEventListener("input",()=>{clearTimeout(askTimer);askTimer=setTimeout(askInstant,200)});
+$("askForm").addEventListener("submit",e=>{e.preventDefault();askInstant()});
 
 /* ---------- Saved recipes ---------- */
 let savedFilter="all";
