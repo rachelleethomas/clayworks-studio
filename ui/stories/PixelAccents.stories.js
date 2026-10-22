@@ -124,3 +124,38 @@ export const AccentFontOptions = () => `<div style="display:grid;grid-template-c
   </div>`).join("")}</div>
   <p class="note" style="margin-top:12px">Same lavender block, uppercase and wide tracking as the first pixel accent. Only the typeface changes.</p>`;
 AccentFontOptions.storyName = "Accent font options (same style)";
+
+// Fonts between Silkscreen (pure pixel) and IBM Plex Mono (smooth), in the same accent style, ordered pixel → smooth.
+const SPECTRUM = [
+  { name: "Silkscreen", family: "Silkscreen", css: "Silkscreen", note: "Pure 8px pixel. The starting point." },
+  { name: "Tiny5", family: "Tiny5", css: "Tiny5", note: "Pixel on a tighter grid; a little finer." },
+  { name: "Geist Pixel", family: "Geist Pixel", href: "https://cdn.jsdelivr.net/npm/@fontsource/geist-pixel@5.3.0/index.css", note: "Vercel's pixel face (OFL). Modern proportions, crisp." },
+  { name: "Pixelify Sans", family: "Pixelify Sans", css: "Pixelify+Sans:wght@400..700", w: 500, note: "Pixel with smoother weights and real lowercase." },
+  { name: "Bitcount · square", family: "Bitcount Grid Single", css: "Bitcount+Grid+Single:wght,ELSH@100..900,0..100", w: 500, fvs: "'ELSH' 0", note: "Variable pixel grid with square elements." },
+  { name: "Bitcount · round", family: "Bitcount Grid Single", w: 500, fvs: "'ELSH' 100", note: "Same grid, rounded elements: pixel but softer." },
+  { name: "Doto · square dots", family: "Doto", css: "Doto:wght,ROND@100..900,0..100", w: 700, fvs: "'ROND' 0", note: "Dot matrix with square dots." },
+  { name: "Doto · round dots", family: "Doto", w: 700, fvs: "'ROND' 100", note: "Round dots: a kiln-controller display." },
+  { name: "DotGothic16", family: "DotGothic16", css: "DotGothic16", note: "Built from dots but reads like a normal gothic." },
+  { name: "Handjet", family: "Handjet", css: "Handjet:wght,ELSH@100..900,0..16", w: 500, fvs: "'ELSH' 2", note: "Modular, stitched look; craft-y, textile-like." },
+  { name: "VT323", family: "VT323", css: "VT323", note: "Terminal bitmap; tall and readable." },
+  { name: "Share Tech Mono", family: "Share Tech Mono", css: "Share+Tech+Mono", note: "Smooth, but squared like an LCD." },
+  { name: "Nova Mono", family: "Nova Mono", css: "Nova+Mono", note: "Smooth with square shoulders." },
+  { name: "Kode Mono", family: "Kode Mono", css: "Kode+Mono:wght@400..700", w: 500, note: "Angular cuts on smooth strokes." },
+  { name: "B612 Mono", family: "B612 Mono", css: "B612+Mono:wght@400;700", note: "Designed for cockpit screens; very legible." },
+  { name: "IBM Plex Mono · Medium", family: "IBM Plex Mono", w: 500, note: "Fully smooth. The other end." },
+];
+load(SPECTRUM.filter((f) => f.css).map((f) => f.css));
+SPECTRUM.filter((f) => f.href).forEach((f) => { if (!document.querySelector(`link[href="${f.href}"]`)) document.head.append(Object.assign(document.createElement("link"), { rel: "stylesheet", href: f.href })); });
+
+export const PixelToSmooth = () => `<div style="display:grid;gap:14px;max-width:1200px">
+  <div style="display:flex;justify-content:space-between;align-items:center;font:600 13px var(--body)"><span>◼ More pixel</span>
+    <span style="flex:1;height:6px;margin:0 14px;border-radius:999px;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 20%,var(--line)))"></span><span>More smooth ●</span></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px">${SPECTRUM.map((f, i) => {
+    const font = `font-family:'${f.family}',monospace;font-weight:${f.w || 400};${f.fvs ? `font-variation-settings:${f.fvs};` : ""}`;
+    return `<div style="background:var(--tint-purple);border-radius:16px;padding:18px;display:grid;gap:9px">
+      <span class="lbl">${String(i + 1).padStart(2, "0")} · ${f.name}</span>
+      <div style="${font}font-size:22px;letter-spacing:.04em;color:var(--ink)">NEW · TESTING · KEEPER</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">${["NEW", "PROVEN", "CONE 6"].map((t) => `<span style="${font}font-size:12px;letter-spacing:.08em;border-radius:999px;padding:4px 10px;background:var(--surface);color:var(--accent)">${t}</span>`).join("")}</div>
+      <span class="note">${f.note}</span></div>`;
+  }).join("")}</div></div>`;
+PixelToSmooth.storyName = "Pixel → smooth spectrum";
