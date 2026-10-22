@@ -228,3 +228,9 @@ export const RecipePageParts = () => stack(
   label("Chemistry (.rp-chem)"),
   `<div class="rp-box" style="max-width:320px"><div class="rp-chem"><span class="lbl">Variant vs current</span>${[["Si:Al ratio", "9.2 · glossy range", "9.6"], ["SiO₂", "3.39", "3.35"], ["Al₂O₃", "0.37", "0.35"], ["B₂O₃", "0.21", "0.21"], ["CaO", "0.79", "0.79"]].map(([l, a, b]) => `<div class="rp-ox"><span>${l}</span><b>${a}</b><span class="muted">${b}</span></div>`).join("")}</div></div>`);
 RecipePageParts.storyName = "Recipe page parts (tests, versions, swap, chemistry)";
+
+export const PhotoPicker = () => stack(
+  label("Photo picker · .photo-pick (tile photos; same look as the Match form's drop row)"),
+  `<label class="photo-pick" style="max-width:480px"><input type="file" accept="image/*"><b class="mplus" aria-hidden="true">+</b><span>Add a photo of the tile<small>Tap to choose one or take a photo</small></span></label>`,
+  `<label class="photo-pick" style="max-width:480px"><input type="file" accept="image/*"><img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect width='56' height='56' fill='%2370626E'/%3E%3C/svg%3E"><span>Photo added<small>tile-14.jpg · tap to change</small></span></label>`);
+PhotoPicker.storyName = "Photo picker";

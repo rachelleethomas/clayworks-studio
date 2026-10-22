@@ -162,13 +162,14 @@ header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between
 .tabs button:hover:not([aria-selected="true"]),.seg button:hover:not([aria-checked="true"]){background:var(--wash-strong)}
 .tabs button[aria-selected="true"],.seg button[aria-checked="true"]{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px rgba(84,47,156,.22)}
 /* Inputs: white, hairline, 10px radius, 14px side padding; focus = accent border + purple ring */
-input[type=text],input[type=number],input[type=search],input[type=password],select,textarea{width:100%;font:inherit;font-size:var(--in-fs);color:var(--ink);
+input[type=text],input[type=number],input[type=search],input[type=password],input[type=date],select,textarea{width:100%;font:inherit;font-size:var(--in-fs);color:var(--ink);
   background-color:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:var(--in-py) 14px;transition:border-color .15s,box-shadow .15s}
-input[type=text]:focus,input[type=number]:focus,input[type=search]:focus,input[type=password]:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--purple-100);outline:none}
+input[type=text]:focus,input[type=number]:focus,input[type=date]:focus,input[type=search]:focus,input[type=password]:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--purple-100);outline:none}
 textarea{font-family:var(--mono);font-size:max(16px,var(--ctl-body-fs));min-height:64px;resize:vertical}
 input[type=number]{-moz-appearance:textfield;appearance:textfield}
 input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 select:not([multiple]){-webkit-appearance:none;appearance:none;background-image:var(--chev);background-repeat:no-repeat;background-position:right 14px center;background-size:12px 8px;padding-right:40px}
+input[type=date]{font-family:var(--body);min-height:calc(var(--in-fs)*1.5 + var(--in-py)*2 + 2px)}
 .searchbar input,.gtools input[type=search]{border-radius:999px;padding-inline:18px}
 /* Checkboxes: rounded square, accent fill + white tick */
 input[type=checkbox]{-webkit-appearance:none;appearance:none;flex:none;width:18px;height:18px;margin:0;border:1.5px solid var(--purple-300);border-radius:5px;
@@ -298,7 +299,13 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .mcell .chips:empty{display:none}
 .mform .drop{flex:1;display:flex;align-items:center;gap:12px;border:0;border-radius:0;background:transparent;padding:14px 20px;text-align:left;color:var(--accent);font:500 15px var(--body);cursor:pointer}
 .mform .drop:hover,.mform .drop.on,.mform .drop:focus-visible{background:var(--purple-50);outline:none}
-.mform .drop .mplus{display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:50%;background:var(--purple-100);font-size:19px;font-weight:400}
+.mplus{display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:50%;background:var(--purple-100);color:var(--accent);font-size:19px;font-weight:400}
+/* photo picker: the Match form's drop row as a standalone component (tile photos etc.) */
+.photo-pick{display:flex;align-items:center;gap:12px;border:1px dashed var(--purple-300);border-radius:12px;background:var(--surface);padding:10px 14px;color:var(--accent);font:500 15px var(--body);text-transform:none;letter-spacing:0;cursor:pointer;transition:background .15s}
+.photo-pick:hover,.photo-pick:focus-within{background:var(--purple-50)}
+.photo-pick input{position:absolute;opacity:0;width:1px;height:1px}
+.photo-pick img{width:56px;height:56px;border-radius:10px;object-fit:cover;flex:none}
+.photo-pick small{display:block;font:400 12.5px var(--body);color:var(--muted)}
 .mform .drop img{max-height:72px;margin:0;border-radius:8px;display:block}
 .mform .drop img:not([hidden])+.mplus{display:none}
 .minv{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:4px}
@@ -392,9 +399,9 @@ input.rp-title:focus{border-color:var(--purple-300);background:var(--purple-50);
 @media (max-width:560px){.rp-sw{width:64px;height:64px}}
 .rp-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
 .rp-f{display:grid;gap:6px;text-transform:none;letter-spacing:0;font:inherit;color:inherit}
-.rp-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.rp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.rp-log textarea{font:400 var(--in-fs)/1.45 var(--body)}
 .rp-log{display:grid;gap:12px;border:1px solid var(--purple-200);border-radius:12px;padding:16px;background:var(--purple-50)}
-.rp-log input[type=file]{font-size:14px}
 .rp-test{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;align-items:start;border-top:1px solid var(--line);padding-top:12px}
 .rp-test img,.rp-test-ph{width:96px;height:96px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
 .rp-test-ph{background:repeating-linear-gradient(45deg,var(--bg) 0 8px,var(--surface) 8px 16px)}
@@ -422,7 +429,7 @@ td.muted,.muted{color:var(--muted)}
 .rp-rel:hover{border-color:var(--purple-300)}
 .rp-rel>span{display:grid}
 .rp-rel-sw{width:40px;height:40px;border-radius:10px;flex:none}
-@media (max-width:640px){.rp-grid{grid-template-columns:1fr 1fr}.rp-lab-hd,.rp-lab-row{grid-template-columns:minmax(0,1fr) 80px 44px 28px}}
+@media (max-width:640px){.rp-lab-hd,.rp-lab-row{grid-template-columns:minmax(0,1fr) 80px 44px 28px}}
 @media print{.topbar,.rp-nav,.rp-acts,.rp-back,.rp-scale,.rp-side,#mineSeg{display:none!important}.rp-body{grid-template-columns:1fr}.rp-main{box-shadow:none;border:0}}
 .savedtools{display:flex;gap:8px;align-items:center;flex:0 1 420px;min-width:0}
 .savedtools input{flex:1 1 auto;min-width:0}
@@ -2002,7 +2009,7 @@ function chemBox(rows,label,cmp){
 function rpTests(r,cur){
   const wrap=el("div",{class:"rp-body"}),v=r.version||1,tests=r.tests||[];
   const main=el("section",{class:"rp-main"});
-  const logBtn=el("button",{type:"button",class:"btn",text:RP.logOpen?"Close":"+ Log a test firing",onclick:()=>{RP.logOpen=!RP.logOpen;renderRecipePage()}});
+  const logBtn=el("button",{type:"button",class:RP.logOpen?"linkbtn":"btn",text:RP.logOpen?"Close":"+ Log a test firing",onclick:()=>{RP.logOpen=!RP.logOpen;renderRecipePage()}});
   main.append(el("div",{class:"rp-row"},el("span",{class:"lbl",text:"Firings, newest first"}),logBtn));
   if(RP.logOpen){
     const f=el("form",{class:"rp-log"});
@@ -2010,11 +2017,14 @@ function rpTests(r,cur){
     let res="works";const pills=el("div",{class:"filters"},...RESULTS.map(([k,l])=>el("button",{type:"button","aria-pressed":String(k===res),text:l,onclick:e=>{res=k;pills.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b===e.currentTarget)))}})));
     const cone=el("input",{type:"text",value:r.cone||"","aria-label":"Cone and atmosphere",placeholder:"Cone 6 oxidation"}),clay=el("input",{type:"text",value:r.body||"",placeholder:"Clay body","aria-label":"Clay body"});
     const app=el("input",{type:"text",placeholder:"2 coats dipped, natural cool…","aria-label":"Application"}),notes=el("textarea",{rows:"3",placeholder:"How it came out, what to change next…","aria-label":"Notes"});
-    const photo=el("input",{type:"file",accept:"image/*","aria-label":"Photo"});let pic="";
+    const photo=el("input",{type:"file",accept:"image/*","aria-label":"Photo of the tile"});let pic="";
+    const pickTxt=el("span",{},"Add a photo of the tile",el("small",{text:"Tap to choose one or take a photo"})),pickIcon=el("b",{class:"mplus","aria-hidden":"true",text:"+"});
+    const picker=el("label",{class:"photo-pick"},photo,pickIcon,pickTxt);
     photo.onchange=async()=>{const fl=photo.files[0];if(!fl)return;try{const bm=await createImageBitmap(fl),s=Math.min(1,640/Math.max(bm.width,bm.height)),c=document.createElement("canvas");
-      c.width=Math.round(bm.width*s);c.height=Math.round(bm.height*s);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);pic=c.toDataURL("image/jpeg",.72)}catch{pic=""}};
+      c.width=Math.round(bm.width*s);c.height=Math.round(bm.height*s);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);pic=c.toDataURL("image/jpeg",.72);
+      pickIcon.replaceWith(pickIcon=el("img",{src:pic,alt:"Tile photo"}));pickTxt.replaceChildren("Photo added",el("small",{text:fl.name+" · tap to change"}))}catch{pic=""}};
     const fld=(l,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:l}),i);
-    f.append(el("div",{class:"rp-grid"},fld("Date",dt),fld("Version",ver),fld("Cone",cone),fld("Clay",clay)),fld("Result",pills),fld("How applied",app),fld("Notes",notes),fld("Photo of the tile",photo),
+    f.append(el("div",{class:"rp-grid"},fld("Date",dt),fld("Version",ver),fld("Cone",cone),fld("Clay",clay)),fld("Result",pills),fld("How applied",app),fld("Notes",notes),picker,
       el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Save firing"}),el("button",{type:"button",class:"linkbtn",text:"Cancel",onclick:()=>{RP.logOpen=false;renderRecipePage()}})));
     f.onsubmit=async e=>{e.preventDefault();const t={id:"t"+Date.now().toString(36),date:dt.value||today(),v:+ver.value,result:res,cone:cone.value.trim(),clay:clay.value.trim(),app:app.value.trim(),notes:notes.value.trim(),photo:pic};
       RP.logOpen=false;const c=cur();await putRecipe({...c,tests:[t,...(c.tests||[])],status:c.status&&c.status!=="idea"?c.status:"testing",myNotes:t.notes||c.myNotes||""})};
