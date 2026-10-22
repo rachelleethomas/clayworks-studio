@@ -6,7 +6,7 @@
 /* Layout: a workbench. Recipes = inputs rail + board of test tiles. Studio = search bar + shelves grouped by material. */
 :root{
   /* warm cream paper, soft ink, purple accent, pastel tints */
-  --bg:#F8F4F0; --surface:#FCF9F5; --ink:#1E1C22; --muted:#67646D; --line:#E4E0D9;
+  --bg:#FCF9F5; --surface:#FFFFFF; --ink:#32313B; --muted:#67646D; --line:#E4E0D9;
   --accent:#714BD0; --accent-deep:#5D38AE; --accent-ink:#FFFFFF; --warn:#B74D1A; --ok:#008B53; --hl:#F3ECF7;
   /* tints = Tines card colors: fill, border (-line) and text (-ink) from one family */
   --tint-purple:#EBE8FC; --tint-purple-line:#BBB5FF; --tint-purple-ink:#542F9C;
@@ -19,9 +19,10 @@
   /* strong fills (Tines illustration panels), for solid colored blocks */
   --strong-purple:#9F94FF; --strong-pink:#F573B4; --strong-orange:#F6A400; --strong-green:#33B17F;
   --radius:16px; --radius-sm:10px;
-  --wash:color-mix(in srgb,var(--accent) 7%,transparent);       /* Tines-style tinted fill, no border */
-  --wash-strong:color-mix(in srgb,var(--accent) 14%,transparent);
-  --hairline:color-mix(in srgb,currentColor 14%,transparent);
+  /* Tines purple ramp. Brand rule: use real tints from the ramp, never % transparency */
+  --purple-50:#F3ECF7; --purple-100:#EADFF8; --purple-200:#D7C4FA; --purple-300:#C2AAFA; --purple-700:#6956A8;
+  --wash:var(--purple-50); --wash-strong:var(--purple-100); --wash-hover:var(--purple-200);
+  --hairline:var(--line);
   --display:"Fraunces", Georgia, "Times New Roman", serif;   /* Soft clay: soft serif display */
   --body:"Inter Tight", system-ui, sans-serif;
   --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
@@ -29,7 +30,7 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#1E1C22; --surface:#26242C; --ink:#F3EFEA; --muted:#A9A5AE; --line:#3A3842;
-  --accent:#C2AAFA; --accent-deep:#D7C4FA; --accent-ink:#1E1C22; --warn:#FD975D; --ok:#5ABE89; --hl:#32274B;
+  --accent:#C2AAFA; --accent-deep:#D7C4FA; --accent-ink:#1E1C22; --warn:#FD975D; --ok:#5ABE89; --hl:#32274B; --purple-50:#32274B; --purple-100:#4D3E78; --purple-200:#6956A8; --purple-300:#8D75E6; --purple-700:#C2AAFA;
   --tint-purple:#32274B; --tint-purple-line:#6956A8; --tint-purple-ink:#D7C4FA;
   --tint-pink:#4A1D3B; --tint-pink-line:#A54B7A; --tint-pink-ink:#FFBFDB;
   --tint-orange:#4C1812; --tint-orange-line:#B74D1A; --tint-orange-ink:#FFC8A3;
@@ -39,7 +40,7 @@
   --tint-yellow:#4F3014; --tint-yellow-line:#A96C14; --tint-yellow-ink:#FFD29F; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#1E1C22; --surface:#26242C; --ink:#F3EFEA; --muted:#A9A5AE; --line:#3A3842;
-  --accent:#C2AAFA; --accent-deep:#D7C4FA; --accent-ink:#1E1C22; --warn:#FD975D; --ok:#5ABE89; --hl:#32274B;
+  --accent:#C2AAFA; --accent-deep:#D7C4FA; --accent-ink:#1E1C22; --warn:#FD975D; --ok:#5ABE89; --hl:#32274B; --purple-50:#32274B; --purple-100:#4D3E78; --purple-200:#6956A8; --purple-300:#8D75E6; --purple-700:#C2AAFA;
   --tint-purple:#32274B; --tint-purple-line:#6956A8; --tint-purple-ink:#D7C4FA;
   --tint-pink:#4A1D3B; --tint-pink-line:#A54B7A; --tint-pink-ink:#FFBFDB;
   --tint-orange:#4C1812; --tint-orange-line:#B74D1A; --tint-orange-ink:#FFC8A3;
@@ -127,14 +128,14 @@ tr.add td:first-child{color:var(--accent)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .mineseg{max-width:340px;margin-top:-8px}
 /* Ask */
-.askbox{display:flex;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 6px 6px 8px;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 14%,transparent)}
+.askbox{display:flex;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 6px 6px 8px;box-shadow:0 0 0 3px var(--purple-100)}
 .askbox input[type=search]{flex:1;min-width:0;border:0;background:none;font-size:17px;padding:10px 12px}
 .askbox input[type=search]:focus-visible{outline:none}
 .discbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .discbar .askbox{flex:1 1 420px;min-width:0}
 .dmode{grid-template-columns:auto auto;width:auto}
 .dmode button{white-space:nowrap}
-#matchPanel #form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 22px;border:2px solid color-mix(in srgb,var(--accent) 55%,var(--line));border-radius:var(--radius);background:var(--surface);padding:18px}
+#matchPanel #form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 22px;border:2px solid var(--purple-300);border-radius:var(--radius);background:var(--surface);padding:18px}
 #matchPanel #form>.seg{grid-column:1/-1;max-width:440px}
 #matchPanel #form>#go,#matchPanel #form>.status{grid-column:1/-1}
 #matchPanel #form>#go{justify-self:start;padding-inline:28px}
@@ -150,7 +151,7 @@ tr.add td:first-child{color:var(--accent)}
 @media (max-width:560px){.fpop{position:fixed;left:16px;right:16px;top:auto;bottom:16px;max-width:none;width:auto;max-height:70vh;overflow:auto}}
 .factive{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .factive:empty{display:none}
-.fx{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font:600 12.5px var(--body);background:var(--tint-purple);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);cursor:pointer}
+.fx{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font:600 12.5px var(--body);background:var(--tint-purple);color:var(--accent);border:1px solid var(--purple-300);cursor:pointer}
 .fx b{font-weight:700}
 .fclear{border:0;background:none;color:var(--accent);font:600 13px var(--body);text-decoration:underline;cursor:pointer;padding:0 4px}
 .fcount{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:-8px}
@@ -177,7 +178,7 @@ tr.add td:first-child{color:var(--accent)}
 .askresults{display:grid;gap:12px;min-width:0}
 #askStatus:empty{display:none}
 .acard{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px;min-width:0}
-.acard.new{border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}
+.acard.new{border-color:var(--purple-300)}
 .acard .im{width:96px;height:96px;border-radius:12px;overflow:hidden;background:var(--bg);border:1px solid var(--line)}
 .acard .im img{width:100%;height:100%;object-fit:cover;display:block}
 .acard h4{margin:2px 0 0;font:500 19px/1.2 var(--display);letter-spacing:-.01em}
@@ -287,7 +288,7 @@ html,body{overflow-x:clip}
 .topbar::before{content:"";position:absolute;inset:0 -100vmax;z-index:-1;border-bottom:1px solid var(--line);
   background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px)}
 .brand{display:inline-flex;align-items:center;gap:10px;justify-self:start;color:var(--ink);text-decoration:none;min-width:0}
-.brand .mark{width:26px;height:26px;border-radius:50% 50% 46% 46%/60% 60% 40% 40%;background:linear-gradient(160deg,var(--accent),color-mix(in srgb,var(--accent) 45%,#E269A4));flex:none}
+.brand .mark{width:26px;height:26px;border-radius:50% 50% 46% 46%/60% 60% 40% 40%;background:var(--accent);flex:none}
 .brand-name{font:400 23px/1 var(--display);letter-spacing:-.02em;white-space:nowrap}
 .topbar .tabs{justify-self:center}
 .acct{justify-self:end;position:relative}
@@ -297,7 +298,7 @@ html,body{overflow-x:clip}
   .topbar .tabs button{padding:8px 12px;font-size:13.5px}
 }
 .intro{display:grid;gap:4px;margin-top:-4px}
-h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,6.5vw,68px);line-height:.98;letter-spacing:-.035em}
+h1{font-family:var(--display);font-weight:300;font-size:clamp(40px,6.5vw,68px);line-height:1.1;letter-spacing:-.035em}
 h2,.addhead h2{font-family:var(--display);font-weight:400;letter-spacing:-.02em}
 h2{font-size:28px}
 .sub{font-size:17px;line-height:1.45;margin-top:12px}
@@ -321,7 +322,7 @@ a{color:var(--accent);text-underline-offset:2px}
 .btn:active:not([disabled]){transform:translateY(1px)}
 .ghost{border-radius:999px;background:var(--surface);padding:7px 14px;transition:background .15s,border-color .15s}
 .ghost.sm{padding:4px 11px}
-.ghost:hover:not([disabled]){background:var(--hl);border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.ghost:hover:not([disabled]){background:var(--hl);border-color:var(--purple-200)}
 /* inputs */
 input[type=text],input[type=number],input[type=search],select,textarea{border-radius:var(--radius-sm);background:var(--bg);border-color:var(--line);padding:9px 12px}
 .searchbar input,.gtools input[type=search]{border-radius:999px;padding-inline:18px}
@@ -361,24 +362,24 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .fx{border:0;background:var(--wash);color:var(--accent);font:600 13.5px var(--body);padding:4px 4px 4px 12px;gap:6px;transition:background .15s}
 .fx:hover{background:var(--wash-strong)}
 .fx b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--wash-strong);font-size:14px;line-height:1;transition:background .15s}
-.fx:hover b{background:color-mix(in srgb,var(--accent) 24%,transparent)}
+.fx:hover b{background:var(--wash-hover)}
 .factive{background:var(--wash);border-radius:999px;padding:4px;gap:4px}
 .factive>span:first-child{display:none}
 .factive::before{content:"Active";font:500 11px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--accent);padding:0 6px 0 10px}
 .factive .fx{background:var(--surface)}
-.factive .fx:hover{background:color-mix(in srgb,var(--surface) 70%,var(--wash-strong))}
+.factive .fx:hover{background:var(--wash)}
 .fclear{text-decoration:none;color:var(--accent);font:600 13px var(--body);padding:4px 10px;border-radius:999px}
 .fclear:hover{background:var(--surface)}
 .fdd{border:1px solid var(--hairline);background:transparent;font-weight:600}
 .fdd:hover{background:var(--wash);border-color:transparent}
 .fdd.set{background:var(--wash-strong);color:var(--accent);border-color:transparent}
 /* color chips: Tines "NEW | Introducing…" pill — hairline accent outline, swatch in its own segment */
-.fchip{position:relative;border:1px solid color-mix(in srgb,var(--accent) 55%,transparent);background:transparent;color:var(--accent);font-weight:600;padding:5px 14px 5px 40px;gap:0;transition:background .15s,color .15s,border-color .15s;
-  background-image:linear-gradient(color-mix(in srgb,var(--accent) 55%,transparent),color-mix(in srgb,var(--accent) 55%,transparent));background-repeat:no-repeat;background-size:1px 100%;background-position:30px 0}
+.fchip{position:relative;border:1px solid var(--purple-300);background:transparent;color:var(--accent);font-weight:600;padding:5px 14px 5px 40px;gap:0;transition:background .15s,color .15s,border-color .15s;
+  background-image:linear-gradient(var(--purple-300),var(--purple-300));background-repeat:no-repeat;background-size:1px 100%;background-position:30px 0}
 .fchip i{position:absolute;left:10px;top:50%;transform:translateY(-50%)}
 .fchip:hover{background-color:var(--wash)}
 .fchip[aria-pressed="true"]{background-color:var(--accent);color:var(--accent-ink);border-color:var(--accent);
-  background-image:linear-gradient(color-mix(in srgb,var(--accent-ink) 40%,transparent),color-mix(in srgb,var(--accent-ink) 40%,transparent))}
+  background-image:linear-gradient(var(--purple-300),var(--purple-300))}
 .askfilters .fchip{padding:4px 12px 4px 38px;background-position:28px 0}
 .askfilters .fchip i{left:9px}
 /* chips in Geist Pixel, like the badges */
@@ -388,11 +389,11 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .chip:hover{background:var(--wash-strong)}
 .chip i{width:20px;height:20px}
 .chip button{display:grid;place-items:center;width:22px;height:22px;padding:0;border-radius:50%;color:var(--accent);background:var(--wash-strong);font:600 14px/1 var(--body);transition:background .15s}
-.chip button:hover{background:color-mix(in srgb,var(--accent) 24%,transparent)}
+.chip button:hover{background:var(--wash-hover)}
 /* ---------- Buttons, Tines-style: uppercase spaced label, filled accent primary, frosted outline secondary ---------- */
 .btn,.ghost{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:400 13px/1 var(--pixel);letter-spacing:.1em;text-transform:uppercase;border-radius:999px;border:1px solid transparent;white-space:nowrap}
 .btn{min-height:36px;padding:0 18px;background:var(--accent);color:var(--bg)}
-.btn:hover:not([disabled]){background:color-mix(in srgb,var(--accent) 85%,var(--ink));color:var(--bg)}
+.btn:hover:not([disabled]){background:var(--accent-deep);color:var(--bg)}
 .ghost{min-height:36px;padding:0 18px;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(6px);border-color:var(--accent);color:var(--accent)}
 .ghost:hover:not([disabled]){background:var(--wash);border-color:var(--accent)}
 .ghost.sm{min-height:28px;padding:0 12px;font-size:11.5px}
@@ -429,10 +430,18 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .pill.buy{background:var(--tint-orange);color:var(--tint-orange-ink)}
 .fnote,.banner{background:var(--tint-blue);border:1px solid var(--tint-blue-line);color:var(--tint-blue-ink)}
 .shop{background:var(--tint-orange);border:1px solid var(--tint-orange-line);color:var(--tint-orange-ink)}
-.shop .note,.shop .meta{color:color-mix(in srgb,var(--tint-orange-ink) 75%,transparent)}
+.shop .note,.shop .meta{color:var(--tint-orange-ink)}
 .empty{background:var(--tint-purple);border:1px solid var(--tint-purple-line);color:var(--tint-purple-ink)}
-.empty .note{color:color-mix(in srgb,var(--tint-purple-ink) 78%,transparent)}
+.empty .note{color:var(--tint-purple-ink)}
 .empty h2,.empty h3,.shop h2,.shop h3{color:inherit}
+/* Tines surfaces: dot grid (hands-on building, like a test-tile board) and blueprint grid (planning). Cover the whole surface. */
+.dotgrid,#matchPanel #form{--dot:var(--purple-100);background-color:var(--surface);background-image:radial-gradient(circle,var(--dot) 1.3px,transparent 1.5px);background-size:18px 18px;background-position:9px 9px}
+.blueprint{--gl:var(--purple-50);background-color:var(--surface);background-image:linear-gradient(var(--gl) 1px,transparent 1px),linear-gradient(90deg,var(--gl) 1px,transparent 1px);background-size:24px 24px}
+/* bento: evenly spaced rounded boxes */
+.bento{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.bento>*{border-radius:var(--radius);padding:20px;min-width:0}
+.bento .wide{grid-column:span 2}
+@media (max-width:560px){.bento .wide{grid-column:auto}}
 /* inputs */
 input[type=text],input[type=number],input[type=search],select,textarea{font-size:var(--in-fs);padding:var(--in-py) clamp(10px,8px + .5vw,14px)}
 textarea{font-size:max(16px,13px)}
