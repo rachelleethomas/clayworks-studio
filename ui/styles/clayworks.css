@@ -10,6 +10,9 @@
   --accent:#6956A8; --accent-ink:#FFFFFF; --warn:#B74D1A; --ok:#1F7A57; --hl:#F3ECF7;
   --tint-purple:#F3ECF7; --tint-green:#E9F3E7; --tint-orange:#FEEDE0; --tint-blue:#ECEFF6; --tint-pink:#FEEBEE; --tint-yellow:#FEEFDF;
   --radius:16px; --radius-sm:10px;
+  --wash:color-mix(in srgb,var(--accent) 7%,transparent);       /* Tines-style tinted fill, no border */
+  --wash-strong:color-mix(in srgb,var(--accent) 14%,transparent);
+  --hairline:color-mix(in srgb,currentColor 14%,transparent);
   --display:"Fraunces", Georgia, "Times New Roman", serif;   /* Soft clay: soft serif display */
   --body:"Inter Tight", system-ui, sans-serif;
   --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
@@ -333,6 +336,51 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .addhead h2{font-size:36px}
 .rcard .ttl{font:500 22px var(--display);letter-spacing:-.01em}
 .rcard h4,.tile h4{font:500 20px/1.2 var(--display);letter-spacing:-.01em}
+/* ---------- Chips, Tines-style: borderless accent wash, accent text, round inner icon buttons ---------- */
+.fx{border:0;background:var(--wash);color:var(--accent);font:600 13.5px var(--body);padding:4px 4px 4px 12px;gap:6px;transition:background .15s}
+.fx:hover{background:var(--wash-strong)}
+.fx b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--wash-strong);font-size:14px;line-height:1;transition:background .15s}
+.fx:hover b{background:color-mix(in srgb,var(--accent) 24%,transparent)}
+.factive{background:var(--wash);border-radius:999px;padding:4px;gap:4px}
+.factive>span:first-child{display:none}
+.factive::before{content:"Active";font:500 11px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--accent);padding:0 6px 0 10px}
+.factive .fx{background:var(--surface)}
+.factive .fx:hover{background:color-mix(in srgb,var(--surface) 70%,var(--wash-strong))}
+.fclear{text-decoration:none;color:var(--accent);font:600 13px var(--body);padding:4px 10px;border-radius:999px}
+.fclear:hover{background:var(--surface)}
+.fdd{border:1px solid var(--hairline);background:transparent;font-weight:600}
+.fdd:hover{background:var(--wash);border-color:transparent}
+.fdd.set{background:var(--wash-strong);color:var(--accent);border-color:transparent}
+/* color chips: Tines "NEW | Introducing…" pill — hairline accent outline, swatch in its own segment */
+.fchip{position:relative;border:1px solid color-mix(in srgb,var(--accent) 55%,transparent);background:transparent;color:var(--accent);font-weight:600;padding:5px 14px 5px 40px;gap:0;transition:background .15s,color .15s,border-color .15s;
+  background-image:linear-gradient(color-mix(in srgb,var(--accent) 55%,transparent),color-mix(in srgb,var(--accent) 55%,transparent));background-repeat:no-repeat;background-size:1px 100%;background-position:30px 0}
+.fchip i{position:absolute;left:10px;top:50%;transform:translateY(-50%)}
+.fchip:hover{background-color:var(--wash)}
+.fchip[aria-pressed="true"]{background-color:var(--accent);color:var(--accent-ink);border-color:var(--accent);
+  background-image:linear-gradient(color-mix(in srgb,var(--accent-ink) 40%,transparent),color-mix(in srgb,var(--accent-ink) 40%,transparent))}
+.askfilters .fchip{padding:4px 12px 4px 38px;background-position:28px 0}
+.askfilters .fchip i{left:9px}
+/* chips in Geist Pixel, like the badges */
+.fchip,.fx,.fdd{font-family:var(--pixel);font-weight:400;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase}
+/* hex chips match the active-filter chips (.fx), with the swatch leading */
+.chip{border:0;background:var(--wash);color:var(--accent);padding:4px 4px 4px 5px;gap:7px;font:400 12.5px var(--pixel);letter-spacing:.06em;text-transform:uppercase;transition:background .15s}
+.chip:hover{background:var(--wash-strong)}
+.chip i{width:20px;height:20px}
+.chip button{display:grid;place-items:center;width:22px;height:22px;padding:0;border-radius:50%;color:var(--accent);background:var(--wash-strong);font:600 14px/1 var(--body);transition:background .15s}
+.chip button:hover{background:color-mix(in srgb,var(--accent) 24%,transparent)}
+/* ---------- Buttons, Tines-style: uppercase spaced label, filled accent primary, frosted outline secondary ---------- */
+.btn,.ghost{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:400 13px/1 var(--pixel);letter-spacing:.1em;text-transform:uppercase;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.btn{min-height:36px;padding:0 18px;background:var(--accent);color:var(--bg)}
+.btn:hover:not([disabled]){background:color-mix(in srgb,var(--accent) 85%,var(--ink));color:var(--bg)}
+.ghost{min-height:36px;padding:0 18px;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(6px);border-color:var(--accent);color:var(--accent)}
+.ghost:hover:not([disabled]){background:var(--wash);border-color:var(--accent)}
+.ghost.sm{min-height:28px;padding:0 12px;font-size:11.5px}
+/* text links, like Tines nav links: no underline, accent, soft pill wash on hover */
+.linkbtn{text-decoration:none;font:600 13.5px var(--body);color:var(--accent);padding:5px 10px;margin:0 -4px;border-radius:999px;transition:background .15s}
+.linkbtn:hover{background:var(--wash)}
+.linkbtn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.filters button{border:0;background:var(--wash);font-weight:600}
+.filters button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
 
 /* --- GitHub build: account menu, login, dialogs (web/build.py) --- */
 
