@@ -93,3 +93,34 @@ export const Stickers = () => {
   </div>`;
 };
 Stickers.storyName = "Bucket labels and pixel mark";
+
+// Same style as the first pixel accent (lavender block, uppercase, wide tracking), different typefaces.
+const ACCENT_FONTS = [
+  { name: "Silkscreen (original)", family: "Silkscreen", css: "Silkscreen", w: 400, note: "The pixel original, for comparison." },
+  { name: "IBM Plex Mono · Light", family: "IBM Plex Mono", css: "IBM+Plex+Mono:wght@300;400;500;600;700", w: 300, note: "IBM's typeface. Light reads airy and precise." },
+  { name: "IBM Plex Mono · Regular", family: "IBM Plex Mono", w: 400, note: "Engineered, calm; pairs well with Fraunces." },
+  { name: "IBM Plex Mono · Medium", family: "IBM Plex Mono", w: 500, note: "Good default for small badges." },
+  { name: "IBM Plex Mono · SemiBold", family: "IBM Plex Mono", w: 600, note: "Stronger labels on tinted blocks." },
+  { name: "IBM Plex Mono · Bold", family: "IBM Plex Mono", w: 700, note: "Stamp-like for status." },
+  { name: "Space Mono", family: "Space Mono", css: "Space+Mono:wght@400;700", w: 400, note: "Geometric, a little retro-futurist." },
+  { name: "Martian Mono", family: "Martian Mono", css: "Martian+Mono:wght@300..700", w: 500, note: "Wide, technical; closest to a lab instrument." },
+  { name: "Major Mono Display", family: "Major Mono Display", css: "Major+Mono+Display", w: 400, note: "Display mono with quirky letterforms. Headings only." },
+  { name: "Share Tech Mono", family: "Share Tech Mono", css: "Share+Tech+Mono", w: 400, note: "Squared, LCD-ish without being pixel." },
+  { name: "Azeret Mono", family: "Azeret Mono", css: "Azeret+Mono:wght@300..700", w: 500, note: "Crisp grotesk mono, many weights." },
+  { name: "Fragment Mono", family: "Fragment Mono", css: "Fragment+Mono", w: 400, note: "Helvetica-like mono. Very clean." },
+  { name: "Red Hat Mono", family: "Red Hat Mono", css: "Red+Hat+Mono:wght@300..700", w: 500, note: "Friendly, rounded corners." },
+  { name: "Syne Mono", family: "Syne Mono", css: "Syne+Mono", w: 400, note: "Narrow, artsy, a bit hand-cut." },
+  { name: "Kode Mono", family: "Kode Mono", css: "Kode+Mono:wght@400..700", w: 500, note: "Angular, code-editor feel." },
+  { name: "VT323", family: "VT323", css: "VT323", w: 400, note: "Terminal pixel-mono hybrid." },
+];
+load(ACCENT_FONTS.filter((f) => f.css).map((f) => f.css));
+
+export const AccentFontOptions = () => `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;max-width:1200px">${ACCENT_FONTS.map((f) => `
+  <div style="background:var(--tint-purple);border-radius:16px;padding:22px;display:grid;gap:10px">
+    <span class="lbl">${f.name}</span>
+    <div style="font:${f.w} 26px '${f.family}',monospace;letter-spacing:.04em;color:var(--ink)">NEW · TESTING · KEEPER</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">${["NEW", "PROVEN", "471 RECIPES", "CONE 6"].map((t) => `<span style="font:${f.w} 12px '${f.family}',monospace;letter-spacing:.08em;border-radius:999px;padding:4px 10px;background:var(--surface);color:var(--accent)">${t}</span>`).join("")}</div>
+    <span class="note">${f.note}</span>
+  </div>`).join("")}</div>
+  <p class="note" style="margin-top:12px">Same lavender block, uppercase and wide tracking as the first pixel accent. Only the typeface changes.</p>`;
+AccentFontOptions.storyName = "Accent font options (same style)";
