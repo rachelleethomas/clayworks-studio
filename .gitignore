@@ -6,3 +6,4 @@ node_modules/
 .local-site/
 catalog/.ceramicshop-prices.json
 catalog/.bailey-prices.json
+catalog/.material-prices-cache.json

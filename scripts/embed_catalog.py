@@ -57,4 +57,9 @@ if os.path.exists(gpath):  # Glazy library (scripts/glazy_subset.py), CC BY-NC-S
     new, n = re.subn(r'(<script type="application/json" id="glazyData">)(.*?)(</script>)', lambda m: m.group(1) + g + m.group(3), new, count=1, flags=re.S)
     assert n == 1, "glazyData block not found"
     print("embedded glazy", len(g), "bytes")
+mpath = os.path.join(R, "catalog", "material-prices.json")  # scripts/material_prices.py
+if os.path.exists(mpath):
+    mp = open(mpath, encoding="utf-8").read().replace("</", "<\\/")
+    new, n = re.subn(r'(<script type="application/json" id="matPrices">)(.*?)(</script>)', lambda m: m.group(1) + mp + m.group(3), new, count=1, flags=re.S)
+    assert n == 1, "matPrices block not found"; print("embedded material prices", len(mp), "bytes")
 open(page, "w").write(new); print("embedded", len(data), "bytes")
