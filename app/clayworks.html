@@ -1718,7 +1718,8 @@ function storeItems(){
   if(storeCache&&storeN===CATALOG.length)return storeCache;storeN=CATALOG.length;
   const merged=new Map();
   CATALOG.filter(c=>(c.kind==="glaze"||c.kind==="underglaze")&&c.url).forEach(c=>{
-    const k=[c.brand||"",(String(c.code||"").match(/\d+/)||[""])[0],String(c.name||"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim()].join("|"),ex=merged.get(k);
+    const num=(String(c.code||"").match(/\d+/)||[""])[0],nm=String(c.name||"").toLowerCase().replace(/\b0+(\d)/g,"$1").replace(/[^a-z0-9]+/g," ").trim();
+    const k=[String(c.brand||"").toLowerCase(),num?String(+num):"",nm].join("|"),ex=merged.get(k);
     if(!ex)merged.set(k,{...c});else ex.source=[...new Set([...String(ex.source||"").split(", "),...String(c.source||"").split(", ")].filter(Boolean))].join(", ");
   });
   storeCache=[...merged.values()].map((c,i)=>{
@@ -1732,7 +1733,7 @@ function storeItems(){
       under:c.kind==="underglaze",
       meta:[c.kind==="underglaze"?"Underglaze":"Glaze",/^(under)?glaze$/i.test(c.line||"")?"":c.line,c.cone?"cone "+String(c.cone).replace(/^\^/,""):""].filter(Boolean).join(" · "),
       note:fromPhoto?"Color sampled from the supplier's photo, so it's approximate.":hex?"Color estimated from the name. Check the supplier's photo before you buy.":"",rows:[],batch:0,
-      buy:{url:c.url,store:stores[0]||"store",also:stores.slice(1)},hay:(title+" "+(c.line||"")+" "+(c.code||"")).toLowerCase()};
+      cat:c,buy:{url:c.url,store:stores[0]||"store",also:stores.slice(1)},hay:(title+" "+(c.line||"")+" "+(c.code||"")).toLowerCase()};
   });
   return storeCache;
 }
@@ -1760,6 +1761,9 @@ function askCard(it){
   if(it.make)acts.append(saveBtn(it.make));
   if(it.open)acts.append(el("button",{type:"button",class:"ghost sm",text:"Open",onclick:it.open}));
   if(it.link)acts.append(el("a",{href:it.link,target:"_blank",rel:"noopener",class:"note",text:"View on Glazy"}));
+  if(it.cat){const on=()=>studio.some(s=>s.id===keyOf(it.cat));
+    const b=el("button",{type:"button",class:"ghost sm",text:on()?"✓ On your shelves":"Add to shelves",disabled:on()||undefined});
+    b.onclick=async()=>{b.disabled=true;await addItem(it.cat);b.textContent="✓ On your shelves"};acts.append(b)}
   if(it.buy)acts.append(el("a",{href:it.buy.url,target:"_blank",rel:"noopener",text:"Buy at "+it.buy.store}));
   return el("article",{class:"acard "+it.src},im,el("div",{class:"body"},
     el("span",{class:"srcb "+it.src,text:badge}),el("h4",{text:it.title}),el("div",{class:"meta",text:it.meta}),
