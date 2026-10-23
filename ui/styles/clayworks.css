@@ -121,7 +121,7 @@ header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between
 .acct{justify-self:end;position:relative}
 .intro{display:grid;gap:4px;margin-top:-4px}
 .grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:28px;align-items:start}
-.studio{display:grid;gap:22px}
+.studio{display:grid;gap:22px;grid-template-columns:minmax(0,1fr)} /* one column that never grows past the screen */
 .mineseg{max-width:340px;margin-top:-8px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .field{display:grid;gap:6px}
@@ -243,7 +243,7 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .fpop{position:absolute;top:calc(100% + 8px);left:0;z-index:25;width:max-content;max-width:min(380px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow-pop);display:grid;gap:10px}
 .fpop select{min-width:200px;font-family:var(--body)}
 .fpop .fchips{max-width:340px}
-.factive{display:flex;flex-wrap:wrap;gap:4px;align-items:center;background:var(--wash);border-radius:999px;padding:4px}
+.factive{display:flex;flex-wrap:wrap;gap:4px;align-items:center;background:var(--wash);border-radius:22px;padding:4px}
 .factive:empty{display:none}
 .factive>span:first-child{display:none}
 .factive::before{content:"Active";font:500 11px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--accent);padding:0 6px 0 10px}
@@ -274,7 +274,11 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 #askResults>.fnote,#askResults>.note{grid-column:1/-1}
 .askresults{display:grid;gap:12px;min-width:0}
 #askStatus:empty,#savedStatus:empty,#addFlash:empty{display:none}
-@media (max-width:640px){.fbar{gap:6px}.fcount{flex-wrap:nowrap}.fcount .note{font-size:13px}}
+@media (max-width:640px){.fbar{gap:6px}.fcount{flex-wrap:nowrap}.fcount .note{font-size:13px}
+  /* active filters: one swipeable row, like iOS filter chips, instead of a tall wrapped block */
+  .factive{flex:1 1 100%;min-width:0;max-width:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;border-radius:999px;-webkit-overflow-scrolling:touch;scroll-padding:0 12px}
+  .factive::-webkit-scrollbar{display:none}
+  .factive>*,.factive::before{flex:none}}
 @media (max-width:560px){#askResults{grid-template-columns:minmax(0,1fr)}
   .fpop{position:fixed;left:16px;right:16px;top:auto;bottom:16px;max-width:none;width:auto;max-height:70vh;overflow:auto}}
 @media (max-width:700px){.gtools{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.gtools input[type=search]{grid-column:1/-1}.gtools .check{grid-column:1/-1}}
@@ -519,6 +523,31 @@ td.muted,.muted{color:var(--muted)}
 .bento>*{border-radius:var(--radius);padding:20px;min-width:0}
 .bento .wide{grid-column:span 2}
 @media (max-width:560px){.bento .wide{grid-column:auto}}
+
+/* ---------- 10a App feel: phone tab bar, no web tap flashes, soft screen changes ---------- */
+.tabs button svg{display:none;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+html{-webkit-text-size-adjust:100%}
+body{-webkit-tap-highlight-color:transparent}
+button,summary,.tabs,.seg,.fdd,.fchip,.chip,.fx,.srcb,.pill,.rst,.lbl,.brand{-webkit-user-select:none;user-select:none}
+button,a,summary,label,select{touch-action:manipulation}
+@media (max-width:640px){
+  /* the three main tabs become an iPhone-style bottom bar */
+  .topbar .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
+    margin:0;border-radius:0;padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);
+    background:color-mix(in srgb,var(--surface) 92%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px)}
+  .topbar .tabs button{flex-direction:column;gap:4px;min-height:54px;padding:4px 0;border-radius:12px;background:none!important;box-shadow:none!important;
+    color:var(--muted);font-size:10.5px;letter-spacing:.08em}
+  .topbar .tabs button svg{display:block;box-sizing:content-box;padding:3px 16px;border-radius:999px;transition:background .15s}
+  .topbar .tabs button[aria-selected="true"]{color:var(--accent)}
+  .topbar .tabs button[aria-selected="true"] svg{background:var(--purple-100);stroke-width:1.9}
+  body{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .fpop{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion:no-preference){
+  [role=tabpanel]:not([hidden]){animation:viewin .2s ease both}
+  @keyframes viewin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+}
+@media print{.topbar .tabs{display:none!important}body{padding-bottom:0}}
 
 /* ---------- 10b Touch: bigger tap targets where the pointer is a finger ---------- */
 @media (pointer:coarse){

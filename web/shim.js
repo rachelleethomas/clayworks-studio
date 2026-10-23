@@ -20,6 +20,7 @@ async function shrink(blob) { // keep uploads small: max 1400px JPEG
 }
 async function cwSample(input, opts = {}) {
   if (!CW.token) throw { code: "not_granted", message: "Log in to use Claude features." };
+  if (!navigator.onLine) throw { code: "offline", message: "You're offline. Recipes need a connection; your shelves and saved recipes still work." };
   const prompt = typeof input === "string" ? input : input.map(m => m.content).join("\n\n");
   const images = await Promise.all((opts.images || []).slice(0, 2).map(async b => blobToB64(await shrink(b))));
   const res = await cwApi("/claude", { method: "POST", body: JSON.stringify({ prompt, images, task: opts.modelTier === "complex" ? "recipe" : "default" }) });
@@ -178,5 +179,20 @@ document.getElementById("cwForm").addEventListener("submit", async e => {
     }
   }
   if (!CW.token) { cwShowLogin(); return; }
-  try { CW.me = await cwApi("/me"); cwRenderUser(); cwPullStudio(); cwCountIdeas(); } catch { if (!CW.token) return; cwShowLogin("Couldn't reach the server. Check your connection and log in."); }
+  try { CW.me = await cwApi("/me"); cwRenderUser(); cwPullStudio(); cwCountIdeas(); }
+  catch (e) {
+    if (!CW.token) return;
+    if (!navigator.onLine || e instanceof TypeError) { cwOffline(true); return; } // no signal: keep the studio saved on this phone
+    cwShowLogin("Couldn't reach the server. Check your connection and log in.");
+  }
 })();
+/* offline: the studio stays usable from this device's copy; it syncs again when the connection is back */
+function cwOffline(on) {
+  CW.offline = on; document.documentElement.classList.toggle("offline", on);
+  let n = document.getElementById("cwOffline");
+  if (!n) { n = el("div", { id: "cwOffline", class: "banner", role: "status" }); document.querySelector(".topbar")?.after(n); }
+  n.hidden = !on; n.textContent = "You're offline. Your studio is saved on this phone; recipe generation needs a connection.";
+}
+addEventListener("offline", () => cwOffline(true));
+addEventListener("online", async () => { cwOffline(false); if (!CW.token) return; try { CW.me = await cwApi("/me"); cwRenderUser(); await cwPullStudio(); cwQueueSync(); } catch {} });
+if ("serviceWorker" in navigator && !/^http:\/\/(localhost|127\.0\.0\.1)/.test(location.href)) navigator.serviceWorker.register("sw.js").catch(() => {});

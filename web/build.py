@@ -86,12 +86,30 @@ i = s.index("<script>\n/* ---------- Catalog")
 s = s[:i] + "<script>\n" + shim + "\n</script>\n" + s[i:]
 # standalone document skeleton
 j = s.index("</style>") + len("</style>")
+# installable app: manifest, icons, iPhone launch screens, offline service worker (GitHub build only)
+import hashlib, json, shutil
+LAUNCH = [(1290, 2796, 430, 932, 3), (1179, 2556, 393, 852, 3), (1284, 2778, 428, 926, 3), (1170, 2532, 390, 844, 3),
+          (1125, 2436, 375, 812, 3), (1242, 2688, 414, 896, 3), (828, 1792, 414, 896, 2), (750, 1334, 375, 667, 2)]
+pwa_head = ('<meta name="apple-mobile-web-app-capable" content="yes">\n<meta name="mobile-web-app-capable" content="yes">\n'
+    '<meta name="apple-mobile-web-app-title" content="Clayworks">\n<meta name="apple-mobile-web-app-status-bar-style" content="default">\n'
+    '<meta name="theme-color" content="#FCF9F5" media="(prefers-color-scheme: light)">\n<meta name="theme-color" content="#1E1C22" media="(prefers-color-scheme: dark)">\n'
+    '<meta name="format-detection" content="telephone=no">\n<link rel="manifest" href="manifest.webmanifest">\n'
+    '<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">\n<link rel="apple-touch-icon" href="icons/icon-180.png">\n'
+    + "".join(f'<link rel="apple-touch-startup-image" href="icons/launch-{w}x{h}.png" media="(device-width: {cw}px) and (device-height: {ch}px) and (-webkit-device-pixel-ratio: {dpr}) and (orientation: portrait)">\n' for w, h, cw, ch, dpr in LAUNCH))
 s = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
-     '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
+     '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n' + pwa_head +
      '<style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>\n'
      + s[:j] + "\n</head>\n<body>\n" + s[j:] + "\n</body>\n</html>\n")
 out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(D, "..", "docs")
 os.makedirs(out, exist_ok=True)
 open(os.path.join(out, "index.html"), "w").write(s)
+manifest = {"name": "Clayworks Studio", "short_name": "Clayworks", "description": "Glaze and stain recipes, your studio shelves and test notes.",
+            "start_url": "./#ask", "scope": "./", "display": "standalone", "orientation": "portrait",
+            "background_color": "#FCF9F5", "theme_color": "#FCF9F5",
+            "icons": [{"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+                      {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]}
+open(os.path.join(out, "manifest.webmanifest"), "w").write(json.dumps(manifest, indent=1))
+shutil.copytree(os.path.join(D, "icons"), os.path.join(out, "icons"), dirs_exist_ok=True)
+open(os.path.join(out, "sw.js"), "w").write(open(os.path.join(D, "sw.js")).read().replace("__VERSION__", "cw-" + hashlib.sha1(s.encode()).hexdigest()[:10]))
 open(os.path.join(out, ".nojekyll"), "w").write("")
 print("wrote", os.path.join(os.path.relpath(out, os.path.join(D, "..")), "index.html"), len(s), "bytes, API_BASE =", api)
