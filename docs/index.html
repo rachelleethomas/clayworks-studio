@@ -3,6 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Clayworks">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FCF9F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1E1C22" media="(prefers-color-scheme: dark)">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="apple-touch-startup-image" href="icons/launch-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch-1284x2778.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch-828x1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
 <style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
 <title>Clayworks Studio</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..500,100&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -128,7 +146,7 @@ header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between
 .acct{justify-self:end;position:relative}
 .intro{display:grid;gap:4px;margin-top:-4px}
 .grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:28px;align-items:start}
-.studio{display:grid;gap:22px}
+.studio{display:grid;gap:22px;grid-template-columns:minmax(0,1fr)} /* one column that never grows past the screen */
 .mineseg{max-width:340px;margin-top:-8px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .field{display:grid;gap:6px}
@@ -250,7 +268,7 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .fpop{position:absolute;top:calc(100% + 8px);left:0;z-index:25;width:max-content;max-width:min(380px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow-pop);display:grid;gap:10px}
 .fpop select{min-width:200px;font-family:var(--body)}
 .fpop .fchips{max-width:340px}
-.factive{display:flex;flex-wrap:wrap;gap:4px;align-items:center;background:var(--wash);border-radius:999px;padding:4px}
+.factive{display:flex;flex-wrap:wrap;gap:4px;align-items:center;background:var(--wash);border-radius:22px;padding:4px}
 .factive:empty{display:none}
 .factive>span:first-child{display:none}
 .factive::before{content:"Active";font:500 11px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--accent);padding:0 6px 0 10px}
@@ -281,7 +299,11 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 #askResults>.fnote,#askResults>.note{grid-column:1/-1}
 .askresults{display:grid;gap:12px;min-width:0}
 #askStatus:empty,#savedStatus:empty,#addFlash:empty{display:none}
-@media (max-width:640px){.fbar{gap:6px}.fcount{flex-wrap:nowrap}.fcount .note{font-size:13px}}
+@media (max-width:640px){.fbar{gap:6px}.fcount{flex-wrap:nowrap}.fcount .note{font-size:13px}
+  /* active filters: one swipeable row, like iOS filter chips, instead of a tall wrapped block */
+  .factive{flex:1 1 100%;min-width:0;max-width:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;border-radius:999px;-webkit-overflow-scrolling:touch;scroll-padding:0 12px}
+  .factive::-webkit-scrollbar{display:none}
+  .factive>*,.factive::before{flex:none}}
 @media (max-width:560px){#askResults{grid-template-columns:minmax(0,1fr)}
   .fpop{position:fixed;left:16px;right:16px;top:auto;bottom:16px;max-width:none;width:auto;max-height:70vh;overflow:auto}}
 @media (max-width:700px){.gtools{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.gtools input[type=search]{grid-column:1/-1}.gtools .check{grid-column:1/-1}}
@@ -526,6 +548,31 @@ td.muted,.muted{color:var(--muted)}
 .bento>*{border-radius:var(--radius);padding:20px;min-width:0}
 .bento .wide{grid-column:span 2}
 @media (max-width:560px){.bento .wide{grid-column:auto}}
+
+/* ---------- 10a App feel: phone tab bar, no web tap flashes, soft screen changes ---------- */
+.tabs button svg{display:none;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+html{-webkit-text-size-adjust:100%}
+body{-webkit-tap-highlight-color:transparent}
+button,summary,.tabs,.seg,.fdd,.fchip,.chip,.fx,.srcb,.pill,.rst,.lbl,.brand{-webkit-user-select:none;user-select:none}
+button,a,summary,label,select{touch-action:manipulation}
+@media (max-width:640px){
+  /* the three main tabs become an iPhone-style bottom bar */
+  .topbar .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
+    margin:0;border-radius:0;padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);
+    background:color-mix(in srgb,var(--surface) 92%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px)}
+  .topbar .tabs button{flex-direction:column;gap:4px;min-height:54px;padding:4px 0;border-radius:12px;background:none!important;box-shadow:none!important;
+    color:var(--muted);font-size:10.5px;letter-spacing:.08em}
+  .topbar .tabs button svg{display:block;box-sizing:content-box;padding:3px 16px;border-radius:999px;transition:background .15s}
+  .topbar .tabs button[aria-selected="true"]{color:var(--accent)}
+  .topbar .tabs button[aria-selected="true"] svg{background:var(--purple-100);stroke-width:1.9}
+  body{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .fpop{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion:no-preference){
+  [role=tabpanel]:not([hidden]){animation:viewin .2s ease both}
+  @keyframes viewin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+}
+@media print{.topbar .tabs{display:none!important}body{padding-bottom:0}}
 
 /* ---------- 10b Touch: bigger tap targets where the pointer is a finger ---------- */
 @media (pointer:coarse){
@@ -816,6 +863,7 @@ async function shrink(blob) { // keep uploads small: max 1400px JPEG
 }
 async function cwSample(input, opts = {}) {
   if (!CW.token) throw { code: "not_granted", message: "Log in to use Claude features." };
+  if (!navigator.onLine) throw { code: "offline", message: "You're offline. Recipes need a connection; your shelves and saved recipes still work." };
   const prompt = typeof input === "string" ? input : input.map(m => m.content).join("\n\n");
   const images = await Promise.all((opts.images || []).slice(0, 2).map(async b => blobToB64(await shrink(b))));
   const res = await cwApi("/claude", { method: "POST", body: JSON.stringify({ prompt, images, task: opts.modelTier === "complex" ? "recipe" : "default" }) });
@@ -974,8 +1022,23 @@ document.getElementById("cwForm").addEventListener("submit", async e => {
     }
   }
   if (!CW.token) { cwShowLogin(); return; }
-  try { CW.me = await cwApi("/me"); cwRenderUser(); cwPullStudio(); cwCountIdeas(); } catch { if (!CW.token) return; cwShowLogin("Couldn't reach the server. Check your connection and log in."); }
+  try { CW.me = await cwApi("/me"); cwRenderUser(); cwPullStudio(); cwCountIdeas(); }
+  catch (e) {
+    if (!CW.token) return;
+    if (!navigator.onLine || e instanceof TypeError) { cwOffline(true); return; } // no signal: keep the studio saved on this phone
+    cwShowLogin("Couldn't reach the server. Check your connection and log in.");
+  }
 })();
+/* offline: the studio stays usable from this device's copy; it syncs again when the connection is back */
+function cwOffline(on) {
+  CW.offline = on; document.documentElement.classList.toggle("offline", on);
+  let n = document.getElementById("cwOffline");
+  if (!n) { n = el("div", { id: "cwOffline", class: "banner", role: "status" }); document.querySelector(".topbar")?.after(n); }
+  n.hidden = !on; n.textContent = "You're offline. Your studio is saved on this phone; recipe generation needs a connection.";
+}
+addEventListener("offline", () => cwOffline(true));
+addEventListener("online", async () => { cwOffline(false); if (!CW.token) return; try { CW.me = await cwApi("/me"); cwRenderUser(); await cwPullStudio(); cwQueueSync(); } catch {} });
+if ("serviceWorker" in navigator && !/^http:\/\/(localhost|127\.0\.0\.1)/.test(location.href)) navigator.serviceWorker.register("sw.js").catch(() => {});
 
 </script>
 <script>
@@ -1122,9 +1185,14 @@ const GROUPS={mystudio:{subs:["saved","studio"],seg:"mineSeg",title:"My Studio"}
 const groupSub={mystudio:"saved"};
 const VIEWS=["ask","work","recipes","library","saved","studio","recipe","premade"];
 const TITLES={ask:"Discover",work:"My Work",recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves",recipe:"Recipe",premade:"Premade glaze"};
+const TAB_ICONS={ // 24px line icons for the phone tab bar: a loupe over a drip, jars on a shelf, a pot on a wheel
+  ask:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 20 20"/><path d="M8 9.5c1-1.6 3-2 4.5-.6"/></svg>',
+  mystudio:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M3 13h18"/><rect x="5" y="6" width="4.5" height="7" rx="1.2"/><rect x="11.5" y="8" width="4" height="5" rx="1.2"/><rect x="6" y="15.5" width="5" height="4.5" rx="1.2"/><rect x="13" y="15" width="5" height="5" rx="1.2"/></svg>',
+  work:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5h7c-.6 1.7-.4 3 .9 4.6 1.6 2 1.9 4.6.6 6.9H7c-1.3-2.3-1-4.9.6-6.9C8.9 8 9.1 6.7 8.5 5Z"/><path d="M4 19.5h16"/></svg>'};
 function renderTabs(){
   const t=$("tabs");t.textContent="";
-  TABS.forEach(([k,v])=>t.append(el("button",{role:"tab",id:"tab-"+k,type:"button","aria-selected":"false",onclick:()=>showTab(k)},v)));
+  TABS.forEach(([k,v])=>{const b=el("button",{role:"tab",id:"tab-"+k,type:"button","aria-selected":"false",onclick:()=>showTab(k)});
+    b.innerHTML=TAB_ICONS[k]||"";b.append(el("span",{text:v}));t.append(b)});
 }
 function showTab(name){
   if(GROUPS[name])name=groupSub[name];
