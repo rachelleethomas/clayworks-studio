@@ -484,6 +484,12 @@ td.muted,.muted{color:var(--muted)}
 .item{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow-card)}
 .item .sw{width:30px;height:30px;border-radius:8px;border:1px solid rgba(0,0,0,.12)}
 .item .sw.jar{border-radius:3px 3px 8px 8px}
+.item .sw{overflow:hidden;position:relative}
+.item .sw img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.item:has(.sw img){grid-template-columns:52px minmax(0,1fr)}
+.item .sw:has(img){width:52px;height:52px;border-radius:10px}
+.item.tappable{cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.item.tappable:hover{border-color:var(--purple-300);box-shadow:0 6px 20px rgba(84,47,156,.10)}
 .item .sw.bag{border-radius:2px;background-image:repeating-linear-gradient(0deg,transparent 0 5px,rgba(0,0,0,.08) 5px 6px)}
 .item h4{margin:0;font-size:14px;font-weight:600;overflow-wrap:anywhere}
 .item .meta{font-size:12.5px}
@@ -853,7 +859,7 @@ const allDocs=()=>[...studio,...recipes,...(pricesDoc?[pricesDoc]:[])];
 function loadLocal(){try{splitDocs(JSON.parse(localStorage.getItem("stainlab-studio")||"[]"))}catch{studio=[];recipes=[]}}
 function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(allDocs()))}catch{}}
 async function addItem(it){
-  const clean={kind:it.kind,name:String(it.name||"").slice(0,120),brand:it.brand||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",note:it.note||"",line:it.line||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",addedAt:Date.now()};
+  const clean={kind:it.kind,name:String(it.name||"").slice(0,120),brand:it.brand||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",note:it.note||"",line:it.line||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",...(/^https:\/\//.test(it.img||"")?{img:it.img}:{}),addedAt:Date.now()};
   if(!clean.name)return;
   const id=keyOf(clean);
   if(studio.some(s=>s.id===id))return;
@@ -925,7 +931,7 @@ function showTab(name){
   if(grp&&name!=="recipe")groupSub[grp]=name;
   document.querySelector(".intro").hidden=name==="recipe"||name==="premade";
   VIEWS.forEach(v=>$("view-"+v).hidden=v!==name);
-  [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+(grp||(name==="recipes"||name==="library"||name==="premade"?"ask":name)))));
+  [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+(grp||(name==="recipes"||name==="library"?"ask":name==="premade"?(premadeFrom==="studio"?"mystudio":"ask"):name)))));
   Object.entries(GROUPS).forEach(([g,G])=>{$(G.seg).hidden=g!==grp||name==="recipe";
     document.querySelectorAll("#"+G.seg+" button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.sub===name)))});
   $("sub").textContent=SUBS[name==="recipes"?mode:name];
@@ -1228,11 +1234,18 @@ function renderShelves(){
       const rm=el("button",{type:"button",class:"linkbtn",text:"Remove"});
       rm.onclick=()=>{acts.textContent="";acts.append(el("button",{type:"button",class:"ghost sm",text:"Yes, remove",onclick:()=>removeItem(it.id)}),el("button",{type:"button",class:"linkbtn",text:"Keep",onclick:renderShelves}))};
       acts.append(rm);
-      grid.append(el("div",{class:"item"},swatch(it),el("div",{},
+      const pm=premadeFor(it),sw=swatch(it);
+      if(pm?.img){const im=el("img",{src:pm.img,alt:"",loading:"lazy",referrerpolicy:"no-referrer"});im.onerror=()=>im.remove();sw.append(im)}
+      else if(pm?.hex&&!normHex(it.hex))sw.style.background="#"+pm.hex;
+      const stores=pm?new Set((pm.offers||[]).map(o=>o.store)).size:0;
+      const card=el("div",{class:"item"+(pm?" tappable":"")},sw,el("div",{},
         el("h4",{text:it.code?`${it.code} ${it.name}`:it.name}),
         el("div",{class:"meta",text:[it.brand,it.line,it.cone].filter(Boolean).join(" · ")}),
-        it.url?el("a",{href:it.url,target:"_blank",rel:"noopener",class:"note",text:"View at "+(it.source||"supplier")}):null,
-        it.note?el("div",{class:"note",text:it.note}):null,acts)));
+        pm?el("div",{class:"note",text:stores>1?`Sold at ${stores} stores · compare prices`:"Where to buy and price"}):
+          it.url?el("a",{href:it.url,target:"_blank",rel:"noopener",class:"note",text:"View at "+String(it.source||"supplier").split(", ")[0]}):null,
+        it.note?el("div",{class:"note",text:it.note}):null,acts));
+      if(pm)card.onclick=e=>{if(!e.target.closest("a,button"))openPremade(pm.pk)};
+      grid.append(card);
     });
     s.append(el("section",{class:"shelf"},el("div",{class:"shelfhead"},el("h2",{text:v}),el("span",{text:items.length+(items.length===1?" item":" items")})),grid));
   });
@@ -1777,13 +1790,17 @@ function coneRange(c){ // "^5-6" → [5,6]; "^06-10" → [-6,10]; cone 06 is bel
 }
 const coversCone=(c,n)=>{const r=coneRange(c);return !!r&&n>=r[0]&&n<=r[1]};
 let storeCache=null,storeN=-1;
+function premadeKey(c){ // the same product across stores: brand + full code ("PC-20", "pc20", "CO-06" → pc20 / co6), else brand + number + name
+  const num=(String(c.code||"").match(/\d+/)||[""])[0],nm=String(c.name||"").toLowerCase().replace(/\b0+(\d)/g,"$1").replace(/[^a-z0-9]+/g," ").trim();
+  const cc=String(c.code||"").toLowerCase().replace(/[^a-z0-9]/g,"").replace(/^([a-z]+)0+(\d)/,"$1$2");
+  return /^[a-z]+\d+[a-z]?$/.test(cc)?String(c.brand||"").toLowerCase()+"|"+cc:[String(c.brand||"").toLowerCase(),num?String(+num):"",nm].join("|");
+}
+const premadeFor=it=>(it.kind==="glaze"||it.kind==="underglaze")?storeItems().find(x=>x.pk===premadeKey(it))||null:null;
 function storeItems(){
   if(storeCache&&storeN===CATALOG.length)return storeCache;storeN=CATALOG.length;
   const merged=new Map();
   CATALOG.filter(c=>(c.kind==="glaze"||c.kind==="underglaze")&&c.url).forEach(c=>{
-    const num=(String(c.code||"").match(/\d+/)||[""])[0],nm=String(c.name||"").toLowerCase().replace(/\b0+(\d)/g,"$1").replace(/[^a-z0-9]+/g," ").trim();
-    const cc=String(c.code||"").toLowerCase().replace(/[^a-z0-9]/g,"").replace(/^([a-z]+)0+(\d)/,"$1$2"); // "PC-20", "pc20", "CO-06" → pc20 / co6
-    const k=/^[a-z]+\d+[a-z]?$/.test(cc)?String(c.brand||"").toLowerCase()+"|"+cc:[String(c.brand||"").toLowerCase(),num?String(+num):"",nm].join("|"),ex=merged.get(k);
+    const k=premadeKey(c),ex=merged.get(k);
     const offs=c.offers||[{store:String(c.source||"").split(", ")[0],url:c.url}];
     if(!ex)merged.set(k,{...c,pk:k,offers:offs.map(o=>({...o}))});
     else{ex.source=[...new Set([...String(ex.source||"").split(", "),...String(c.source||"").split(", ")].filter(Boolean))].join(", ");
@@ -2239,8 +2256,8 @@ function rpUsed(r){
 }
 
 /* ---------- Premade glaze page: where to buy (best price), make one like this ---------- */
-let openPremadeKey=null;
-function openPremade(k){openPremadeKey=k;showTab("premade");window.scrollTo({top:0})}
+let openPremadeKey=null,premadeFrom="ask";
+function openPremade(k){premadeFrom=tab==="studio"?"studio":"ask";openPremadeKey=k;showTab("premade");window.scrollTo({top:0})}
 const SIZE_ORDER=["4 oz","8 oz","Pint","Quart","Gallon"];
 function offerRows(it){ // [{store,url,size,price,note}]
   const rows=[];
@@ -2261,7 +2278,7 @@ function renderPremadePage(){
   const on=()=>studio.some(s=>s.id===keyOf(it.cat));
   const add=el("button",{type:"button",class:"ghost sm",text:on()?"✓ On your shelves":"Add to shelves",disabled:on()||undefined});
   add.onclick=async()=>{add.disabled=true;await addItem(it.cat);add.textContent="✓ On your shelves"};
-  box.append(el("div",{class:"rp-head"},ph,el("div",{class:"rp-id"},el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Discover",onclick:()=>showTab("ask")}),
+  box.append(el("div",{class:"rp-head"},ph,el("div",{class:"rp-id"},el("button",{type:"button",class:"linkbtn rp-back",text:premadeFrom==="studio"?"‹ My Studio · Shelves":"‹ Discover",onclick:()=>showTab(premadeFrom)}),
     el("h1",{class:"rp-h",text:it.title}),el("div",{class:"meta",text:["Premade "+(it.under?"underglaze":"glaze"),it.kind,it.cone?"cone "+String(it.cone).replace(/^\^|^cone\s*/i,""):""].filter(Boolean).join(" · ")})),
     el("div",{class:"rp-acts"},el("span",{class:"srcb store",text:"Premade"}),add)));
   // where to buy
