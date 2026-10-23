@@ -354,6 +354,9 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .rcard .batch input{width:110px;padding:5px 12px;font:500 15px var(--body);letter-spacing:0}
 .rcard textarea{font:400 var(--in-fs)/1.45 var(--body);min-height:64px;border-color:var(--purple-100)}
 .savedgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;align-items:start}
+/* a recipe's photo standing in for its color swatch: same box, cropped to fill */
+img.swphoto{display:block;width:100%;object-fit:cover;aspect-ratio:auto}
+img.rp-sw.swphoto,img.rp-rel-sw.swphoto{width:auto}
 /* recipe summary card (My Studio > Recipes): tap to open the recipe page */
 .rsum{cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .12s}
 .rsum:hover{border-color:var(--purple-300);box-shadow:0 6px 20px rgba(84,47,156,.10)}
@@ -1929,7 +1932,7 @@ let openId=null;
 function openRecipe(id){openId=id;Object.assign(RP,{tab:"recipe",id,logOpen:false,swap:"",cmp:"",lab:null,costBatch:0});showTab("recipe");window.scrollTo({top:0})}
 function recipeSwatch(r,cls){
   let sw=el("div",{class:cls});sw.style.background="#"+(normHex(r.predicted)||normHex(r.hex)||"D8DAD5");
-  if(r.photo){const im=photoEl(r.photo,r.title);im.onerror=()=>im.replaceWith(sw);return im}
+  if(r.photo){const im=photoEl(r.photo,r.title,cls+" swphoto");im.onerror=()=>im.replaceWith(sw);return im}
   return sw;
 }
 function recipeSummary(r){
