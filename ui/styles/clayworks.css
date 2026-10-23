@@ -24,7 +24,7 @@
   --tint-purple:#EBE8FC; --tint-purple-line:#BBB5FF; --tint-purple-ink:#542F9C;
   --tint-pink:#FDE1E9;   --tint-pink-line:#F988BE;   --tint-pink-ink:#922F61;
   --tint-orange:#FFE0CB; --tint-orange-line:#F6894A; --tint-orange-ink:#893012;
-  --tint-green:#DDEBE1;  --tint-green-line:#58BD90;  --tint-green-ink:#005D35;
+  --tint-green:#DDEBE1;  --tint-green-line:#58BD90;  --tint-green-ink:#005D35; --tint-green-soft:#E9F3E7;
   --tint-teal:#D0F3ED;   --tint-teal-line:#5FD5CC;   --tint-teal-ink:#005A5B;
   --tint-blue:#DCE5F7;   --tint-blue-line:#7FAEE6;   --tint-blue-ink:#2E4C73;
   --tint-yellow:#FFE5CA; --tint-yellow-line:#F0A93B; --tint-yellow-ink:#7A4D16;
@@ -54,7 +54,7 @@
   --tint-purple:#32274B; --tint-purple-line:#6956A8; --tint-purple-ink:#D7C4FA;
   --tint-pink:#4A1D3B; --tint-pink-line:#A54B7A; --tint-pink-ink:#FFBFDB;
   --tint-orange:#4C1812; --tint-orange-line:#B74D1A; --tint-orange-ink:#FFC8A3;
-  --tint-green:#11352E; --tint-green-line:#1F7A57; --tint-green-ink:#B0E0BD;
+  --tint-green:#11352E; --tint-green-line:#1F7A57; --tint-green-ink:#B0E0BD; --tint-green-soft:#172C27;
   --tint-teal:#01333C; --tint-teal-line:#058380; --tint-teal-ink:#B6E7DD;
   --tint-blue:#20304C; --tint-blue-line:#3C699B; --tint-blue-ink:#BBD2F8;
   --tint-yellow:#4F3014; --tint-yellow-line:#A96C14; --tint-yellow-ink:#FFD29F;
@@ -68,7 +68,7 @@
   --tint-purple:#32274B; --tint-purple-line:#6956A8; --tint-purple-ink:#D7C4FA;
   --tint-pink:#4A1D3B; --tint-pink-line:#A54B7A; --tint-pink-ink:#FFBFDB;
   --tint-orange:#4C1812; --tint-orange-line:#B74D1A; --tint-orange-ink:#FFC8A3;
-  --tint-green:#11352E; --tint-green-line:#1F7A57; --tint-green-ink:#B0E0BD;
+  --tint-green:#11352E; --tint-green-line:#1F7A57; --tint-green-ink:#B0E0BD; --tint-green-soft:#172C27;
   --tint-teal:#01333C; --tint-teal-line:#058380; --tint-teal-ink:#B6E7DD;
   --tint-blue:#20304C; --tint-blue-line:#3C699B; --tint-blue-ink:#BBD2F8;
   --tint-yellow:#4F3014; --tint-yellow-line:#A96C14; --tint-yellow-ink:#FFD29F;
@@ -438,7 +438,7 @@ td.muted,.muted{color:var(--muted)}
 .acard.tappable:hover{border-color:var(--purple-300);box-shadow:0 6px 20px rgba(84,47,156,.10)}
 .rp-h{font:300 clamp(30px,4.5vw,44px)/1.1 var(--display);letter-spacing:-.025em;margin:0}
 .rp-stack{display:grid;gap:16px;min-width:0}
-.rp-table tr.best td{background:var(--tint-green)}
+.rp-table tr.best td{background:var(--tint-green-soft)}
 .rp-table tr.best td:first-child{border-radius:10px 0 0 10px;padding-left:10px}
 .rp-table tr.best td:last-child{border-radius:0 10px 10px 0;padding-right:10px}
 .rp-table td .rst{display:inline-block;margin-top:4px}
