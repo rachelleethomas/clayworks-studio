@@ -43,13 +43,13 @@
   --bg:#FCF9F5; --surface:#FFFFFF; --ink:#32313B; --muted:#67646D; --line:#E4E0D9;
   --accent:#714BD0; --accent-deep:#5D38AE; --accent-ink:#FFFFFF; --warn:#B74D1A; --ok:#008B53; --hl:#F3ECF7;
   /* Tines purple ramp */
-  --purple-50:#F3ECF7; --purple-100:#EADFF8; --purple-200:#D7C4FA; --purple-300:#C2AAFA; --purple-700:#6956A8;
+  --purple-50:#F3ECF7; --purple-100:#EADFF8; --purple-200:#D7C4FA; --purple-300:#C2AAFA; --purple-500:#8D75E6; --purple-700:#6956A8;
   --wash:var(--purple-50); --wash-strong:var(--purple-100); --wash-hover:var(--purple-200); --hairline:var(--line);
   /* tints = Tines card colors: fill, border (-line) and text (-ink) from one family */
   --tint-purple:#EBE8FC; --tint-purple-line:#BBB5FF; --tint-purple-ink:#542F9C;
   --tint-pink:#FDE1E9;   --tint-pink-line:#F988BE;   --tint-pink-ink:#922F61;
   --tint-orange:#FFE0CB; --tint-orange-line:#F6894A; --tint-orange-ink:#893012;
-  --tint-green:#DDEBE1;  --tint-green-line:#58BD90;  --tint-green-ink:#005D35;
+  --tint-green:#DDEBE1;  --tint-green-line:#58BD90;  --tint-green-ink:#005D35; --tint-green-soft:#E9F3E7;
   --tint-teal:#D0F3ED;   --tint-teal-line:#5FD5CC;   --tint-teal-ink:#005A5B;
   --tint-blue:#DCE5F7;   --tint-blue-line:#7FAEE6;   --tint-blue-ink:#2E4C73;
   --tint-yellow:#FFE5CA; --tint-yellow-line:#F0A93B; --tint-yellow-ink:#7A4D16;
@@ -75,11 +75,11 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#1E1C22; --surface:#26242C; --ink:#F3EFEA; --muted:#A9A5AE; --line:#3A3842;
   --accent:#C2AAFA; --accent-deep:#D7C4FA; --accent-ink:#1E1C22; --warn:#FD975D; --ok:#5ABE89; --hl:#32274B;
-  --purple-50:#32274B; --purple-100:#4D3E78; --purple-200:#6956A8; --purple-300:#8D75E6; --purple-700:#C2AAFA;
+  --purple-50:#32274B; --purple-100:#4D3E78; --purple-200:#6956A8; --purple-300:#8D75E6; --purple-500:#8D75E6; --purple-700:#C2AAFA;
   --tint-purple:#32274B; --tint-purple-line:#6956A8; --tint-purple-ink:#D7C4FA;
   --tint-pink:#4A1D3B; --tint-pink-line:#A54B7A; --tint-pink-ink:#FFBFDB;
   --tint-orange:#4C1812; --tint-orange-line:#B74D1A; --tint-orange-ink:#FFC8A3;
-  --tint-green:#11352E; --tint-green-line:#1F7A57; --tint-green-ink:#B0E0BD;
+  --tint-green:#11352E; --tint-green-line:#1F7A57; --tint-green-ink:#B0E0BD; --tint-green-soft:#172C27;
   --tint-teal:#01333C; --tint-teal-line:#058380; --tint-teal-ink:#B6E7DD;
   --tint-blue:#20304C; --tint-blue-line:#3C699B; --tint-blue-ink:#BBD2F8;
   --tint-yellow:#4F3014; --tint-yellow-line:#A96C14; --tint-yellow-ink:#FFD29F;
@@ -89,11 +89,11 @@
 :root[data-theme="dark"]{
   --bg:#1E1C22; --surface:#26242C; --ink:#F3EFEA; --muted:#A9A5AE; --line:#3A3842;
   --accent:#C2AAFA; --accent-deep:#D7C4FA; --accent-ink:#1E1C22; --warn:#FD975D; --ok:#5ABE89; --hl:#32274B;
-  --purple-50:#32274B; --purple-100:#4D3E78; --purple-200:#6956A8; --purple-300:#8D75E6; --purple-700:#C2AAFA;
+  --purple-50:#32274B; --purple-100:#4D3E78; --purple-200:#6956A8; --purple-300:#8D75E6; --purple-500:#8D75E6; --purple-700:#C2AAFA;
   --tint-purple:#32274B; --tint-purple-line:#6956A8; --tint-purple-ink:#D7C4FA;
   --tint-pink:#4A1D3B; --tint-pink-line:#A54B7A; --tint-pink-ink:#FFBFDB;
   --tint-orange:#4C1812; --tint-orange-line:#B74D1A; --tint-orange-ink:#FFC8A3;
-  --tint-green:#11352E; --tint-green-line:#1F7A57; --tint-green-ink:#B0E0BD;
+  --tint-green:#11352E; --tint-green-line:#1F7A57; --tint-green-ink:#B0E0BD; --tint-green-soft:#172C27;
   --tint-teal:#01333C; --tint-teal-line:#058380; --tint-teal-ink:#B6E7DD;
   --tint-blue:#20304C; --tint-blue-line:#3C699B; --tint-blue-ink:#BBD2F8;
   --tint-yellow:#4F3014; --tint-yellow-line:#A96C14; --tint-yellow-ink:#FFD29F;
@@ -203,13 +203,14 @@ input[type=checkbox]:hover{border-color:var(--accent)}
 input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--accent);background-image:var(--tick)}
 .check{display:flex;gap:10px;align-items:center;font:500 14px var(--body);letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer}
 /* Toggle pills (switch inside a pill) */
-.mtog{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--purple-300);border-radius:999px;padding:6px 14px 6px 7px;font:500 13.5px var(--body);color:var(--accent);cursor:pointer;text-transform:none;letter-spacing:0;transition:background .15s}
+.mtog{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--purple-500);border-radius:999px;padding:6px 14px 6px 7px;font:500 13.5px var(--body);color:var(--accent);cursor:pointer;text-transform:none;letter-spacing:0;transition:background .15s}
 .mtog[hidden]{display:none}
 .mtog input{position:absolute;opacity:0;width:1px;height:1px}
-.mtog i{width:28px;height:16px;border-radius:999px;background:var(--purple-100);position:relative;flex:none;transition:background .15s}
-.mtog i::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:transform .15s}
+.mtog i{width:28px;height:16px;border-radius:999px;background:var(--purple-100);box-shadow:inset 0 0 0 1.5px var(--purple-500);position:relative;flex:none;transition:background .15s,box-shadow .15s}
+.mtog i::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--purple-500);transition:transform .15s,background .15s}
+.mtog:has(input:checked) i::after{background:#fff}
 .mtog:has(input:checked){background:var(--purple-50)}
-.mtog:has(input:checked) i{background:var(--accent)}
+.mtog:has(input:checked) i{background:var(--accent);box-shadow:none}
 .mtog:has(input:checked) i::after{transform:translateX(12px)}
 .mtog:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
 
@@ -226,7 +227,7 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
   font:600 14px/1 var(--body);cursor:pointer;transition:background .15s}
 .chip button:hover,.fx:hover b{background:var(--wash-hover)}
 /* toggle chips (filters): hairline accent outline, filled when on. .fchip adds a swatch segment */
-.fchip,.filters button,.fdd{display:inline-flex;align-items:center;gap:6px;min-height:var(--ctl-sm-h);border:1px solid var(--purple-300);border-radius:999px;
+.fchip,.filters button,.fdd{display:inline-flex;align-items:center;gap:6px;min-height:var(--ctl-sm-h);border:1px solid var(--purple-500);border-radius:999px;
   background-color:transparent;color:var(--accent);padding:0 calc(var(--ctl-px)*.8);font:400 var(--ctl-fs) var(--pixel);letter-spacing:.06em;text-transform:uppercase;
   white-space:nowrap;cursor:pointer;transition:background-color .15s,color .15s,border-color .15s}
 .fchip:hover,.filters button:hover,.fdd:hover{background-color:var(--wash)}
@@ -237,8 +238,8 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .fchip i.clear{background:linear-gradient(135deg,#FFFFFF 45%,#CFD6DC 55%)}
 .filters{display:flex;flex-wrap:wrap;gap:6px}
 .filters b{font:500 11px var(--mono);opacity:.75;margin-left:2px}
-.fdd{border-color:var(--hairline);color:var(--ink)}
-.fdd.set{background-color:var(--wash-strong);color:var(--accent);border-color:transparent}
+.fdd{color:var(--ink)}
+.fdd.set{background-color:var(--wash-strong);color:var(--accent-deep);border-color:transparent}
 /* on-hand chips */
 .inv{display:flex;flex-wrap:wrap;gap:6px}
 .inv span{font:400 calc(var(--ctl-fs) - .5px) var(--pixel);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--purple-200);border-radius:999px;padding:3px 10px;background:var(--surface)}
@@ -376,6 +377,9 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .rcard .batch input{width:110px;padding:5px 12px;font:500 15px var(--body);letter-spacing:0}
 .rcard textarea{font:400 var(--in-fs)/1.45 var(--body);min-height:64px;border-color:var(--purple-100)}
 .savedgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;align-items:start}
+/* a recipe's photo standing in for its color swatch: same box, cropped to fill */
+img.swphoto{display:block;width:100%;object-fit:cover;aspect-ratio:auto}
+img.rp-sw.swphoto,img.rp-rel-sw.swphoto{width:auto}
 /* recipe summary card (My Studio > Recipes): tap to open the recipe page */
 .rsum{cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .12s}
 .rsum:hover{border-color:var(--purple-300);box-shadow:0 6px 20px rgba(84,47,156,.10)}
@@ -393,12 +397,12 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .rnote{margin:0;font-size:13px;color:var(--muted);font-style:italic;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 /* recipe page */
 #view-recipe{grid-template-columns:minmax(0,1fr)}
-#recipePage{display:grid;gap:18px;min-width:0}
+#recipePage,#premadePage{display:grid;gap:18px;min-width:0}
 .rp-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center}
 .rp-sw{width:84px;height:84px;border-radius:16px;border:1px solid var(--line)}
 img.rp-sw{object-fit:cover}
 .rp-id{display:grid;gap:4px;min-width:0}
-.rp-back{justify-self:start;font-size:13px}
+.rp-back{justify-self:start;align-self:start;font-size:14px;margin:0 0 -6px -10px!important;padding:8px 10px}
 input.rp-title{font:300 clamp(30px,4.5vw,44px)/1.1 var(--display);letter-spacing:-.025em;border:1px solid transparent;border-radius:10px;background:none;padding:2px 8px;margin-left:-9px;width:100%;color:var(--ink)}
 input.rp-title:hover{border-color:var(--purple-100)}
 input.rp-title:focus{border-color:var(--purple-300);background:var(--purple-50);box-shadow:none}
@@ -463,7 +467,7 @@ td.muted,.muted{color:var(--muted)}
 .acard.tappable:hover{border-color:var(--purple-300);box-shadow:0 6px 20px rgba(84,47,156,.10)}
 .rp-h{font:300 clamp(30px,4.5vw,44px)/1.1 var(--display);letter-spacing:-.025em;margin:0}
 .rp-stack{display:grid;gap:16px;min-width:0}
-.rp-table tr.best td{background:var(--tint-green)}
+.rp-table tr.best td{background:var(--tint-green-soft)}
 .rp-table tr.best td:first-child{border-radius:10px 0 0 10px;padding-left:10px}
 .rp-table tr.best td:last-child{border-radius:0 10px 10px 0;padding-right:10px}
 .rp-table td .rst{display:inline-block;margin-top:4px}
@@ -507,6 +511,12 @@ td.muted,.muted{color:var(--muted)}
 .item{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow-card)}
 .item .sw{width:30px;height:30px;border-radius:8px;border:1px solid rgba(0,0,0,.12)}
 .item .sw.jar{border-radius:3px 3px 8px 8px}
+.item .sw{overflow:hidden;position:relative}
+.item .sw img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.item:has(.sw img){grid-template-columns:52px minmax(0,1fr)}
+.item .sw:has(img){width:52px;height:52px;border-radius:10px}
+.item.tappable{cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.item.tappable:hover{border-color:var(--purple-300);box-shadow:0 6px 20px rgba(84,47,156,.10)}
 .item .sw.bag{border-radius:2px;background-image:repeating-linear-gradient(0deg,transparent 0 5px,rgba(0,0,0,.08) 5px 6px)}
 .item h4{margin:0;font-size:14px;font-weight:600;overflow-wrap:anywhere}
 .item .meta{font-size:12.5px}
@@ -1132,12 +1142,22 @@ const allDocs=()=>[...studio,...recipes,...(pricesDoc?[pricesDoc]:[])];
 function loadLocal(){try{splitDocs(JSON.parse(localStorage.getItem("stainlab-studio")||"[]"))}catch{studio=[];recipes=[]}}
 function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(allDocs()))}catch{};cwQueueSync()}
 async function addItem(it){
-  const clean={kind:it.kind,name:String(it.name||"").slice(0,120),brand:it.brand||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",note:it.note||"",line:it.line||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",addedAt:Date.now()};
+  const clean={kind:it.kind,name:String(it.name||"").slice(0,120),brand:it.brand||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",note:it.note||"",line:it.line||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",...(/^https:\/\//.test(it.img||"")?{img:it.img}:{}),addedAt:Date.now()};
   if(!clean.name)return;
   const id=keyOf(clean);
   if(studio.some(s=>s.id===id))return;
   if(studioColl){try{await studioColl.doc(id).set(clean)}catch(e){flash("Couldn't save that. "+(e?.message||""))}}
   else{studio.push({id,...clean});saveLocal();renderAll()}
+}
+// A mixed batch of one of your recipes: a bucket on the shelves (glaze → Glazes, stain-in-clay → Clay bodies)
+const fmtG=g=>g>=1000?+(g/1000).toFixed(g>=10000?0:1)+" kg":Math.round(g)+" g";
+const bucketsOf=id=>studio.filter(s=>s.recipeId===id).sort((a,b)=>(b.mixedAt||0)-(a.mixedAt||0));
+async function addBucket(r,{grams,date,version}){
+  const doc={kind:r.type==="glaze"?"glaze":"clay",name:r.title||"My recipe",brand:"",line:"",code:"",cone:r.cone||"",hex:normHex(r.predicted)||normHex(r.hex)||"",
+    note:"",url:"",source:"Mine",recipeId:r.id,version,grams,mixedAt:new Date((date||"")+"T12:00").getTime()||Date.now(),addedAt:Date.now()};
+  const id="bucket-"+r.id+"-"+Date.now().toString(36);
+  if(studioColl){try{await studioColl.doc(id).set(doc)}catch(e){savedMsg("Couldn't save that. "+(e?.message||""))}}
+  else{studio.push({id,...doc});saveLocal();renderAll()}
 }
 async function removeItem(id){
   if(studioColl){try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't remove that. "+(e?.message||""))}}
@@ -1204,7 +1224,7 @@ function showTab(name){
   if(grp&&name!=="recipe")groupSub[grp]=name;
   document.querySelector(".intro").hidden=name==="recipe"||name==="premade";
   VIEWS.forEach(v=>$("view-"+v).hidden=v!==name);
-  [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+(grp||(name==="recipes"||name==="library"||name==="premade"?"ask":name)))));
+  [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+(grp||(name==="recipes"||name==="library"?"ask":name==="premade"?(premadeFrom==="studio"?"mystudio":"ask"):name)))));
   Object.entries(GROUPS).forEach(([g,G])=>{$(G.seg).hidden=g!==grp||name==="recipe";
     document.querySelectorAll("#"+G.seg+" button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.sub===name)))});
   $("sub").textContent=SUBS[name==="recipes"?mode:name];
@@ -1507,11 +1527,26 @@ function renderShelves(){
       const rm=el("button",{type:"button",class:"linkbtn",text:"Remove"});
       rm.onclick=()=>{acts.textContent="";acts.append(el("button",{type:"button",class:"ghost sm",text:"Yes, remove",onclick:()=>removeItem(it.id)}),el("button",{type:"button",class:"linkbtn",text:"Keep",onclick:renderShelves}))};
       acts.append(rm);
-      grid.append(el("div",{class:"item"},swatch(it),el("div",{},
+      if(it.recipeId){ // one of your mixed batches
+        const r=recipes.find(x=>x.id===it.recipeId),sw=swatch(it);rm.textContent="Used up";
+        if(r?.photo){const im=photoEl(r.photo,"","");im.onerror=()=>im.remove();sw.append(im)}
+        const card=el("div",{class:"item bucket"+(r?" tappable":"")},sw,el("div",{},el("h4",{text:it.name}),
+          el("div",{class:"meta",text:["My recipe",it.version?"v"+it.version:"",it.grams?fmtG(it.grams):"",it.mixedAt?"mixed "+fmtDate(it.mixedAt):""].filter(Boolean).join(" · ")}),acts));
+        if(r)card.onclick=e=>{if(!e.target.closest("a,button"))openRecipe(r.id)};
+        grid.append(card);return;
+      }
+      const pm=premadeFor(it),sw=swatch(it);
+      if(pm?.img){const im=el("img",{src:pm.img,alt:"",loading:"lazy",referrerpolicy:"no-referrer"});im.onerror=()=>im.remove();sw.append(im)}
+      else if(pm?.hex&&!normHex(it.hex))sw.style.background="#"+pm.hex;
+      const stores=pm?new Set((pm.offers||[]).map(o=>o.store)).size:0;
+      const card=el("div",{class:"item"+(pm?" tappable":"")},sw,el("div",{},
         el("h4",{text:it.code?`${it.code} ${it.name}`:it.name}),
         el("div",{class:"meta",text:[it.brand,it.line,it.cone].filter(Boolean).join(" · ")}),
-        it.url?el("a",{href:it.url,target:"_blank",rel:"noopener",class:"note",text:"View at "+(it.source||"supplier")}):null,
-        it.note?el("div",{class:"note",text:it.note}):null,acts)));
+        pm?el("div",{class:"note",text:stores>1?`Sold at ${stores} stores · compare prices`:"Where to buy and price"}):
+          it.url?el("a",{href:it.url,target:"_blank",rel:"noopener",class:"note",text:"View at "+String(it.source||"supplier").split(", ")[0]}):null,
+        it.note?el("div",{class:"note",text:it.note}):null,acts));
+      if(pm)card.onclick=e=>{if(!e.target.closest("a,button"))openPremade(pm.pk)};
+      grid.append(card);
     });
     s.append(el("section",{class:"shelf"},el("div",{class:"shelfhead"},el("h2",{text:v}),el("span",{text:items.length+(items.length===1?" item":" items")})),grid));
   });
@@ -2056,13 +2091,17 @@ function coneRange(c){ // "^5-6" → [5,6]; "^06-10" → [-6,10]; cone 06 is bel
 }
 const coversCone=(c,n)=>{const r=coneRange(c);return !!r&&n>=r[0]&&n<=r[1]};
 let storeCache=null,storeN=-1;
+function premadeKey(c){ // the same product across stores: brand + full code ("PC-20", "pc20", "CO-06" → pc20 / co6), else brand + number + name
+  const num=(String(c.code||"").match(/\d+/)||[""])[0],nm=String(c.name||"").toLowerCase().replace(/\b0+(\d)/g,"$1").replace(/[^a-z0-9]+/g," ").trim();
+  const cc=String(c.code||"").toLowerCase().replace(/[^a-z0-9]/g,"").replace(/^([a-z]+)0+(\d)/,"$1$2");
+  return /^[a-z]+\d+[a-z]?$/.test(cc)?String(c.brand||"").toLowerCase()+"|"+cc:[String(c.brand||"").toLowerCase(),num?String(+num):"",nm].join("|");
+}
+const premadeFor=it=>(it.kind==="glaze"||it.kind==="underglaze")?storeItems().find(x=>x.pk===premadeKey(it))||null:null;
 function storeItems(){
   if(storeCache&&storeN===CATALOG.length)return storeCache;storeN=CATALOG.length;
   const merged=new Map();
   CATALOG.filter(c=>(c.kind==="glaze"||c.kind==="underglaze")&&c.url).forEach(c=>{
-    const num=(String(c.code||"").match(/\d+/)||[""])[0],nm=String(c.name||"").toLowerCase().replace(/\b0+(\d)/g,"$1").replace(/[^a-z0-9]+/g," ").trim();
-    const cc=String(c.code||"").toLowerCase().replace(/[^a-z0-9]/g,"").replace(/^([a-z]+)0+(\d)/,"$1$2"); // "PC-20", "pc20", "CO-06" → pc20 / co6
-    const k=/^[a-z]+\d+[a-z]?$/.test(cc)?String(c.brand||"").toLowerCase()+"|"+cc:[String(c.brand||"").toLowerCase(),num?String(+num):"",nm].join("|"),ex=merged.get(k);
+    const k=premadeKey(c),ex=merged.get(k);
     const offs=c.offers||[{store:String(c.source||"").split(", ")[0],url:c.url}];
     if(!ex)merged.set(k,{...c,pk:k,offers:offs.map(o=>({...o}))});
     else{ex.source=[...new Set([...String(ex.source||"").split(", "),...String(c.source||"").split(", ")].filter(Boolean))].join(", ");
@@ -2190,7 +2229,7 @@ let openId=null;
 function openRecipe(id){openId=id;Object.assign(RP,{tab:"recipe",id,logOpen:false,swap:"",cmp:"",lab:null,costBatch:0});showTab("recipe");window.scrollTo({top:0})}
 function recipeSwatch(r,cls){
   let sw=el("div",{class:cls});sw.style.background="#"+(normHex(r.predicted)||normHex(r.hex)||"D8DAD5");
-  if(r.photo){const im=photoEl(r.photo,r.title);im.onerror=()=>im.replaceWith(sw);return im}
+  if(r.photo){const im=photoEl(r.photo,r.title,cls+" swphoto");im.onerror=()=>im.replaceWith(sw);return im}
   return sw;
 }
 function recipeSummary(r){
@@ -2200,6 +2239,7 @@ function recipeSummary(r){
     recipeSwatch(r,"glaze"),el("div",{class:"in"},
       el("div",{class:"rhead"},el("h4",{text:r.title||"Untitled"}),el("span",{class:"rst "+st,text:STATUSES.find(x=>x[0]===st)[1]})),
       el("div",{class:"meta",text:[kind,r.cone,r.surface].filter(Boolean).join(" · ")}),
+      bucketsOf(r.id).length?el("div",{class:"rshelf ok",text:`✓ ${fmtG(bucketsOf(r.id)[0].grams||0)} bucket on your shelves`}):
       el("div",{class:"rshelf "+(ok?"ok":"miss"),text:ok?"✓ All on your shelves":`○ Missing ${miss.length}: ${miss.slice(0,2).join(", ")}${miss.length>2?"…":""}`}),
       el("p",{class:"rnote",text:note?"“"+note.split("\n")[0]+"”":"No test notes yet"})));
   card.onclick=()=>openRecipe(r.id);
@@ -2518,8 +2558,8 @@ function rpUsed(r){
 }
 
 /* ---------- Premade glaze page: where to buy (best price), make one like this ---------- */
-let openPremadeKey=null;
-function openPremade(k){openPremadeKey=k;showTab("premade");window.scrollTo({top:0})}
+let openPremadeKey=null,premadeFrom="ask";
+function openPremade(k){premadeFrom=tab==="studio"?"studio":"ask";openPremadeKey=k;showTab("premade");window.scrollTo({top:0})}
 const SIZE_ORDER=["4 oz","8 oz","Pint","Quart","Gallon"];
 function offerRows(it){ // [{store,url,size,price,note}]
   const rows=[];
@@ -2540,7 +2580,8 @@ function renderPremadePage(){
   const on=()=>studio.some(s=>s.id===keyOf(it.cat));
   const add=el("button",{type:"button",class:"ghost sm",text:on()?"✓ On your shelves":"Add to shelves",disabled:on()||undefined});
   add.onclick=async()=>{add.disabled=true;await addItem(it.cat);add.textContent="✓ On your shelves"};
-  box.append(el("div",{class:"rp-head"},ph,el("div",{class:"rp-id"},el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Discover",onclick:()=>showTab("ask")}),
+  box.append(el("button",{type:"button",class:"linkbtn rp-back",text:premadeFrom==="studio"?"‹ My Studio · Shelves":"‹ Discover",onclick:()=>showTab(premadeFrom)}),
+    el("div",{class:"rp-head"},ph,el("div",{class:"rp-id"},
     el("h1",{class:"rp-h",text:it.title}),el("div",{class:"meta",text:["Premade "+(it.under?"underglaze":"glaze"),it.kind,it.cone?"cone "+String(it.cone).replace(/^\^|^cone\s*/i,""):""].filter(Boolean).join(" · ")})),
     el("div",{class:"rp-acts"},el("span",{class:"srcb store",text:"Premade"}),add)));
   // where to buy
@@ -2580,7 +2621,7 @@ function renderRecipePage(){
   const r=recipes.find(x=>x.id===openId);box.textContent="";
   if(!r){box.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:storeMode==="loading"?"Loading…":"That recipe isn't here anymore."}),
     el("button",{type:"button",class:"ghost",text:"Back to recipes",onclick:()=>showTab("saved")})));return}
-  if(RP.id!==r.id)Object.assign(RP,{tab:"recipe",id:r.id,logOpen:false,swap:"",cmp:"",lab:null,costBatch:0});
+  if(RP.id!==r.id)Object.assign(RP,{tab:"recipe",id:r.id,logOpen:false,mixOpen:false,swap:"",cmp:"",lab:null,costBatch:0});
   const cur=()=>recipes.find(x=>x.id===r.id)||r,st=statusOf(r);
   const kind=r.type==="glaze"?"Glaze":"Stain"+(r.use?" in "+r.use.toLowerCase():"");
   const when=r.savedAt?new Date(r.savedAt).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"}):"";
@@ -2596,8 +2637,9 @@ function renderRecipePage(){
   copy.onclick=()=>navigator.clipboard.writeText(recipeText({...cur()},batch)).then(()=>copy.textContent="Copied",()=>copy.textContent="Copy failed");
   const del=el("button",{type:"button",class:"linkbtn",text:"Delete"});
   del.onclick=()=>del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, delete",onclick:async()=>{await deleteRecipe(r.id);showTab("saved")}}));
+  const back=el("button",{type:"button",class:"linkbtn rp-back",text:"‹ My Studio · Recipes",onclick:()=>showTab("saved")});
   const head=el("div",{class:"rp-head"},recipeSwatch(r,"rp-sw"),
-    el("div",{class:"rp-id"},el("button",{type:"button",class:"linkbtn rp-back",text:"‹ My Studio · Recipes",onclick:()=>showTab("saved")}),ttl,
+    el("div",{class:"rp-id"},ttl,
       el("div",{class:"meta"},[kind,r.cone,r.surface,r.body].filter(Boolean).join(" · ")+(when?" · saved "+when:""),src?" · ":"",src)),
     el("div",{class:"rp-acts"},stSeg,el("div",{class:"links"},copy,el("button",{type:"button",class:"ghost sm",text:"Print",onclick:()=>window.print()}),del)));
   // section nav: Recipe now, the rest designed (wireframes E1–E4, H3) and coming
@@ -2627,15 +2669,29 @@ function renderRecipePage(){
     r.note?el("p",{class:"note",text:r.note}):null,r.safety?el("p",{class:"note warn",text:r.safety}):null);
   const notes=el("textarea",{placeholder:"How it fired, what to change next…","aria-label":"Test notes",rows:"6"});notes.value=r.myNotes||"";
   notes.onchange=()=>putRecipe({...cur(),myNotes:notes.value,status:cur().status||(notes.value.trim()?"testing":undefined)});
+  const buckets=bucketsOf(r.id),mixBox=el("div",{class:"rp-box"},el("span",{class:"lbl",text:"Mixed batches"}));
+  buckets.forEach(b=>mixBox.append(el("div",{class:"rp-buy"},el("span",{class:"rshelf ok",text:`✓ ${fmtG(b.grams||0)} bucket`+(b.version?` · v${b.version}`:"")+(b.mixedAt?` · ${fmtDate(b.mixedAt)}`:"")}),
+    el("button",{type:"button",class:"linkbtn",text:"Used up",onclick:()=>removeItem(b.id)}))));
+  if(!buckets.length&&!RP.mixOpen)mixBox.append(el("p",{class:"note",text:"Mixed some? Add the bucket to your shelves so you know it's on hand."}));
+  if(RP.mixOpen){
+    const g=el("input",{type:"number",min:"0",step:"any",value:String(batch),inputmode:"decimal","aria-label":"Batch grams"}),d=el("input",{type:"date",value:today(),"aria-label":"Date mixed"});
+    const v=r.version||1,ver=el("select",{"aria-label":"Version"},...Array.from({length:v},(_,i)=>el("option",{value:String(v-i),text:"v"+(v-i)+(v-i===v?" (current)":"")})));
+    const fld=(l,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:l}),i);
+    const f=el("form",{class:"rp-log"},el("div",{class:"rp-grid"},fld(r.type==="glaze"?"Grams (dry)":"Grams (dry clay)",g),fld("Mixed on",d),fld("Version",ver)),
+      el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Add to shelves"}),el("button",{type:"button",class:"linkbtn",text:"Cancel",onclick:()=>{RP.mixOpen=false;renderRecipePage()}})));
+    f.onsubmit=async e=>{e.preventDefault();RP.mixOpen=false;await addBucket(cur(),{grams:Math.max(0,parseFloat(g.value)||batch),date:d.value,version:+ver.value})};
+    mixBox.append(f);
+  } else mixBox.append(el("button",{type:"button",class:"ghost sm",text:"Mixed a batch",onclick:()=>{RP.mixOpen=true;renderRecipePage()}}));
   const side=el("aside",{class:"rp-side"},
     el("div",{class:"rp-box"},el("span",{class:"lbl",text:"On your shelves"}),
       el("p",{class:"rshelf "+(ok?"ok":"miss"),text:ok?"✓ Everything for this recipe is on your shelves.":`○ Missing ${miss.length}: ${miss.join(", ")}`}),
       ok?null:el("button",{type:"button",class:"linkbtn",text:"Find them in Search & add",onclick:()=>{showTab("studio");setTimeout(()=>$("openAdd")?.click(),50)}})),
+    mixBox,
     el("div",{class:"rp-box"},el("label",{class:"lbl",text:"Notes"}),notes,
       el("button",{type:"button",class:"linkbtn",text:"Log a test firing →",onclick:()=>{RP.tab="tests";RP.logOpen=true;renderRecipePage()}})),
     el("div",{class:"rp-box"},chemBox(r.rows||[])));
   const body=RP.tab==="tests"?rpTests(r,cur):RP.tab==="swap"?rpSwap(r,cur):RP.tab==="lab"?rpLab(r,cur):RP.tab==="cost"?rpCost(r,cur):RP.tab==="used"?rpUsed(r):el("div",{class:"rp-body"},main,side);
-  box.append(head,nav,body);
+  box.append(back,head,nav,body);
 }
 function recipeCard(r){
   let sw=el("div",{class:"glaze"});sw.style.background="#"+(normHex(r.predicted)||normHex(r.hex)||"D8DAD5");

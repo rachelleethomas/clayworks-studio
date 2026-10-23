@@ -149,7 +149,10 @@ export const ShelvesPage = () => `<div class="studio" style="max-width:1000px">
   <div class="shelfbar"><div class="filters"><button aria-pressed="true">All<b>6</b></button><button aria-pressed="false">Stains<b>5</b></button><button aria-pressed="false">Clay bodies<b>1</b></button></div><button class="btn" type="button">Search &amp; add</button></div>
   <div class="shelves"><section class="shelf"><div class="shelfhead"><h2>Stains</h2><span>5 items</span></div>
     <div class="items"><div class="item"><span class="sw" style="${sw("8A2A35")}"></span><div><h4>6006 Deep Crimson</h4><div class="meta">Mason</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div>
-    <div class="item"><span class="sw" style="${sw("86A6D6")}"></span><div><h4>6363 Sky Blue</h4><div class="meta">Mason</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div></div></section></div>
+    <div class="item"><span class="sw" style="${sw("86A6D6")}"></span><div><h4>6363 Sky Blue</h4><div class="meta">Mason</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div></div></section>
+    <section class="shelf"><div class="shelfhead"><h2>Glazes</h2><span>2 items</span></div><div class="items">
+    <div class="item bucket tappable"><span class="sw jar" style="${sw("D8DAD5")}"></span><div><h4>Amber celadon</h4><div class="meta">My recipe · v2 · 5 kg · mixed Oct 23, 2026</div><div class="acts"><button class="linkbtn">Used up</button></div></div></div>
+    <div class="item tappable"><span class="sw jar" style="${sw("3E7DA6")}"></span><div><h4>PC-20 Blue Rutile</h4><div class="meta">Amaco · Potter's Choice · Cone 5–6</div><div class="note">Sold at 4 stores · compare prices</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div></div></section></div>
 </div>`;
 ShelvesPage.storyName = "Shelves page (switch, filters, shelf)";
 

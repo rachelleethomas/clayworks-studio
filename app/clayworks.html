@@ -870,6 +870,16 @@ async function addItem(it){
   if(studioColl){try{await studioColl.doc(id).set(clean)}catch(e){flash("Couldn't save that. "+(e?.message||""))}}
   else{studio.push({id,...clean});saveLocal();renderAll()}
 }
+// A mixed batch of one of your recipes: a bucket on the shelves (glaze → Glazes, stain-in-clay → Clay bodies)
+const fmtG=g=>g>=1000?+(g/1000).toFixed(g>=10000?0:1)+" kg":Math.round(g)+" g";
+const bucketsOf=id=>studio.filter(s=>s.recipeId===id).sort((a,b)=>(b.mixedAt||0)-(a.mixedAt||0));
+async function addBucket(r,{grams,date,version}){
+  const doc={kind:r.type==="glaze"?"glaze":"clay",name:r.title||"My recipe",brand:"",line:"",code:"",cone:r.cone||"",hex:normHex(r.predicted)||normHex(r.hex)||"",
+    note:"",url:"",source:"Mine",recipeId:r.id,version,grams,mixedAt:new Date((date||"")+"T12:00").getTime()||Date.now(),addedAt:Date.now()};
+  const id="bucket-"+r.id+"-"+Date.now().toString(36);
+  if(studioColl){try{await studioColl.doc(id).set(doc)}catch(e){savedMsg("Couldn't save that. "+(e?.message||""))}}
+  else{studio.push({id,...doc});saveLocal();renderAll()}
+}
 async function removeItem(id){
   if(studioColl){try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't remove that. "+(e?.message||""))}}
   else{studio=studio.filter(s=>s.id!==id);saveLocal();renderAll()}
@@ -1238,6 +1248,14 @@ function renderShelves(){
       const rm=el("button",{type:"button",class:"linkbtn",text:"Remove"});
       rm.onclick=()=>{acts.textContent="";acts.append(el("button",{type:"button",class:"ghost sm",text:"Yes, remove",onclick:()=>removeItem(it.id)}),el("button",{type:"button",class:"linkbtn",text:"Keep",onclick:renderShelves}))};
       acts.append(rm);
+      if(it.recipeId){ // one of your mixed batches
+        const r=recipes.find(x=>x.id===it.recipeId),sw=swatch(it);rm.textContent="Used up";
+        if(r?.photo){const im=photoEl(r.photo,"","");im.onerror=()=>im.remove();sw.append(im)}
+        const card=el("div",{class:"item bucket"+(r?" tappable":"")},sw,el("div",{},el("h4",{text:it.name}),
+          el("div",{class:"meta",text:["My recipe",it.version?"v"+it.version:"",it.grams?fmtG(it.grams):"",it.mixedAt?"mixed "+fmtDate(it.mixedAt):""].filter(Boolean).join(" · ")}),acts));
+        if(r)card.onclick=e=>{if(!e.target.closest("a,button"))openRecipe(r.id)};
+        grid.append(card);return;
+      }
       const pm=premadeFor(it),sw=swatch(it);
       if(pm?.img){const im=el("img",{src:pm.img,alt:"",loading:"lazy",referrerpolicy:"no-referrer"});im.onerror=()=>im.remove();sw.append(im)}
       else if(pm?.hex&&!normHex(it.hex))sw.style.background="#"+pm.hex;
@@ -1942,6 +1960,7 @@ function recipeSummary(r){
     recipeSwatch(r,"glaze"),el("div",{class:"in"},
       el("div",{class:"rhead"},el("h4",{text:r.title||"Untitled"}),el("span",{class:"rst "+st,text:STATUSES.find(x=>x[0]===st)[1]})),
       el("div",{class:"meta",text:[kind,r.cone,r.surface].filter(Boolean).join(" · ")}),
+      bucketsOf(r.id).length?el("div",{class:"rshelf ok",text:`✓ ${fmtG(bucketsOf(r.id)[0].grams||0)} bucket on your shelves`}):
       el("div",{class:"rshelf "+(ok?"ok":"miss"),text:ok?"✓ All on your shelves":`○ Missing ${miss.length}: ${miss.slice(0,2).join(", ")}${miss.length>2?"…":""}`}),
       el("p",{class:"rnote",text:note?"“"+note.split("\n")[0]+"”":"No test notes yet"})));
   card.onclick=()=>openRecipe(r.id);
@@ -2323,7 +2342,7 @@ function renderRecipePage(){
   const r=recipes.find(x=>x.id===openId);box.textContent="";
   if(!r){box.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:storeMode==="loading"?"Loading…":"That recipe isn't here anymore."}),
     el("button",{type:"button",class:"ghost",text:"Back to recipes",onclick:()=>showTab("saved")})));return}
-  if(RP.id!==r.id)Object.assign(RP,{tab:"recipe",id:r.id,logOpen:false,swap:"",cmp:"",lab:null,costBatch:0});
+  if(RP.id!==r.id)Object.assign(RP,{tab:"recipe",id:r.id,logOpen:false,mixOpen:false,swap:"",cmp:"",lab:null,costBatch:0});
   const cur=()=>recipes.find(x=>x.id===r.id)||r,st=statusOf(r);
   const kind=r.type==="glaze"?"Glaze":"Stain"+(r.use?" in "+r.use.toLowerCase():"");
   const when=r.savedAt?new Date(r.savedAt).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"}):"";
@@ -2371,10 +2390,24 @@ function renderRecipePage(){
     r.note?el("p",{class:"note",text:r.note}):null,r.safety?el("p",{class:"note warn",text:r.safety}):null);
   const notes=el("textarea",{placeholder:"How it fired, what to change next…","aria-label":"Test notes",rows:"6"});notes.value=r.myNotes||"";
   notes.onchange=()=>putRecipe({...cur(),myNotes:notes.value,status:cur().status||(notes.value.trim()?"testing":undefined)});
+  const buckets=bucketsOf(r.id),mixBox=el("div",{class:"rp-box"},el("span",{class:"lbl",text:"Mixed batches"}));
+  buckets.forEach(b=>mixBox.append(el("div",{class:"rp-buy"},el("span",{class:"rshelf ok",text:`✓ ${fmtG(b.grams||0)} bucket`+(b.version?` · v${b.version}`:"")+(b.mixedAt?` · ${fmtDate(b.mixedAt)}`:"")}),
+    el("button",{type:"button",class:"linkbtn",text:"Used up",onclick:()=>removeItem(b.id)}))));
+  if(!buckets.length&&!RP.mixOpen)mixBox.append(el("p",{class:"note",text:"Mixed some? Add the bucket to your shelves so you know it's on hand."}));
+  if(RP.mixOpen){
+    const g=el("input",{type:"number",min:"0",step:"any",value:String(batch),inputmode:"decimal","aria-label":"Batch grams"}),d=el("input",{type:"date",value:today(),"aria-label":"Date mixed"});
+    const v=r.version||1,ver=el("select",{"aria-label":"Version"},...Array.from({length:v},(_,i)=>el("option",{value:String(v-i),text:"v"+(v-i)+(v-i===v?" (current)":"")})));
+    const fld=(l,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:l}),i);
+    const f=el("form",{class:"rp-log"},el("div",{class:"rp-grid"},fld(r.type==="glaze"?"Grams (dry)":"Grams (dry clay)",g),fld("Mixed on",d),fld("Version",ver)),
+      el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Add to shelves"}),el("button",{type:"button",class:"linkbtn",text:"Cancel",onclick:()=>{RP.mixOpen=false;renderRecipePage()}})));
+    f.onsubmit=async e=>{e.preventDefault();RP.mixOpen=false;await addBucket(cur(),{grams:Math.max(0,parseFloat(g.value)||batch),date:d.value,version:+ver.value})};
+    mixBox.append(f);
+  } else mixBox.append(el("button",{type:"button",class:"ghost sm",text:"Mixed a batch",onclick:()=>{RP.mixOpen=true;renderRecipePage()}}));
   const side=el("aside",{class:"rp-side"},
     el("div",{class:"rp-box"},el("span",{class:"lbl",text:"On your shelves"}),
       el("p",{class:"rshelf "+(ok?"ok":"miss"),text:ok?"✓ Everything for this recipe is on your shelves.":`○ Missing ${miss.length}: ${miss.join(", ")}`}),
       ok?null:el("button",{type:"button",class:"linkbtn",text:"Find them in Search & add",onclick:()=>{showTab("studio");setTimeout(()=>$("openAdd")?.click(),50)}})),
+    mixBox,
     el("div",{class:"rp-box"},el("label",{class:"lbl",text:"Notes"}),notes,
       el("button",{type:"button",class:"linkbtn",text:"Log a test firing →",onclick:()=>{RP.tab="tests";RP.logOpen=true;renderRecipePage()}})),
     el("div",{class:"rp-box"},chemBox(r.rows||[])));
