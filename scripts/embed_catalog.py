@@ -21,6 +21,33 @@ if os.path.exists(ppath):
         v = prices.get(f'{it.get("url")}|{it.get("code") or ""}|{it.get("name")}')
         if v: it["perLb"] = v["perLb"]; it["size"] = v["size"]; it["sizes"] = v.get("sizes") or [[float(v["size"].split()[0]), v["price"]]]; hit += 1
     print("attached prices to", hit, "products")
+# stores added from their sitemaps (scripts/ceramicshop_offers.py, scripts/bailey_offers.py): links + prices per glaze
+for fname, store in (("catalog-ceramicshop.json", "The Ceramic Shop"), ("catalog-bailey.json", "Bailey Pottery")):
+    spath = os.path.join(R, "catalog", fname)
+    if not os.path.exists(spath): continue
+    extra = json.load(open(spath)); hit = 0
+    for it in cat:
+        v = extra.get(f'{it["kind"]}|{it.get("brand","")}|{it.get("code","")}|{it["name"]}')
+        if not v: continue
+        offs = it.get("offers") or ([{"store": (it.get("source") or "").split(", ")[0], "url": it["url"]}] if it.get("url") else [])
+        offs = [o for o in offs if o.get("store") != store]
+        main = next((x for x in v if x["size"] == "Pint"), v[0])
+        offs.append({"store": store, "url": main["url"], "sizes": [[x["size"], x["price"]] for x in sorted(v, key=lambda x: x["price"]) if x["price"]]})
+        it["offers"] = offs; hit += 1
+        if store not in (it.get("source") or ""): it["source"] = ", ".join(filter(None, [it.get("source"), store]))
+        if not it.get("url"): it["url"] = main["url"]  # glazes only this store sells now have a link, so they show as Premade
+    print(f"attached {store} to", hit, "glazes")
+gpath = os.path.join(R, "catalog", "catalog-glaze-prices.json")  # scripts/catalog_glaze_prices.py: sizes + prices per store
+if os.path.exists(gpath):
+    gp = json.load(open(gpath)); hit = 0
+    for it in cat:
+        if it.get("kind") not in ("glaze", "underglaze"): continue
+        offs = it.get("offers") or ([{"store": (it.get("source") or "").split(", ")[0], "url": it["url"]}] if it.get("url") else [])
+        for o in offs:
+            v = gp.get(f'{o.get("url", "")}|{it.get("code") or ""}|{it.get("name")}')
+            if v and not o.get("sizes"): o["sizes"] = v; hit += 1
+        if offs: it["offers"] = offs
+    print("attached glaze prices to", hit, "store offers")
 data = json.dumps(cat, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
 new, n = re.subn(r'(<script type="application/json" id="catalogData">)(.*?)(</script>)', lambda m: m.group(1) + data + m.group(3), s, count=1, flags=re.S)
 assert n == 1, "catalogData block not found"

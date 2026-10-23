@@ -234,3 +234,17 @@ export const PhotoPicker = () => stack(
   `<label class="photo-pick" style="max-width:480px"><input type="file" accept="image/*"><b class="mplus" aria-hidden="true">+</b><span>Add a photo of the tile<small>Tap to choose one or take a photo</small></span></label>`,
   `<label class="photo-pick" style="max-width:480px"><input type="file" accept="image/*"><img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect width='56' height='56' fill='%2370626E'/%3E%3C/svg%3E"><span>Photo added<small>tile-14.jpg · tap to change</small></span></label>`);
 PhotoPicker.storyName = "Photo picker";
+
+export const PremadePage = () => `<div id="premadePage" style="max-width:1100px;display:grid;gap:18px">
+  <div class="rp-head"><div class="rp-sw" style="${sw("3E7DA6")}"></div><div class="rp-id"><button class="linkbtn rp-back" type="button">‹ Discover</button><h1 class="rp-h">Amaco PC-26 Blue Lagoon</h1><div class="meta">Premade glaze · Potter's Choice · cone 5-6</div></div>
+    <div class="rp-acts"><span class="srcb store">Premade</span><button class="ghost sm" type="button">Add to shelves</button></div></div>
+  <div class="rp-body"><div class="rp-stack"><section class="rp-main"><span class="lbl">Where to buy · 3 stores</span>
+    <table class="rp-table"><tr class="hd"><th>Store</th><th>Size</th><th class="n">Price</th><th class="n"></th></tr>
+      <tr class="best"><td><div>Alligator Clay</div><span class="rst keeper">Best price</span></td><td><div>Listed</div><div class="meta">smallest size, usually a pint</div></td><td class="n">$19.50</td><td class="n"><a href="#" target="_blank" rel="noopener">Buy</a></td></tr>
+      <tr><td><div>Sheffield Pottery</div></td><td><div>Pint</div></td><td class="n">$23.25</td><td class="n"><a href="#" target="_blank" rel="noopener">Buy</a></td></tr>
+      <tr><td><div>Sheffield Pottery</div></td><td><div>Gallon</div></td><td class="n">$101.00</td><td class="n"><a href="#" target="_blank" rel="noopener">Buy</a></td></tr>
+      <tr><td><div>The Ceramic Shop</div></td><td><div>—</div><div class="meta">no link in our catalog</div></td><td class="n">—</td><td class="n"></td></tr></table></section>
+    <section class="rp-main"><span class="lbl">Make one like this</span><p class="note">Glaze makers keep their recipes secret, so the exact formula isn't available. These get you close.</p><div class="links"><button class="btn" type="button">Get a recipe like this</button><span class="meta">Opens Match colors with this color filled in.</span></div></section></div>
+  <aside class="rp-side"><div class="rp-box"><span class="lbl">Color</span><div class="rp-colorchip" style="${sw("3E7DA6")}"></div><p class="note">Sampled from the store's photo, so approximate. #3E7DA6</p></div></aside></div>
+</div>`;
+PremadePage.storyName = "Premade glaze page";

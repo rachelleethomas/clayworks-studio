@@ -18,6 +18,7 @@ for f in sorted(glob.glob(os.path.join(SRCDIR, "catalog-*.json"))):
     for raw in data if isinstance(data, list) else []:
         if not isinstance(raw, dict): continue
         it = {k: clean(raw.get(k)) for k in ("kind","brand","line","code","name","cone","url")}
+        pm = re.search(r"\d+(?:\.\d+)?", str(raw.get("price") or "").replace(",", ""))
         it["kind"] = it["kind"].lower()
         if it["kind"] not in KINDS or not it["name"]: continue
         if it["url"] and not it["url"].startswith("https://"): it["url"] = ""
@@ -30,14 +31,18 @@ for f in sorted(glob.glob(os.path.join(SRCDIR, "catalog-*.json"))):
             it["name"] = re.sub(r"^(mason\s+)?(stain\s+)?#?\d{4}\s*", "", it["name"], flags=re.I).strip() or it["name"]
         it = {k: v for k, v in it.items() if v}
         it["source"] = src; counts[src] += 1
+        offer = {"store": src, **({"url": it["url"]} if it.get("url") else {}), **({"price": float(pm.group())} if pm else {})}
         k = key(it)
         if k in idx:
             ex = idx[k]
             if src not in ex["source"].split(", "): ex["source"] += ", " + src
             for f2 in ("line", "cone", "url"):
                 if f2 not in ex and f2 in it: ex[f2] = it[f2]
+            if not any(o["store"] == src for o in ex.setdefault("offers", [])): ex["offers"].append(offer)
         else:
-            idx[k] = it; out.append(it)
+            it["offers"] = [offer]; idx[k] = it; out.append(it)
+for it in out:  # one store: its url/price already sit on the item, so drop the duplicate list
+    if len(it["offers"]) == 1 and "price" not in it["offers"][0]: del it["offers"]
 json.dump(out, open(os.path.join(D, "catalog.json"), "w"), separators=(",", ":"))
 by = {}
 for it in out: by[it["kind"]] = by.get(it["kind"], 0) + 1

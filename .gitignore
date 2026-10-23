@@ -4,3 +4,5 @@ node_modules/
 .DS_Store
 .claude/
 .local-site/
+catalog/.ceramicshop-prices.json
+catalog/.bailey-prices.json

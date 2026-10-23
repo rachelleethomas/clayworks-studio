@@ -428,6 +428,19 @@ td.muted,.muted{color:var(--muted)}
 .rp-rel>span{display:grid}
 .rp-rel-sw{width:40px;height:40px;border-radius:10px;flex:none}
 @media (max-width:640px){.rp-lab-hd,.rp-lab-row{grid-template-columns:minmax(0,1fr) 80px 44px 28px}}
+.acard.tappable{cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.acard.tappable:hover{border-color:var(--purple-300);box-shadow:0 6px 20px rgba(84,47,156,.10)}
+.rp-h{font:300 clamp(30px,4.5vw,44px)/1.1 var(--display);letter-spacing:-.025em;margin:0}
+.rp-stack{display:grid;gap:16px;min-width:0}
+.rp-table tr.best td{background:var(--tint-green)}
+.rp-table tr.best td:first-child{border-radius:10px 0 0 10px;padding-left:10px}
+.rp-table tr.best td:last-child{border-radius:0 10px 10px 0;padding-right:10px}
+.rp-table td .rst{display:inline-block;margin-top:4px}
+.rp-like{display:grid;gap:10px}
+.rp-like .acard{grid-template-columns:72px minmax(0,1fr) auto}
+.rp-like .acard .im{width:72px;height:72px}
+.rp-colorchip{height:72px;border-radius:12px;border:1px solid var(--line)}
+.rp-photo{width:100%;border-radius:12px;display:block}
 @media print{.topbar,.rp-nav,.rp-acts,.rp-back,.rp-scale,.rp-side,#mineSeg{display:none!important}.rp-body{grid-template-columns:1fr}.rp-main{box-shadow:none;border:0}}
 .savedtools{display:flex;gap:8px;align-items:center;flex:0 1 420px;min-width:0}
 .savedtools input{flex:1 1 auto;min-width:0}
