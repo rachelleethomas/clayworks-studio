@@ -335,6 +335,7 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .acard .body{display:grid;gap:6px;min-width:0}
 .acard details summary{cursor:pointer;font:600 13px var(--body);color:var(--accent)}
 .acard .acts{display:grid;gap:6px;justify-items:end}
+.cost{font:500 13px var(--body);color:var(--tint-green-ink)}
 .acard .acts a{font:500 14px var(--body);color:var(--accent)}
 @media (max-width:560px){.acard{grid-template-columns:72px minmax(0,1fr)}.acard .im{width:72px;height:72px}.acard .acts{grid-column:1/-1;justify-items:start;display:flex;gap:8px;align-items:center}}
 /* recipe card (My Studio > Recipes, Glazy library) and test tile (Match results) */

@@ -337,6 +337,7 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .acard .body{display:grid;gap:6px;min-width:0}
 .acard details summary{cursor:pointer;font:600 13px var(--body);color:var(--accent)}
 .acard .acts{display:grid;gap:6px;justify-items:end}
+.cost{font:500 13px var(--body);color:var(--tint-green-ink)}
 .acard .acts a{font:500 14px var(--body);color:var(--accent)}
 @media (max-width:560px){.acard{grid-template-columns:72px minmax(0,1fr)}.acard .im{width:72px;height:72px}.acard .acts{grid-column:1/-1;justify-items:start;display:flex;gap:8px;align-items:center}}
 /* recipe card (My Studio > Recipes, Glazy library) and test tile (Match results) */
@@ -1627,7 +1628,8 @@ function passes(it,S){
   return true;
 }
 function sortItems(list,S,fallback){
-  const by={photo:(a,b)=>(!!b.photo-!!a.photo)||(!!b.hex-!!a.hex),fewest:(a,b)=>a.rows.length-b.rows.length,name:(a,b)=>a.title.localeCompare(b.title)}[S.sort]||fallback;
+  const ck=it=>(it._cost=it._cost===undefined?costPerKg(it.rows):it._cost)?.perKg??1e9;
+  const by={photo:(a,b)=>(!!b.photo-!!a.photo)||(!!b.hex-!!a.hex),cheap:(a,b)=>ck(a)-ck(b),fewest:(a,b)=>a.rows.length-b.rows.length,name:(a,b)=>a.title.localeCompare(b.title)}[S.sort]||fallback;
   return by?[...list].sort(by):list;
 }
 function activeCount(S){
@@ -1682,7 +1684,7 @@ function filterBar(p,{sources=false,notes=false,onChange}){
   document.addEventListener("click",closeAll);
   document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
   bar.addEventListener("change",ch);
-  const sort=el("label",{class:"fsort"},el("span",{class:"lbl",text:"Sort"}),sel("sort","Sort",[["best","Best match"],["photo","Photos first"],["fewest","Fewest ingredients"],["name","Name A–Z"]]));
+  const sort=el("label",{class:"fsort"},el("span",{class:"lbl",text:"Sort"}),sel("sort","Sort",[["best","Best match"],["photo","Photos first"],["cheap","Cheapest to make"],["fewest","Fewest ingredients"],["name","Name A–Z"]]));
   sort.addEventListener("change",ch);
   const v=id=>$(p+"-"+id);
   const pressed=g=>[...bar.querySelectorAll(`[data-g=${g}][aria-pressed=true]`)].map(b=>b.dataset.v);
@@ -1873,6 +1875,7 @@ function askCard(it){
   if(it.buy)acts.append(el("a",{href:it.buy.url,target:"_blank",rel:"noopener",text:"Buy at "+it.buy.store}));
   const card=el("article",{class:"acard "+it.src+(it.pk?" tappable":"")},im,el("div",{class:"body"},
     el("span",{class:"srcb "+it.src,text:badge}),el("h4",{text:it.title}),el("div",{class:"meta",text:it.meta}),
+    it.rows?.length&&(it._cost=it._cost===undefined?costPerKg(it.rows):it._cost)?el("div",{class:"cost",text:costLabel(it._cost)}):null,
     it.note?el("p",{class:"note",text:it.note}):null,it.safety?el("p",{class:"note warn",text:it.safety}):null,
     it.buy&&it.buy.also.length?el("p",{class:"note",text:"Also at "+it.buy.also.join(", ")}):null,
     it.rows.length?el("details",{},el("summary",{text:"Recipe"}),recipeTable(it.rows,it.batch)):null),acts);
@@ -1960,6 +1963,7 @@ function recipeSummary(r){
     recipeSwatch(r,"glaze"),el("div",{class:"in"},
       el("div",{class:"rhead"},el("h4",{text:r.title||"Untitled"}),el("span",{class:"rst "+st,text:STATUSES.find(x=>x[0]===st)[1]})),
       el("div",{class:"meta",text:[kind,r.cone,r.surface].filter(Boolean).join(" · ")}),
+      r.type==="glaze"&&costPerKg(r.rows)?el("div",{class:"cost",text:costLabel(costPerKg(r.rows))}):null,
       bucketsOf(r.id).length?el("div",{class:"rshelf ok",text:`✓ ${fmtG(bucketsOf(r.id)[0].grams||0)} bucket on your shelves`}):
       el("div",{class:"rshelf "+(ok?"ok":"miss"),text:ok?"✓ All on your shelves":`○ Missing ${miss.length}: ${miss.slice(0,2).join(", ")}${miss.length>2?"…":""}`}),
       el("p",{class:"rnote",text:note?"“"+note.split("\n")[0]+"”":"No test notes yet"})));
@@ -2224,6 +2228,19 @@ function matOffers(key,lb){
     out.push({lb:b.lb,price:b.price,perLb:b.price/b.lb,source:b.store,url:b.url})});
   return out;
 }
+const _perLbCache=new Map();
+function estPerLb(name,lb){ // your price, else the cheapest store for this amount; cached by material + rounded amount
+  const mine=pricesDoc?.map?.[priceKey(name)];if(mine)return mine;
+  const k=name+"|"+Math.round(lb*10);if(_perLbCache.has(k))return _perLbCache.get(k);
+  const v=supplierPrice(name,lb).price?.perLb||0;_perLbCache.set(k,v);return v;
+}
+function costPerKg(rows){ // ≈ materials cost of 1 kg dry; null when under half of the recipe (by weight) has a price
+  if(!rows?.length)return null;let cost=0,pricedPct=0,totalPct=0,unpriced=0;
+  rows.forEach(x=>{const pct=+x.pct||0;totalPct+=pct;const lb=pct/100*2.2046,pl=estPerLb(x.name,lb);if(pl){cost+=pl*lb;pricedPct+=pct}else unpriced++});
+  if(!totalPct||pricedPct/totalPct<.5)return null;
+  return {perKg:cost/(totalPct/100),unpriced,partial:pricedPct<totalPct}; // cost of the batch ÷ its weight in kg (base 1 kg + additions)
+}
+const costLabel=c=>c?`≈ $${c.perKg.toFixed(2)}/kg to make`+(c.unpriced?` · ${c.unpriced} unpriced`:""):"";
 function supplierPrice(name,lb=1){
   const n=ncMat(name),code=(String(name).match(/\b6\d{3}\b/)||[])[0],m=matOf(name),mn=m?ncMat(m[0]):"";
   const hits=CATALOG.filter(c=>(c.kind==="chemical"||c.kind==="stain")&&(c.perLb||c.url)&&(code?String(c.code||c.name).includes(code):m?matOf(c.name)===m:ncMat(c.name)===n));
@@ -2232,6 +2249,7 @@ function supplierPrice(name,lb=1){
   return {price:best,link};
 }
 async function putPrice(name,val){
+  _perLbCache.clear();
   const map={...(pricesDoc?.map||{})},k=priceKey(name);if(val>0)map[k]=val;else delete map[k];
   if(studioColl){try{await studioColl.doc("prices").set({kind:"prices",map})}catch(e){savedMsg("Couldn't save that price.")}}
   else{pricesDoc={id:"prices",kind:"prices",map};saveLocal();renderAll()}
