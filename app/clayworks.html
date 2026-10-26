@@ -466,9 +466,28 @@ td.muted,.muted{color:var(--muted)}
 .idea-import{display:grid;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
 .idea-import ol{margin:0;padding-left:18px;display:grid;gap:4px}
 .bookmarklet{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--purple-100);color:var(--accent-deep);font:500 12.5px var(--body);text-decoration:none;cursor:grab}
-.idea-board{display:grid;gap:12px;padding-top:6px}
+.idea-boards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px 16px}
+.idea-cover{all:unset;box-sizing:border-box;display:grid;gap:6px;cursor:pointer;min-width:0}
+.idea-collage{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:2px;aspect-ratio:3/2;border-radius:16px;overflow:hidden;background:var(--purple-50)}
+.idea-collage img,.idea-collage span{width:100%;height:100%;object-fit:cover;display:block;background:var(--purple-50);min-height:0}
+.idea-collage>:first-child{grid-row:1/3}
+.idea-collage.one{grid-template-columns:1fr}
+.idea-cover:hover .idea-collage{filter:brightness(.94)}
+.idea-cover:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:16px}
+.idea-cname{font:400 19px/1.2 var(--display);color:var(--ink);padding:2px 2px 0}
+.idea-cmeta{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 2px}
+.idea-dots{display:flex;gap:3px}
+.idea-dots i{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.08)}
+.idea-bhead h2{margin:0;font:400 28px/1.1 var(--display)}
+.idea-manage{align-items:center}
+.idea.pick{cursor:pointer;position:relative;padding-bottom:0}
+.idea.pick img{transition:opacity .15s}
+.idea.pick.on{outline:3px solid var(--accent);outline-offset:-3px}
+.idea.pick.on img{opacity:.75}
+.idea-check{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;background:var(--surface);border:1.5px solid var(--line);display:grid;place-items:center;color:#fff;font:600 14px/1 var(--body)}
+.idea.pick.on .idea-check{background:var(--accent);border-color:var(--accent)}
+.idea.pick .idea-sw{padding-bottom:8px}
 .idea-bhead{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline}
-.idea-bhead h3{margin:0;font:400 22px/1.2 var(--display)}
 .idea-pal{display:flex;border-radius:12px;overflow:hidden;border:1px solid var(--line);height:56px}
 .idea-pal span{flex:1;display:flex;align-items:end;padding:6px 8px}
 .idea-pal b{font:500 10.5px var(--mono);color:#32313B}
@@ -482,7 +501,7 @@ td.muted,.muted{color:var(--muted)}
 .idea .note{padding:0 10px}
 .idea-acts{display:flex;align-items:center;gap:10px;padding:0 10px;font-size:13px;white-space:nowrap}
 .idea-acts .idea-x{margin-left:auto;width:26px;height:26px;padding:0;border-radius:50%;border:0;background:var(--purple-50);color:var(--accent);font:400 16px/1 var(--body);cursor:pointer}
-@media (max-width:640px){.idea-grid{columns:2 140px}}
+@media (max-width:640px){.idea-grid{columns:2 140px}.idea-boards{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.idea-cname{font-size:16px}}
 
 /* Match results board */
 .board{display:grid;gap:22px;min-width:0}
@@ -1969,7 +1988,7 @@ $("askForm").addEventListener("submit",e=>{e.preventDefault();askInstant()});
 let savedFilter="all";
 function savedMsg(t){const m=$("savedStatus");m.textContent=t;setTimeout(()=>{if(m.textContent===t)m.textContent=""},5000)}
 /* ---------- My Work: Ideas ---------- */
-const IDEA={importOpen:false,busy:""};
+const IDEA={importOpen:false,busy:"",board:null,select:false,picked:new Set()};
 const lum=h=>{const [r,g,b]=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)/255);return .2126*r+.7152*g+.0722*b};
 const idOf=t=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))|0;return "idea-"+(h>>>0).toString(36)};
 function ideaPalette(src){return new Promise(res=>{const im=new Image();im.crossOrigin="anonymous";
@@ -1994,11 +2013,11 @@ async function importIdeas(text,boardName,boardUrl){
   const p=parseIdeas(text),board=(boardName||p.board||"Ideas").trim(),url=/^https:\/\//.test(boardUrl||"")?boardUrl:p.boardUrl;
   const seen=new Set(ideas.filter(x=>x.board===board).map(x=>x.src.replace(/\/\d+x\//,"/")));
   p.pins=p.pins.filter(x=>{const k=x.src.replace(/\/\d+x\//,"/");if(seen.has(k))return false;seen.add(k);return true});
-  if(!p.pins.length)return 0;
+  if(!p.pins.length)return {n:0,board};
   const now=Date.now(),list=[];
   for(const [i,x] of p.pins.entries()){IDEA.busy=`Pulling colors ${i+1} of ${p.pins.length}…`;renderIdeas();
     list.push({id:idOf(x.href||x.src),kind:"idea",board,boardUrl:url||"",src:x.src,href:x.href,title:x.title,hex:x.hex||await ideaPalette(x.src),addedAt:now+i})}
-  IDEA.busy="";await putIdeas(list);return list.length}
+  IDEA.busy="";await putIdeas(list);return {n:list.length,board}}
 async function addIdeaPhotos(files,board){const list=[],now=Date.now();
   for(const [i,fl] of [...files].entries()){if(!fl.type.startsWith("image/"))continue;
     try{const bm=await createImageBitmap(fl),s=Math.min(1,640/Math.max(bm.width,bm.height)),c=document.createElement("canvas");
@@ -2007,40 +2026,74 @@ async function addIdeaPhotos(files,board){const list=[],now=Date.now();
   if(list.length)await putIdeas(list)}
 function ideaCard(x){
   const sw=el("div",{class:"idea-sw"},...(x.hex||[]).map(h=>el("span",{style:"background:#"+h,title:"#"+h})));
+  const img=el("img",{src:x.src,alt:x.title||"Idea",loading:"lazy",referrerpolicy:"no-referrer"});
+  if(IDEA.select){const on=IDEA.picked.has(x.id);
+    return el("figure",{class:"idea pick"+(on?" on":""),role:"checkbox","aria-checked":String(on),tabindex:"0","aria-label":x.title||"Idea",
+      onclick:()=>{on?IDEA.picked.delete(x.id):IDEA.picked.add(x.id);renderIdeas()},onkeydown:e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();e.currentTarget.click()}}},
+      img,el("span",{class:"idea-check","aria-hidden":"true",text:on?"✓":""}),x.hex?.length?sw:null)}
   const acts=el("div",{class:"idea-acts"});
   if(x.hex?.length)acts.append(el("button",{type:"button",class:"linkbtn",text:"Match colors",onclick:()=>matchIdea(x.hex,x.title?`Inspired by: ${x.title}`:"")}));
   if(x.href)acts.append(el("a",{href:x.href,target:"_blank",rel:"noopener",text:"Pinterest"}));
   acts.append(el("button",{type:"button",class:"idea-x","aria-label":"Remove this idea",text:"×",onclick:()=>removeIdeas([x.id])}));
-  return el("figure",{class:"idea"},el("img",{src:x.src,alt:x.title||"Idea",loading:"lazy",referrerpolicy:"no-referrer"}),
-    x.hex?.length?sw:el("p",{class:"note",text:"Couldn't read this image's colors."}),x.title?el("figcaption",{text:x.title}):null,acts)}
+  return el("figure",{class:"idea"},img,x.hex?.length?sw:el("p",{class:"note",text:"Couldn't read this image's colors."}),x.title?el("figcaption",{text:x.title}):null,acts)}
+function ideaBoards(){const m=new Map();ideas.forEach(x=>{const b=x.board||"Ideas";if(!m.has(b))m.set(b,[]);m.get(b).push(x)});return m}
+function openBoard(b){Object.assign(IDEA,{board:b,importOpen:false,select:false});IDEA.picked.clear();renderIdeas();scrollTo({top:0})}
+// Pinterest-style cover: one big photo and two small ones, then name, count and palette
+function boardCover(b,list){const [a,c,d]=[list[0],list[1],list[2]],im=x=>x?el("img",{src:x.src,alt:"",loading:"lazy",referrerpolicy:"no-referrer"}):el("span");
+  const pal=boardPalette(list,5);
+  return el("button",{type:"button",class:"idea-cover",onclick:()=>openBoard(b),"aria-label":`${b}, ${list.length} ideas`},
+    el("div",{class:"idea-collage"+(list.length<3?" one":"")},im(a),...(list.length<3?[]:[im(c),im(d)])),
+    el("span",{class:"idea-cname",text:b}),
+    el("span",{class:"idea-cmeta"},el("span",{class:"meta",text:list.length+(list.length===1?" idea":" ideas")}),
+      pal.length?el("span",{class:"idea-dots"},...pal.map(h=>el("i",{style:"background:#"+h}))):null))}
+function ideaImport(board){
+  const name=el("input",{type:"text",placeholder:"Board name (optional)","aria-label":"Board name"}),txt=el("textarea",{rows:"5",placeholder:"Paste what the bookmark copied, or pin image links, one per line","aria-label":"Pins"});
+  const msg=el("p",{class:"note",role:"status"});
+  const bm=el("a",{href:BOOKMARKLET,class:"bookmarklet",text:"Copy board for Clayworks",onclick:e=>{e.preventDefault();msg.textContent="Drag this button to your bookmarks bar, then click it on a Pinterest board."}});
+  const f=el("form",{class:"idea-import"},
+    el("ol",{class:"note"},el("li",{},"Drag ",bm," to your bookmarks bar (once)."),el("li",{text:"Open a Pinterest board and click that bookmark. It copies the board's pins."}),el("li",{text:board?`Paste here. New pins are added to "${board}".`:"Paste here and import."})),
+    board?null:name,txt,el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Import"}),msg));
+  f.onsubmit=async e=>{e.preventDefault();const r=await importIdeas(txt.value,board||name.value);
+    if(r.n){IDEA.importOpen=false;if(board)renderIdeas();else openBoard(r.board)}else msg.textContent="No new pins in that text (repeats and pins already on the board are skipped)."};
+  return f}
+function photoPicker(label,board){const files=el("input",{type:"file",accept:"image/*",multiple:true,"aria-label":label});
+  files.onchange=async()=>{if(files.files.length){await addIdeaPhotos(files.files,board);if(IDEA.board!==board)openBoard(board)}};
+  return el("label",{class:"btn ghost"},files,label)}
 function renderIdeas(){
   const w=$("workIdeas");if(!w)return;w.replaceChildren();
-  const files=el("input",{type:"file",accept:"image/*",multiple:true,"aria-label":"Add photos"});
-  files.onchange=()=>{if(files.files.length)addIdeaPhotos(files.files,"My photos")};
+  const boards=ideaBoards();if(IDEA.board&&!boards.has(IDEA.board))IDEA.board=null;
+  if(IDEA.board)return renderBoard(w,IDEA.board,boards.get(IDEA.board));
   w.append(el("div",{class:"ideas-head"},el("div",{},el("h2",{text:"Ideas"}),
-      el("p",{class:"note",text:"Pieces, pins and photos you love. Each one's colors are pulled out, ready for Match colors."})),
-    el("div",{class:"links"},el("label",{class:"btn ghost"},files,"+ Add photos"),
+      el("p",{class:"note",text:"Boards of pieces, pins and photos you love. Each one's colors are pulled out, ready for Match colors."})),
+    el("div",{class:"links"},photoPicker("+ Add photos","My photos"),
       el("button",{type:"button",class:IDEA.importOpen?"linkbtn":"btn",text:IDEA.importOpen?"Close":"Import a Pinterest board",onclick:()=>{IDEA.importOpen=!IDEA.importOpen;renderIdeas()}}))));
-  if(IDEA.importOpen){
-    const name=el("input",{type:"text",placeholder:"Board name (optional)","aria-label":"Board name"}),txt=el("textarea",{rows:"5",placeholder:"Paste what the bookmark copied, or pin image links, one per line","aria-label":"Pins"});
-    const bm=el("a",{href:BOOKMARKLET,class:"bookmarklet",text:"Copy board for Clayworks",onclick:e=>{e.preventDefault();msg.textContent="Drag this button to your bookmarks bar, then click it on a Pinterest board."}});
-    const msg=el("p",{class:"note",role:"status"});
-    const f=el("form",{class:"idea-import"},
-      el("ol",{class:"note"},el("li",{},"Drag ",bm," to your bookmarks bar (once)."),el("li",{text:"Open a Pinterest board and click that bookmark. It copies the board's pins."}),el("li",{text:"Paste here and import."})),
-      name,txt,el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Import"}),msg));
-    f.onsubmit=async e=>{e.preventDefault();const n=await importIdeas(txt.value,name.value);if(n){IDEA.importOpen=false;renderIdeas()}else msg.textContent="No new pins in that text (repeats and pins already on the board are skipped)."};
-    w.append(f);
-  }
+  if(IDEA.importOpen)w.append(ideaImport(""));
   if(IDEA.busy)w.append(el("p",{class:"note",role:"status",text:IDEA.busy}));
   if(!ideas.length){if(!IDEA.importOpen&&!IDEA.busy)w.append(el("p",{class:"note",text:"Nothing here yet. Import a Pinterest board or add photos of work you love."}));return}
-  const boards=new Map();ideas.forEach(x=>{const b=x.board||"Ideas";if(!boards.has(b))boards.set(b,[]);boards.get(b).push(x)});
-  boards.forEach((list,b)=>{const pal=boardPalette(list),url=list.find(x=>x.boardUrl)?.boardUrl;
-    w.append(el("section",{class:"idea-board"},
-      el("div",{class:"idea-bhead"},el("h3",{text:b}),el("span",{class:"meta",text:list.length+(list.length===1?" idea":" ideas")}),url?el("a",{href:url,target:"_blank",rel:"noopener",text:"On Pinterest"}):null),
-      pal.length?el("div",{class:"idea-pal"},...pal.map(h=>el("span",{style:"background:#"+h},el("b",{class:lum(h)>.45?"":"on-dark",text:h})))):null,
-      el("div",{class:"links"},pal.length?el("button",{type:"button",class:"btn",text:"Match this board's colors",onclick:()=>matchIdea(pal,`Palette from my "${b}" ideas board.`)}):null,
-        el("button",{type:"button",class:"linkbtn",text:"Remove board",onclick:()=>{if(confirm(`Remove all ${list.length} ideas in "${b}"?`))removeIdeas(list.map(x=>x.id))}})),
-      el("div",{class:"idea-grid"},...list.map(ideaCard))))});
+  w.append(el("div",{class:"idea-boards"},...[...boards].map(([b,list])=>boardCover(b,list))));
+}
+function renderBoard(w,b,list){
+  const pal=boardPalette(list),url=list.find(x=>x.boardUrl)?.boardUrl,n=IDEA.picked.size;
+  const title=el("h2",{text:b});
+  const rename=()=>{const v=prompt("Rename board",b)?.trim();if(v&&v!==b){IDEA.board=v;putIdeas(list.map(x=>({...x,board:v})))}};
+  w.append(el("button",{type:"button",class:"linkbtn rp-back",text:"‹ All boards",onclick:()=>openBoard(null)}),
+    el("div",{class:"ideas-head"},el("div",{class:"idea-bhead"},title,el("span",{class:"meta",text:list.length+(list.length===1?" idea":" ideas")}),url?el("a",{href:url,target:"_blank",rel:"noopener",text:"On Pinterest"}):null),
+      el("div",{class:"links"},photoPicker("+ Add photos",b),
+        el("button",{type:"button",class:IDEA.importOpen?"linkbtn":"btn ghost",text:IDEA.importOpen?"Close":"Add pins",onclick:()=>{IDEA.importOpen=!IDEA.importOpen;renderIdeas()}}))));
+  if(IDEA.importOpen)w.append(ideaImport(b));
+  if(IDEA.busy)w.append(el("p",{class:"note",role:"status",text:IDEA.busy}));
+  if(pal.length)w.append(el("div",{class:"idea-pal"},...pal.map(h=>el("span",{style:"background:#"+h},el("b",{class:lum(h)>.45?"":"on-dark",text:h})))));
+  const bar=el("div",{class:"links idea-manage"});
+  if(IDEA.select){
+    bar.append(el("span",{class:"meta",text:n?`${n} selected`:"Tap ideas to select them"}),
+      el("button",{type:"button",class:"linkbtn",text:n===list.length?"Select none":"Select all",onclick:()=>{n===list.length?IDEA.picked.clear():list.forEach(x=>IDEA.picked.add(x.id));renderIdeas()}}),
+      n?el("button",{type:"button",class:"btn",text:`Remove ${n}`,onclick:()=>{const ids=[...IDEA.picked];IDEA.picked.clear();IDEA.select=false;removeIdeas(ids)}}):null,
+      el("button",{type:"button",class:"linkbtn",text:"Done",onclick:()=>{IDEA.select=false;IDEA.picked.clear();renderIdeas()}}));
+  }else bar.append(pal.length?el("button",{type:"button",class:"btn",text:"Match this board's colors",onclick:()=>matchIdea(pal,`Palette from my "${b}" ideas board.`)}):null,
+    el("button",{type:"button",class:"linkbtn",text:"Select",onclick:()=>{IDEA.select=true;renderIdeas()}}),
+    el("button",{type:"button",class:"linkbtn",text:"Rename",onclick:rename}),
+    el("button",{type:"button",class:"linkbtn",text:"Delete board",onclick:()=>{if(confirm(`Delete "${b}" and its ${list.length} ideas?`)){IDEA.board=null;removeIdeas(list.map(x=>x.id))}}}));
+  w.append(bar,el("div",{class:"idea-grid"},...list.map(ideaCard)));
 }
 
 function renderSaved(){
