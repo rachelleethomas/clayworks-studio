@@ -457,6 +457,33 @@ td.muted,.muted{color:var(--muted)}
 @media print{.topbar,.rp-nav,.rp-acts,.rp-back,.rp-scale,.rp-side,#mineSeg{display:none!important}.rp-body{grid-template-columns:1fr}.rp-main{box-shadow:none;border:0}}
 .savedtools{display:flex;gap:8px;align-items:center;flex:0 1 420px;min-width:0}
 .savedtools input{flex:1 1 auto;min-width:0}
+/* My Work: Ideas (boards of inspiration images, Pinterest-style columns) */
+.ideas{display:grid;gap:18px}
+.ideas-head{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:end}
+.ideas-head h2{margin:0;font:400 28px/1.1 var(--display)}
+.ideas-head label.btn{position:relative;cursor:pointer}
+.ideas-head label.btn input{position:absolute;opacity:0;width:1px;height:1px}
+.idea-import{display:grid;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.idea-import ol{margin:0;padding-left:18px;display:grid;gap:4px}
+.bookmarklet{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--purple-100);color:var(--accent-deep);font:500 12.5px var(--body);text-decoration:none;cursor:grab}
+.idea-board{display:grid;gap:12px;padding-top:6px}
+.idea-bhead{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline}
+.idea-bhead h3{margin:0;font:400 22px/1.2 var(--display)}
+.idea-pal{display:flex;border-radius:12px;overflow:hidden;border:1px solid var(--line);height:56px}
+.idea-pal span{flex:1;display:flex;align-items:end;padding:6px 8px}
+.idea-pal b{font:500 10.5px var(--mono);color:#32313B}
+.idea-pal b.on-dark{color:#fff}
+.idea-grid{columns:4 170px;column-gap:12px}
+.idea{break-inside:avoid;margin:0 0 12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:grid;gap:8px;padding-bottom:8px}
+.idea img{width:100%;display:block;background:var(--purple-50)}
+.idea .idea-sw{display:flex;gap:4px;padding:0 10px}
+.idea .idea-sw span{flex:1;height:14px;border-radius:4px;border:1px solid rgba(0,0,0,.08)}
+.idea figcaption{padding:0 10px;font-size:12.5px;line-height:1.35;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.idea .note{padding:0 10px}
+.idea-acts{display:flex;align-items:center;gap:10px;padding:0 10px;font-size:13px}
+.idea-acts .idea-x{margin-left:auto;width:26px;height:26px;padding:0;border-radius:50%;border:0;background:var(--purple-50);color:var(--accent);font:400 16px/1 var(--body);cursor:pointer}
+@media (max-width:640px){.idea-grid{columns:2 140px}}
+
 /* Match results board */
 .board{display:grid;gap:22px;min-width:0}
 .boardhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px}
@@ -593,9 +620,10 @@ button,a,summary,label,select{touch-action:manipulation}
 
   <!-- MY WORK: what you're working on (to be designed) -->
   <div class="studio" id="view-work" role="tabpanel" hidden>
+    <section class="ideas" id="workIdeas" aria-label="Ideas"></section>
     <div class="empty">
-      <p style="margin:0;font:400 24px/1.2 var(--display)">Coming soon</p>
-      <p style="margin:0">This will be the place for what you're working on: current projects and palettes, test tiles waiting for results, and upcoming firings.</p>
+      <p style="margin:0;font:400 24px/1.2 var(--display)">More coming soon</p>
+      <p style="margin:0">Next up here: current projects, test tiles waiting for results, and upcoming firings.</p>
       <div class="links"><button type="button" class="ghost" id="workToDiscover">Find recipes in Discover</button><button type="button" class="ghost" id="workToInventory">See your saved recipes</button></div>
     </div>
   </div>
@@ -857,11 +885,11 @@ const keyOf = it => (it.kind+"-"+(it.brand||"")+"-"+(it.line?it.line+"-":"")+(it
 let sampleNs=null, sampleImages=false;
 
 /* ---------- Studio store (account db, falls back to this browser) ---------- */
-let studio=[], recipes=[], studioColl=null, storeMode="loading";
+let studio=[], recipes=[], ideas=[], studioColl=null, storeMode="loading";
 // Saved recipes share the shelf store as docs with kind "recipe", so they sync wherever shelves do.
-function splitDocs(arr){arr=Array.isArray(arr)?arr:[];studio=arr.filter(d=>d&&d.kind!=="recipe"&&d.kind!=="prices");recipes=arr.filter(d=>d&&d.kind==="recipe").sort((a,b)=>(b.savedAt||0)-(a.savedAt||0));pricesDoc=arr.find(d=>d&&d.kind==="prices")||null}
-const allDocs=()=>[...studio,...recipes,...(pricesDoc?[pricesDoc]:[])];
-function loadLocal(){try{splitDocs(JSON.parse(localStorage.getItem("stainlab-studio")||"[]"))}catch{studio=[];recipes=[]}}
+function splitDocs(arr){arr=Array.isArray(arr)?arr:[];studio=arr.filter(d=>d&&d.kind!=="recipe"&&d.kind!=="prices"&&d.kind!=="idea");ideas=arr.filter(d=>d&&d.kind==="idea").sort((a,b)=>(a.addedAt||0)-(b.addedAt||0));recipes=arr.filter(d=>d&&d.kind==="recipe").sort((a,b)=>(b.savedAt||0)-(a.savedAt||0));pricesDoc=arr.find(d=>d&&d.kind==="prices")||null}
+const allDocs=()=>[...studio,...recipes,...ideas,...(pricesDoc?[pricesDoc]:[])];
+function loadLocal(){try{splitDocs(JSON.parse(localStorage.getItem("stainlab-studio")||"[]"))}catch{studio=[];recipes=[];ideas=[]}}
 function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(allDocs()))}catch{}}
 async function addItem(it){
   const clean={kind:it.kind,name:String(it.name||"").slice(0,120),brand:it.brand||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",note:it.note||"",line:it.line||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",...(/^https:\/\//.test(it.img||"")?{img:it.img}:{}),addedAt:Date.now()};
@@ -895,6 +923,15 @@ async function putRecipe(r){
 async function deleteRecipe(id){
   if(studioColl){try{await studioColl.doc(id).delete()}catch(e){savedMsg("Couldn't delete that. "+(e?.message||""))}}
   else{recipes=recipes.filter(r=>r.id!==id);saveLocal();renderAll()}
+}
+// Ideas (My Work): inspiration images, kind "idea", grouped by board
+async function putIdeas(list){
+  if(studioColl){for(const {id,...doc} of list){try{await studioColl.doc(id).set(doc)}catch(e){flash("Couldn't save that idea. "+(e?.message||""));return}}}
+  else{list.forEach(x=>{const i=ideas.findIndex(y=>y.id===x.id);if(i>=0)ideas[i]=x;else ideas.push(x)});saveLocal();renderAll()}
+}
+async function removeIdeas(ids){
+  if(studioColl){for(const id of ids){try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't remove that. "+(e?.message||""))}}}
+  else{ideas=ideas.filter(x=>!ids.includes(x.id));saveLocal();renderAll()}
 }
 async function initStore(){
   try{
@@ -1931,6 +1968,79 @@ $("askForm").addEventListener("submit",e=>{e.preventDefault();askInstant()});
 /* ---------- Saved recipes ---------- */
 let savedFilter="all";
 function savedMsg(t){const m=$("savedStatus");m.textContent=t;setTimeout(()=>{if(m.textContent===t)m.textContent=""},5000)}
+/* ---------- My Work: Ideas ---------- */
+const IDEA={importOpen:false,busy:""};
+const lum=h=>{const [r,g,b]=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)/255);return .2126*r+.7152*g+.0722*b};
+const idOf=t=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))|0;return "idea-"+(h>>>0).toString(36)};
+function ideaPalette(src){return new Promise(res=>{const im=new Image();im.crossOrigin="anonymous";
+  im.onload=()=>{try{res(extractPalette(im,5))}catch{res([])}};im.onerror=()=>res([]);im.src=src})}
+// a board's palette: each idea's colors taken in turn, skipping near-duplicates
+function boardPalette(list,n=6){const out=[];
+  for(let i=0;i<5&&out.length<n;i++)list.forEach(x=>{const h=x.hex?.[i];if(h&&out.length<n&&out.every(o=>hexDist(o,h)>=40))out.push(h)});return out}
+function matchIdea(hexes,note){$("hexes").value=hexes.join(", ");parseHexes();if(note)$("notes").value=note;
+  showTab("ask");setDmode("match");setTimeout(()=>$("matchPanel").scrollIntoView({behavior:"smooth",block:"start"}),50)}
+// Pinterest board → lines "Board: name<TAB>url" then "pinUrl<TAB>imageUrl<TAB>title" (what the bookmarklet copies)
+function parseIdeas(text){let board="",boardUrl="";const pins=[];
+  text.split(/\n+/).forEach(line=>{line=line.trim();if(!line)return;
+    const urls=line.match(/https:\/\/\S+/g)||[];
+    if(/^board:/i.test(line)){board=line.replace(/^board:\s*/i,"").replace(/https:\/\/\S+/g,"").trim();boardUrl=urls[0]||"";return}
+    const img=urls.find(u=>/pinimg\.com|\.(jpe?g|png|webp|gif)(\?|$)/i.test(u)),pin=urls.find(u=>/pinterest\.[a-z.]+\/pin\//i.test(u));
+    const cols=line.split("\t").map(t=>t.trim()),hx=cols.find(t=>/^([0-9a-f]{6},?)+$/i.test(t));
+    if(img)pins.push({src:img,href:pin||"",hex:hx?hx.split(",").filter(Boolean).map(h=>h.toUpperCase()):null,title:cols.filter(t=>t&&t!==hx&&!/^https:\/\//.test(t)).join(" ").slice(0,140)})});
+  return {board,boardUrl,pins}}
+// Same palette as extractPalette, run on Pinterest: its images only let Pinterest read their pixels
+const BOOKMARKLET=`javascript:(async()=>{const P=g=>{try{const c=document.createElement('canvas'),w=80,h=Math.max(1,Math.round(80*g.naturalHeight/g.naturalWidth));c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(g,0,0,w,h);const d=x.getImageData(0,0,w,h).data,p=[];for(let i=0;i<d.length;i+=4)p.push([d[i],d[i+1],d[i+2]]);p.sort((a,b)=>a[0]+a[1]+a[2]-b[0]-b[1]-b[2]);let C=[0,1,2,3,4].map(i=>p[Math.floor((i+.5)*p.length/5)].slice());for(let k=0;k<12;k++){const S=C.map(()=>[0,0,0,0]);p.forEach(q=>{let bi=0,bd=1e9;C.forEach((c,j)=>{const e=(q[0]-c[0])**2+(q[1]-c[1])**2+(q[2]-c[2])**2;if(e<bd){bd=e;bi=j}});const s=S[bi];s[0]+=q[0];s[1]+=q[1];s[2]+=q[2];s[3]++});C=C.map((c,j)=>S[j][3]?[S[j][0]/S[j][3],S[j][1]/S[j][3],S[j][2]/S[j][3]]:c)}return C.sort((a,b)=>b[0]+b[1]+b[2]-a[0]-a[1]-a[2]).map(c=>c.map(v=>Math.round(v).toString(16).padStart(2,'0')).join('').toUpperCase()).join(',')}catch(e){return ''}};const L=s=>new Promise(r=>{const g=new Image();g.crossOrigin='anonymous';g.onload=()=>r(P(g));g.onerror=()=>r('');g.src=s});const M=new Map();scrollTo(0,0);for(let i=0;i<60;i++){document.querySelectorAll('[data-grid-item]').forEach(p=>{const a=p.querySelector('a[href*="/pin/"]'),g=p.querySelector('img');if(a&&g&&!M.has(a.href.split('?')[0]))M.set(a.href.split('?')[0],[a.href.split('?')[0],g.currentSrc||g.src,(g.alt||'').replace(/^This (may )?contains?:? ?(an image of:)? ?/i,'')])});const y=scrollY;scrollBy(0,700);await new Promise(r=>setTimeout(r,600));if(scrollY===y)break}const t='Board: '+(document.querySelector('h1')?.textContent||'Pinterest')+'\\t'+location.href.split('?')[0]+'\\n'+(await Promise.all([...M.values()].map(async v=>[...v,await L(v[1])].join('\\t')))).join('\\n');const b=document.createElement('button');b.textContent='Copy '+M.size+' pins for Clayworks';b.style.cssText='position:fixed;z-index:2147483647;top:16px;right:16px;padding:14px 20px;border:0;border-radius:999px;background:%23714BD0;color:%23fff;font:600 15px system-ui;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25)';b.onclick=async()=>{try{await navigator.clipboard.writeText(t);b.textContent='Copied. Paste it into Clayworks.'}catch(e){b.textContent='Copy blocked by the browser'}setTimeout(()=>b.remove(),4000)};document.body.append(b)})()`;
+async function importIdeas(text,boardName,boardUrl){
+  const p=parseIdeas(text),board=(boardName||p.board||"Ideas").trim(),url=/^https:\/\//.test(boardUrl||"")?boardUrl:p.boardUrl;
+  if(!p.pins.length)return 0;
+  const now=Date.now(),list=[];
+  for(const [i,x] of p.pins.entries()){IDEA.busy=`Pulling colors ${i+1} of ${p.pins.length}…`;renderIdeas();
+    list.push({id:idOf(x.href||x.src),kind:"idea",board,boardUrl:url||"",src:x.src,href:x.href,title:x.title,hex:x.hex||await ideaPalette(x.src),addedAt:now+i})}
+  IDEA.busy="";await putIdeas(list);return list.length}
+async function addIdeaPhotos(files,board){const list=[],now=Date.now();
+  for(const [i,fl] of [...files].entries()){if(!fl.type.startsWith("image/"))continue;
+    try{const bm=await createImageBitmap(fl),s=Math.min(1,640/Math.max(bm.width,bm.height)),c=document.createElement("canvas");
+      c.width=Math.round(bm.width*s);c.height=Math.round(bm.height*s);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);const src=c.toDataURL("image/jpeg",.72);
+      list.push({id:idOf(src.slice(-400)+now),kind:"idea",board,boardUrl:"",src,href:"",title:fl.name.replace(/\.[a-z0-9]+$/i,""),hex:await ideaPalette(src),addedAt:now+i})}catch{}}
+  if(list.length)await putIdeas(list)}
+function ideaCard(x){
+  const sw=el("div",{class:"idea-sw"},...(x.hex||[]).map(h=>el("span",{style:"background:#"+h,title:"#"+h})));
+  const acts=el("div",{class:"idea-acts"});
+  if(x.hex?.length)acts.append(el("button",{type:"button",class:"linkbtn",text:"Match colors",onclick:()=>matchIdea(x.hex,x.title?`Inspired by: ${x.title}`:"")}));
+  if(x.href)acts.append(el("a",{href:x.href,target:"_blank",rel:"noopener",text:"Pinterest"}));
+  acts.append(el("button",{type:"button",class:"idea-x","aria-label":"Remove this idea",text:"×",onclick:()=>removeIdeas([x.id])}));
+  return el("figure",{class:"idea"},el("img",{src:x.src,alt:x.title||"Idea",loading:"lazy",referrerpolicy:"no-referrer"}),
+    x.hex?.length?sw:el("p",{class:"note",text:"Couldn't read this image's colors."}),x.title?el("figcaption",{text:x.title}):null,acts)}
+function renderIdeas(){
+  const w=$("workIdeas");if(!w)return;w.replaceChildren();
+  const files=el("input",{type:"file",accept:"image/*",multiple:true,"aria-label":"Add photos"});
+  files.onchange=()=>{if(files.files.length)addIdeaPhotos(files.files,"My photos")};
+  w.append(el("div",{class:"ideas-head"},el("div",{},el("h2",{text:"Ideas"}),
+      el("p",{class:"note",text:"Pieces, pins and photos you love. Each one's colors are pulled out, ready for Match colors."})),
+    el("div",{class:"links"},el("label",{class:"btn ghost"},files,"+ Add photos"),
+      el("button",{type:"button",class:IDEA.importOpen?"linkbtn":"btn",text:IDEA.importOpen?"Close":"Import a Pinterest board",onclick:()=>{IDEA.importOpen=!IDEA.importOpen;renderIdeas()}}))));
+  if(IDEA.importOpen){
+    const name=el("input",{type:"text",placeholder:"Board name (optional)","aria-label":"Board name"}),txt=el("textarea",{rows:"5",placeholder:"Paste what the bookmark copied, or pin image links, one per line","aria-label":"Pins"});
+    const bm=el("a",{href:BOOKMARKLET,class:"bookmarklet",text:"Copy board for Clayworks",onclick:e=>{e.preventDefault();msg.textContent="Drag this button to your bookmarks bar, then click it on a Pinterest board."}});
+    const msg=el("p",{class:"note",role:"status"});
+    const f=el("form",{class:"idea-import"},
+      el("ol",{class:"note"},el("li",{},"Drag ",bm," to your bookmarks bar (once)."),el("li",{text:"Open a Pinterest board and click that bookmark. It copies the board's pins."}),el("li",{text:"Paste here and import."})),
+      name,txt,el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Import"}),msg));
+    f.onsubmit=async e=>{e.preventDefault();const n=await importIdeas(txt.value,name.value);if(n){IDEA.importOpen=false;renderIdeas()}else msg.textContent="No pins found in that text."};
+    w.append(f);
+  }
+  if(IDEA.busy)w.append(el("p",{class:"note",role:"status",text:IDEA.busy}));
+  if(!ideas.length){if(!IDEA.importOpen&&!IDEA.busy)w.append(el("p",{class:"note",text:"Nothing here yet. Import a Pinterest board or add photos of work you love."}));return}
+  const boards=new Map();ideas.forEach(x=>{const b=x.board||"Ideas";if(!boards.has(b))boards.set(b,[]);boards.get(b).push(x)});
+  boards.forEach((list,b)=>{const pal=boardPalette(list),url=list.find(x=>x.boardUrl)?.boardUrl;
+    w.append(el("section",{class:"idea-board"},
+      el("div",{class:"idea-bhead"},el("h3",{text:b}),el("span",{class:"meta",text:list.length+(list.length===1?" idea":" ideas")}),url?el("a",{href:url,target:"_blank",rel:"noopener",text:"On Pinterest"}):null),
+      pal.length?el("div",{class:"idea-pal"},...pal.map(h=>el("span",{style:"background:#"+h},el("b",{class:lum(h)>.45?"":"on-dark",text:h})))):null,
+      el("div",{class:"links"},pal.length?el("button",{type:"button",class:"btn",text:"Match this board's colors",onclick:()=>matchIdea(pal,`Palette from my "${b}" ideas board.`)}):null,
+        el("button",{type:"button",class:"linkbtn",text:"Remove board",onclick:()=>{if(confirm(`Remove all ${list.length} ideas in "${b}"?`))removeIdeas(list.map(x=>x.id))}})),
+      el("div",{class:"idea-grid"},...list.map(ideaCard))))});
+}
+
 function renderSaved(){
   const f=$("savedFilters");f.textContent="";
   [["all","All",recipes.length],["glaze","Glazes",recipes.filter(r=>r.type==="glaze").length],["stain","Stain recipes",recipes.filter(r=>r.type!=="glaze").length],
@@ -2481,7 +2591,7 @@ $("ownPanel").addEventListener("submit",async e=>{
   if(id){msg.textContent="";["ownName","ownHex","ownRows"].forEach(i=>$(i).value="");$("ownPanel").hidden=true;savedMsg("Saved “"+title+"”.")}
 });
 
-function renderAll(){updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();if(tab==="recipe")renderRecipePage()}
+function renderAll(){updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();renderIdeas();if(tab==="recipe")renderRecipePage()}
 
 /* ---------- boot ---------- */
 try{const s=JSON.parse(localStorage.getItem("stainlab-last")||"null");if(s?.colors?.length)last=s}catch{}
