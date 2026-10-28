@@ -488,6 +488,7 @@ td.muted,.muted{color:var(--muted)}
 .ideas-head label.btn input{position:absolute;opacity:0;width:1px;height:1px}
 .idea-import{display:grid;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
 .idea-import ol{margin:0;padding-left:18px;display:grid;gap:4px}
+.idea-hint{margin:0;padding:10px 12px;border-radius:10px;background:var(--purple-50);color:var(--accent-deep);font-size:13.5px;line-height:1.45}
 .bookmarklet{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--purple-100);color:var(--accent-deep);font:500 12.5px var(--body);text-decoration:none;cursor:grab}
 .idea-boards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px 16px}
 .idea-cover{all:unset;box-sizing:border-box;display:grid;gap:6px;cursor:pointer;min-width:0}
@@ -2328,9 +2329,10 @@ function boardCover(b,list){const [a,c,d]=[list[0],list[1],list[2]],im=x=>x?el("
 function ideaImport(board){
   const name=el("input",{type:"text",placeholder:"Board name (optional)","aria-label":"Board name"}),txt=el("textarea",{rows:"5",placeholder:"Paste what the bookmark copied, or pin image links, one per line","aria-label":"Pins"});
   const msg=el("p",{class:"note",role:"status"});
-  const bm=el("a",{href:BOOKMARKLET,class:"bookmarklet",text:"Copy board for Clayworks",onclick:e=>{e.preventDefault();msg.textContent="Drag this button to your bookmarks bar, then click it on a Pinterest board."}});
+  const bm=el("a",{href:BOOKMARKLET,class:"bookmarklet",text:"Copy board for Clayworks",onclick:e=>{e.preventDefault();hint.hidden=false}});
+  const hint=el("p",{class:"idea-hint",role:"status",hidden:true,text:"That purple button only works from your bookmarks bar. Press and hold it, drag it up onto the bookmarks bar at the top of your browser, and let go. Then open a Pinterest board and click the new bookmark there. (Bookmarks bar hidden? Press ⌘⇧B.)"});
   const f=el("form",{class:"idea-import"},
-    el("ol",{class:"note"},el("li",{},"Drag ",bm," to your bookmarks bar (once)."),el("li",{text:"Open a Pinterest board and click that bookmark. It copies the board's pins."}),el("li",{text:board?`Paste here. New pins are added to "${board}".`:"Paste here and import."})),
+    el("ol",{class:"note"},el("li",{},"Drag ",bm," to your bookmarks bar (once)."),el("li",{text:"Open a Pinterest board and click that bookmark. It copies the board's pins."}),el("li",{text:board?`Paste here. New pins are added to "${board}".`:"Paste here and import."})),hint,
     board?null:name,txt,el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Import"}),msg));
   f.onsubmit=async e=>{e.preventDefault();const r=await importIdeas(txt.value,board||name.value);
     if(r.n){IDEA.importOpen=false;if(board)renderIdeas();else openBoard(r.board)}else msg.textContent="No new pins in that text (repeats and pins already on the board are skipped)."};

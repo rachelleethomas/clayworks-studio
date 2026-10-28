@@ -1,6 +1,6 @@
 /* Clayworks offline cache (GitHub Pages build). The app shell is network-first so each deploy shows up right away;
    it falls back to the cached copy when there's no signal. Fonts are cached as they load. API calls are never cached. */
-const V = "cw-d291c3cca0", SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"];
+const V = "cw-832a72a534", SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener("fetch", e => {
