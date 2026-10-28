@@ -64,7 +64,7 @@ export default {
         if (!m || /^(pin|search|ideas|today|_)$/i.test(m[1])) return json({ error: "Paste a board link, like pinterest.com/yourname/board-name." }, 400);
         const [user, slug] = [m[1], m[2].replace(/\.rss$/i, "")];
         const r = await fetch(`https://www.pinterest.com/${user}/${slug}.rss`, { headers: { "User-Agent": "Mozilla/5.0 (Clayworks Studio board import)" } });
-        if (!r.ok) return json({ error: r.status === 404 ? "Couldn't find that board. Check the link, and that the board isn't secret." : "Pinterest didn't answer. Try again in a minute." }, 502);
+        if (!r.ok) return json({ error: r.status === 404 ? "Couldn't find that board. Pinterest doesn't share secret boards by link, so use the bookmark below for those." : "Pinterest didn't answer. Try again in a minute." }, 502);
         const xml = await r.text();
         const un = s => s.replace(/<!\[CDATA\[|\]\]>/g, "").replace(/&quot;/g, '"').replace(/&#0?39;|&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").trim();
         const tag = (s, t) => un((s.match(new RegExp(`<${t}>([\\s\\S]*?)</${t}>`)) || [, ""])[1]);
