@@ -530,6 +530,28 @@ td.muted,.muted{color:var(--muted)}
 .idea .note{padding:0 10px}
 .idea-acts{display:flex;align-items:center;gap:10px;padding:0 10px;font-size:13px;white-space:nowrap}
 .idea-acts .idea-x{margin-left:auto;width:26px;height:26px;padding:0;border-radius:50%;border:0;background:var(--purple-50);color:var(--accent);font:400 16px/1 var(--body);cursor:pointer}
+.idea-open{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in}
+.pin-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
+.pin-top .rp-back{margin:0 0 0 -10px!important}
+.pin-view{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(260px,1fr);gap:24px;align-items:start}
+.pin-stage{position:relative;justify-self:center;max-width:100%;border-radius:16px;overflow:hidden;background:var(--purple-50);touch-action:none;user-select:none;-webkit-user-select:none}
+.pin-stage img{display:block;max-width:100%;max-height:78vh;width:auto;height:auto}
+.pin-stage.live{cursor:crosshair}
+.pin-marks span{position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.35);display:grid;place-items:center;font:600 11px/1 var(--body);color:#fff;text-shadow:0 0 2px rgba(0,0,0,.7);pointer-events:none}
+.pin-loupe{position:absolute;transform:translate(-50%,calc(-100% - 22px));min-width:84px;padding:30px 8px 6px;border-radius:12px;border:2px solid #fff;box-shadow:0 4px 14px rgba(0,0,0,.3);font:500 11px var(--mono);color:#32313B;text-align:center;pointer-events:none}
+.pin-loupe.below{transform:translate(-50%,22px)}
+.pin-loupe.on-dark{color:#fff}
+.pin-side{display:grid;gap:12px;align-content:start;min-width:0}
+.pin-side h2{font-size:20px;line-height:1.3;margin:0}
+.pin-side h3{margin:6px 0 0;font:500 11px var(--pixel);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.pin-picks{display:grid;gap:6px}
+.pin-chip{display:flex;align-items:center;gap:10px;padding:4px 4px 4px 4px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.pin-chip i{width:44px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,.1)}
+.pin-chip b{font:500 13px var(--mono);flex:1}
+.pin-chip button{width:28px;height:28px;padding:0;border-radius:50%;border:0;background:var(--purple-50);color:var(--accent);font:400 16px/1 var(--body);cursor:pointer}
+.pin-pals{display:flex;gap:6px;margin-top:6px}
+.pin-pal{flex:1;height:36px;border-radius:8px;border:1px solid rgba(0,0,0,.1);cursor:pointer;padding:0}
+@media (max-width:640px){.pin-view{grid-template-columns:1fr}.pin-stage img{max-height:none;width:100%}}
 @media (max-width:640px){.idea-grid{columns:2 140px}.idea-boards{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.idea-cname{font-size:16px}}
 
 /* Match results board */
@@ -948,6 +970,13 @@ cwSample.limits = async () => ({ images: true });
 window.claude = { use: async name => (name === "sample" ? cwSample : null) };
 
 /* Pinterest board import (Ideas): the Worker reads the board's feed and passes each image through for color sampling */
+/* a Pinterest image as a same-origin object URL, so the app can read its pixels */
+window.cwImage = async src => {
+  if (!/^https:\/\/i\.pinimg\.com\//.test(src)) return src;
+  const r = await fetch(API_BASE + "/pinimg?u=" + encodeURIComponent(src), { headers: { Authorization: "Bearer " + CW.token } });
+  if (!r.ok) throw new Error("pinimg " + r.status);
+  return URL.createObjectURL(await r.blob());
+};
 window.cwPinterest = async boardUrl => {
   const b = await cwApi("/pinterest?board=" + encodeURIComponent(boardUrl));
   b.pins = await Promise.all(b.pins.map(async p => {
@@ -2289,7 +2318,7 @@ $("askForm").addEventListener("submit",e=>{e.preventDefault();askInstant()});
 let savedFilter="all";
 function savedMsg(t){const m=$("savedStatus");m.textContent=t;setTimeout(()=>{if(m.textContent===t)m.textContent=""},5000)}
 /* ---------- My Work: Ideas ---------- */
-const IDEA={importOpen:false,busy:"",board:null,select:false,picked:new Set()};
+const IDEA={importOpen:false,busy:"",board:null,pin:null,select:false,picked:new Set()};
 const lum=h=>{const [r,g,b]=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)/255);return .2126*r+.7152*g+.0722*b};
 const idOf=t=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))|0;return "idea-"+(h>>>0).toString(36)};
 function ideaPalette(src){return new Promise(res=>{const im=new Image();im.crossOrigin="anonymous";
@@ -2334,12 +2363,13 @@ function ideaCard(x){
       onclick:()=>{on?IDEA.picked.delete(x.id):IDEA.picked.add(x.id);renderIdeas()},onkeydown:e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();e.currentTarget.click()}}},
       img,el("span",{class:"idea-check","aria-hidden":"true",text:on?"✓":""}),x.hex?.length?sw:null)}
   const acts=el("div",{class:"idea-acts"});
+  const open=el("button",{type:"button",class:"idea-open","aria-label":"Open "+(x.title||"this idea")+" to pick colors",onclick:()=>openPin(x.id)},img);
   if(x.hex?.length)acts.append(el("button",{type:"button",class:"linkbtn",text:"Match colors",onclick:()=>matchIdea(x.hex,x.title?`Inspired by: ${x.title}`:"")}));
   if(x.href)acts.append(el("a",{href:x.href,target:"_blank",rel:"noopener",text:"Pinterest"}));
   acts.append(el("button",{type:"button",class:"idea-x","aria-label":"Remove this idea",text:"×",onclick:()=>removeIdeas([x.id])}));
-  return el("figure",{class:"idea"},img,x.hex?.length?sw:el("p",{class:"note",text:"Couldn't read this image's colors."}),x.title?el("figcaption",{text:x.title}):null,acts)}
+  return el("figure",{class:"idea"},open,x.picks?.length?el("div",{class:"idea-sw"},...x.picks.map(p=>el("span",{style:"background:#"+p.hex,title:"#"+p.hex}))):x.hex?.length?sw:el("p",{class:"note",text:"Couldn't read this image's colors."}),x.title?el("figcaption",{text:x.title}):null,acts)}
 function ideaBoards(){const m=new Map();ideas.forEach(x=>{const b=x.board||"Ideas";if(!m.has(b))m.set(b,[]);m.get(b).push(x)});return m}
-function openBoard(b){Object.assign(IDEA,{board:b,importOpen:false,select:false});IDEA.picked.clear();renderIdeas();scrollTo({top:0})}
+function openBoard(b){Object.assign(IDEA,{board:b,pin:null,importOpen:false,select:false});IDEA.picked.clear();renderIdeas();scrollTo({top:0})}
 // Pinterest-style cover: one big photo and two small ones, then name, count and palette
 function boardCover(b,list){const [a,c,d]=[list[0],list[1],list[2]],im=x=>x?el("img",{src:x.src,alt:"",loading:"lazy",referrerpolicy:"no-referrer"}):el("span");
   const pal=boardPalette(list,5);
@@ -2382,7 +2412,8 @@ function photoPicker(label,board){const files=el("input",{type:"file",accept:"im
 function renderIdeas(){
   const w=$("workIdeas");if(!w)return;w.replaceChildren();
   const boards=ideaBoards();if(IDEA.board&&!boards.has(IDEA.board))IDEA.board=null;
-  if(IDEA.board)return renderBoard(w,IDEA.board,boards.get(IDEA.board));
+  if(IDEA.board){const list=boards.get(IDEA.board),x=IDEA.pin&&list.find(i=>i.id===IDEA.pin);
+    return x?renderPin(w,x,list):renderBoard(w,IDEA.board,list)}
   w.append(el("div",{class:"ideas-head"},el("div",{},el("h2",{text:"Ideas"}),
       el("p",{class:"note",text:"Boards of pieces, pins and photos you love. Each one's colors are pulled out, ready for Match colors."})),
     el("div",{class:"links"},photoPicker("+ Add photos","My photos"),
@@ -2415,6 +2446,52 @@ function renderBoard(w,b,list){
     el("button",{type:"button",class:"linkbtn",text:"Delete board",onclick:()=>{if(confirm(`Delete "${b}" and its ${list.length} ideas?`)){IDEA.board=null;removeIdeas(list.map(x=>x.id))}}}));
   w.append(bar,el("div",{class:"idea-grid"},...list.map(ideaCard)));
 }
+
+// One pin, big: tap or drag on the photo to pick exact colors (e.g. one plate out of twelve), then Match colors
+function openPin(id){IDEA.pin=id;renderIdeas();scrollTo({top:0})}
+// pixels need a same-origin copy: own photos are data URLs; the GitHub build passes Pinterest images through the Worker (cwImage)
+const PIN_PX=new Map(); // src → canvas context, so re-renders after each pick stay instant
+async function pixelImage(src){if(PIN_PX.has(src))return PIN_PX.get(src);const u=!/^data:/.test(src)&&window.cwImage?await window.cwImage(src).catch(()=>src):src;
+  return new Promise(res=>{const im=new Image();im.crossOrigin="anonymous";im.onload=()=>{try{const c=document.createElement("canvas");c.width=im.naturalWidth;c.height=im.naturalHeight;
+    const cx=c.getContext("2d",{willReadFrequently:true});cx.drawImage(im,0,0);cx.getImageData(0,0,1,1);PIN_PX.set(src,cx);res(cx)}catch{res(null)}};im.onerror=()=>res(null);im.src=u})}
+function renderPin(w,x,list){
+  const i=list.indexOf(x),go=d=>openPin(list[(i+d+list.length)%list.length].id);
+  let picks=[...(x.picks||[])];
+  const save=()=>putIdeas([{...x,picks}]);
+  const big=x.src.replace(/^(https:\/\/i\.pinimg\.com\/)(236x|474x)\//,"$1736x/"),img=el("img",{src:big,alt:x.title||"Idea",referrerpolicy:"no-referrer",draggable:"false"});
+  const marks=el("div",{class:"pin-marks"}),loupe=el("div",{class:"pin-loupe",hidden:true});
+  const stage=el("div",{class:"pin-stage"},img,marks,loupe);
+  const status=el("p",{class:"note",role:"status",text:"Getting the photo ready…"});
+  const chosen=el("div",{class:"pin-picks"}),matchBtn=el("button",{type:"button",class:"btn",text:"Match these colors"});
+  const drawMarks=()=>{marks.replaceChildren(...picks.filter(p=>p.x!=null).map((p,k)=>el("span",{style:`left:${p.x*100}%;top:${p.y*100}%;background:#${p.hex}`,text:String(k+1)})));
+    chosen.replaceChildren(...(picks.length?picks.map((p,k)=>el("span",{class:"pin-chip"},el("i",{style:"background:#"+p.hex}),el("b",{text:`${k+1} · #${p.hex}`}),
+      el("button",{type:"button","aria-label":"Remove #"+p.hex,text:"×",onclick:()=>{picks.splice(k,1);drawMarks();save()}}))):[el("p",{class:"note",text:"No colors picked yet."})]));
+    matchBtn.disabled=!picks.length};
+  const add=(hex,px,py)=>{if(picks.length>=8)picks.shift();picks.push({hex,x:px,y:py});drawMarks();save()};
+  matchBtn.onclick=()=>matchIdea(picks.map(p=>p.hex),`Colors picked from "${x.title||"a pin"}" in my ${x.board} board.`);
+  let cx=null;const at=e=>{const r=img.getBoundingClientRect(),fx=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)),fy=Math.min(1,Math.max(0,(e.clientY-r.top)/r.height));
+    const W=cx.canvas.width,H=cx.canvas.height,R=Math.max(2,Math.round(W/120)),px=Math.round(fx*(W-1)),py=Math.round(fy*(H-1));
+    const x0=Math.max(0,px-R),y0=Math.max(0,py-R),d=cx.getImageData(x0,y0,Math.min(W,px+R+1)-x0,Math.min(H,py+R+1)-y0).data;let s=[0,0,0],n=0;
+    for(let k=0;k<d.length;k+=4){s[0]+=d[k];s[1]+=d[k+1];s[2]+=d[k+2];n++}
+    return {fx,fy,hex:s.map(v=>Math.round(v/n).toString(16).padStart(2,"0")).join("").toUpperCase()}};
+  const showLoupe=(e,c)=>{loupe.hidden=false;loupe.style.cssText=`left:${c.fx*100}%;top:${c.fy*100}%;background:#${c.hex}`;loupe.classList.toggle("below",c.fy<.25);loupe.textContent="#"+c.hex;loupe.classList.toggle("on-dark",lum(c.hex)<.45)};
+  let down=false;
+  stage.onpointerdown=e=>{if(!cx)return;down=true;stage.setPointerCapture(e.pointerId);showLoupe(e,at(e))};
+  stage.onpointermove=e=>{if(!cx||(!down&&e.pointerType!=="mouse"))return;showLoupe(e,at(e))};
+  stage.onpointerup=e=>{if(!cx||!down)return;down=false;const c=at(e);add(c.hex,+c.fx.toFixed(4),+c.fy.toFixed(4));if(e.pointerType!=="mouse")loupe.hidden=true};
+  stage.onpointerleave=()=>{if(!down)loupe.hidden=true};stage.onpointercancel=()=>{down=false;loupe.hidden=true};
+  pixelImage(big).then(c=>{cx=c;if(c){stage.classList.add("live");status.textContent="Tap a spot on the photo to pick its color. On a phone, hold and drag to aim, then let go."}
+    else status.textContent="This photo won't share its pixels here. Pick from its colors below, or use the Clayworks site to tap the photo."});
+  const photoCols=(x.hex||[]).map(h=>el("button",{type:"button",class:"pin-pal",style:"background:#"+h,title:"Add #"+h,"aria-label":"Add #"+h,onclick:()=>add(h)}));
+  w.append(el("div",{class:"pin-top"},el("button",{type:"button",class:"linkbtn rp-back",text:"‹ "+x.board,onclick:()=>openPin(null)}),
+      list.length>1?el("div",{class:"links"},el("button",{type:"button",class:"linkbtn",text:"‹ Previous",onclick:()=>go(-1)}),el("span",{class:"meta",text:`${i+1} of ${list.length}`}),el("button",{type:"button",class:"linkbtn",text:"Next ›",onclick:()=>go(1)})):null),
+    el("div",{class:"pin-view"},stage,
+      el("div",{class:"pin-side"},x.title?el("h2",{text:x.title}):null,status,
+        el("h3",{text:"Colors you picked"}),chosen,
+        el("div",{class:"links"},matchBtn,picks.length?el("button",{type:"button",class:"linkbtn",text:"Clear",onclick:()=>{picks=[];drawMarks();save()}}):null),
+        photoCols.length?el("div",{},el("h3",{text:"Whole photo's colors"}),el("p",{class:"note",text:"Tap one to add it."}),el("div",{class:"pin-pals"},...photoCols)):null,
+        x.href?el("a",{href:x.href,target:"_blank",rel:"noopener",text:"See it on Pinterest"}):null)));
+  drawMarks()}
 
 function renderSaved(){
   const f=$("savedFilters");f.textContent="";

@@ -40,6 +40,13 @@ cwSample.limits = async () => ({ images: true });
 window.claude = { use: async name => (name === "sample" ? cwSample : null) };
 
 /* Pinterest board import (Ideas): the Worker reads the board's feed and passes each image through for color sampling */
+/* a Pinterest image as a same-origin object URL, so the app can read its pixels */
+window.cwImage = async src => {
+  if (!/^https:\/\/i\.pinimg\.com\//.test(src)) return src;
+  const r = await fetch(API_BASE + "/pinimg?u=" + encodeURIComponent(src), { headers: { Authorization: "Bearer " + CW.token } });
+  if (!r.ok) throw new Error("pinimg " + r.status);
+  return URL.createObjectURL(await r.blob());
+};
 window.cwPinterest = async boardUrl => {
   const b = await cwApi("/pinterest?board=" + encodeURIComponent(boardUrl));
   b.pins = await Promise.all(b.pins.map(async p => {
