@@ -57,6 +57,33 @@ export default {
 
       if (url.pathname === "/me" && req.method === "GET") return json({ ...(await usage(env, name, u)), admin: isAdmin(env, name) });
 
+      // Pinterest board link → its pins, read from the board's public RSS feed (Pinterest lists the latest 25).
+      // Fetched once, only when someone imports a board; images stay on Pinterest's CDN.
+      if (url.pathname === "/pinterest" && req.method === "GET") {
+        const m = (url.searchParams.get("board") || "").trim().match(/^(?:https?:\/\/)?(?:[a-z]{2,3}\.)?pinterest\.[a-z.]+\/([^/?#]+)\/([^/?#]+)/i);
+        if (!m || /^(pin|search|ideas|today|_)$/i.test(m[1])) return json({ error: "Paste a board link, like pinterest.com/yourname/board-name." }, 400);
+        const [user, slug] = [m[1], m[2].replace(/\.rss$/i, "")];
+        const r = await fetch(`https://www.pinterest.com/${user}/${slug}.rss`, { headers: { "User-Agent": "Mozilla/5.0 (Clayworks Studio board import)" } });
+        if (!r.ok) return json({ error: r.status === 404 ? "Couldn't find that board. Check the link, and that the board isn't secret." : "Pinterest didn't answer. Try again in a minute." }, 502);
+        const xml = await r.text();
+        const un = s => s.replace(/<!\[CDATA\[|\]\]>/g, "").replace(/&quot;/g, '"').replace(/&#0?39;|&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").trim();
+        const tag = (s, t) => un((s.match(new RegExp(`<${t}>([\\s\\S]*?)</${t}>`)) || [, ""])[1]);
+        const pins = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(([, it]) => ({
+          href: tag(it, "link"),
+          src: ((tag(it, "description").match(/<img src="([^"]+)"/) || [, ""])[1]).replace(/\/\d+x\//, "/474x/"),
+          title: tag(it, "title").replace(/\s+/g, " ").slice(0, 140),
+        })).filter(p => /^https:\/\/i\.pinimg\.com\//.test(p.src));
+        return json({ board: tag(xml.split("<item>")[0], "title") || slug, url: `https://www.pinterest.com/${user}/${slug}/`, pins });
+      }
+      // a pin's image passed through, so the app can read its colors (pinimg.com only lets Pinterest read pixels)
+      if (url.pathname === "/pinimg" && req.method === "GET") {
+        const src = url.searchParams.get("u") || "";
+        if (!/^https:\/\/i\.pinimg\.com\/[\w/.-]+\.(jpe?g|png|webp|gif)$/i.test(src)) return json({ error: "Not a Pinterest image." }, 400);
+        const r = await fetch(src);
+        if (!r.ok) return json({ error: "Couldn't load that image." }, 502);
+        return new Response(r.body, { headers: { ...cors, "Content-Type": r.headers.get("Content-Type") || "image/jpeg", "Cache-Control": "private, max-age=86400" } });
+      }
+
       // ideas from friends: stored in KV, emailed to Rachel when Resend is configured
       if (url.pathname === "/feedback" && req.method === "POST") {
         const body = await req.json().catch(() => ({}));

@@ -39,6 +39,22 @@ cwSample.json = async (input, opts = {}) => {
 cwSample.limits = async () => ({ images: true });
 window.claude = { use: async name => (name === "sample" ? cwSample : null) };
 
+/* Pinterest board import (Ideas): the Worker reads the board's feed and passes each image through for color sampling */
+window.cwPinterest = async boardUrl => {
+  const b = await cwApi("/pinterest?board=" + encodeURIComponent(boardUrl));
+  b.pins = await Promise.all(b.pins.map(async p => {
+    try {
+      const r = await fetch(API_BASE + "/pinimg?u=" + encodeURIComponent(p.src), { headers: { Authorization: "Bearer " + CW.token } });
+      if (!r.ok) throw 0;
+      const u = URL.createObjectURL(await r.blob()), img = new Image();
+      await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = u; });
+      const hex = extractPalette(img, 5); URL.revokeObjectURL(u);
+      return { ...p, hex };
+    } catch { return { ...p, hex: [] }; }
+  }));
+  return b;
+};
+
 /* shelves sync */
 let cwSyncTimer = null;
 function cwQueueSync() {
