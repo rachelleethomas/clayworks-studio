@@ -489,6 +489,11 @@ td.muted,.muted{color:var(--muted)}
 .idea-import{display:grid;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
 .idea-import ol{margin:0;padding-left:18px;display:grid;gap:4px}
 .idea-hint{margin:0;padding:10px 12px;border-radius:10px;background:var(--purple-50);color:var(--accent-deep);font-size:13.5px;line-height:1.45}
+.idea-linkform{display:grid;gap:10px}
+.idea-field{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+.idea-more summary{cursor:pointer;font-size:13.5px;color:var(--accent)}
+.idea-more[open] summary{margin-bottom:10px}
+.idea-more .idea-import{padding:12px;background:var(--bg)}
 .bookmarklet{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--purple-100);color:var(--accent-deep);font:500 12.5px var(--body);text-decoration:none;cursor:grab}
 .idea-boards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px 16px}
 .idea-cover{all:unset;box-sizing:border-box;display:grid;gap:6px;cursor:pointer;min-width:0}
@@ -941,6 +946,22 @@ cwSample.json = async (input, opts = {}) => {
 };
 cwSample.limits = async () => ({ images: true });
 window.claude = { use: async name => (name === "sample" ? cwSample : null) };
+
+/* Pinterest board import (Ideas): the Worker reads the board's feed and passes each image through for color sampling */
+window.cwPinterest = async boardUrl => {
+  const b = await cwApi("/pinterest?board=" + encodeURIComponent(boardUrl));
+  b.pins = await Promise.all(b.pins.map(async p => {
+    try {
+      const r = await fetch(API_BASE + "/pinimg?u=" + encodeURIComponent(p.src), { headers: { Authorization: "Bearer " + CW.token } });
+      if (!r.ok) throw 0;
+      const u = URL.createObjectURL(await r.blob()), img = new Image();
+      await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = u; });
+      const hex = extractPalette(img, 5); URL.revokeObjectURL(u);
+      return { ...p, hex };
+    } catch { return { ...p, hex: [] }; }
+  }));
+  return b;
+};
 
 /* shelves sync */
 let cwSyncTimer = null;
@@ -2289,8 +2310,9 @@ function parseIdeas(text){let board="",boardUrl="";const pins=[];
   return {board,boardUrl,pins}}
 // Same palette as extractPalette, run on Pinterest: its images only let Pinterest read their pixels
 const BOOKMARKLET=`javascript:(async()=>{const P=g=>{try{const c=document.createElement('canvas'),w=80,h=Math.max(1,Math.round(80*g.naturalHeight/g.naturalWidth));c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(g,0,0,w,h);const d=x.getImageData(0,0,w,h).data,p=[];for(let i=0;i<d.length;i+=4)p.push([d[i],d[i+1],d[i+2]]);p.sort((a,b)=>a[0]+a[1]+a[2]-b[0]-b[1]-b[2]);let C=[0,1,2,3,4].map(i=>p[Math.floor((i+.5)*p.length/5)].slice());for(let k=0;k<12;k++){const S=C.map(()=>[0,0,0,0]);p.forEach(q=>{let bi=0,bd=1e9;C.forEach((c,j)=>{const e=(q[0]-c[0])**2+(q[1]-c[1])**2+(q[2]-c[2])**2;if(e<bd){bd=e;bi=j}});const s=S[bi];s[0]+=q[0];s[1]+=q[1];s[2]+=q[2];s[3]++});C=C.map((c,j)=>S[j][3]?[S[j][0]/S[j][3],S[j][1]/S[j][3],S[j][2]/S[j][3]]:c)}return C.sort((a,b)=>b[0]+b[1]+b[2]-a[0]-a[1]-a[2]).map(c=>c.map(v=>Math.round(v).toString(16).padStart(2,'0')).join('').toUpperCase()).join(',')}catch(e){return ''}};const L=s=>new Promise(r=>{const g=new Image();g.crossOrigin='anonymous';g.onload=()=>r(P(g));g.onerror=()=>r('');g.src=s});const M=new Map();let st=0;scrollTo(0,0);for(let i=0;i<300;i++){document.querySelectorAll('[data-grid-item]').forEach(p=>{const a=p.querySelector('a[href*="/pin/"]'),g=p.querySelector('img');if(a&&g){const u=g.currentSrc||g.src;if(!M.has(u))M.set(u,[a.href.split('?')[0],u,(g.alt||'').replace(/^This (may )?contains?:? ?(an image of:)? ?/i,'').replace(/\\s+/g,' ').trim()])}});const y=scrollY,n=M.size;scrollBy(0,700);await new Promise(r=>setTimeout(r,700));st=scrollY===y&&M.size===n?st+1:0;if(st>3)break}const t='Board: '+(document.querySelector('h1')?.textContent||'Pinterest')+'\\t'+location.href.split('?')[0]+'\\n'+(await Promise.all([...M.values()].map(async v=>[...v,await L(v[1])].join('\\t')))).join('\\n');const b=document.createElement('button');b.textContent='Copy '+M.size+' pins for Clayworks';b.style.cssText='position:fixed;z-index:2147483647;top:16px;right:16px;padding:14px 20px;border:0;border-radius:999px;background:%23714BD0;color:%23fff;font:600 15px system-ui;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25)';b.onclick=async()=>{let ok=false;try{await navigator.clipboard.writeText(t);ok=true}catch(e){}const T=document.createElement('textarea');T.value=t;T.style.cssText='position:fixed;z-index:2147483647;top:70px;right:16px;width:340px;height:160px;font:12px monospace;border:2px solid %23714BD0;border-radius:12px;padding:8px';document.body.append(T);T.focus();T.select();if(!ok)try{ok=document.execCommand('copy')}catch(e){}if(ok){T.remove();b.textContent='Copied. Paste it into Clayworks.';setTimeout(()=>b.remove(),4000)}else b.textContent='Press ⌘C (Ctrl+C) to copy the selected text';};document.body.append(b)})()`;
-async function importIdeas(text,boardName,boardUrl){
-  const p=parseIdeas(text),board=(boardName||p.board||"Ideas").trim(),url=/^https:\/\//.test(boardUrl||"")?boardUrl:p.boardUrl;
+const importIdeas=(text,boardName,boardUrl)=>importPins(parseIdeas(text),boardName,boardUrl);
+async function importPins(p,boardName,boardUrl){
+  const board=(boardName||p.board||"Ideas").trim(),url=/^https:\/\//.test(boardUrl||"")?boardUrl:p.boardUrl;
   const seen=new Set(ideas.filter(x=>x.board===board).map(x=>x.src.replace(/\/\d+x\//,"/")));
   p.pins=p.pins.filter(x=>{const k=x.src.replace(/\/\d+x\//,"/");if(seen.has(k))return false;seen.add(k);return true});
   if(!p.pins.length)return {n:0,board};
@@ -2326,17 +2348,34 @@ function boardCover(b,list){const [a,c,d]=[list[0],list[1],list[2]],im=x=>x?el("
     el("span",{class:"idea-cname",text:b}),
     el("span",{class:"idea-cmeta"},el("span",{class:"meta",text:list.length+(list.length===1?" idea":" ideas")}),
       pal.length?el("span",{class:"idea-dots"},...pal.map(h=>el("i",{style:"background:#"+h}))):null))}
-function ideaImport(board){
-  const name=el("input",{type:"text",placeholder:"Board name (optional)","aria-label":"Board name"}),txt=el("textarea",{rows:"5",placeholder:"Paste what the bookmark copied, or pin image links, one per line","aria-label":"Pins"});
+// Board link → pins (GitHub build: window.cwPinterest via the Worker); the bookmark copy-and-paste is the fallback
+function ideaImport(board,boardUrl){
   const msg=el("p",{class:"note",role:"status"});
-  const bm=el("a",{href:BOOKMARKLET,class:"bookmarklet",text:"Copy board for Clayworks",onclick:e=>{e.preventDefault();hint.hidden=false}});
+  const done=r=>{if(r.n){IDEA.importOpen=false;if(board)renderIdeas();else openBoard(r.board)}else msg.textContent="No new pins there (repeats and pins already on the board are skipped)."};
+  const name=el("input",{type:"text",placeholder:"Name it (optional)","aria-label":"Board name"});
+  const txt=el("textarea",{rows:"5",placeholder:"Paste what the bookmark copied, or pin image links, one per line","aria-label":"Pins"});
   const hint=el("p",{class:"idea-hint",role:"status",hidden:true,text:"That purple button only works from your bookmarks bar. Press and hold it, drag it up onto the bookmarks bar at the top of your browser, and let go. Then open a Pinterest board and click the new bookmark there. (Bookmarks bar hidden? Press ⌘⇧B.)"});
-  const f=el("form",{class:"idea-import"},
+  const bm=el("a",{href:BOOKMARKLET,class:"bookmarklet",text:"Copy board for Clayworks",onclick:e=>{e.preventDefault();hint.hidden=false}});
+  const paste=el("form",{class:"idea-import"},
     el("ol",{class:"note"},el("li",{},"Drag ",bm," to your bookmarks bar (once)."),el("li",{text:"Open a Pinterest board and click that bookmark. It copies the board's pins."}),el("li",{text:board?`Paste here. New pins are added to "${board}".`:"Paste here and import."})),hint,
-    board?null:name,txt,el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Import"}),msg));
-  f.onsubmit=async e=>{e.preventDefault();const r=await importIdeas(txt.value,board||name.value);
-    if(r.n){IDEA.importOpen=false;if(board)renderIdeas();else openBoard(r.board)}else msg.textContent="No new pins in that text (repeats and pins already on the board are skipped)."};
-  return f}
+    board||window.cwPinterest?null:name,txt,el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Import"}),window.cwPinterest?null:msg));
+  paste.onsubmit=async e=>{e.preventDefault();done(await importIdeas(txt.value,board||name.value))};
+  if(!window.cwPinterest)return paste;
+  const link=el("input",{type:"url",required:true,value:boardUrl||"",placeholder:"pinterest.com/yourname/board-name","aria-label":"Pinterest board link"});
+  const go=el("button",{type:"submit",class:"btn",text:board?"Get new pins":"Import"});
+  const f=el("form",{class:"idea-linkform"},
+    el("label",{class:"idea-field"},el("span",{text:"Pinterest board link"}),link),
+    board?null:el("label",{class:"idea-field"},el("span",{text:"Name"}),name),
+    el("div",{class:"links"},go,msg));
+  f.onsubmit=async e=>{e.preventDefault();go.disabled=true;msg.textContent="Reading the board…";
+    try{const b=await window.cwPinterest(link.value.trim());msg.textContent="";
+      if(!b.pins.length)msg.textContent="That board has no pins Pinterest will share.";
+      else done(await importPins(b,board||name.value.trim()||b.board,b.url))}
+    catch(err){msg.textContent=err?.message||"Couldn't read that board."}
+    go.disabled=false};
+  return el("div",{class:"idea-import"},f,
+    el("p",{class:"note",text:"Pinterest shares a board's 25 newest pins. Import again later to pick up new ones."}),
+    el("details",{class:"idea-more"},el("summary",{text:"Bigger board? Copy every pin with a bookmark"}),paste))}
 function photoPicker(label,board){const files=el("input",{type:"file",accept:"image/*",multiple:true,"aria-label":label});
   files.onchange=async()=>{if(files.files.length){await addIdeaPhotos(files.files,board);if(IDEA.board!==board)openBoard(board)}};
   return el("label",{class:"btn ghost"},files,label)}
@@ -2361,7 +2400,7 @@ function renderBoard(w,b,list){
     el("div",{class:"ideas-head"},el("div",{class:"idea-bhead"},title,el("span",{class:"meta",text:list.length+(list.length===1?" idea":" ideas")}),url?el("a",{href:url,target:"_blank",rel:"noopener",text:"On Pinterest"}):null),
       el("div",{class:"links"},photoPicker("+ Add photos",b),
         el("button",{type:"button",class:IDEA.importOpen?"linkbtn":"btn ghost",text:IDEA.importOpen?"Close":"Add pins",onclick:()=>{IDEA.importOpen=!IDEA.importOpen;renderIdeas()}}))));
-  if(IDEA.importOpen)w.append(ideaImport(b));
+  if(IDEA.importOpen)w.append(ideaImport(b,url));
   if(IDEA.busy)w.append(el("p",{class:"note",role:"status",text:IDEA.busy}));
   if(pal.length)w.append(el("div",{class:"idea-pal"},...pal.map(h=>el("span",{style:"background:#"+h},el("b",{class:lum(h)>.45?"":"on-dark",text:h})))));
   const bar=el("div",{class:"links idea-manage"});
