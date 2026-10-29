@@ -480,11 +480,13 @@ td.muted,.muted{color:var(--muted)}
 .rp-table tr.best td:last-child{border-radius:0 10px 10px 0;padding-right:10px}
 .rp-table td .rst{display:inline-block;margin-top:4px}
 .rp-like{display:grid;gap:10px}
+.rp-match-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.rp-dot{display:inline-block;width:12px;height:12px;border-radius:50%;border:1px solid var(--line);vertical-align:-1px;margin-right:6px}
 .rp-like .acard{grid-template-columns:72px minmax(0,1fr) auto}
 .rp-like .acard .im{width:72px;height:72px}
 .rp-colorchip{height:72px;border-radius:12px;border:1px solid var(--line)}
 .rp-photo{width:100%;border-radius:12px;display:block}
-@media print{.topbar,.rp-nav,.rp-acts,.rp-back,.rp-scale,.rp-side,#mineSeg{display:none!important}.rp-body{grid-template-columns:1fr}.rp-main{box-shadow:none;border:0}}
+@media print{.topbar,.rp-nav,.rp-acts,.rp-back,.rp-scale,.rp-side,.rp-matches,#mineSeg{display:none!important}.rp-body{grid-template-columns:1fr}.rp-main{box-shadow:none;border:0}}
 .savedtools{display:flex;gap:8px;align-items:center;flex:0 1 420px;min-width:0}
 .savedtools input{flex:1 1 auto;min-width:0}
 /* My Work: Ideas (boards of inspiration images, Pinterest-style columns) */
@@ -3011,6 +3013,50 @@ function renderRecipePage(){
     el("div",{class:"rp-box"},chemBox(r.rows||[])));
   const body=RP.tab==="tests"?rpTests(r,cur):RP.tab==="swap"?rpSwap(r,cur):RP.tab==="lab"?rpLab(r,cur):RP.tab==="cost"?rpCost(r,cur):RP.tab==="used"?rpUsed(r):el("div",{class:"rp-body"},main,side);
   box.append(back,head,nav,body);
+  if(RP.tab==="recipe")box.append(rpMatches(r));
+}
+// close matches at the bottom of a recipe: what's already in your studio near this color, then premade glazes you could buy
+const recipeHex=r=>normHex(r.predicted)||normHex(r.hex)||"";
+// the color of the recipe's photo (yours, else Glazy's; Glazy's CDN allows reading pixels): average of the middle of the frame
+const PHOTO_HEX=new Map();
+function photoHex(src){
+  if(!PHOTO_HEX.has(src))PHOTO_HEX.set(src,new Promise(ok=>{const i=new Image();i.crossOrigin="anonymous";i.onerror=()=>ok("");
+    i.onload=()=>{try{const c=document.createElement("canvas");c.width=c.height=16;const g=c.getContext("2d");
+      g.drawImage(i,i.naturalWidth*.25,i.naturalHeight*.25,i.naturalWidth*.5,i.naturalHeight*.5,0,0,16,16);const d=g.getImageData(0,0,16,16).data,t=[0,0,0];
+      for(let k=0;k<d.length;k+=4){t[0]+=d[k];t[1]+=d[k+1];t[2]+=d[k+2]}ok(t.map(v=>Math.round(v/256).toString(16).padStart(2,"0")).join("").toUpperCase())}catch{ok("")}};
+    i.src=src}));
+  return PHOTO_HEX.get(src);
+}
+function rpMatches(r){
+  const src=r.pic||(r.photo?glazyPhoto(r.photo):"");
+  if(src){const sec=el("section",{class:"rp-main rp-matches"},el("span",{class:"lbl",text:"Close matches"}),el("p",{class:"note",text:"Reading the photo's color…"}));
+    photoHex(src).then(h=>sec.replaceWith(rpMatchesFor(r,h)));return sec}
+  return rpMatchesFor(r,"");
+}
+function rpMatchesFor(r,fromPhoto){
+  const own=fromPhoto||recipeHex(r),hex=own||nameHex(r.title||""),sec=el("section",{class:"rp-main rp-matches"},el("span",{class:"lbl",text:"Close matches"}));
+  if(!hex){sec.append(el("p",{class:"note",text:"This recipe has no color yet, so there's nothing to match. Log a test with a photo, or name it by color."}));return sec}
+  sec.append(el("p",{class:"note"},el("span",{class:"rp-dot",style:"background:#"+hex}),fromPhoto?`Near #${hex}, the color of this recipe's photo.`:own?`Near #${hex}, this recipe's color.`:`Near #${hex}, estimated from the name “${r.title}”.`));
+  const m=String(r.cone||"").match(/(0?\d+)/),cone=m?(m[1].length>1&&m[1][0]==="0"?-parseInt(m[1],10):parseInt(m[1],10)):6;
+  // yours: other recipes (with any mixed buckets) and premade glazes on your shelves
+  const mine=[];
+  recipes.filter(o=>o.id!==r.id&&o.type===r.type).forEach(o=>{const d=hexDist(hex,recipeHex(o)||nameHex(o.title||""));if(d<55){const b=bucketsOf(o.id);
+    mine.push({d:d-(b.length?8:0),node:el("button",{type:"button",class:"rp-rel",onclick:()=>openRecipe(o.id)},recipeSwatch(o,"rp-rel-sw"),el("span",{},el("b",{text:o.title||"Untitled"}),
+      el("span",{class:"meta",text:b.length?`✓ ${fmtG(b.reduce((t,x)=>t+(x.grams||0),0))} mixed on your shelves`:"Your recipe · "+STATUSES.find(([k])=>k===statusOf(o))[1]})))})}});
+  studio.forEach(it=>{const pm=premadeFor(it);if(!pm||!pm.hex)return;const d=hexDist(hex,pm.hex);if(d>=55)return;
+    const sw=pm.img?el("img",{class:"rp-rel-sw swphoto",src:pm.img,alt:"",referrerpolicy:"no-referrer"}):el("div",{class:"rp-rel-sw",style:"background:#"+pm.hex});
+    mine.push({d:d-8,node:el("button",{type:"button",class:"rp-rel",onclick:()=>openPremade(pm.pk)},sw,el("span",{},el("b",{text:pm.title}),el("span",{class:"meta",text:"✓ Premade, on your shelves"})))})});
+  sec.append(el("span",{class:"lbl",text:"In your studio"}));
+  if(mine.length){const g=el("div",{class:"rp-match-grid"});mine.sort((a,b)=>a.d-b.d).slice(0,6).forEach(x=>g.append(x.node));sec.append(g)}
+  else sec.append(el("p",{class:"note",text:"Nothing close in your recipes or on your shelves yet."}));
+  // premade you could buy (glazes for glaze recipes)
+  if(r.type==="glaze"){const owned=new Set(studio.map(it=>premadeFor(it)?.pk).filter(Boolean));
+    const buy=askFromStore({hexes:[hex],words:[]},{cone,perHex:6}).filter(it=>!owned.has(it.pk)).slice(0,4);
+    sec.append(el("span",{class:"lbl",text:"Premade to buy · cone "+cone}));
+    if(buy.length){const g=el("div",{class:"rp-like"});buy.forEach(x=>g.append(askCard(x)));sec.append(g,
+      el("p",{class:"note",text:"Premade colors come from supplier photos or names, so they're approximate. Check the photo before you buy."}))}
+    else sec.append(el("p",{class:"note",text:"No premade glaze near this color at cone "+cone+"."}))}
+  return sec;
 }
 function recipeCard(r){
   let sw=el("div",{class:"glaze"});sw.style.background="#"+(normHex(r.predicted)||normHex(r.hex)||"D8DAD5");
