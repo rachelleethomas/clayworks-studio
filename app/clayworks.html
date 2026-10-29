@@ -379,6 +379,13 @@ img.rp-sw.swphoto,img.rp-rel-sw.swphoto{width:auto}
 .rp-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center}
 .rp-sw{width:84px;height:84px;border-radius:16px;border:1px solid var(--line)}
 img.rp-sw{object-fit:cover}
+.rp-photo-wrap{display:grid;justify-items:center;gap:4px}
+.rp-photo{position:relative;display:block;cursor:pointer;border-radius:16px}
+.rp-photo input{position:absolute;inset:0;opacity:0;width:1px;height:1px}
+.rp-photo-hint{position:absolute;inset:auto 6px 6px;padding:2px 6px;border-radius:999px;background:var(--surface);color:var(--accent);font:500 10px/1.4 var(--pixel);text-transform:uppercase;letter-spacing:.06em;text-align:center;opacity:0;transition:opacity .15s}
+.rp-photo:hover .rp-photo-hint,.rp-photo:focus-within .rp-photo-hint,.rp-photo.drop .rp-photo-hint{opacity:1}
+.rp-photo.drop .rp-sw,.rp-photo:focus-within .rp-sw{outline:2px solid var(--accent);outline-offset:2px}
+.rp-photo-x{font-size:12px}
 .rp-id{display:grid;gap:4px;min-width:0}
 .rp-back{justify-self:start;align-self:start;font-size:14px;margin:0 0 -6px -10px!important;padding:8px 10px}
 input.rp-title{font:300 clamp(30px,4.5vw,44px)/1.1 var(--display);letter-spacing:-.025em;border:1px solid transparent;border-radius:10px;background:none;padding:2px 8px;margin-left:-9px;width:100%;color:var(--ink)}
@@ -2211,8 +2218,12 @@ const statusOf=r=>r.status||(String(r.myNotes||"").trim()?"testing":"idea");
 const shelfCheck=r=>{const miss=(r.rows||[]).filter(x=>!haveMaterial(x.name)).map(x=>x.name);return {miss,ok:!miss.length}};
 let openId=null;
 function openRecipe(id){openId=id;Object.assign(RP,{tab:"recipe",id,logOpen:false,swap:"",cmp:"",lab:null,costBatch:0});showTab("recipe");window.scrollTo({top:0})}
+// a photo file → 640px JPEG data URL (tiles, recipe photos)
+async function shrinkPhoto(fl){const bm=await createImageBitmap(fl),s=Math.min(1,640/Math.max(bm.width,bm.height)),c=document.createElement("canvas");
+  c.width=Math.round(bm.width*s);c.height=Math.round(bm.height*s);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);return c.toDataURL("image/jpeg",.72)}
 function recipeSwatch(r,cls){
   let sw=el("div",{class:cls});sw.style.background="#"+(normHex(r.predicted)||normHex(r.hex)||"D8DAD5");
+  if(r.pic)return el("img",{class:cls+" swphoto",src:r.pic,alt:r.title||""});
   if(r.photo){const im=photoEl(r.photo,r.title,cls+" swphoto");im.onerror=()=>im.replaceWith(sw);return im}
   return sw;
 }
@@ -2397,8 +2408,7 @@ function rpTests(r,cur){
     const photo=el("input",{type:"file",accept:"image/*","aria-label":"Photo of the tile"});let pic="";
     const pickTxt=el("span",{},"Add a photo of the tile",el("small",{text:"Tap to choose one or take a photo"})),pickIcon=el("b",{class:"mplus","aria-hidden":"true",text:"+"});
     const picker=el("label",{class:"photo-pick"},photo,pickIcon,pickTxt);
-    photo.onchange=async()=>{const fl=photo.files[0];if(!fl)return;try{const bm=await createImageBitmap(fl),s=Math.min(1,640/Math.max(bm.width,bm.height)),c=document.createElement("canvas");
-      c.width=Math.round(bm.width*s);c.height=Math.round(bm.height*s);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);pic=c.toDataURL("image/jpeg",.72);
+    photo.onchange=async()=>{const fl=photo.files[0];if(!fl)return;try{pic=await shrinkPhoto(fl);
       pickIcon.replaceWith(pickIcon=el("img",{src:pic,alt:"Tile photo"}));pickTxt.replaceChildren("Photo added",el("small",{text:fl.name+" · tap to change"}))}catch{pic=""}};
     const fld=(l,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:l}),i);
     f.append(el("div",{class:"rp-grid"},fld("Date",dt),fld("Version",ver),fld("Cone",cone),fld("Clay",clay)),fld("Result",pills),fld("How applied",app),fld("Notes",notes),picker,
@@ -2637,7 +2647,15 @@ function renderRecipePage(){
   const del=el("button",{type:"button",class:"linkbtn",text:"Delete"});
   del.onclick=()=>del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, delete",onclick:async()=>{await deleteRecipe(r.id);showTab("saved")}}));
   const back=el("button",{type:"button",class:"linkbtn rp-back",text:"‹ My Studio · Recipes",onclick:()=>showTab("saved")});
-  const head=el("div",{class:"rp-head"},recipeSwatch(r,"rp-sw"),
+  // the swatch is the recipe's photo slot: tap to choose, or drop a photo on it
+  const setPic=async fl=>{if(!fl||!/^image\//.test(fl.type))return;try{await putRecipe({...cur(),pic:await shrinkPhoto(fl)})}catch{savedMsg("Couldn't read that photo.")}};
+  const picIn=el("input",{type:"file",accept:"image/*","aria-label":r.pic?"Change the photo":"Add a photo of this glaze"});picIn.onchange=()=>setPic(picIn.files[0]);
+  const picBox=el("label",{class:"rp-photo",title:r.pic?"Change the photo (or drop one here)":"Add a photo (or drop one here)"},picIn,recipeSwatch(r,"rp-sw"),
+    el("span",{class:"rp-photo-hint","aria-hidden":"true",text:r.pic?"Change":"+ Photo"}));
+  picBox.ondragover=e=>{e.preventDefault();picBox.classList.add("drop")};picBox.ondragleave=()=>picBox.classList.remove("drop");
+  picBox.ondrop=e=>{e.preventDefault();picBox.classList.remove("drop");setPic(e.dataTransfer.files[0])};
+  const picWrap=el("div",{class:"rp-photo-wrap"},picBox,r.pic?el("button",{type:"button",class:"linkbtn rp-photo-x",text:"Remove photo",onclick:()=>{const{pic,...rest}=cur();putRecipe(rest)}}):null);
+  const head=el("div",{class:"rp-head"},picWrap,
     el("div",{class:"rp-id"},ttl,
       el("div",{class:"meta"},[kind,r.cone,r.surface,r.body].filter(Boolean).join(" · ")+(when?" · saved "+when:""),src?" · ":"",src)),
     el("div",{class:"rp-acts"},stSeg,el("div",{class:"links"},copy,el("button",{type:"button",class:"ghost sm",text:"Print",onclick:()=>window.print()}),del)));
