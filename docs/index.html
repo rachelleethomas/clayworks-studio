@@ -3017,15 +3017,27 @@ function renderRecipePage(){
 }
 // close matches at the bottom of a recipe: what's already in your studio near this color, then premade glazes you could buy
 const recipeHex=r=>normHex(r.predicted)||normHex(r.hex)||"";
-// the color of the recipe's photo (yours, else Glazy's; Glazy's CDN allows reading pixels): average of the middle of the frame
+// the color of the recipe's photo (yours, else Glazy's; Glazy's CDN allows reading pixels): the biggest color in the
+// middle of the frame once the background (read from the border) is dropped, so bare clay, shelves and tables don't win
 const PHOTO_HEX=new Map();
 function photoHex(src){
   if(!PHOTO_HEX.has(src))PHOTO_HEX.set(src,new Promise(ok=>{const i=new Image();i.crossOrigin="anonymous";i.onerror=()=>ok("");
-    i.onload=()=>{try{const c=document.createElement("canvas");c.width=c.height=16;const g=c.getContext("2d");
-      g.drawImage(i,i.naturalWidth*.25,i.naturalHeight*.25,i.naturalWidth*.5,i.naturalHeight*.5,0,0,16,16);const d=g.getImageData(0,0,16,16).data,t=[0,0,0];
-      for(let k=0;k<d.length;k+=4){t[0]+=d[k];t[1]+=d[k+1];t[2]+=d[k+2]}ok(t.map(v=>Math.round(v/256).toString(16).padStart(2,"0")).join("").toUpperCase())}catch{ok("")}};
-    i.src=src}));
+    i.onload=()=>{try{ok(mainColor(i))}catch{ok("")}};i.src=src}));
   return PHOTO_HEX.get(src);
+}
+function mainColor(img){
+  const W=64,H=Math.max(8,Math.round(64*img.naturalHeight/img.naturalWidth)),c=document.createElement("canvas");c.width=W;c.height=H;
+  const g=c.getContext("2d",{willReadFrequently:true});g.drawImage(img,0,0,W,H);const d=g.getImageData(0,0,W,H).data,at=(x,y)=>{const k=(y*W+x)*4;return [d[k],d[k+1],d[k+2]]};
+  const border=[];for(let x=0;x<W;x++)border.push(at(x,0),at(x,H-1));for(let y=0;y<H;y++)border.push(at(0,y),at(W-1,y));
+  const bg=[0,1,2].map(j=>border.map(p=>p[j]).sort((a,b)=>a-b)[border.length>>1]),dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
+  let px=[];for(let y=Math.round(H*.2);y<H*.8;y++)for(let x=Math.round(W*.2);x<W*.8;x++)px.push(at(x,y));
+  const fg=px.filter(p=>dist(p,bg)>40);if(fg.length>px.length*.15)px=fg;
+  let cent=[.15,.4,.6,.85].map(q=>{const s=[...px].sort((a,b)=>a[0]+a[1]+a[2]-b[0]-b[1]-b[2]);return s[Math.floor(q*s.length)].slice()}),n=[];
+  for(let it=0;it<10;it++){const sum=cent.map(()=>[0,0,0]);n=cent.map(()=>0);
+    px.forEach(p=>{let bi=0,bd=1e9;cent.forEach((q,j)=>{const dd=dist(p,q);if(dd<bd){bd=dd;bi=j}});sum[bi][0]+=p[0];sum[bi][1]+=p[1];sum[bi][2]+=p[2];n[bi]++});
+    cent=cent.map((q,j)=>n[j]?sum[j].map(v=>v/n[j]):q)}
+  const best=cent[n.indexOf(Math.max(...n))];
+  return best.map(v=>Math.round(v).toString(16).padStart(2,"0")).join("").toUpperCase();
 }
 function rpMatches(r){
   const src=r.pic||(r.photo?glazyPhoto(r.photo):"");
