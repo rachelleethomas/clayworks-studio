@@ -413,7 +413,7 @@ input.rp-title:focus{border-color:var(--purple-300);background:var(--purple-50);
 .rp-table td.ok{color:var(--ok)}
 .rp-table td.miss{color:var(--warn);font-size:12.5px}
 .rp-box textarea{font:400 var(--in-fs)/1.45 var(--body);border-color:var(--purple-100)}
-@media (max-width:860px){.rp-body{grid-template-columns:minmax(0,1fr)}.rp-head{grid-template-columns:auto minmax(0,1fr)}.rp-acts{grid-column:1/-1;justify-items:start}}
+@media (max-width:860px){.rp-body{grid-template-columns:minmax(0,1fr)}.rp-head{grid-template-columns:auto minmax(0,1fr)}.rp-head.cb-head{grid-template-columns:minmax(0,1fr)}.rp-acts{grid-column:1/-1;justify-items:start}}
 @media (max-width:560px){.rp-sw{width:64px;height:64px}}
 .rp-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
 .rp-f{display:grid;gap:6px;text-transform:none;letter-spacing:0;font:inherit;color:inherit}
@@ -481,6 +481,49 @@ td.muted,.muted{color:var(--muted)}
 .idea-more[open] summary{margin-bottom:10px}
 .idea-more .idea-import{padding:12px;background:var(--bg)}
 .bookmarklet{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--purple-100);color:var(--accent-deep);font:500 12.5px var(--body);text-decoration:none;cursor:grab}
+.workseg{max-width:260px;margin-top:-8px}
+.rp-head.cb-head{grid-template-columns:minmax(0,1fr) auto}
+.cb-head .rp-h{font-size:clamp(26px,3.6vw,38px)}
+.cb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px 14px}
+.cb-card{all:unset;box-sizing:border-box;display:grid;gap:8px;cursor:pointer;min-width:0}
+.cb-card:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:16px}
+.cb-card:hover .cb-sw{filter:brightness(.95)}
+.cb-sw{display:block;width:100%;aspect-ratio:1;border-radius:16px;object-fit:cover;border:1px solid var(--line);background:var(--surface)}
+.cb-ct{display:grid;gap:4px;min-width:0}
+.cb-ct b{font:400 17px/1.25 var(--display)}
+.cb-dots{display:flex;gap:4px}
+.cb-dots i{width:12px;height:12px;border-radius:50%;border:1px solid var(--line)}
+.cb-filters{display:flex;flex-wrap:wrap;gap:8px}
+.cb-filters small{font:inherit;opacity:.7;margin-left:6px}
+.cb-for{display:grid;gap:12px}
+.cb-for .cb-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.cb-gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.cb-gal figure,.cb-thumbs figure{position:relative;margin:0}
+.cb-gal img,.cb-big{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.cb-noph{display:grid;gap:6px;max-width:320px}
+.cb-x{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font:500 15px/1 var(--body);padding:0}
+.cb-layers{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.cb-layers li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 10px;align-items:start}
+.cb-layers .rshelf{grid-column:2;margin:0;font-size:13px}
+.cb-lsw{display:inline-block;width:28px;height:28px;border-radius:8px;border:1px solid var(--line);flex:none}
+.cb-lt{display:grid;gap:2px;min-width:0}
+.cb-lt .linkbtn{text-align:left;padding:0}
+.cb-edit{display:grid;gap:16px;max-width:760px}
+.cb-edit h2{margin:0;font:400 28px/1.1 var(--display)}
+.cb-rows{display:grid;gap:12px}
+.cb-row{display:grid;gap:8px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:14px}
+.cb-opts{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.cb-opts select{width:auto}
+.cb-chosen{display:flex;gap:10px;align-items:center;position:relative;padding-right:34px}
+.cb-chosen .cb-x{top:50%;transform:translateY(-50%)}
+.cb-sug{display:grid;gap:2px;margin-top:6px}
+.cb-sug:empty{display:none}
+.cb-sug button{all:unset;box-sizing:border-box;display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px;cursor:pointer}
+.cb-sug button:hover,.cb-sug button:focus-visible{background:var(--purple-50)}
+.cb-sug small{display:block;color:var(--muted);font-size:12.5px}
+.cb-thumbs{display:flex;flex-wrap:wrap;gap:8px}
+.cb-thumbs img{width:88px;height:88px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.cb-add{position:relative}
 .idea-boards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px 16px}
 .idea-cover{all:unset;box-sizing:border-box;display:grid;gap:6px;cursor:pointer;min-width:0}
 .idea-collage{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:2px;aspect-ratio:3/2;border-radius:16px;overflow:hidden;background:var(--purple-50)}
@@ -676,10 +719,15 @@ button,a,summary,label,select{touch-action:manipulation}
 
   <!-- MY WORK: what you're working on (to be designed) -->
   <div class="studio" id="view-work" role="tabpanel" hidden>
+    <div class="seg workseg" id="workSeg" role="radiogroup" aria-label="My Work">
+      <button type="button" role="radio" aria-checked="true" data-sub="ideas">Ideas</button>
+      <button type="button" role="radio" aria-checked="false" data-sub="combos">Combos</button>
+    </div>
     <section class="ideas" id="workIdeas" aria-label="Ideas"></section>
-    <div class="empty">
+    <section class="ideas" id="workCombos" aria-label="Glaze combos" hidden></section>
+    <div class="empty" id="workMore">
       <p style="margin:0;font:400 24px/1.2 var(--display)">More coming soon</p>
-      <p style="margin:0">Next up here: current projects, test tiles waiting for results, and upcoming firings.</p>
+      <p style="margin:0">Next up here: current projects and upcoming firings.</p>
       <div class="links"><button type="button" class="ghost" id="workToDiscover">Find recipes in Discover</button><button type="button" class="ghost" id="workToInventory">See your saved recipes</button></div>
     </div>
   </div>
@@ -941,11 +989,11 @@ const keyOf = it => (it.kind+"-"+(it.brand||"")+"-"+(it.line?it.line+"-":"")+(it
 let sampleNs=null, sampleImages=false;
 
 /* ---------- Studio store (account db, falls back to this browser) ---------- */
-let studio=[], recipes=[], ideas=[], studioColl=null, storeMode="loading";
+let studio=[], recipes=[], ideas=[], combos=[], studioColl=null, storeMode="loading";
 // Saved recipes share the shelf store as docs with kind "recipe", so they sync wherever shelves do.
-function splitDocs(arr){arr=Array.isArray(arr)?arr:[];studio=arr.filter(d=>d&&d.kind!=="recipe"&&d.kind!=="prices"&&d.kind!=="idea");ideas=arr.filter(d=>d&&d.kind==="idea").sort((a,b)=>(a.addedAt||0)-(b.addedAt||0));recipes=arr.filter(d=>d&&d.kind==="recipe").sort((a,b)=>(b.savedAt||0)-(a.savedAt||0));pricesDoc=arr.find(d=>d&&d.kind==="prices")||null}
-const allDocs=()=>[...studio,...recipes,...ideas,...(pricesDoc?[pricesDoc]:[])];
-function loadLocal(){try{splitDocs(JSON.parse(localStorage.getItem("stainlab-studio")||"[]"))}catch{studio=[];recipes=[];ideas=[]}}
+function splitDocs(arr){arr=Array.isArray(arr)?arr:[];studio=arr.filter(d=>d&&d.kind!=="recipe"&&d.kind!=="prices"&&d.kind!=="idea"&&d.kind!=="combo");combos=arr.filter(d=>d&&d.kind==="combo").sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));ideas=arr.filter(d=>d&&d.kind==="idea").sort((a,b)=>(a.addedAt||0)-(b.addedAt||0));recipes=arr.filter(d=>d&&d.kind==="recipe").sort((a,b)=>(b.savedAt||0)-(a.savedAt||0));pricesDoc=arr.find(d=>d&&d.kind==="prices")||null}
+const allDocs=()=>[...studio,...recipes,...ideas,...combos,...(pricesDoc?[pricesDoc]:[])];
+function loadLocal(){try{splitDocs(JSON.parse(localStorage.getItem("stainlab-studio")||"[]"))}catch{studio=[];recipes=[];ideas=[];combos=[]}}
 function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(allDocs()))}catch{}}
 async function addItem(it){
   const clean={kind:it.kind,name:String(it.name||"").slice(0,120),brand:it.brand||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",note:it.note||"",line:it.line||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",...(/^https:\/\//.test(it.img||"")?{img:it.img}:{}),addedAt:Date.now()};
@@ -989,6 +1037,18 @@ async function removeIdeas(ids){
   if(studioColl){for(const id of ids){try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't remove that. "+(e?.message||""))}}}
   else{ideas=ideas.filter(x=>!ids.includes(x.id));saveLocal();renderAll()}
 }
+// Glaze combos (My Work): layers base first, each your recipe ("r:id"), a premade glaze ("p:key"), a shelf item ("s:id") or typed text ("t:name")
+async function putCombo(c){
+  const {id:given,...doc}=c,id=given||"combo-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  doc.kind="combo";doc.addedAt=doc.addedAt||Date.now();
+  if(studioColl){try{await studioColl.doc(id).set(doc)}catch(e){flash("Couldn't save that combo. "+(e?.message||""));return null}}
+  else{const i=combos.findIndex(x=>x.id===id);if(i>=0)combos[i]={id,...doc};else combos.unshift({id,...doc});saveLocal();renderAll()}
+  return id;
+}
+async function deleteCombo(id){
+  if(studioColl){try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't delete that. "+(e?.message||""))}}
+  else{combos=combos.filter(x=>x.id!==id);saveLocal();renderAll()}
+}
 async function initStore(){
   try{
     const [db,user]=await Promise.all([window.claude?.use?.("db"),window.claude?.use?.("user")]);
@@ -1008,7 +1068,7 @@ async function initStore(){
 const SUBS={
   stain:"Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.",
   glaze:"Drop in an inspiration image or hex codes, pick your firing and surface, and get glaze recipes: a base that totals 100 plus colorants, with grams for your batch.",
-  work:"What you're working on right now. This space is still being designed.",
+  work:"Ideas you're collecting and glaze combos you're testing.",
   saved:"Recipes you've saved or written yourself. Tap one to see grams for any batch, what's on your shelves, and your test notes.",
   ask:"Search tested Glazy recipes and your own, or switch to Match colors to get new stain and glaze recipes for a palette or photo.",
   library:"Tested cone 5–6 glazes from Glazy, marked Production by their makers. Search by name, material or color, and save the ones you want to try.",
@@ -1048,7 +1108,7 @@ function showTab(name){
   if(name==="ask"&&dmode==="search"&&!askQuery&&!askItems.length){askItems=askBrowse();renderAsk()}
   if(name==="recipe")renderRecipePage();
   if(name==="premade")renderPremadePage();
-  try{history.replaceState(null,"","#"+(name==="recipe"&&openId?"recipe/"+openId:name==="premade"&&openPremadeKey?"premade/"+encodeURIComponent(openPremadeKey):name))}catch{}
+  try{history.replaceState(null,"","#"+(name==="work"&&WORK.sub==="combos"?(COMBO.open?"combo/"+COMBO.open:"combos"):name==="recipe"&&openId?"recipe/"+openId:name==="premade"&&openPremadeKey?"premade/"+encodeURIComponent(openPremadeKey):name))}catch{}
 }
 document.querySelectorAll("#mineSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
 $("workToDiscover").onclick=()=>showTab("ask");
@@ -2197,8 +2257,173 @@ function renderPin(w,x,list){
         el("h3",{text:"Colors you picked"}),chosen,
         el("div",{class:"links"},matchBtn,picks.length?el("button",{type:"button",class:"linkbtn",text:"Clear",onclick:()=>{picks=[];drawMarks();save()}}):null),
         photoCols.length?el("div",{},el("h3",{text:"Whole photo's colors"}),el("p",{class:"note",text:"Tap one to add it."}),el("div",{class:"pin-pals"},...photoCols)):null,
-        x.href?el("a",{href:x.href,target:"_blank",rel:"noopener",text:"See it on Pinterest"}):null)));
+        el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"Save as a combo",onclick:()=>newCombo({src:x.src,href:x.href,notes:x.title||""})}),
+          x.href?el("a",{href:x.href,target:"_blank",rel:"noopener",text:"See it on Pinterest"}):null))));
   drawMarks()}
+
+/* ---------- Glaze combos (My Work → Combos): layered glazes, base first, with test photos ---------- */
+const WORK={sub:"ideas"},COMBO={open:null,edit:null,filter:"all"};
+const APPS=["Dipped","Brushed","Sprayed","Poured"],BARE="D9CBB8";
+function setWorkSub(sub){WORK.sub=sub;if(sub!=="combos")COMBO.open=null;renderWorkSub();if(tab==="work")showTab("work")}
+function renderWorkSub(){
+  $("workIdeas").hidden=WORK.sub!=="ideas";$("workCombos").hidden=WORK.sub!=="combos";$("workMore").hidden=WORK.sub!=="ideas";
+  document.querySelectorAll("#workSeg button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.sub===WORK.sub)));
+}
+document.querySelectorAll("#workSeg button").forEach(b=>b.onclick=()=>setWorkSub(b.dataset.sub));
+// a layer's live details: name, color, photo, whether it's on hand, and where tapping it goes
+function layerInfo(l){
+  const k=String(l.ref||""),id=k.slice(2);
+  if(k.startsWith("r:")){const r=recipes.find(x=>x.id===id);if(r){const b=bucketsOf(r.id).length;
+    return {name:r.title||l.name,hex:recipeHex(r)||nameHex(r.title||"")||l.hex,img:r.pic||(r.photo?glazyPhoto(r.photo):""),have:b>0||shelfCheck(r).ok,
+      why:b?"mixed bucket on your shelves":shelfCheck(r).ok?"materials on your shelves":"your recipe · missing materials",open:()=>openRecipe(r.id)}}}
+  if(k.startsWith("p:")){const pm=storeItems().find(x=>x.pk===id);if(pm){const have=studio.some(it=>premadeFor(it)?.pk===id);
+    return {name:pm.title,hex:pm.hex||l.hex,img:pm.img,have,why:have?"on your shelves":"premade · not on your shelves",open:()=>openPremade(id)}}}
+  if(k.startsWith("s:")){const it=studio.find(x=>x.id===id);if(it)return {name:[it.brand,it.code,it.name].filter(Boolean).join(" "),hex:normHex(it.hex)||nameHex(it.name)||l.hex,img:it.img||"",have:true,why:"on your shelves",open:()=>showTab("studio")}}
+  return {name:l.name||"Glaze",hex:normHex(l.hex)||nameHex(l.name||""),img:"",have:false,why:k.startsWith("t:")?"typed in":"not in your studio anymore",open:null};
+}
+const comboTitle=c=>c.title||[...(c.layers||[])].reverse().map(l=>layerInfo(l).name).join(" over ")||"Untitled combo";
+const comboHave=c=>(c.layers||[]).length>0&&(c.layers||[]).every(l=>layerInfo(l).have);
+const comboHas=(c,ref)=>(c.layers||[]).some(l=>l.ref===ref);
+// with no photo: a test tile, base dipped deepest, each later layer a little shallower with a wavy dip line
+function comboSwatch(c,cls="cb-sw"){
+  const ph=(c.photos||[])[0]||c.src;
+  if(ph){const im=el("img",{class:cls,src:ph,alt:comboTitle(c),loading:"lazy",referrerpolicy:"no-referrer"});return im}
+  const L=c.layers||[],ns="http://www.w3.org/2000/svg",svg=document.createElementNS(ns,"svg");
+  svg.setAttribute("viewBox","0 0 100 100");svg.setAttribute("class",cls);svg.setAttribute("role","img");svg.setAttribute("aria-label",comboTitle(c));
+  const add=(tag,at)=>{const e=document.createElementNS(ns,tag);Object.entries(at).forEach(([k,v])=>e.setAttribute(k,v));svg.append(e)};
+  add("rect",{x:0,y:0,width:100,height:100,fill:"#"+BARE});
+  L.forEach((l,i)=>{const y=88-i*(60/Math.max(1,L.length)),hex=layerInfo(l).hex||"D8DAD5",w=i%2?3:-3;
+    add("path",{d:`M0 0H100V${y}C80 ${y+w} 70 ${y-w} 50 ${y}S20 ${y+w} 0 ${y}Z`,fill:"#"+hex,"fill-opacity":i?.84:1})});
+  return svg;
+}
+// glazes you can pick for a layer: your recipes and shelves first, then every premade glaze in the catalog
+function layerOptions(q){
+  const words=q.toLowerCase().split(/\s+/).filter(Boolean),hit=t=>words.every(w=>t.toLowerCase().includes(w)),out=[],seen=new Set();
+  const push=o=>{if(!seen.has(o.ref)&&hit(o.name+" "+(o.sub||""))){seen.add(o.ref);out.push(o)}};
+  recipes.filter(r=>r.type==="glaze").forEach(r=>push({ref:"r:"+r.id,name:r.title||"Untitled",hex:recipeHex(r)||nameHex(r.title||""),sub:"Your recipe"}));
+  studio.filter(it=>(it.kind==="glaze"||it.kind==="underglaze")&&!it.recipeId).forEach(it=>{const pm=premadeFor(it);
+    push(pm?{ref:"p:"+pm.pk,name:pm.title,hex:pm.hex,sub:"On your shelves"}:{ref:"s:"+it.id,name:[it.brand,it.code,it.name].filter(Boolean).join(" "),hex:normHex(it.hex)||nameHex(it.name),sub:"On your shelves"})});
+  if(words.length)storeItems().forEach(it=>{if(out.length<40)push({ref:"p:"+it.pk,name:it.title,hex:it.hex,sub:"Premade · "+it.meta})});
+  return out.slice(0,8);
+}
+function newCombo(pre={}){
+  COMBO.edit={layers:[{ref:"",name:"",coats:2,app:"Dipped"},{ref:"",name:"",coats:2,app:"Dipped"}],cone:"Cone 6",clay:"",status:"idea",notes:"",photos:[],...pre};
+  COMBO.open=null;WORK.sub="combos";renderWorkSub();showTab("work");renderCombos();window.scrollTo({top:0});
+}
+function openCombo(id){COMBO.open=id;COMBO.edit=null;WORK.sub="combos";renderWorkSub();showTab("work");renderCombos();window.scrollTo({top:0})}
+function comboCard(c){
+  const have=comboHave(c),st=STATUSES.find(([k])=>k===(c.status||"idea"))[1];
+  return el("button",{type:"button",class:"cb-card",onclick:()=>openCombo(c.id)},comboSwatch(c),
+    el("span",{class:"cb-ct"},el("b",{text:comboTitle(c)}),
+      el("span",{class:"cb-dots"},...(c.layers||[]).map(l=>el("i",{style:"background:#"+(layerInfo(l).hex||"D8DAD5")}))),
+      el("span",{class:"meta",text:[st,c.cone,have?"✓ all on your shelves":""].filter(Boolean).join(" · ")})));
+}
+// a short list of combos for a recipe or premade page
+function combosFor(ref,pre){
+  const list=combos.filter(c=>comboHas(c,ref)),box=el("div",{class:"cb-for"});
+  if(list.length){const g=el("div",{class:"cb-grid"});list.forEach(c=>g.append(comboCard(c)));box.append(g)}
+  else box.append(el("p",{class:"note",text:"No combos with this glaze yet."}));
+  box.append(el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"New combo with this glaze",onclick:()=>newCombo({layers:[{...pre,coats:2,app:"Dipped"},{ref:"",name:"",coats:2,app:"Dipped"}]})})));
+  return box;
+}
+function renderCombos(){
+  const w=$("workCombos");if(!w)return;renderWorkSub();
+  const ae=document.activeElement;if(w.contains(ae)&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))return; // don't clobber typing
+  w.replaceChildren();
+  if(COMBO.edit)return renderComboEdit(w);
+  const open=COMBO.open&&combos.find(c=>c.id===COMBO.open);
+  if(COMBO.open&&!open&&storeMode!=="loading")COMBO.open=null;
+  if(open)return renderComboPage(w,open);
+  w.append(el("div",{class:"ideas-head"},el("div",{},el("h2",{text:"Combos"}),
+      el("p",{class:"note",text:"Glazes layered on each other. Log what you've tried with a photo of the tile, or save one to test later."})),
+    el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"+ New combo",onclick:()=>newCombo()}))));
+  if(!combos.length){w.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"No combos yet. Start one here, from a recipe or premade glaze (Used in → New combo), or from a pin in Ideas (Save as a combo)."})));return}
+  const F=[["all","All"],["have","Can make now"],["keeper","Keepers"],["testing","Testing"],["idea","Ideas"]];
+  const pass=c=>COMBO.filter==="all"||(COMBO.filter==="have"?comboHave(c):(c.status||"idea")===COMBO.filter);
+  w.append(el("div",{class:"filters cb-filters"},...F.map(([k,l])=>el("button",{type:"button","aria-pressed":String(COMBO.filter===k),onclick:()=>{COMBO.filter=k;renderCombos()}},l,
+    el("small",{text:combos.filter(c=>k==="all"||(k==="have"?comboHave(c):(c.status||"idea")===k)).length})))));
+  const shown=combos.filter(pass);
+  if(!shown.length)w.append(el("p",{class:"note",text:COMBO.filter==="have"?"None yet where every layer is on your shelves.":"Nothing here."}));
+  else{const g=el("div",{class:"cb-grid"});shown.forEach(c=>g.append(comboCard(c)));w.append(g)}
+}
+function renderComboPage(w,c){
+  const cur=()=>combos.find(x=>x.id===c.id)||c,save=patch=>putCombo({...cur(),...patch});
+  const st=el("div",{class:"seg rp-status",role:"radiogroup","aria-label":"Status"},...STATUSES.map(([k,l])=>el("button",{type:"button",role:"radio","aria-checked":String((c.status||"idea")===k),onclick:()=>save({status:k})},l)));
+  const del=el("button",{type:"button",class:"linkbtn",text:"Delete"});
+  del.onclick=()=>del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, delete",onclick:async()=>{await deleteCombo(c.id);COMBO.open=null;renderCombos();showTab("work")}}));
+  const photos=[...(c.photos||[])],gal=el("div",{class:"cb-gal"});
+  photos.forEach((ph,i)=>gal.append(el("figure",{},el("img",{src:ph,alt:"Combo photo "+(i+1)}),el("button",{type:"button",class:"cb-x","aria-label":"Remove this photo",text:"×",onclick:()=>save({photos:photos.filter((_,j)=>j!==i)})}))));
+  if(!photos.length)gal.append(el("figure",{class:"cb-noph"},comboSwatch(c,"cb-big"),c.src?el("a",{href:c.href||c.src,target:"_blank",rel:"noopener",class:"meta",text:"Inspiration photo · see the original"}):el("figcaption",{class:"meta",text:"A sketch of the layers until you add a photo of your tile."})));
+  const pin=el("input",{type:"file",accept:"image/*",multiple:true,"aria-label":"Add photos of the tile"});
+  pin.onchange=async()=>{const add=[];for(const fl of [...pin.files].slice(0,6))try{add.push(await shrinkPhoto(fl))}catch{};if(add.length)save({photos:[...photos,...add].slice(0,8)})};
+  const layers=el("ol",{class:"cb-layers"});
+  [...(c.layers||[])].map((l,i)=>[l,i]).reverse().forEach(([l,i])=>{const x=layerInfo(l);
+    layers.append(el("li",{},el("span",{class:"cb-lsw",style:"background:#"+(x.hex||"D8DAD5")}),
+      el("span",{class:"cb-lt"},x.open?el("button",{type:"button",class:"linkbtn",text:x.name,onclick:x.open}):el("b",{text:x.name}),
+        el("span",{class:"meta",text:[i===0?"Base":i===c.layers.length-1?"Top":"Layer "+(i+1),(l.coats||2)+" coat"+((l.coats||2)==1?"":"s"),(l.app||"").toLowerCase()].filter(Boolean).join(" · ")})),
+      el("span",{class:"rshelf "+(x.have?"ok":"miss"),text:(x.have?"✓ ":"○ ")+x.why})))});
+  const notes=el("textarea",{rows:"4",placeholder:"How it came out, thickness, what to try next…","aria-label":"Notes"});notes.value=c.notes||"";
+  notes.onchange=()=>save({notes:notes.value});
+  w.append(el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Combos",onclick:()=>{COMBO.open=null;renderCombos();showTab("work")}}),
+    el("div",{class:"rp-head cb-head"},el("div",{class:"rp-id"},el("h2",{class:"rp-h",text:comboTitle(c)}),
+        el("div",{class:"meta",text:[c.cone,c.clay,c.addedAt?"saved "+fmtDate(c.addedAt):""].filter(Boolean).join(" · ")})),
+      el("div",{class:"rp-acts"},st,el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"Edit",onclick:()=>{COMBO.edit=JSON.parse(JSON.stringify(cur()));renderCombos()}}),del))),
+    el("div",{class:"rp-body"},
+      el("section",{class:"rp-main"},gal,el("label",{class:"photo-pick cb-add"},pin,el("b",{class:"mplus","aria-hidden":"true",text:"+"}),el("span",{},"Add photos of the tile",el("small",{text:"Fired tests, or pieces with this combo"})))),
+      el("aside",{class:"rp-side"},el("div",{class:"rp-box"},el("span",{class:"lbl",text:"Layers, top first"}),layers,
+          comboHave(c)?el("p",{class:"rshelf ok",text:"✓ You can make this now."}):null),
+        el("div",{class:"rp-box"},el("label",{class:"lbl",text:"Notes"}),notes),
+        c.href&&!photos.length?null:c.href?el("div",{class:"rp-box"},el("span",{class:"lbl",text:"Source"}),el("a",{href:c.href,target:"_blank",rel:"noopener",text:"Where this combo came from"})):null)));
+}
+function renderComboEdit(w){
+  const E=COMBO.edit,draw=()=>renderCombos();
+  const rows=el("div",{class:"cb-rows"});
+  E.layers.forEach((l,i)=>{
+    const lab=i===0?"Base (goes on first)":i===E.layers.length-1?"Top":"Layer "+(i+1);
+    let pick;
+    if(l.ref){const x=layerInfo(l);pick=el("div",{class:"cb-chosen"},el("span",{class:"cb-lsw",style:"background:#"+(x.hex||"D8DAD5")}),el("b",{text:x.name}),
+      el("button",{type:"button",class:"cb-x","aria-label":"Change this glaze",text:"×",onclick:()=>{E.layers[i]={...l,ref:"",name:""};draw()}}))}
+    else{const inp=el("input",{type:"search",placeholder:"Search your recipes, shelves or premade glazes","aria-label":lab+" glaze"}),sug=el("div",{class:"cb-sug",role:"listbox"});
+      const show=()=>{sug.replaceChildren();const q=inp.value.trim();
+        layerOptions(q).forEach(o=>sug.append(el("button",{type:"button",role:"option",onclick:()=>{E.layers[i]={...l,ref:o.ref,name:o.name,hex:o.hex||""};draw()}},
+          el("span",{class:"cb-lsw",style:"background:#"+(o.hex||"D8DAD5")}),el("span",{},el("b",{text:o.name}),el("small",{text:o.sub})))));
+        if(q)sug.append(el("button",{type:"button",role:"option",onclick:()=>{E.layers[i]={...l,ref:"t:"+q,name:q,hex:nameHex(q)||""};draw()}},el("span",{class:"cb-lsw"}),el("span",{},el("b",{text:`Use “${q}”`}),el("small",{text:"A glaze that isn't in the app"}))))};
+      inp.oninput=show;inp.onfocus=show;pick=el("div",{class:"cb-search"},inp,sug)}
+    const coats=el("select",{"aria-label":lab+" coats"},...[1,2,3,4].map(n=>el("option",{value:String(n),text:n+" coat"+(n>1?"s":"")})));coats.value=String(l.coats||2);coats.onchange=()=>{l.coats=+coats.value};
+    const app=el("select",{"aria-label":lab+" application"},...APPS.map(a=>el("option",{value:a,text:a})));app.value=l.app||"Dipped";app.onchange=()=>{l.app=app.value};
+    rows.append(el("div",{class:"cb-row"},el("span",{class:"lbl",text:lab}),pick,el("div",{class:"cb-opts"},coats,app,
+      i>0?el("button",{type:"button",class:"linkbtn",text:"↓ Under",title:"Move under the layer below",onclick:()=>{[E.layers[i-1],E.layers[i]]=[E.layers[i],E.layers[i-1]];draw()}}):null,
+      E.layers.length>2?el("button",{type:"button",class:"linkbtn",text:"Remove",onclick:()=>{E.layers.splice(i,1);draw()}}):null)));
+  });
+  const fld=(l,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:l}),i);
+  const cone=el("input",{type:"text",value:E.cone||"","aria-label":"Cone"}),clay=el("input",{type:"text",value:E.clay||"",placeholder:"Porcelain, speckled buff…","aria-label":"Clay body"});
+  const title=el("input",{type:"text",value:E.title||"",placeholder:"Leave blank for “Top over Base”","aria-label":"Name"});
+  const notes=el("textarea",{rows:"3",placeholder:"Thickness, where it breaks, what you saw…","aria-label":"Notes"});notes.value=E.notes||"";
+  const pinIn=el("input",{type:"file",accept:"image/*",multiple:true,"aria-label":"Photos of the tile"}),thumbs=el("div",{class:"cb-thumbs"});
+  const drawThumbs=()=>{thumbs.replaceChildren(...(E.photos||[]).map((ph,j)=>el("figure",{},el("img",{src:ph,alt:""}),el("button",{type:"button",class:"cb-x","aria-label":"Remove this photo",text:"×",onclick:()=>{E.photos.splice(j,1);drawThumbs()}}))))};drawThumbs();
+  pinIn.onchange=async()=>{for(const fl of [...pinIn.files].slice(0,6))try{(E.photos=E.photos||[]).push(await shrinkPhoto(fl))}catch{};E.photos=E.photos.slice(0,8);drawThumbs()};
+  const sync=()=>Object.assign(E,{cone:cone.value.trim(),clay:clay.value.trim(),title:title.value.trim(),notes:notes.value});
+  [cone,clay,title,notes].forEach(x=>x.oninput=sync);
+  const ready=E.layers.filter(l=>l.ref).length>=2,msg=el("p",{class:"note",role:"status"});
+  const f=el("form",{class:"cb-edit",novalidate:true},
+    el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Cancel",onclick:()=>{COMBO.edit=null;renderCombos()}}),
+    el("h2",{text:E.id?"Edit combo":"New combo"}),
+    el("p",{class:"note",text:"Add glazes in the order they go on: base first, top last."}),
+    rows,el("div",{class:"links"},E.layers.length<5?el("button",{type:"button",class:"ghost sm",text:"+ Add a layer",onclick:()=>{E.layers.push({ref:"",name:"",coats:1,app:"Dipped"});draw()}}):null),
+    el("div",{class:"rp-grid"},fld("Name",title),fld("Cone",cone),fld("Clay body",clay)),
+    el("div",{class:"seg rp-status",role:"radiogroup","aria-label":"Status"},...STATUSES.map(([k,l])=>el("button",{type:"button",role:"radio","aria-checked":String((E.status||"idea")===k),onclick:()=>{sync();E.status=k;draw()}},l))),
+    fld("Notes",notes),
+    el("label",{class:"photo-pick"},pinIn,el("b",{class:"mplus","aria-hidden":"true",text:"+"}),el("span",{},"Add photos of the tile",el("small",{text:"Optional. Up to 8."}))),thumbs,
+    E.src?el("p",{class:"note"},"Inspiration: ",el("a",{href:E.href||E.src,target:"_blank",rel:"noopener",text:"the pin this came from"})):null,
+    el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Save combo"}),msg));
+  f.onsubmit=async e=>{e.preventDefault();sync();
+    const layers=E.layers.filter(l=>l.ref).map(l=>({ref:l.ref,name:layerInfo(l).name,hex:layerInfo(l).hex||"",coats:l.coats||2,app:l.app||"Dipped"}));
+    if(layers.length<2){msg.textContent="Pick at least two glazes.";return}
+    const {id,...rest}=E,doc={...rest,layers,updatedAt:Date.now()};
+    const nid=await putCombo(id?{id,...doc}:doc);if(!nid)return;
+    COMBO.edit=null;COMBO.open=nid;renderCombos();showTab("work");window.scrollTo({top:0})};
+  w.append(f);
+}
 
 function renderSaved(){
   const f=$("savedFilters");f.textContent="";
@@ -2560,8 +2785,7 @@ function rpUsed(r){
   const rel=recipes.filter(o=>o.id!==r.id).map(o=>{const om=new Set((o.rows||[]).filter(x=>!x.add).map(x=>matOf(x.name)?.[0]||x.name));
     const shared=[...mats].filter(m=>om.has(m)).length,why=r.glazyId&&o.glazyId===r.glazyId?"same Glazy recipe":r.baseName&&o.baseName===r.baseName?"same base":shared>=Math.max(3,mats.size*.6)?`shares ${shared} base materials`:"";
     return [why,o]}).filter(([w])=>w);
-  main.append(el("span",{class:"lbl",text:"Pieces and combos"}),el("div",{class:"empty"},el("p",{style:"margin:0",text:"Pieces and glaze combos you log in My Work will list this recipe here, with photos of how it came out."}),
-    el("button",{type:"button",class:"ghost sm",text:"Go to My Work",onclick:()=>showTab("work")})));
+  main.append(el("span",{class:"lbl",text:"Combos"}),combosFor("r:"+r.id,{ref:"r:"+r.id,name:r.title||"",hex:recipeHex(r)}));
   main.append(el("span",{class:"lbl",text:"Related recipes"}));
   if(!rel.length)main.append(el("p",{class:"note",text:"No related recipes in your studio yet."}));
   rel.forEach(([why,o])=>main.append(el("button",{type:"button",class:"rp-rel",onclick:()=>openRecipe(o.id)},recipeSwatch(o,"rp-rel-sw"),el("span",{},el("b",{text:o.title||"Untitled"}),el("span",{class:"meta",text:why})))));
@@ -2624,7 +2848,8 @@ function renderPremadePage(){
     el("div",{class:"rp-colorchip",style:"background:#"+(it.hex||"D8DAD5")}),
     el("p",{class:"note",text:it.hex?(it.est?"Estimated from the name: check the store's photo.":"Sampled from the store's photo, so approximate.")+" #"+it.hex:"No color yet."})),
     it.img?el("div",{class:"rp-box"},el("img",{class:"rp-photo",src:it.img,alt:it.title,referrerpolicy:"no-referrer",loading:"lazy"}),el("p",{class:"note",text:"Photo: "+(it.buy?.store||"store")})):null);
-  box.append(el("div",{class:"rp-body"},el("div",{class:"rp-stack"},main,like),side));
+  const cmb=el("section",{class:"rp-main"},el("span",{class:"lbl",text:"Combos"}),combosFor("p:"+it.pk,{ref:"p:"+it.pk,name:it.title,hex:it.hex||""}));
+  box.append(el("div",{class:"rp-body"},el("div",{class:"rp-stack"},main,like,cmb),side));
 }
 function renderRecipePage(){
   const box=$("recipePage"),ae=document.activeElement;
@@ -2817,7 +3042,7 @@ $("ownPanel").addEventListener("submit",async e=>{
   if(id){msg.textContent="";["ownName","ownHex","ownRows"].forEach(i=>$(i).value="");$("ownPanel").hidden=true;savedMsg("Saved “"+title+"”.")}
 });
 
-function renderAll(){updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();renderIdeas();if(tab==="recipe")renderRecipePage()}
+function renderAll(){renderCombos();updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();renderIdeas();if(tab==="recipe")renderRecipePage()}
 
 /* ---------- boot ---------- */
 try{const s=JSON.parse(localStorage.getItem("stainlab-last")||"null");if(s?.colors?.length)last=s}catch{}
@@ -2825,7 +3050,8 @@ $("hexes").value=last.example?"ACB0AB, BAABAB, 48333B":last.colors.map(c=>c.hex)
 try{const g=JSON.parse(localStorage.getItem("stainlab-last-glaze")||"null");if(g?.colors?.length)lastGlaze=g}catch{}
 try{if(localStorage.getItem("stainlab-mode")==="glaze")setMode("glaze")}catch{}
 renderTabs();
-{const h=(location.hash||"").slice(1);if(h.startsWith("recipe/")){openId=decodeURIComponent(h.slice(7));showTab("recipe")}else if(h.startsWith("premade/")){openPremadeKey=decodeURIComponent(h.slice(8));showTab("premade")}else showTab(h||START)}
+{const h=(location.hash||"").slice(1);if(h.startsWith("recipe/")){openId=decodeURIComponent(h.slice(7));showTab("recipe")}else if(h.startsWith("premade/")){openPremadeKey=decodeURIComponent(h.slice(8));showTab("premade")}
+  else if(h==="combos"||h.startsWith("combo/")){WORK.sub="combos";COMBO.open=h.startsWith("combo/")?decodeURIComponent(h.slice(6)):null;showTab("work")}else showTab(h||START)}
 renderAll();
 initStore();
 (()=>{let arr=[];try{arr=JSON.parse(document.getElementById("catalogData").textContent)}catch{}
