@@ -7,7 +7,9 @@ Polite: one request per second per site, honest user agent, robots.txt allows /p
 site used (checked Oct 22 2026). Photos are linked (hotlinked), not copied into the repo.
   - Shopify stores (Sheffield, Laguna): /products/<handle>.json; on range pages ("PC-38 to PC-71")
     each color variant points at its own image, matched by product code.
-  - Everything else (Alligator Clay, Bailey, Pasler): the page's og:image.
+  - Pasler (WooCommerce, no og:image): the public Store API's product images, matched by permalink.
+  - Everything else (Alligator Clay, Bailey): the page's og:image.
+  - No photo at the product's own URL: try its other store offers (e.g. a Laguna dry glaze → the pint page).
 Color: shrink the photo, estimate the background from its border, drop background pixels,
 take the biggest remaining color cluster. Rough, since photos show pots and tiles, but far
 closer than guessing from the product name.
@@ -47,7 +49,11 @@ def page(url):
         _pages[url] = ev = threading.Event(), None
     host = urllib.parse.urlparse(url).netloc
     try:
-        if host in SHOPIFY:
+        if host == "pasler-art.com":
+            api = json.loads(get("https://pasler-art.com/wp-json/wc/store/v1/products?per_page=100"))
+            hit = next((x for x in api if x.get("permalink", "").rstrip("/") == url.rstrip("/")), None)
+            res = {"kind": "og", "first": hit["images"][0]["src"] if hit and hit.get("images") else ""}
+        elif host in SHOPIFY:
             p = json.loads(get(url.split("?")[0] + ".json"))["product"]
             imgs = {i["id"]: i["src"] for i in p.get("images", [])}
             res = {"kind": "shopify", "first": p["images"][0]["src"] if p.get("images") else "",
@@ -116,8 +122,11 @@ def main():
     print(f"{len(items)} products, {len(done)} done, {len(todo)} to go", flush=True)
     lock = threading.Lock(); n = [0]
     def work(it):
-        pg = wait_page(it["url"])
-        src = pick(it, pg, uses[it["url"]] > 1)
+        urls = [it["url"]] + [o["url"] for o in it.get("offers", []) if o.get("url") and o["url"] != it["url"]]
+        src = ""
+        for u in urls:
+            src = pick(it, wait_page(u), uses[u] > 1 if u == it["url"] else True)
+            if src: break
         hexv = ""
         if src:
             try: hexv = color(get(sized(src, 240), binary=True))
