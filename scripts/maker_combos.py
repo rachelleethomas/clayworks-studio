@@ -22,7 +22,7 @@ PREFIX = {"Mayco": ("https://www.maycocolors.com/wp-content/uploads/", "https://
           "Amaco": ("https://amaco.com/asset/", "https://amaco.com/resources/layering/"),
           "Coyote": ("https://www.coyoteclay.com/Images/Shino%20Overlap%20Cups/", "https://www.coyoteclay.com/")}
 # lines that fire at cone 5-6 (a combo needs one of these to be kept)
-MID = {"Mayco": {"SW", "SSW", "S", "SC", "CG", "EL", "SP", "SG", "PC", "FN"}, "Coyote": {"MBG"}, "Amaco": {"PC", "C", "HF", "SM", "DL", "PF", "PG", "TX", "CR", "V", "LUG", "SH", "A", "AR", "OC"}}
+MID = {"Mayco": {"SW", "SSW", "S", "SC", "CG", "EL", "SP", "SG", "PC", "FN"}, "Coyote": {"MBG"}, "Amaco": {"PCF", "PC", "C", "HF", "SM", "DL", "PF", "PG", "TX", "CR", "V", "LUG", "SH", "A", "AR", "OC"}}
 
 
 def get(u, timeout=60, tries=3):
@@ -47,7 +47,7 @@ def norm_code(c):
     return f"{m.group(1).upper()}-{int(m.group(2)):02d}" if m else c.upper()
 
 
-CODE = re.compile(r"\b(mbg|ssw|sw|cg|el|sc|sp|sg|fn|eg|s|pc|c|hf|sm|dl|pf|pg|tx|cr|v|lug|lg|o|f|ug|sh|a|ar|oc|ht|gl|tp)[\s_-]?(\d{1,4})\b", re.I)
+CODE = re.compile(r"\b(mbg|pcf|ssw|sw|cg|el|sc|sp|sg|fn|eg|s|pc|c|hf|sm|dl|pf|pg|tx|cr|v|lug|lg|o|f|ug|sh|a|ar|oc|ht|gl|tp)[\s_-]?(\d{1,4})\b", re.I)
 
 
 def parse(title):
