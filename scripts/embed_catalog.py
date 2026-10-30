@@ -62,4 +62,9 @@ if os.path.exists(mpath):
     mp = open(mpath, encoding="utf-8").read().replace("</", "<\\/")
     new, n = re.subn(r'(<script type="application/json" id="matPrices">)(.*?)(</script>)', lambda m: m.group(1) + mp + m.group(3), new, count=1, flags=re.S)
     assert n == 1, "matPrices block not found"; print("embedded material prices", len(mp), "bytes")
+kpath = os.path.join(R, "catalog", "maker-combos.json")  # scripts/maker_combos.py: Amaco + Mayco combo tiles
+if os.path.exists(kpath):
+    mk = open(kpath, encoding="utf-8").read().replace("</", "<\\/")
+    new, n = re.subn(r'(<script type="application/json" id="makerCombos">)(.*?)(</script>)', lambda m: m.group(1) + mk + m.group(3), new, count=1, flags=re.S)
+    assert n == 1, "makerCombos block not found"; print("embedded maker combos", len(mk), "bytes")
 open(page, "w").write(new); print("embedded", len(data), "bytes")
