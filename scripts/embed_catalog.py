@@ -37,6 +37,16 @@ for fname, store in (("catalog-ceramicshop.json", "The Ceramic Shop"), ("catalog
         if store not in (it.get("source") or ""): it["source"] = ", ".join(filter(None, [it.get("source"), store]))
         if not it.get("url"): it["url"] = main["url"]  # glazes only this store sells now have a link, so they show as Premade
     print(f"attached {store} to", hit, "glazes")
+apath = os.path.join(R, "catalog", "sources", "catalog-ceramicshop-amaco.json")  # scripts/amaco_ceramicshop.py: size per page
+if os.path.exists(apath):
+    asz = {}
+    for x in json.load(open(apath)):
+        if x.get("price"): asz.setdefault(x["code"], []).append([x["size"], float(x["price"])])
+    for it in cat:
+        v = asz.get(it.get("code")) if it.get("brand") == "Amaco" else None
+        if not v: continue
+        it["offers"] = [o for o in (it.get("offers") or []) if o.get("store") != "The Ceramic Shop"] + \
+            [{"store": "The Ceramic Shop", "url": it["url"], "sizes": sorted(v, key=lambda x: x[1])}]
 gpath = os.path.join(R, "catalog", "catalog-glaze-prices.json")  # scripts/catalog_glaze_prices.py: sizes + prices per store
 if os.path.exists(gpath):
     gp = json.load(open(gpath)); hit = 0
