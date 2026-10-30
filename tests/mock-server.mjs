@@ -2,6 +2,8 @@ import http from "node:http";
 import worker from "../worker/worker.js";
 const kv=new Map();
 const USAGE={get:async k=>kv.get(k)??null,put:async(k,v)=>{kv.set(k,v)}};
+// Prod studios copied by scripts/pull_studio.sh into private/studio-<user>.json (gitignored), so local starts with real shelves.
+try{const fs=await import("node:fs"),dir=new URL("../private/",import.meta.url);for(const f of fs.existsSync(dir)?fs.readdirSync(dir):[]){const m=f.match(/^studio-(\w+)\.json$/);if(m){kv.set("studio:"+m[1],fs.readFileSync(new URL(f,dir),"utf8"));console.log("[mock] loaded studio:"+m[1]+" from private/"+f)}}}catch(e){console.log("[mock] couldn't load prod studio:",e.message)}
 const enc=new TextEncoder(),hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
 async function mk(pw,salt){const key=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
  return hex(await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:Uint8Array.from(salt.match(/../g).map(h=>parseInt(h,16))),iterations:100000},key,256))}
