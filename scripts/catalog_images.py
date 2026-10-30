@@ -7,7 +7,8 @@ Polite: one request per second per site, honest user agent, robots.txt allows /p
 site used (checked Oct 22 2026). Photos are linked (hotlinked), not copied into the repo.
   - Shopify stores (Sheffield, Laguna): /products/<handle>.json; on range pages ("PC-38 to PC-71")
     each color variant points at its own image, matched by product code.
-  - Pasler (WooCommerce, no og:image): the public Store API's product images, matched by permalink.
+  - Pasler, Mayco (WooCommerce; Pasler has no og:image, Mayco's is its logo): the public Store API's product images,
+    matched by permalink.
   - Everything else (Alligator Clay, Bailey): the page's og:image.
   - No photo at the product's own URL: try its other store offers (e.g. a Laguna dry glaze → the pint page).
 Color: shrink the photo, estimate the background from its border, drop background pixels,
@@ -41,6 +42,21 @@ def get(url, binary=False):
         data = r.read()
     return data if binary else data.decode("utf-8", "replace")
 
+WOO = {"pasler-art.com", "www.maycocolors.com"}  # WooCommerce: og:image is missing (Pasler) or the site logo (Mayco)
+_woo = {}; _wlock = threading.Lock()
+def woo(host):
+    """All products from a WooCommerce Store API, fetched once per run."""
+    with _wlock:
+        if host not in _woo:
+            out, n = [], 1
+            while True:
+                batch = json.loads(get(f"https://{host}/wp-json/wc/store/v1/products?per_page=100&page={n}"))
+                out += batch
+                if len(batch) < 100: break
+                n += 1; time.sleep(1)
+            _woo[host] = out
+        return _woo[host]
+
 _pages = {}; _plock = threading.Lock()
 def page(url):
     """Cache per URL: range pages are shared by many products."""
@@ -49,9 +65,8 @@ def page(url):
         _pages[url] = ev = threading.Event(), None
     host = urllib.parse.urlparse(url).netloc
     try:
-        if host == "pasler-art.com":
-            api = json.loads(get("https://pasler-art.com/wp-json/wc/store/v1/products?per_page=100"))
-            hit = next((x for x in api if x.get("permalink", "").rstrip("/") == url.rstrip("/")), None)
+        if host in WOO:
+            hit = next((x for x in woo(host) if x.get("permalink", "").rstrip("/") == url.rstrip("/")), None)
             res = {"kind": "og", "first": hit["images"][0]["src"] if hit and hit.get("images") else ""}
         elif host in SHOPIFY:
             p = json.loads(get(url.split("?")[0] + ".json"))["product"]
