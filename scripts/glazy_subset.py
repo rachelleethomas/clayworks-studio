@@ -9,7 +9,8 @@ Glazy's robots.txt blocks AI agents and /api/, /export/ on glazy.org, so only us
 --colors adds "h" (RRGGBB) from the 2021 CSV's rgb_r/g/b, which Glazy notes is usually sampled from a photo
 and "not reliable". Pure 0/255 values (white, black, primaries) are placeholders and skipped.
 
-Keeps: Type Recipe, State Production, Subtype "Glaze...", cone within 5-6 (e.g. "6", "5 - 6").
+Keeps: Type Recipe, State Production, Subtype "Glaze...", every cone (Rachel fires lusters low and other cones in her
+electric kiln; the app filters by firing). Pass --cone56 for the old cone 5-6 subset.
 Output (compact, to keep the page small):
     {"version", "license", "materials": [names], "recipes": [
         {"i": id, "n": name, "a": author, "c": cone, "s": surface, "t": transparency,
@@ -86,7 +87,7 @@ def load_colors(path):
             colors[int(r["id"])] = "%02X%02X%02X" % c
     return colors
 
-def main(src, out, colors=None):
+def main(src, out, colors=None, cone56=False):
     colors = colors or {}
     ppath = os.path.join(os.path.dirname(os.path.abspath(out)), "glazy-photos.json")
     photos = json.load(open(ppath)) if os.path.exists(ppath) else {}
@@ -96,7 +97,7 @@ def main(src, out, colors=None):
         return mat_ix[name]
     for r in parse(src):
         if r.get("Type") != "Recipe" or r.get("State") not in KEEP_STATES: continue
-        if not r.get("Subtype", "").startswith("Glaze") or not cone_5_6(r.get("Cone")): continue
+        if not r.get("Subtype", "").startswith("Glaze") or (cone56 and not cone_5_6(r.get("Cone"))): continue
         base, adds = [], []
         for g in r.get("Ingredients") or []:
             try: pct = round(float(g.get("Percentage", "")), 3)
@@ -126,5 +127,7 @@ if __name__ == "__main__":
     colors = {}
     if "--colors" in args:
         i = args.index("--colors"); colors = load_colors(args[i + 1]); del args[i:i + 2]
+    cone56 = "--cone56" in args
+    if cone56: args.remove("--cone56")
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    main(args[0], args[1] if len(args) > 1 else os.path.join(root, "catalog", "glazy.json"), colors)
+    main(args[0], args[1] if len(args) > 1 else os.path.join(root, "catalog", "glazy.json"), colors, cone56)
