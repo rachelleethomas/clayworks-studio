@@ -154,7 +154,6 @@ header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between
 /* Tabs and switches share one wash-track style */
 .tabs,.seg{display:flex;gap:2px;border:0;border-radius:999px;padding:4px;background:var(--wash)}
 .seg{display:grid;grid-template-columns:1fr 1fr}
-.dmode{grid-template-columns:auto auto;width:auto}
 .tabs button,.seg button{display:inline-flex;align-items:center;justify-content:center;min-height:calc(var(--ctl-h) - 4px);padding:0 var(--ctl-px);
   font:400 var(--ctl-fs)/1 var(--pixel);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;color:var(--accent);
   border:0;border-radius:999px;background:none;cursor:pointer;transition:background .15s,color .15s}
@@ -225,14 +224,14 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .srcb.glazy{background:var(--tint-blue);color:var(--tint-blue-ink)}
 .srcb.mine{background:var(--tint-green);color:var(--tint-green-ink)}
 .srcb.store{background:var(--tint-teal);color:var(--tint-teal-ink)}
+.srcb.combo{background:var(--tint-pink);color:var(--tint-pink-ink)}
 .pill.have{background:var(--tint-green);color:var(--tint-green-ink)}
 .pill.buy{background:var(--tint-orange);color:var(--tint-orange-ink)}
 
 /* ---------- 6 Discover: search box, filter bar, results ---------- */
-.discbar{display:grid;gap:14px;justify-items:start} /* Search · Combos switch, then the search box with Match colors beside it */
+.discbar{display:grid;gap:14px}
 .discrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-self:stretch}
 .discrow .askbox{flex:1 1 420px;min-width:0}
-.discrow[hidden]{display:none}
 .askbox{display:flex;gap:6px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:clamp(4px,3px + .3vw,6px);box-shadow:0 0 0 3px var(--purple-100)}
 .askbox input[type=search]{flex:1;min-width:0;border:0;background:none;font-size:var(--in-fs);padding:clamp(6px,4px + .5vw,10px) clamp(8px,6px + .6vw,12px);text-overflow:ellipsis}
 .askbox input[type=search]:focus{box-shadow:none}
