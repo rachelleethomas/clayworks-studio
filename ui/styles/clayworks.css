@@ -154,7 +154,7 @@ header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between
 /* Tabs and switches share one wash-track style */
 .tabs,.seg{display:flex;gap:2px;border:0;border-radius:999px;padding:4px;background:var(--wash)}
 .seg{display:grid;grid-template-columns:1fr 1fr}
-.dmode{grid-template-columns:repeat(3,auto);width:auto}
+.dmode{grid-template-columns:auto auto;width:auto}
 .tabs button,.seg button{display:inline-flex;align-items:center;justify-content:center;min-height:calc(var(--ctl-h) - 4px);padding:0 var(--ctl-px);
   font:400 var(--ctl-fs)/1 var(--pixel);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;color:var(--accent);
   border:0;border-radius:999px;background:none;cursor:pointer;transition:background .15s,color .15s}

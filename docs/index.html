@@ -179,7 +179,7 @@ header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between
 /* Tabs and switches share one wash-track style */
 .tabs,.seg{display:flex;gap:2px;border:0;border-radius:999px;padding:4px;background:var(--wash)}
 .seg{display:grid;grid-template-columns:1fr 1fr}
-.dmode{grid-template-columns:repeat(3,auto);width:auto}
+.dmode{grid-template-columns:auto auto;width:auto}
 .tabs button,.seg button{display:inline-flex;align-items:center;justify-content:center;min-height:calc(var(--ctl-h) - 4px);padding:0 var(--ctl-px);
   font:400 var(--ctl-fs)/1 var(--pixel);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;color:var(--accent);
   border:0;border-radius:999px;background:none;cursor:pointer;transition:background .15s,color .15s}
@@ -821,12 +821,11 @@ button,a,summary,label,select{touch-action:manipulation}
   <!-- IDEAS: boards of inspiration images -->
   <div class="studio" id="view-ideas" role="tabpanel" hidden><section class="ideas" id="ideasRoot" aria-label="Ideas"></section></div>
 
-  <!-- DISCOVER: Search · Match colors · Maker combos -->
+  <!-- DISCOVER: Search (Match colors opens under it) · Maker combos -->
   <div class="studio" id="view-ask" role="tabpanel" hidden>
     <div class="discbar">
       <div class="seg dmode" role="radiogroup" aria-label="Discover mode">
         <button type="button" role="radio" aria-checked="true" data-dmode="search">Search</button>
-        <button type="button" role="radio" aria-checked="false" data-dmode="match">Match colors</button>
         <button type="button" role="radio" aria-checked="false" data-dmode="combos">Combos</button>
       </div>
       <form class="askbox" id="askForm" novalidate>
@@ -834,6 +833,7 @@ button,a,summary,label,select{touch-action:manipulation}
         <input type="search" id="askQ" autocomplete="off" placeholder="Search Glazy and your recipes: celadon, satin black, Frit 3134, or a hex like 70626E">
         <button class="btn" type="submit" id="askGo">Search</button>
       </form>
+      <button class="ghost" type="button" id="matchBtn" aria-expanded="false" aria-controls="matchPanel">Match colors</button>
     </div>
     <div id="matchPanel" hidden></div>
     <div id="askCombos" hidden></div>
@@ -1398,7 +1398,7 @@ const SUBS={
   combos:"Glazes layered on each other: what you've tried, with photos of the tiles, and what you want to test.",
   ideas:"Boards of pieces, pins and photos you love. Each one's colors are pulled out, ready for Match colors.",
   saved:"Recipes you've saved or written yourself. Tap one to see grams for any batch, what's on your shelves, and your test notes.",
-  ask:"Search tested Glazy recipes, premade glazes and your own. Match colors gets new stain and glaze recipes for a palette or photo; Combos shows makers' layered test tiles.",
+  ask:"Search tested Glazy recipes, premade glazes and your own, or tap Match colors to get stain and glaze recipes for a palette or photo. Combos shows makers' layered test tiles.",
   studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first."};
 let tab="ask";
 const TABS=[["ask","Discover"],["mystudio","My Studio"],["ideas","Ideas"]],START="ask";
@@ -2359,15 +2359,18 @@ function renderAsk(){
 let dmode="search",matchItems=[];
 function setDmode(m){
   dmode=["match","combos"].includes(m)?m:"search";
-  document.querySelectorAll(".dmode button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.dmode===dmode)));
-  $("askForm").hidden=dmode!=="search";$("matchPanel").hidden=dmode!=="match";$("askCombos").hidden=dmode!=="combos";$("askMain").hidden=dmode==="combos";
+  // Match colors isn't its own mode in the switch: it opens under the search box (the Match colors button), and typing a search closes it
+  document.querySelectorAll(".dmode button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.dmode===(dmode==="combos"?"combos":"search"))));
+  $("matchBtn").setAttribute("aria-expanded",String(dmode==="match"));$("matchBtn").textContent=dmode==="match"?"Close color match":"Match colors";
+  $("askForm").hidden=$("matchBtn").hidden=dmode==="combos";$("matchPanel").hidden=dmode!=="match";$("askCombos").hidden=dmode!=="combos";$("askMain").hidden=dmode==="combos";
   if(tab==="ask")setHash();
   if(dmode==="combos")return renderMakers();
   $("askStatus").className="status";$("askStatus").textContent="";askLimit=30;
   if(dmode==="search"){askItems=[];askInstant()}
-  else{askQuery="";askItems=matchItems;if(!matchItems.length)$("askStatus").textContent="Add colors or a photo above, choose what you're making, then Get recipes.";renderAsk()}
+  else{askQuery="";$("askQ").value="";askItems=matchItems;if(!matchItems.length)$("askStatus").textContent="Add colors or a photo above, choose what you're making, then Get recipes.";renderAsk()}
 }
 document.querySelectorAll(".dmode button").forEach(b=>b.onclick=()=>setDmode(b.dataset.dmode));
+$("matchBtn").onclick=()=>setDmode(dmode==="match"?"search":"match");
 // The Color match form lives inside Discover as the Match colors panel.
 $("matchPanel").append($("form"));
 async function afterMatch(){
@@ -2385,8 +2388,8 @@ function askInstant(){ // library + notebook only, no Claude call
   askQuery=q;const P=parseAsk(q);
   askItems=[...askItems.filter(it=>it.src==="new"&&askQuery),...askFromGlazy(P),...askFromMine(P),...askFromStore(P)];renderAsk();
 }
-let askTimer;$("askQ").addEventListener("input",()=>{clearTimeout(askTimer);askTimer=setTimeout(askInstant,200)});
-$("askForm").addEventListener("submit",e=>{e.preventDefault();askInstant()});
+let askTimer;$("askQ").addEventListener("input",()=>{clearTimeout(askTimer);askTimer=setTimeout(()=>dmode==="match"?setDmode("search"):askInstant(),200)});
+$("askForm").addEventListener("submit",e=>{e.preventDefault();dmode==="match"?setDmode("search"):askInstant()});
 
 /* ---------- Saved recipes ---------- */
 let savedFilter="all";
