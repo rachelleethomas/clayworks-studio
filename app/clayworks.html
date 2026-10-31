@@ -122,13 +122,12 @@ header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between
 .topbar .tabs{justify-self:center}
 .acct{justify-self:end;position:relative}
 .intro{display:grid;gap:4px;margin-top:-4px}
-.grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:28px;align-items:start}
 .studio{display:grid;gap:22px;grid-template-columns:minmax(0,1fr)} /* one column that never grows past the screen */
-.mineseg{max-width:340px;margin-top:-8px}
+.seg.mineseg{max-width:520px;margin-top:-8px;grid-template-columns:repeat(4,minmax(0,1fr))}
+.askmain{display:grid;gap:22px;min-width:0}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .field{display:grid;gap:6px}
 .links{display:flex;flex-wrap:wrap;gap:8px 12px;font-size:13px;align-items:center}
-@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:880px){ /* tabs get their own row before they can collide with the wordmark */
   .topbar{grid-template-columns:1fr auto;row-gap:10px}
   .topbar .tabs{grid-column:1/-1;grid-row:2;justify-self:stretch;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -157,7 +156,7 @@ header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between
 /* Tabs and switches share one wash-track style */
 .tabs,.seg{display:flex;gap:2px;border:0;border-radius:999px;padding:4px;background:var(--wash)}
 .seg{display:grid;grid-template-columns:1fr 1fr}
-.dmode{grid-template-columns:auto auto;width:auto}
+.dmode{grid-template-columns:repeat(3,auto);width:auto}
 .tabs button,.seg button{display:inline-flex;align-items:center;justify-content:center;min-height:calc(var(--ctl-h) - 4px);padding:0 var(--ctl-px);
   font:400 var(--ctl-fs)/1 var(--pixel);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;color:var(--accent);
   border:0;border-radius:999px;background:none;cursor:pointer;transition:background .15s,color .15s}
@@ -466,7 +465,7 @@ td.muted,.muted{color:var(--muted)}
 @media print{.topbar,.rp-nav,.rp-acts,.rp-back,.rp-scale,.rp-side,.rp-matches,#mineSeg{display:none!important}.rp-body{grid-template-columns:1fr}.rp-main{box-shadow:none;border:0}}
 .savedtools{display:flex;gap:8px;align-items:center;flex:0 1 420px;min-width:0}
 .savedtools input{flex:1 1 auto;min-width:0}
-/* My Work: Ideas (boards of inspiration images, Pinterest-style columns) */
+/* Ideas, Combos and Work share these: a section head, then cards (Ideas = boards of inspiration images, Pinterest-style columns) */
 .ideas{display:grid;gap:18px}
 .ideas-head{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:end}
 .ideas-head h2{margin:0;font:400 28px/1.1 var(--display)}
@@ -496,7 +495,26 @@ td.muted,.muted{color:var(--muted)}
 .cb-filters{display:flex;flex-wrap:wrap;gap:8px}
 .cb-filters small{font:inherit;opacity:.7;margin-left:6px}
 .cb-for{display:grid;gap:12px}
-.mk{display:grid;gap:14px;margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}
+.pc-board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:start}
+.pc-col{display:grid;gap:10px;align-content:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px}
+.pc-col h3{margin:0;display:flex;justify-content:space-between;align-items:baseline;font:500 11px/1.2 var(--pixel);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.pc-col h3 small{font:inherit}
+.pc-card{display:grid;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:8px}
+.pc-open{all:unset;box-sizing:border-box;display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;align-items:start;cursor:pointer;min-width:0}
+.pc-open .cb-ct b{font-size:15.5px}
+.pc-open .meta{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:12.5px}
+.pc-open:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.pc-th{display:block;width:44px;height:44px;border-radius:10px;object-fit:cover;border:1px solid var(--line);background:var(--surface)}
+.pc-sw{background:var(--surface)}
+.pc-next{justify-self:end}
+.pc-stages{grid-template-columns:repeat(5,auto)}
+.pc-times{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.pc-times li{display:flex;justify-content:space-between;gap:10px;color:var(--muted)}
+.pc-times li.on{color:var(--ink)}
+.pc-glaze{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:center}
+.pc-mini{display:grid;gap:8px}
+@media (max-width:860px){.pc-board{grid-template-columns:minmax(0,1fr)}.pc-col.is-empty{display:none}.pc-stages{grid-template-columns:repeat(3,auto)}}
+.mk{display:grid;gap:14px}
 .mk-list{display:grid;gap:14px}
 .cb-sw.mk-sw{aspect-ratio:3/4}
 .mk-sep{width:1px;align-self:stretch;background:var(--line);margin:0 4px}
@@ -710,7 +728,7 @@ button,a,summary,label,select{touch-action:manipulation}
 
 <div class="wrap">
   <header class="topbar">
-    <a class="brand" href="#recipes" aria-label="Your Studio, home"><span class="mark" aria-hidden="true"></span><span class="brand-name">Your Studio</span></a>
+    <a class="brand" href="#ask" aria-label="Your Studio, home"><span class="mark" aria-hidden="true"></span><span class="brand-name">Your Studio</span></a>
     <div class="tabs" role="tablist" aria-label="Sections" id="tabs"></div>
     <div class="acct" id="acct"></div>
   </header>
@@ -720,31 +738,28 @@ button,a,summary,label,select{touch-action:manipulation}
   </div>
 
   <div class="seg mineseg" id="mineSeg" role="radiogroup" aria-label="My Studio" hidden>
-    <button type="button" role="radio" aria-checked="true" data-sub="saved">Recipes</button>
+    <button type="button" role="radio" aria-checked="true" data-sub="work">Work</button>
+    <button type="button" role="radio" aria-checked="false" data-sub="saved">Recipes</button>
+    <button type="button" role="radio" aria-checked="false" data-sub="combos">Combos</button>
     <button type="button" role="radio" aria-checked="false" data-sub="studio">Shelves</button>
   </div>
 
-  <!-- MY WORK: what you're working on (to be designed) -->
-  <div class="studio" id="view-work" role="tabpanel" hidden>
-    <div class="seg workseg" id="workSeg" role="radiogroup" aria-label="My Work">
-      <button type="button" role="radio" aria-checked="true" data-sub="ideas">Ideas</button>
-      <button type="button" role="radio" aria-checked="false" data-sub="combos">Combos</button>
-    </div>
-    <section class="ideas" id="workIdeas" aria-label="Ideas"></section>
-    <section class="ideas" id="workCombos" aria-label="Glaze combos" hidden></section>
-    <div class="empty" id="workMore">
-      <p style="margin:0;font:400 24px/1.2 var(--display)">More coming soon</p>
-      <p style="margin:0">Next up here: current projects and upcoming firings.</p>
-      <div class="links"><button type="button" class="ghost" id="workToDiscover">Find recipes in Discover</button><button type="button" class="ghost" id="workToInventory">See your saved recipes</button></div>
-    </div>
-  </div>
+  <!-- MY STUDIO → WORK: pieces, from in progress to finished -->
+  <div class="studio" id="view-work" role="tabpanel" hidden><section class="ideas" id="piecesRoot" aria-label="Work"></section></div>
 
-  <!-- ASK (Ask the studio layout) -->
+  <!-- MY STUDIO → COMBOS: glazes layered on each other -->
+  <div class="studio" id="view-combos" role="tabpanel" hidden><section class="ideas" id="combosRoot" aria-label="Glaze combos"></section></div>
+
+  <!-- IDEAS: boards of inspiration images -->
+  <div class="studio" id="view-ideas" role="tabpanel" hidden><section class="ideas" id="ideasRoot" aria-label="Ideas"></section></div>
+
+  <!-- DISCOVER: Search · Match colors · Maker combos -->
   <div class="studio" id="view-ask" role="tabpanel" hidden>
     <div class="discbar">
       <div class="seg dmode" role="radiogroup" aria-label="Discover mode">
         <button type="button" role="radio" aria-checked="true" data-dmode="search">Search</button>
         <button type="button" role="radio" aria-checked="false" data-dmode="match">Match colors</button>
+        <button type="button" role="radio" aria-checked="false" data-dmode="combos">Combos</button>
       </div>
       <form class="askbox" id="askForm" novalidate>
         <label for="askQ" class="sr-only">Search recipes</label>
@@ -753,6 +768,8 @@ button,a,summary,label,select{touch-action:manipulation}
       </form>
     </div>
     <div id="matchPanel" hidden></div>
+    <div id="askCombos" hidden></div>
+    <div class="askmain" id="askMain">
     <div id="askBar"></div>
     <div class="fcount"><p class="note" id="askCount" role="status"></p><div id="askSort"></div></div>
     <p class="status" id="askStatus" role="status"></p>
@@ -760,10 +777,12 @@ button,a,summary,label,select{touch-action:manipulation}
       <div id="askResults"></div>
       <button class="ghost" type="button" id="askMore" hidden>Show more</button>
     </section>
+    <p class="note" id="askCredit">Glazy recipes are by their contributors on <a href="https://glazy.org" target="_blank" rel="noopener">Glazy</a>, shared under CC BY-NC-SA 4.0: glazes at every cone marked Production. Each card links to its original.</p>
+    </div>
   </div>
 
-  <!-- RECIPES -->
-  <div class="grid" id="view-recipes" role="tabpanel">
+  <!-- COLOR MATCH: the form moves into Discover → Match colors at boot; #board is the old results column, never shown -->
+  <div id="colorMatch" hidden>
     <form class="rail mform" id="form" novalidate>
       <div class="seg" role="radiogroup" aria-label="Recipe type">
         <button type="button" role="radio" aria-checked="false" data-mode="glaze">Glaze</button>
@@ -856,21 +875,6 @@ button,a,summary,label,select{touch-action:manipulation}
       <div class="links"><button class="btn" type="submit">Save recipe</button><button class="linkbtn" type="button" id="ownCancel">Cancel</button><span class="status" id="ownMsg"></span></div>
     </form>
     <div class="savedgrid" id="savedList"></div>
-  </div>
-
-  <!-- LIBRARY -->
-  <div class="studio" id="view-library" role="tabpanel" hidden>
-      <div class="gtools">
-        <input type="search" id="gq" placeholder="Search Glazy recipes: name, material, or a hex like 70626E" aria-label="Search Glazy recipes" autocomplete="off">
-
-
-      </div>
-      <div class="fbarhead"><button class="ghost sm ftoggle" type="button" id="gFiltToggle" aria-controls="gFilters" aria-expanded="true">Hide filters</button></div>
-      <div class="gfilters" id="gFilters"></div>
-      <p class="note" id="gCount"></p>
-      <div class="savedgrid" id="gList"></div>
-      <button class="ghost" type="button" id="gMore" hidden>Show more</button>
-      <p class="note" id="gCredit"></p>
   </div>
 
   <!-- STUDIO -->
@@ -997,11 +1001,11 @@ const keyOf = it => (it.kind+"-"+(it.brand||"")+"-"+(it.line?it.line+"-":"")+(it
 let sampleNs=null, sampleImages=false;
 
 /* ---------- Studio store (account db, falls back to this browser) ---------- */
-let studio=[], recipes=[], ideas=[], combos=[], studioColl=null, storeMode="loading";
+let studio=[], recipes=[], ideas=[], combos=[], pieces=[], studioColl=null, storeMode="loading";
 // Saved recipes share the shelf store as docs with kind "recipe", so they sync wherever shelves do.
-function splitDocs(arr){arr=Array.isArray(arr)?arr:[];studio=arr.filter(d=>d&&d.kind!=="recipe"&&d.kind!=="prices"&&d.kind!=="idea"&&d.kind!=="combo");combos=arr.filter(d=>d&&d.kind==="combo").sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));ideas=arr.filter(d=>d&&d.kind==="idea").sort((a,b)=>(a.addedAt||0)-(b.addedAt||0));recipes=arr.filter(d=>d&&d.kind==="recipe").sort((a,b)=>(b.savedAt||0)-(a.savedAt||0));pricesDoc=arr.find(d=>d&&d.kind==="prices")||null}
-const allDocs=()=>[...studio,...recipes,...ideas,...combos,...(pricesDoc?[pricesDoc]:[])];
-function loadLocal(){try{splitDocs(JSON.parse(localStorage.getItem("stainlab-studio")||"[]"))}catch{studio=[];recipes=[];ideas=[];combos=[]}}
+function splitDocs(arr){arr=Array.isArray(arr)?arr:[];studio=arr.filter(d=>d&&d.kind!=="recipe"&&d.kind!=="prices"&&d.kind!=="idea"&&d.kind!=="combo"&&d.kind!=="piece");pieces=arr.filter(d=>d&&d.kind==="piece").sort((a,b)=>(b.updatedAt||b.addedAt||0)-(a.updatedAt||a.addedAt||0));combos=arr.filter(d=>d&&d.kind==="combo").sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));ideas=arr.filter(d=>d&&d.kind==="idea").sort((a,b)=>(a.addedAt||0)-(b.addedAt||0));recipes=arr.filter(d=>d&&d.kind==="recipe").sort((a,b)=>(b.savedAt||0)-(a.savedAt||0));pricesDoc=arr.find(d=>d&&d.kind==="prices")||null}
+const allDocs=()=>[...studio,...recipes,...ideas,...combos,...pieces,...(pricesDoc?[pricesDoc]:[])];
+function loadLocal(){try{splitDocs(JSON.parse(localStorage.getItem("stainlab-studio")||"[]"))}catch{studio=[];recipes=[];ideas=[];combos=[];pieces=[]}}
 function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(allDocs()))}catch{}}
 async function addItem(it){
   const clean={kind:it.kind,name:String(it.name||"").slice(0,120),brand:it.brand||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",note:it.note||"",line:it.line||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",...(/^https:\/\//.test(it.img||"")?{img:it.img}:{}),addedAt:Date.now()};
@@ -1036,7 +1040,7 @@ async function deleteRecipe(id){
   if(studioColl){try{await studioColl.doc(id).delete()}catch(e){savedMsg("Couldn't delete that. "+(e?.message||""))}}
   else{recipes=recipes.filter(r=>r.id!==id);saveLocal();renderAll()}
 }
-// Ideas (My Work): inspiration images, kind "idea", grouped by board
+// Ideas: inspiration images, kind "idea", grouped by board
 async function putIdeas(list){
   if(studioColl){for(const {id,...doc} of list){try{await studioColl.doc(id).set(doc)}catch(e){flash("Couldn't save that idea. "+(e?.message||""));return}}}
   else{list.forEach(x=>{const i=ideas.findIndex(y=>y.id===x.id);if(i>=0)ideas[i]=x;else ideas.push(x)});saveLocal();renderAll()}
@@ -1045,7 +1049,7 @@ async function removeIdeas(ids){
   if(studioColl){for(const id of ids){try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't remove that. "+(e?.message||""))}}}
   else{ideas=ideas.filter(x=>!ids.includes(x.id));saveLocal();renderAll()}
 }
-// Glaze combos (My Work): layers base first, each your recipe ("r:id"), a premade glaze ("p:key"), a shelf item ("s:id") or typed text ("t:name")
+// Glaze combos (My Studio → Combos): layers base first, each your recipe ("r:id"), a premade glaze ("p:key"), a shelf item ("s:id") or typed text ("t:name")
 async function putCombo(c){
   const {id:given,...doc}=c,id=given||"combo-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
   doc.kind="combo";doc.addedAt=doc.addedAt||Date.now();
@@ -1056,6 +1060,18 @@ async function putCombo(c){
 async function deleteCombo(id){
   if(studioColl){try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't delete that. "+(e?.message||""))}}
   else{combos=combos.filter(x=>x.id!==id);saveLocal();renderAll()}
+}
+// Pieces (My Studio → Work): things you're making, kind "piece", stage making → drying → bisqued → glazed → finished; glaze = a combo ("c:id") or a layer ref
+async function putPiece(p){
+  const {id:given,...doc}=p,id=given||"piece-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  doc.kind="piece";doc.addedAt=doc.addedAt||Date.now();doc.updatedAt=Date.now();
+  if(studioColl){try{await studioColl.doc(id).set(doc)}catch(e){flash("Couldn't save that piece. "+(e?.message||""));return null}}
+  else{const i=pieces.findIndex(x=>x.id===id);if(i>=0)pieces.splice(i,1);pieces.unshift({id,...doc});saveLocal();renderAll()}
+  return id;
+}
+async function deletePiece(id){
+  if(studioColl){try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't delete that. "+(e?.message||""))}}
+  else{pieces=pieces.filter(x=>x.id!==id);saveLocal();renderAll()}
 }
 async function initStore(){
   try{
@@ -1076,23 +1092,23 @@ async function initStore(){
 const SUBS={
   stain:"Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.",
   glaze:"Drop in an inspiration image or hex codes, pick your firing and surface, and get glaze recipes: a base that totals 100 plus colorants, with grams for your batch.",
-  work:"Ideas you're collecting and glaze combos you're testing.",
+  work:"Pieces you're making, from wet clay to out of the glaze kiln. Move each one along as it goes.",
+  combos:"Glazes layered on each other: what you've tried, with photos of the tiles, and what you want to test.",
+  ideas:"Boards of pieces, pins and photos you love. Each one's colors are pulled out, ready for Match colors.",
   saved:"Recipes you've saved or written yourself. Tap one to see grams for any batch, what's on your shelves, and your test notes.",
-  ask:"Search tested Glazy recipes and your own, or switch to Match colors to get new stain and glaze recipes for a palette or photo.",
-  library:"Tested glazes from Glazy at every cone, marked Production by their makers. Search by name, material or color, filter by firing, and save the ones you want to try.",
+  ask:"Search tested Glazy recipes, premade glazes and your own. Match colors gets new stain and glaze recipes for a palette or photo; Combos shows makers' layered test tiles.",
   studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first."};
-let tab="recipes";
-// Two layouts, picked from the profile menu. "studio" (B1) is the default; "ask" (A4) is the prompt-first one.
-const TABS=[["ask","Discover"],["mystudio","My Studio"],["work","My Work"]],START="ask";
-// "My Studio" holds two views, switched by a small segmented control under the title.
-const GROUPS={mystudio:{subs:["saved","studio"],seg:"mineSeg",title:"My Studio"}};
-const groupSub={mystudio:"saved"};
-const VIEWS=["ask","work","recipes","library","saved","studio","recipe","premade"];
-const TITLES={ask:"Discover",work:"My Work",recipes:"Color match",library:"Glazy library",saved:"My recipes",studio:"Shelves",recipe:"Recipe",premade:"Premade glaze"};
-const TAB_ICONS={ // 24px line icons for the phone tab bar: a loupe over a drip, jars on a shelf, a pot on a wheel
+let tab="ask";
+const TABS=[["ask","Discover"],["mystudio","My Studio"],["ideas","Ideas"]],START="ask";
+// "My Studio" holds four views, switched by a segmented control under the title.
+const GROUPS={mystudio:{subs:["work","saved","combos","studio"],seg:"mineSeg",title:"My Studio"}};
+const groupSub={mystudio:"work"};
+const VIEWS=["ask","ideas","work","saved","combos","studio","recipe","premade"];
+const TITLES={ask:"Discover",ideas:"Ideas",work:"Work",saved:"Recipes",combos:"Combos",studio:"Shelves",recipe:"Recipe",premade:"Premade glaze"};
+const TAB_ICONS={ // 24px line icons for the phone tab bar: a loupe over a drip, jars on a shelf, a board of pins
   ask:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 20 20"/><path d="M8 9.5c1-1.6 3-2 4.5-.6"/></svg>',
   mystudio:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M3 13h18"/><rect x="5" y="6" width="4.5" height="7" rx="1.2"/><rect x="11.5" y="8" width="4" height="5" rx="1.2"/><rect x="6" y="15.5" width="5" height="4.5" rx="1.2"/><rect x="13" y="15" width="5" height="5" rx="1.2"/></svg>',
-  work:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5h7c-.6 1.7-.4 3 .9 4.6 1.6 2 1.9 4.6.6 6.9H7c-1.3-2.3-1-4.9.6-6.9C8.9 8 9.1 6.7 8.5 5Z"/><path d="M4 19.5h16"/></svg>'};
+  ideas:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="9" rx="1.5"/><rect x="13" y="4" width="7" height="5" rx="1.5"/><rect x="4" y="15" width="7" height="5" rx="1.5"/><rect x="13" y="11" width="7" height="9" rx="1.5"/></svg>'};
 function renderTabs(){
   const t=$("tabs");t.textContent="";
   TABS.forEach(([k,v])=>{const b=el("button",{role:"tab",id:"tab-"+k,type:"button","aria-selected":"false",onclick:()=>showTab(k)});
@@ -1100,27 +1116,32 @@ function renderTabs(){
 }
 function showTab(name){
   if(GROUPS[name])name=groupSub[name];
-  if(name==="recipes"){name="ask";setTimeout(()=>setDmode("match"))} // Color match now lives in Discover
+  const dm={recipes:"match",match:"match",library:"search",makers:"combos"}[name]; // old and mode hashes all land in Discover
+  if(dm){name="ask";setTimeout(()=>setDmode(dm))}
   if(!VIEWS.includes(name))name=START;
   tab=name;
   const grp=name==="recipe"?"mystudio":Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name));
   if(grp&&name!=="recipe")groupSub[grp]=name;
   document.querySelector(".intro").hidden=name==="recipe"||name==="premade";
   VIEWS.forEach(v=>$("view-"+v).hidden=v!==name);
-  [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+(grp||(name==="recipes"||name==="library"?"ask":name==="premade"?(premadeFrom==="studio"?"mystudio":"ask"):name)))));
+  [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+(grp||(name==="premade"?(premadeFrom==="studio"?"mystudio":"ask"):name)))));
   Object.entries(GROUPS).forEach(([g,G])=>{$(G.seg).hidden=g!==grp||name==="recipe";
     document.querySelectorAll("#"+G.seg+" button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.sub===name)))});
-  $("sub").textContent=SUBS[name==="recipes"?mode:name];
+  $("sub").textContent=SUBS[name]||"";
   $("pageTitle").textContent=(grp&&GROUPS[grp].title)||TITLES[name];
-  if(name==="library")renderGlazy();
+  if(name==="work")renderPieces();
+  if(name==="combos")renderCombos();
   if(name==="ask"&&dmode==="search"&&!askQuery&&!askItems.length){askItems=askBrowse();renderAsk()}
   if(name==="recipe")renderRecipePage();
   if(name==="premade")renderPremadePage();
-  try{history.replaceState(null,"","#"+(name==="work"&&WORK.sub==="combos"?(COMBO.open?"combo/"+COMBO.open:"combos"):name==="recipe"&&openId?"recipe/"+openId:name==="premade"&&openPremadeKey?"premade/"+encodeURIComponent(openPremadeKey):name))}catch{}
+  setHash();
+}
+function setHash(){
+  const h=tab==="combos"&&COMBO.open?"combo/"+COMBO.open:tab==="work"&&PIECE.open?"piece/"+PIECE.open:tab==="recipe"&&openId?"recipe/"+openId:
+    tab==="premade"&&openPremadeKey?"premade/"+encodeURIComponent(openPremadeKey):tab==="ask"&&dmode!=="search"?(dmode==="combos"?"makers":"match"):tab;
+  try{history.replaceState(null,"","#"+h)}catch{}
 }
 document.querySelectorAll("#mineSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
-$("workToDiscover").onclick=()=>showTab("ask");
-$("workToInventory").onclick=()=>showTab("saved");
 document.querySelector(".brand").onclick=e=>{e.preventDefault();showTab(START);window.scrollTo({top:0,behavior:"smooth"})};
 $("goStudio").onclick=()=>showTab("studio");
 
@@ -1134,7 +1155,6 @@ function setMode(m){
   $("go").textContent=mode==="glaze"?"Get glaze recipes":"Get recipes";
   $("invLbl").textContent=mode==="glaze"?"On hand":"Stains on hand";
   $("preferLbl").textContent=mode==="glaze"?"Prefer materials I already have":"Prefer stains I already have";
-  if(tab==="recipes")$("sub").textContent=SUBS[mode];
   $("status").textContent="";
   try{localStorage.setItem("stainlab-mode",mode)}catch{}
   renderInv();render();
@@ -1679,43 +1699,7 @@ const glazyLine=r=>`#${r.id} "${r.name}" (${[r.surface,r.opacity].filter(Boolean
   r.rows.filter(x=>!x.add).map(x=>x.name+" "+x.pct).join(", ")+(r.rows.some(x=>x.add)?"; additions: "+r.rows.filter(x=>x.add).map(x=>x.name+" "+x.pct).join(", "):"");
 const glazyRecipe=r=>({type:"glaze",title:r.name,hex:r.hex||"",photo:r.photo||"",cone:"Cone "+r.cone,surface:[r.surface,r.opacity.toLowerCase()].filter(Boolean).join(", "),
   rows:r.rows,note:r.desc,batchG:1000,source:"glazy",glazyId:r.id,glazyUrl:glazyUrl(r.id),author:r.author});
-let gShown=30;
-let GF=null;
-function renderGlazy(){
-  if(!GF){GF=filterUI("gf",{onChange:()=>{gShown=30;renderGlazy()}});$("gFilters").append(GF.chips,GF.side);
-    renderGlazy.paint=filterToggle($("gFiltToggle"),"cw-filters-lib",open=>{$("gFilters").hidden=!open},()=>GF.state())}
-  const G=glazy(),raw=$("gq").value.trim(),S=GF.state();renderGlazy.paint();
-  const near=/^#?[0-9a-f]{6}$/i.test(raw)?normHex(raw):null,q=near?"":raw.toLowerCase();
-  $("gCredit").textContent="";
-  $("gCredit").append("Recipes from ",el("a",{href:"https://glazy.org",target:"_blank",rel:"noopener",text:"Glazy"}),
-    ` contributors, shared under CC BY-NC-SA 4.0. Glazes at every cone marked Production, from the Glazy export dated ${G.version.replace(/(\d{4})(\d\d)(\d\d)/,"$1-$2-$3")||"(unknown)"}. Photos load from Glazy for recipes you've collected from its Print page; swatches are approximate colors from Glazy's 2021 data. Open a recipe on Glazy for all of its photos. Each recipe credits its author; always test before using on ware.`);
-  let list=G.recipes.map(glazyItem).filter(it=>(!q||q.split(/\s+/).every(t=>it.hay.includes(t)))&&(!near||it.hex)&&passes(it,S));
-  if(near)list=list.map(it=>[hexDist(near,it.hex),it]).filter(([d])=>d<70).sort((a,b)=>a[0]-b[0]).map(([,it])=>it);
-  else list=sortItems(list,S,(a,b)=>(!!b.photo-!!a.photo)||(!!b.hex-!!a.hex));
-  $("gCount").textContent=`${list.length.toLocaleString()} of ${G.recipes.length.toLocaleString()} recipes`+(near?` with a 2021 swatch near #${near}, closest first`:"");
-  const box=$("gList");box.textContent="";
-  const note=stainNote(S);if(note)box.append(note);
-  list.slice(0,gShown).forEach(it=>box.append(glazyCard(it.rec)));
-  $("gMore").hidden=list.length<=gShown;
-}
-function glazyCard(r){
-  const t=baseTotal(r);
-  let band=null;if(r.photo)band=photoEl(r.photo,r.name);else if(r.hex){band=el("div",{class:"gsw",title:"Approximate color from Glazy's 2021 data, usually sampled from a photo"},el("span",{text:"≈ #"+r.hex+" · 2021"}));band.style.background="#"+r.hex}
-  return el("article",{class:"rcard"},band,el("div",{class:"in",style:r.hex||r.photo?"":"padding-top:14px"},
-    el("h4",{text:r.name}),
-    el("div",{class:"meta",text:[`Glazy #${r.id}`,r.author,"cone "+r.cone,r.surface,r.opacity,r.atm.join("/")].filter(Boolean).join(" · ")}),
-    r.desc?el("p",{class:"note",text:r.desc}):null,
-    recipeTable(r.rows,0),
-    Math.abs(t-100)>0.6?el("p",{class:"note",text:`Base totals ${+t.toFixed(2)}% as posted on Glazy.`}):null,
-    el("div",{class:"links"},saveBtn(()=>({...glazyRecipe(r),myNotes:"",savedAt:Date.now()})),el("a",{href:glazyUrl(r.id),target:"_blank",rel:"noopener",text:"View on Glazy"}))));
-}
-let gTimer;
-$("gq").addEventListener("input",()=>{clearTimeout(gTimer);gTimer=setTimeout(()=>{gShown=30;renderGlazy()},120)});
-
-$("gMore").onclick=()=>{gShown+=30;renderGlazy()};
-
-
-/* ---------- Shared filters: Discover and the Glazy library ---------- */
+/* ---------- Discover filters ---------- */
 const FAMS=[["clear","Clear",""],["white","White","#F2F0EA"],["gray","Gray","#9A9A9A"],["black","Black","#222222"],["brown","Brown","#7A5634"],["red","Red","#B23A3A"],["orange","Orange","#E2722E"],
   ["yellow","Yellow","#E8C44C"],["green","Green","#3D7A63"],["teal","Teal","#2C8C8C"],["blue","Blue","#2C4FA8"],["purple","Purple","#6A3A82"],["pink","Pink","#D9868C"]];
 const COLORANTS=[["Cobalt",/cobalt/],["Copper",/copper/],["Iron",/iron|ochre|\brio\b|crocus/],["Rutile",/rutile/],["Chrome",/chrom/],["Manganese",/mangan/],["Mason stain",/\b6\d{3}\b|mason|\bstain\b/]];
@@ -2072,9 +2056,11 @@ function renderAsk(){
 }
 let dmode="search",matchItems=[];
 function setDmode(m){
-  dmode=m==="match"?"match":"search";
+  dmode=["match","combos"].includes(m)?m:"search";
   document.querySelectorAll(".dmode button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.dmode===dmode)));
-  $("askForm").hidden=dmode!=="search";$("matchPanel").hidden=dmode!=="match";
+  $("askForm").hidden=dmode!=="search";$("matchPanel").hidden=dmode!=="match";$("askCombos").hidden=dmode!=="combos";$("askMain").hidden=dmode==="combos";
+  if(tab==="ask")setHash();
+  if(dmode==="combos")return renderMakers();
   $("askStatus").className="status";$("askStatus").textContent="";askLimit=30;
   if(dmode==="search"){askItems=[];askInstant()}
   else{askQuery="";askItems=matchItems;if(!matchItems.length)$("askStatus").textContent="Add colors or a photo above, choose what you're making, then Get recipes.";renderAsk()}
@@ -2103,7 +2089,7 @@ $("askForm").addEventListener("submit",e=>{e.preventDefault();askInstant()});
 /* ---------- Saved recipes ---------- */
 let savedFilter="all";
 function savedMsg(t){const m=$("savedStatus");m.textContent=t;setTimeout(()=>{if(m.textContent===t)m.textContent=""},5000)}
-/* ---------- My Work: Ideas ---------- */
+/* ---------- Ideas: boards of inspiration ---------- */
 const IDEA={importOpen:false,busy:"",board:null,pin:null,select:false,picked:new Set()};
 const lum=h=>{const [r,g,b]=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)/255);return .2126*r+.7152*g+.0722*b};
 const idOf=t=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))|0;return "idea-"+(h>>>0).toString(36)};
@@ -2196,12 +2182,11 @@ function photoPicker(label,board){const files=el("input",{type:"file",accept:"im
   files.onchange=async()=>{if(files.files.length){await addIdeaPhotos(files.files,board);if(IDEA.board!==board)openBoard(board)}};
   return el("label",{class:"btn ghost"},files,label)}
 function renderIdeas(){
-  const w=$("workIdeas");if(!w)return;w.replaceChildren();
+  const w=$("ideasRoot");if(!w)return;w.replaceChildren();
   const boards=ideaBoards();if(IDEA.board&&!boards.has(IDEA.board))IDEA.board=null;
   if(IDEA.board){const list=boards.get(IDEA.board),x=IDEA.pin&&list.find(i=>i.id===IDEA.pin);
     return x?renderPin(w,x,list):renderBoard(w,IDEA.board,list)}
-  w.append(el("div",{class:"ideas-head"},el("div",{},el("h2",{text:"Ideas"}),
-      el("p",{class:"note",text:"Boards of pieces, pins and photos you love. Each one's colors are pulled out, ready for Match colors."})),
+  w.append(el("div",{class:"ideas-head"},
     el("div",{class:"links"},photoPicker("+ Add photos","My photos"),
       el("button",{type:"button",class:IDEA.importOpen?"linkbtn":"btn",text:IDEA.importOpen?"Close":"Import a Pinterest board",onclick:()=>{IDEA.importOpen=!IDEA.importOpen;renderIdeas()}}))));
   if(IDEA.importOpen)w.append(ideaImport(""));
@@ -2280,15 +2265,9 @@ function renderPin(w,x,list){
           x.href?el("a",{href:x.href,target:"_blank",rel:"noopener",text:"See it on Pinterest"}):null))));
   drawMarks()}
 
-/* ---------- Glaze combos (My Work → Combos): layered glazes, base first, with test photos ---------- */
-const WORK={sub:"ideas"},COMBO={open:null,edit:null,filter:"all",mk:{q:"",maker:"",only:null,n:24},mkOpen:null};
+/* ---------- Glaze combos (My Studio → Combos): layered glazes, base first, with test photos. Makers' tiles are in Discover → Combos ---------- */
+const COMBO={open:null,edit:null,filter:"all",mk:{q:"",maker:"",only:null,n:24},mkOpen:null};
 const APPS=["Dipped","Brushed","Sprayed","Poured"],BARE="D9CBB8";
-function setWorkSub(sub){WORK.sub=sub;if(sub!=="combos")COMBO.open=null;renderWorkSub();if(tab==="work")showTab("work")}
-function renderWorkSub(){
-  $("workIdeas").hidden=WORK.sub!=="ideas";$("workCombos").hidden=WORK.sub!=="combos";$("workMore").hidden=WORK.sub!=="ideas";
-  document.querySelectorAll("#workSeg button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.sub===WORK.sub)));
-}
-document.querySelectorAll("#workSeg button").forEach(b=>b.onclick=()=>setWorkSub(b.dataset.sub));
 // a layer's live details: name, color, photo, whether it's on hand, and where tapping it goes
 function layerInfo(l){
   const k=String(l.ref||""),id=k.slice(2);
@@ -2327,9 +2306,10 @@ function layerOptions(q){
 }
 function newCombo(pre={}){
   COMBO.edit={layers:[{ref:"",name:"",coats:2,app:"Dipped"},{ref:"",name:"",coats:2,app:"Dipped"}],cone:"Cone 6",clay:"",status:"idea",notes:"",photos:[],...pre};
-  COMBO.open=null;COMBO.mkOpen=null;WORK.sub="combos";renderWorkSub();showTab("work");renderCombos();window.scrollTo({top:0});
+  COMBO.open=null;showTab("combos");window.scrollTo({top:0});
 }
-function openCombo(id){COMBO.open=id;COMBO.edit=null;COMBO.mkOpen=null;WORK.sub="combos";renderWorkSub();showTab("work");renderCombos();window.scrollTo({top:0})}
+function openCombo(id){COMBO.open=id;COMBO.edit=null;showTab("combos");window.scrollTo({top:0})}
+function openMakers(mkOpen=null){COMBO.mkOpen=mkOpen;showTab("ask");setDmode("combos");window.scrollTo({top:0})}
 function comboCard(c){
   const have=comboHave(c),st=STATUSES.find(([k])=>k===(c.status||"idea"))[1];
   return el("button",{type:"button",class:"cb-card",onclick:()=>openCombo(c.id)},comboSwatch(c),
@@ -2347,7 +2327,7 @@ function combosFor(ref,pre){
     if(mk.length){const g=el("div",{class:"cb-grid"});mk.slice(0,6).forEach(c=>g.append(mkCard(c,own)));
       const it=mk[0].top.pk===pk?mk[0].top:mk[0].base;
       box.append(el("span",{class:"lbl",text:"From "+andList([...new Set(mk.map(c=>c.maker))])+" · "+mk.length+" tile"+(mk.length==1?"":"s")}),g,
-        mk.length>6?el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"See all "+mk.length,onclick:()=>{COMBO.mk={q:it.code,maker:"",only:"all",n:24};COMBO.open=null;COMBO.edit=null;COMBO.mkOpen=null;WORK.sub="combos";renderWorkSub();showTab("work");renderCombos();window.scrollTo({top:0})}})):null)}}
+        mk.length>6?el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"See all "+mk.length,onclick:()=>{COMBO.mk={q:it.code,maker:"",only:"all",n:24};openMakers()}})):null)}}
   return box;
 }
 /* Makers' combos: Amaco's Layering, Mayco's Glaze Combinations (cone 6 only) and Coyote's Shino overlaps (scripts/maker_combos.py → #makerCombos).
@@ -2370,7 +2350,7 @@ const mkTitle=c=>mkName(c.top)+" over "+mkName(c.base);
 const mkImg=(c,big)=>c.maker==="Amaco"?c.img+(big?"?w=540&h=870&fit=crop":"?w=360&h=480&fit=crop"):c.img;
 function mkCard(c,own){
   const n=mkOwned(c,own);
-  return el("button",{type:"button",class:"cb-card",onclick:()=>{COMBO.mkOpen=c.i;COMBO.open=null;COMBO.edit=null;WORK.sub="combos";renderWorkSub();showTab("work");renderCombos();window.scrollTo({top:0})}},
+  return el("button",{type:"button",class:"cb-card",onclick:()=>openMakers(c.i)},
     el("img",{class:"cb-sw mk-sw",src:mkImg(c),alt:mkTitle(c),loading:"lazy",referrerpolicy:"no-referrer"}),
     el("span",{class:"cb-ct"},el("b",{text:mkTitle(c)}),el("span",{class:"meta",text:[c.maker,n==2?"✓ both on your shelves":n==1?"1 of 2 on your shelves":""].filter(Boolean).join(" · ")})));
 }
@@ -2394,19 +2374,19 @@ function renderMakerCombos(w){
       list.length>S.n?el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"Show more ("+(list.length-S.n)+" left)",onclick:()=>{S.n+=48;draw()}})):null);
   };
   q.oninput=()=>{S.q=q.value;S.n=24;draw()};
-  box.append(el("div",{class:"ideas-head"},el("div",{},el("h2",{text:"From the makers"}),
+  box.append(el("div",{class:"ideas-head"},el("div",{},el("h2",{text:"Combos from the makers"}),
       el("p",{class:"note",text:"Test tiles "+andList(makers)+" have fired, "+all.length.toLocaleString()+" combos at cone 5–6. Ones using glazes on your shelves come first."}))),q,grid);
   draw();w.append(box);
 }
 function renderMakerCombo(w,c){
-  const own=ownedPks(),back=()=>{COMBO.mkOpen=null;renderCombos();window.scrollTo({top:0})};
+  const own=ownedPks(),back=()=>{COMBO.mkOpen=null;renderMakers();window.scrollTo({top:0})};
   const layer=(g,role)=>{const have=own.has(g.pk),it=g.item;
     return el("li",{},it&&it.img?el("img",{class:"cb-lsw",src:it.img,alt:"",loading:"lazy",referrerpolicy:"no-referrer"}):el("span",{class:"cb-lsw",style:"background:#"+((it&&it.hex)||"D8DAD5")}),
       el("span",{class:"cb-lt"},it?el("button",{type:"button",class:"linkbtn",text:g.brand+" "+mkName(g),onclick:()=>openPremade(g.pk)}):el("b",{text:g.brand+" "+mkName(g)}),el("span",{class:"meta",text:role})),
       el("span",{class:"rshelf "+(have?"ok":"miss"),text:have?"✓ on your shelves":it?"○ premade · "+(it.buy?.store?"at "+it.buy.store:"not on your shelves"):"○ not in the store catalog"}))};
   const ref=g=>g.item?{ref:"p:"+g.pk,name:g.item.title,hex:g.item.hex||""}:{ref:"t:"+g.code,name:g.brand+" "+mkName(g),hex:""};
   const save=()=>newCombo({layers:[{...ref(c.base),coats:2,app:"Dipped"},{...ref(c.top),coats:2,app:"Dipped"}],src:mkImg(c,true),href:c.url,notes:"From "+c.maker+"'s combo tiles."});
-  w.append(el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Combos",onclick:back}),
+  w.append(el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Makers' combos",onclick:back}),
     el("div",{class:"rp-head cb-head"},el("div",{class:"rp-id"},el("h2",{class:"rp-h",text:mkTitle(c)}),el("div",{class:"meta",text:c.maker+" test tile · cone 5–6"})),
       el("div",{class:"rp-acts"},el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"Save to my combos",onclick:save}),
         el("a",{href:c.url,target:"_blank",rel:"noopener",text:"See it on "+c.maker+"'s site"})))),
@@ -2416,33 +2396,38 @@ function renderMakerCombo(w,c){
       el("aside",{class:"rp-side"},el("div",{class:"rp-box"},el("span",{class:"lbl",text:"Layers, top first"}),el("ol",{class:"cb-layers"},layer(c.top,"Top"),layer(c.base,"Base")),
         mkOwned(c,own)==2?el("p",{class:"rshelf ok",text:"✓ You can make this now."}):null))));
 }
+// Discover → Combos: the makers' test tiles, or one of them
+function renderMakers(){
+  const w=$("askCombos");w.replaceChildren();
+  if(COMBO.mkOpen!=null){const mc=makerCombos().find(c=>c.i===COMBO.mkOpen);if(mc)return renderMakerCombo(w,mc);COMBO.mkOpen=null}
+  renderMakerCombos(w);
+}
 function renderCombos(){
-  const w=$("workCombos");if(!w)return;renderWorkSub();
+  const w=$("combosRoot");if(!w)return;
   const ae=document.activeElement;if(w.contains(ae)&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))return; // don't clobber typing
   w.replaceChildren();
   if(COMBO.edit)return renderComboEdit(w);
   const open=COMBO.open&&combos.find(c=>c.id===COMBO.open);
   if(COMBO.open&&!open&&storeMode!=="loading")COMBO.open=null;
   if(open)return renderComboPage(w,open);
-  if(COMBO.mkOpen!=null){const mc=makerCombos().find(c=>c.i===COMBO.mkOpen);if(mc)return renderMakerCombo(w,mc);COMBO.mkOpen=null}
-  w.append(el("div",{class:"ideas-head"},el("div",{},el("h2",{text:"Combos"}),
-      el("p",{class:"note",text:"Glazes layered on each other. Log what you've tried with a photo of the tile, or save one to test later."})),
-    el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"+ New combo",onclick:()=>newCombo()}))));
-  if(!combos.length){w.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"No combos yet. Start one here, from a recipe or premade glaze (Used in → New combo), from a pin in Ideas (Save as a combo), or from the makers' tiles below."})));return renderMakerCombos(w)}
+  const makers=makerCombos().length?el("p",{class:"note"},"Looking for ideas? ",el("button",{type:"button",class:"linkbtn",text:"Browse "+makerCombos().length.toLocaleString()+" makers' test tiles in Discover",onclick:()=>openMakers()})):null;
   const F=[["all","All"],["have","Can make now"],["keeper","Keepers"],["testing","Testing"],["idea","Ideas"]];
+  w.append(el("div",{class:"ideas-head"},
+    combos.length?el("div",{class:"filters cb-filters"},...F.map(([k,l])=>el("button",{type:"button","aria-pressed":String(COMBO.filter===k),onclick:()=>{COMBO.filter=k;renderCombos()}},l,
+      el("small",{text:combos.filter(c=>k==="all"||(k==="have"?comboHave(c):(c.status||"idea")===k)).length})))):el("span"),
+    el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"+ New combo",onclick:()=>newCombo()}))));
+  if(!combos.length){w.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"No combos yet. Start one here, from a recipe or premade glaze (Used in → New combo), from a pin in Ideas (Save as a combo), or from a maker's tile in Discover → Combos."})),makers);return}
   const pass=c=>COMBO.filter==="all"||(COMBO.filter==="have"?comboHave(c):(c.status||"idea")===COMBO.filter);
-  w.append(el("div",{class:"filters cb-filters"},...F.map(([k,l])=>el("button",{type:"button","aria-pressed":String(COMBO.filter===k),onclick:()=>{COMBO.filter=k;renderCombos()}},l,
-    el("small",{text:combos.filter(c=>k==="all"||(k==="have"?comboHave(c):(c.status||"idea")===k)).length})))));
   const shown=combos.filter(pass);
   if(!shown.length)w.append(el("p",{class:"note",text:COMBO.filter==="have"?"None yet where every layer is on your shelves.":"Nothing here."}));
   else{const g=el("div",{class:"cb-grid"});shown.forEach(c=>g.append(comboCard(c)));w.append(g)}
-  renderMakerCombos(w);
+  if(makers)w.append(makers);
 }
 function renderComboPage(w,c){
   const cur=()=>combos.find(x=>x.id===c.id)||c,save=patch=>putCombo({...cur(),...patch});
   const st=el("div",{class:"seg rp-status",role:"radiogroup","aria-label":"Status"},...STATUSES.map(([k,l])=>el("button",{type:"button",role:"radio","aria-checked":String((c.status||"idea")===k),onclick:()=>save({status:k})},l)));
   const del=el("button",{type:"button",class:"linkbtn",text:"Delete"});
-  del.onclick=()=>del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, delete",onclick:async()=>{await deleteCombo(c.id);COMBO.open=null;renderCombos();showTab("work")}}));
+  del.onclick=()=>del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, delete",onclick:async()=>{await deleteCombo(c.id);COMBO.open=null;showTab("combos")}}));
   const photos=[...(c.photos||[])],gal=el("div",{class:"cb-gal"});
   photos.forEach((ph,i)=>gal.append(el("figure",{},el("img",{src:ph,alt:"Combo photo "+(i+1)}),el("button",{type:"button",class:"cb-x","aria-label":"Remove this photo",text:"×",onclick:()=>save({photos:photos.filter((_,j)=>j!==i)})}))));
   if(!photos.length)gal.append(el("figure",{class:"cb-noph"},comboSwatch(c,"cb-big"),c.src?el("a",{href:c.href||c.src,target:"_blank",rel:"noopener",class:"meta",text:"Inspiration photo · see the original"}):el("figcaption",{class:"meta",text:"A sketch of the layers until you add a photo of your tile."})));
@@ -2456,7 +2441,7 @@ function renderComboPage(w,c){
       el("span",{class:"rshelf "+(x.have?"ok":"miss"),text:(x.have?"✓ ":"○ ")+x.why})))});
   const notes=el("textarea",{rows:"4",placeholder:"How it came out, thickness, what to try next…","aria-label":"Notes"});notes.value=c.notes||"";
   notes.onchange=()=>save({notes:notes.value});
-  w.append(el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Combos",onclick:()=>{COMBO.open=null;renderCombos();showTab("work")}}),
+  w.append(el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Combos",onclick:()=>{COMBO.open=null;showTab("combos")}}),
     el("div",{class:"rp-head cb-head"},el("div",{class:"rp-id"},el("h2",{class:"rp-h",text:comboTitle(c)}),
         el("div",{class:"meta",text:[c.cone,c.clay,c.addedAt?"saved "+fmtDate(c.addedAt):""].filter(Boolean).join(" · ")})),
       el("div",{class:"rp-acts"},st,el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"Edit",onclick:()=>{COMBO.edit=JSON.parse(JSON.stringify(cur()));renderCombos()}}),del))),
@@ -2465,6 +2450,7 @@ function renderComboPage(w,c){
       el("aside",{class:"rp-side"},el("div",{class:"rp-box"},el("span",{class:"lbl",text:"Layers, top first"}),layers,
           comboHave(c)?el("p",{class:"rshelf ok",text:"✓ You can make this now."}):null),
         el("div",{class:"rp-box"},el("label",{class:"lbl",text:"Notes"}),notes),
+        el("div",{class:"rp-box"},el("span",{class:"lbl",text:"Pieces"}),piecesFor("c:"+c.id),el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"New piece with this combo",onclick:()=>newPiece({glaze:{ref:"c:"+c.id,name:comboTitle(c),hex:""}})}))),
         c.src&&!photos.length||!c.href?null:el("div",{class:"rp-box"},el("span",{class:"lbl",text:"Source"}),el("a",{href:c.href,target:"_blank",rel:"noopener",text:"See it on "+(()=>{try{return new URL(c.href).hostname.replace(/^www\./,"")}catch{return "the original"}})()})))));
 }
 function renderComboEdit(w){
@@ -2514,7 +2500,135 @@ function renderComboEdit(w){
     if(layers.length<2){msg.textContent="Pick at least two glazes.";return}
     const {id,...rest}=E,doc={...rest,layers,updatedAt:Date.now()};
     const nid=await putCombo(id?{id,...doc}:doc);if(!nid)return;
-    COMBO.edit=null;COMBO.open=nid;renderCombos();showTab("work");window.scrollTo({top:0})};
+    COMBO.edit=null;COMBO.open=nid;showTab("combos");window.scrollTo({top:0})};
+  w.append(f);
+}
+
+/* ---------- Work (My Studio → Work): pieces from in progress to finished ---------- */
+const STAGES=[["making","Making"],["drying","Drying"],["bisqued","Bisqued"],["glazed","Glazed"],["finished","Finished"]];
+const STAGE_TINT={making:"A79A8C",drying:"C9BCAB",bisqued:"E9DDCB"}; // wet clay, dry clay, bisque
+const PIECE={open:null,edit:null,show:"progress"};
+const stageName=k=>(STAGES.find(s=>s[0]===k)||STAGES[0])[1];
+const nextStage=k=>{const i=STAGES.findIndex(s=>s[0]===k);return i>=0&&i<STAGES.length-1?STAGES[i+1][0]:null};
+// the glaze on a piece: one of your combos, or anything a combo layer can be
+function pieceGlaze(p){const g=p.glaze;if(!g||!g.ref)return null;
+  if(g.ref.startsWith("c:")){const c=combos.find(x=>x.id===g.ref.slice(2));
+    return c?{name:comboTitle(c),hex:layerInfo((c.layers||[]).at(-1)||{}).hex,combo:c,open:()=>openCombo(c.id)}:{name:g.name||"A combo",hex:normHex(g.hex)||"",open:null}}
+  return layerInfo(g)}
+const pieceUses=(p,ref)=>{const g=p.glaze?.ref;if(!g)return false;if(g===ref)return true;const c=g.startsWith("c:")&&combos.find(x=>x.id===g.slice(2));return !!c&&comboHas(c,ref)};
+function openPiece(id){PIECE.open=id;PIECE.edit=null;showTab("work");window.scrollTo({top:0})}
+function newPiece(pre={}){PIECE.edit={title:"",stage:"making",clay:"",cone:"Cone 6",glaze:null,photos:[],notes:"",...pre};PIECE.open=null;showTab("work");window.scrollTo({top:0})}
+// no photo: a pot in its stage's clay color, or its glaze once glazed
+function pieceSwatch(p,cls="cb-sw"){
+  if((p.photos||[])[0])return el("img",{class:cls,src:p.photos[0],alt:p.title||"Piece",loading:"lazy"});
+  const g=pieceGlaze(p),fill=STAGE_TINT[p.stage]||(g&&g.hex)||"C9BCAB",ns="http://www.w3.org/2000/svg",svg=document.createElementNS(ns,"svg");
+  svg.setAttribute("viewBox","0 0 100 100");svg.setAttribute("class",cls+" pc-sw");svg.setAttribute("role","img");svg.setAttribute("aria-label",p.title||"Piece");
+  const path=document.createElementNS(ns,"path");path.setAttribute("d","M34 22h32v5c0 4 12 11 14 27 2 19-10 30-30 30S18 73 20 54c2-16 14-23 14-27z");path.setAttribute("fill","#"+fill);path.setAttribute("stroke","rgba(0,0,0,.18)");
+  svg.append(path);return svg}
+// a list of pieces for a recipe or combo page
+function piecesFor(ref){const list=pieces.filter(p=>pieceUses(p,ref));
+  return list.length?el("div",{class:"pc-mini"},...list.map(p=>el("button",{type:"button",class:"rp-rel",onclick:()=>openPiece(p.id)},pieceSwatch(p,"rp-rel-sw"),
+    el("span",{},el("b",{text:p.title||"Untitled piece"}),el("span",{class:"meta",text:stageName(p.stage)}))))):el("p",{class:"note",text:"No pieces with this glaze yet."})}
+function pieceCard(p){
+  const g=pieceGlaze(p),n=nextStage(p.stage),when=p.stageAt?.[p.stage];
+  return el("div",{class:"pc-card"},
+    el("button",{type:"button",class:"pc-open",onclick:()=>openPiece(p.id)},pieceSwatch(p,"pc-th"),
+      el("span",{class:"cb-ct"},el("b",{text:p.title||"Untitled piece"}),
+        el("span",{class:"meta",text:[g?g.name:"",p.clay,when?stageName(p.stage)+" "+fmtDate(when):""].filter(Boolean).join(" · ")||"Tap to add details"}))),
+    n?el("button",{type:"button",class:"ghost sm pc-next",text:stageName(n)+" →",title:"Move to "+stageName(n),onclick:()=>movePiece(p,n)}):null)}
+function movePiece(p,stage){return putPiece({...p,stage,stageAt:{...(p.stageAt||{}),[stage]:Date.now()}})}
+function renderPieces(){
+  const w=$("piecesRoot");if(!w)return;
+  const ae=document.activeElement;if(w.contains(ae)&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))return; // don't clobber typing
+  w.replaceChildren();
+  if(PIECE.edit)return renderPieceEdit(w);
+  const open=PIECE.open&&pieces.find(p=>p.id===PIECE.open);
+  if(PIECE.open&&!open&&storeMode!=="loading")PIECE.open=null;
+  if(open)return renderPiecePage(w,open);
+  const live=pieces.filter(p=>p.stage!=="finished"),done=pieces.filter(p=>p.stage==="finished");
+  w.append(el("div",{class:"ideas-head"},
+    pieces.length?el("div",{class:"filters cb-filters"},...[["progress","In progress",live.length],["finished","Finished",done.length]].map(([k,l,n])=>
+      el("button",{type:"button","aria-pressed":String(PIECE.show===k),onclick:()=>{PIECE.show=k;renderPieces()}},l,el("small",{text:n})))):el("span"),
+    el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"+ New piece",onclick:()=>newPiece()}))));
+  if(!pieces.length){w.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"Nothing in progress yet. Add a piece when you throw or build it, then move it along: making, drying, bisqued, glazed, finished."})));return}
+  if(PIECE.show==="finished"){
+    if(!done.length){w.append(el("p",{class:"note",text:"Nothing finished yet. Pieces land here after the glaze firing."}));return}
+    const g=el("div",{class:"cb-grid"});done.forEach(p=>g.append(el("button",{type:"button",class:"cb-card",onclick:()=>openPiece(p.id)},pieceSwatch(p),
+      el("span",{class:"cb-ct"},el("b",{text:p.title||"Untitled piece"}),el("span",{class:"meta",text:[pieceGlaze(p)?.name,p.stageAt?.finished?"finished "+fmtDate(p.stageAt.finished):""].filter(Boolean).join(" · ")})))));
+    w.append(g);return}
+  const board=el("div",{class:"pc-board"});
+  STAGES.slice(0,4).forEach(([k,l])=>{const list=live.filter(p=>(p.stage||"making")===k);
+    board.append(el("section",{class:"pc-col"+(list.length?"":" is-empty"),"aria-label":l},el("h3",{},l,el("small",{text:list.length})),
+      ...(list.length?list.map(pieceCard):[el("p",{class:"note",text:"—"})])))});
+  w.append(board);
+}
+function renderPiecePage(w,p){
+  const cur=()=>pieces.find(x=>x.id===p.id)||p,save=patch=>putPiece({...cur(),...patch}),g=pieceGlaze(p);
+  const st=el("div",{class:"seg rp-status pc-stages",role:"radiogroup","aria-label":"Stage"},...STAGES.map(([k,l])=>el("button",{type:"button",role:"radio","aria-checked":String((p.stage||"making")===k),onclick:()=>movePiece(cur(),k)},l)));
+  const del=el("button",{type:"button",class:"linkbtn",text:"Delete"});
+  del.onclick=()=>del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, delete",onclick:async()=>{await deletePiece(p.id);PIECE.open=null;showTab("work")}}));
+  const photos=[...(p.photos||[])],gal=el("div",{class:"cb-gal"});
+  photos.forEach((ph,i)=>gal.append(el("figure",{},el("img",{src:ph,alt:"Photo "+(i+1)}),el("button",{type:"button",class:"cb-x","aria-label":"Remove this photo",text:"×",onclick:()=>save({photos:photos.filter((_,j)=>j!==i)})}))));
+  if(!photos.length)gal.append(el("figure",{class:"cb-noph"},pieceSwatch(p,"cb-big"),el("figcaption",{class:"meta",text:"Add photos as it goes: greenware, bisque, out of the kiln."})));
+  const pin=el("input",{type:"file",accept:"image/*",multiple:true,"aria-label":"Add photos of the piece"});
+  pin.onchange=async()=>{const add=[];for(const fl of [...pin.files].slice(0,6))try{add.push(await shrinkPhoto(fl))}catch{};if(add.length)save({photos:[...photos,...add].slice(0,10)})};
+  const notes=el("textarea",{rows:"4",placeholder:"Form, clay weight, trimming, where the glaze broke…","aria-label":"Notes"});notes.value=p.notes||"";
+  notes.onchange=()=>save({notes:notes.value});
+  const times=el("ol",{class:"pc-times"},...STAGES.map(([k,l])=>el("li",{class:p.stageAt?.[k]?"on":""},el("b",{text:l}),el("span",{class:"meta",text:p.stageAt?.[k]?fmtDate(p.stageAt[k]):""}))));
+  const n=nextStage(p.stage);
+  w.append(el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Work",onclick:()=>{PIECE.open=null;showTab("work")}}),
+    el("div",{class:"rp-head cb-head"},el("div",{class:"rp-id"},el("h2",{class:"rp-h",text:p.title||"Untitled piece"}),
+        el("div",{class:"meta",text:[p.clay,p.cone,p.addedAt?"started "+fmtDate(p.addedAt):""].filter(Boolean).join(" · ")})),
+      el("div",{class:"rp-acts"},st,el("div",{class:"links"},n?el("button",{type:"button",class:"btn",text:"Move to "+stageName(n),onclick:()=>movePiece(cur(),n)}):null,
+        el("button",{type:"button",class:"ghost sm",text:"Edit",onclick:()=>{PIECE.edit=JSON.parse(JSON.stringify(cur()));renderPieces()}}),del))),
+    el("div",{class:"rp-body"},
+      el("section",{class:"rp-main"},gal,el("label",{class:"photo-pick cb-add"},pin,el("b",{class:"mplus","aria-hidden":"true",text:"+"}),el("span",{},"Add photos",el("small",{text:"Any stage, up to 10"})))),
+      el("aside",{class:"rp-side"},
+        el("div",{class:"rp-box"},el("span",{class:"lbl",text:"Glaze"}),g?el("div",{class:"pc-glaze"},g.combo?comboSwatch(g.combo,"cb-lsw"):el("span",{class:"cb-lsw",style:"background:#"+(g.hex||"D8DAD5")}),
+            g.open?el("button",{type:"button",class:"linkbtn",text:g.name,onclick:g.open}):el("b",{text:g.name})):
+          el("p",{class:"note",text:"Not chosen yet. "},el("button",{type:"button",class:"linkbtn",text:"Pick one",onclick:()=>{PIECE.edit=JSON.parse(JSON.stringify(cur()));renderPieces()}}))),
+        el("div",{class:"rp-box"},el("span",{class:"lbl",text:"Stages"}),times),
+        el("div",{class:"rp-box"},el("label",{class:"lbl",text:"Notes"}),notes))));
+}
+// glazes for a piece: your combos first, then what a combo layer can be
+function pieceOptions(q){const words=q.toLowerCase().split(/\s+/).filter(Boolean),hit=t=>words.every(x=>t.toLowerCase().includes(x));
+  return [...combos.filter(c=>hit(comboTitle(c))).slice(0,4).map(c=>({ref:"c:"+c.id,name:comboTitle(c),hex:layerInfo((c.layers||[]).at(-1)||{}).hex||"",sub:"Your combo"})),...layerOptions(q)].slice(0,8)}
+function renderPieceEdit(w){
+  const E=PIECE.edit,draw=()=>renderPieces();
+  const fld=(l,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:l}),i);
+  const title=el("input",{type:"text",value:E.title||"",placeholder:"Bark mug #3, big serving bowl…","aria-label":"Name"});
+  const clay=el("input",{type:"text",value:E.clay||"",placeholder:"Porcelain, speckled buff…","aria-label":"Clay body"}),cone=el("input",{type:"text",value:E.cone||"","aria-label":"Cone"});
+  const notes=el("textarea",{rows:"3",placeholder:"Form, clay weight, trimming, where the glaze broke…","aria-label":"Notes"});notes.value=E.notes||"";
+  const sync=()=>Object.assign(E,{title:title.value.trim(),clay:clay.value.trim(),cone:cone.value.trim(),notes:notes.value});
+  [title,clay,cone,notes].forEach(x=>x.oninput=sync);
+  let pick;
+  if(E.glaze?.ref){const g=pieceGlaze(E);pick=el("div",{class:"cb-chosen"},el("span",{class:"cb-lsw",style:"background:#"+(g?.hex||"D8DAD5")}),el("b",{text:g?.name||E.glaze.name}),
+    el("button",{type:"button",class:"cb-x","aria-label":"Change the glaze",text:"×",onclick:()=>{sync();E.glaze=null;draw()}}))}
+  else{const inp=el("input",{type:"search",placeholder:"Search your combos, recipes, shelves or premade glazes","aria-label":"Glaze"}),sug=el("div",{class:"cb-sug",role:"listbox"});
+    const show=()=>{sug.replaceChildren();const q=inp.value.trim();
+      pieceOptions(q).forEach(o=>sug.append(el("button",{type:"button",role:"option",onclick:()=>{sync();E.glaze={ref:o.ref,name:o.name,hex:o.hex||""};draw()}},
+        el("span",{class:"cb-lsw",style:"background:#"+(o.hex||"D8DAD5")}),el("span",{},el("b",{text:o.name}),el("small",{text:o.sub})))));
+      if(q)sug.append(el("button",{type:"button",role:"option",onclick:()=>{sync();E.glaze={ref:"t:"+q,name:q,hex:nameHex(q)||""};draw()}},el("span",{class:"cb-lsw"}),el("span",{},el("b",{text:`Use “${q}”`}),el("small",{text:"A glaze that isn't in the app"}))))};
+    inp.oninput=show;inp.onfocus=show;pick=el("div",{class:"cb-search"},inp,sug)}
+  const pinIn=el("input",{type:"file",accept:"image/*",multiple:true,"aria-label":"Photos"}),thumbs=el("div",{class:"cb-thumbs"});
+  const drawThumbs=()=>{thumbs.replaceChildren(...(E.photos||[]).map((ph,j)=>el("figure",{},el("img",{src:ph,alt:""}),el("button",{type:"button",class:"cb-x","aria-label":"Remove this photo",text:"×",onclick:()=>{E.photos.splice(j,1);drawThumbs()}}))))};drawThumbs();
+  pinIn.onchange=async()=>{for(const fl of [...pinIn.files].slice(0,6))try{(E.photos=E.photos||[]).push(await shrinkPhoto(fl))}catch{};E.photos=E.photos.slice(0,10);drawThumbs()};
+  const msg=el("p",{class:"note",role:"status"});
+  const f=el("form",{class:"cb-edit",novalidate:true},
+    el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Cancel",onclick:()=>{PIECE.edit=null;renderPieces()}}),
+    el("h2",{text:E.id?"Edit piece":"New piece"}),
+    el("div",{class:"rp-grid"},fld("Name",title),fld("Clay body",clay),fld("Cone",cone)),
+    el("span",{class:"lbl",text:"Stage"}),
+    el("div",{class:"seg rp-status pc-stages",role:"radiogroup","aria-label":"Stage"},...STAGES.map(([k,l])=>el("button",{type:"button",role:"radio","aria-checked":String((E.stage||"making")===k),onclick:()=>{sync();E.stage=k;draw()}},l))),
+    el("div",{class:"cb-row"},el("span",{class:"lbl",text:"Glaze (optional)"}),pick),
+    fld("Notes",notes),
+    el("label",{class:"photo-pick"},pinIn,el("b",{class:"mplus","aria-hidden":"true",text:"+"}),el("span",{},"Add photos",el("small",{text:"Optional. Up to 10."}))),thumbs,
+    el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Save piece"}),msg));
+  f.onsubmit=async e=>{e.preventDefault();sync();
+    if(!E.title){msg.textContent="Give it a name.";title.focus();return}
+    const {id,...rest}=E,stage=rest.stage||"making",doc={...rest,stage,stageAt:{...(rest.stageAt||{}),[stage]:rest.stageAt?.[stage]||Date.now()}};
+    const nid=await putPiece(id?{id,...doc}:doc);if(!nid)return;
+    PIECE.edit=null;PIECE.open=nid;showTab("work");window.scrollTo({top:0})};
   w.append(f);
 }
 
@@ -2879,6 +2993,7 @@ function rpUsed(r){
     const shared=[...mats].filter(m=>om.has(m)).length,why=r.glazyId&&o.glazyId===r.glazyId?"same Glazy recipe":r.baseName&&o.baseName===r.baseName?"same base":shared>=Math.max(3,mats.size*.6)?`shares ${shared} base materials`:"";
     return [why,o]}).filter(([w])=>w);
   main.append(el("span",{class:"lbl",text:"Combos"}),combosFor("r:"+r.id,{ref:"r:"+r.id,name:r.title||"",hex:recipeHex(r)}));
+  main.append(el("span",{class:"lbl",text:"Pieces"}),piecesFor("r:"+r.id),el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"New piece with this glaze",onclick:()=>newPiece({glaze:{ref:"r:"+r.id,name:r.title||"",hex:recipeHex(r)||""}})})));
   main.append(el("span",{class:"lbl",text:"Related recipes"}));
   if(!rel.length)main.append(el("p",{class:"note",text:"No related recipes in your studio yet."}));
   rel.forEach(([why,o])=>main.append(el("button",{type:"button",class:"rp-rel",onclick:()=>openRecipe(o.id)},recipeSwatch(o,"rp-rel-sw"),el("span",{},el("b",{text:o.title||"Untitled"}),el("span",{class:"meta",text:why})))));
@@ -3135,7 +3250,7 @@ $("ownPanel").addEventListener("submit",async e=>{
   if(id){msg.textContent="";["ownName","ownHex","ownRows"].forEach(i=>$(i).value="");$("ownPanel").hidden=true;savedMsg("Saved “"+title+"”.")}
 });
 
-function renderAll(){renderCombos();updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();renderIdeas();if(tab==="recipe")renderRecipePage()}
+function renderAll(){renderCombos();renderPieces();if(tab==="ask"&&dmode==="combos")renderMakers();updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();renderIdeas();if(tab==="recipe")renderRecipePage()}
 
 /* ---------- boot ---------- */
 try{const s=JSON.parse(localStorage.getItem("stainlab-last")||"null");if(s?.colors?.length)last=s}catch{}
@@ -3144,7 +3259,7 @@ try{const g=JSON.parse(localStorage.getItem("stainlab-last-glaze")||"null");if(g
 try{if(localStorage.getItem("stainlab-mode")==="glaze")setMode("glaze")}catch{}
 renderTabs();
 {const h=(location.hash||"").slice(1);if(h.startsWith("recipe/")){openId=decodeURIComponent(h.slice(7));showTab("recipe")}else if(h.startsWith("premade/")){openPremadeKey=decodeURIComponent(h.slice(8));showTab("premade")}
-  else if(h==="combos"||h.startsWith("combo/")){WORK.sub="combos";COMBO.open=h.startsWith("combo/")?decodeURIComponent(h.slice(6)):null;showTab("work")}else showTab(h||START)}
+  else if(h.startsWith("combo/")){COMBO.open=decodeURIComponent(h.slice(6));showTab("combos")}else if(h.startsWith("piece/")){PIECE.open=decodeURIComponent(h.slice(6));showTab("work")}else showTab(h||START)}
 renderAll();
 initStore();
 (()=>{let arr=[];try{arr=JSON.parse(document.getElementById("catalogData").textContent)}catch{}

@@ -21,7 +21,7 @@ export const Buttons = {
 export const TabsAndSwitches = () => stack(
   label("Top-level tabs · .topbar .tabs"),
   `<header class="topbar" style="position:static"><a class="brand" href="#"><span class="mark" aria-hidden="true"></span><span class="brand-name">Clayworks Studio</span></a>
-    <div class="tabs" role="tablist"><button role="tab" aria-selected="true">Discover</button><button role="tab" aria-selected="false">My Studio</button><button role="tab" aria-selected="false">My Work</button></div>
+    <div class="tabs" role="tablist"><button role="tab" aria-selected="true">Discover</button><button role="tab" aria-selected="false">My Studio</button><button role="tab" aria-selected="false">Ideas</button></div>
     <div class="acct"><div class="cw-user"><button class="cw-avatar" type="button" aria-label="Account">R</button></div></div></header>`,
   label("Segmented switch · .seg"),
   `<div class="seg dmode" role="radiogroup" style="max-width:320px"><button role="radio" aria-checked="true">Search</button><button role="radio" aria-checked="false">Match colors</button></div>`,
@@ -145,7 +145,7 @@ export const MatchResults = () => `<div class="board" style="max-width:900px">
 MatchResults.storyName = "Match results (board, tiles, shopping list)";
 
 export const ShelvesPage = () => `<div class="studio" style="max-width:1000px">
-  <div class="seg mineseg" role="radiogroup"><button role="radio" aria-checked="false">Recipes</button><button role="radio" aria-checked="true">Shelves</button></div>
+  <div class="seg mineseg" role="radiogroup"><button role="radio" aria-checked="false">Work</button><button role="radio" aria-checked="false">Recipes</button><button role="radio" aria-checked="false">Combos</button><button role="radio" aria-checked="true">Shelves</button></div>
   <div class="shelfbar"><div class="filters"><button aria-pressed="true">All<b>6</b></button><button aria-pressed="false">Stains<b>5</b></button><button aria-pressed="false">Clay bodies<b>1</b></button></div><button class="btn" type="button">Search &amp; add</button></div>
   <div class="shelves"><section class="shelf"><div class="shelfhead"><h2>Stains</h2><span>5 items</span></div>
     <div class="items"><div class="item"><span class="sw" style="${sw("8A2A35")}"></span><div><h4>6006 Deep Crimson</h4><div class="meta">Mason</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div>

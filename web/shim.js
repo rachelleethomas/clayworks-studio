@@ -175,7 +175,7 @@ async function cwCountIdeas() {
 }
 function cwLogout(msg) {
   CW.token = null; CW.me = null; try { localStorage.removeItem("cw-token"); localStorage.removeItem("stainlab-studio"); } catch {}
-  studio = []; recipes = []; ideas = []; renderAll(); cwRenderUser(); cwShowLogin(msg);
+  studio = []; recipes = []; ideas = []; combos = []; pieces = []; renderAll(); cwRenderUser(); cwShowLogin(msg);
 }
 function cwShowLogin(msg) {
   document.getElementById("cwLogin").hidden = false; document.querySelector(".wrap").setAttribute("inert", "");
