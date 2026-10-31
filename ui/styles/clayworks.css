@@ -229,8 +229,10 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .pill.buy{background:var(--tint-orange);color:var(--tint-orange-ink)}
 
 /* ---------- 6 Discover: search box, filter bar, results ---------- */
-.discbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.discbar .askbox{flex:1 1 420px;min-width:0}
+.discbar{display:grid;gap:14px;justify-items:start} /* Search · Combos switch, then the search box with Match colors beside it */
+.discrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-self:stretch}
+.discrow .askbox{flex:1 1 420px;min-width:0}
+.discrow[hidden]{display:none}
 .askbox{display:flex;gap:6px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:clamp(4px,3px + .3vw,6px);box-shadow:0 0 0 3px var(--purple-100)}
 .askbox input[type=search]{flex:1;min-width:0;border:0;background:none;font-size:var(--in-fs);padding:clamp(6px,4px + .5vw,10px) clamp(8px,6px + .6vw,12px);text-overflow:ellipsis}
 .askbox input[type=search]:focus{box-shadow:none}

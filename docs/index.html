@@ -254,8 +254,10 @@ input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--a
 .pill.buy{background:var(--tint-orange);color:var(--tint-orange-ink)}
 
 /* ---------- 6 Discover: search box, filter bar, results ---------- */
-.discbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.discbar .askbox{flex:1 1 420px;min-width:0}
+.discbar{display:grid;gap:14px;justify-items:start} /* Search · Combos switch, then the search box with Match colors beside it */
+.discrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-self:stretch}
+.discrow .askbox{flex:1 1 420px;min-width:0}
+.discrow[hidden]{display:none}
 .askbox{display:flex;gap:6px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:clamp(4px,3px + .3vw,6px);box-shadow:0 0 0 3px var(--purple-100)}
 .askbox input[type=search]{flex:1;min-width:0;border:0;background:none;font-size:var(--in-fs);padding:clamp(6px,4px + .5vw,10px) clamp(8px,6px + .6vw,12px);text-overflow:ellipsis}
 .askbox input[type=search]:focus{box-shadow:none}
@@ -828,12 +830,14 @@ button,a,summary,label,select{touch-action:manipulation}
         <button type="button" role="radio" aria-checked="true" data-dmode="search">Search</button>
         <button type="button" role="radio" aria-checked="false" data-dmode="combos">Combos</button>
       </div>
+      <div class="discrow" id="discRow">
       <form class="askbox" id="askForm" novalidate>
         <label for="askQ" class="sr-only">Search recipes</label>
         <input type="search" id="askQ" autocomplete="off" placeholder="Search Glazy and your recipes: celadon, satin black, Frit 3134, or a hex like 70626E">
         <button class="btn" type="submit" id="askGo">Search</button>
       </form>
       <button class="ghost" type="button" id="matchBtn" aria-expanded="false" aria-controls="matchPanel">Match colors</button>
+      </div>
     </div>
     <div id="matchPanel" hidden></div>
     <div id="askCombos" hidden></div>
@@ -2362,7 +2366,7 @@ function setDmode(m){
   // Match colors isn't its own mode in the switch: it opens under the search box (the Match colors button), and typing a search closes it
   document.querySelectorAll(".dmode button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.dmode===(dmode==="combos"?"combos":"search"))));
   $("matchBtn").setAttribute("aria-expanded",String(dmode==="match"));$("matchBtn").textContent=dmode==="match"?"Close color match":"Match colors";
-  $("askForm").hidden=$("matchBtn").hidden=dmode==="combos";$("matchPanel").hidden=dmode!=="match";$("askCombos").hidden=dmode!=="combos";$("askMain").hidden=dmode==="combos";
+  $("discRow").hidden=dmode==="combos";$("matchPanel").hidden=dmode!=="match";$("askCombos").hidden=dmode!=="combos";$("askMain").hidden=dmode==="combos";
   if(tab==="ask")setHash();
   if(dmode==="combos")return renderMakers();
   $("askStatus").className="status";$("askStatus").textContent="";askLimit=30;
