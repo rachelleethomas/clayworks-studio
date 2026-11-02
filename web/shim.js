@@ -175,7 +175,7 @@ async function cwCountIdeas() {
 }
 function cwLogout(msg) {
   CW.token = null; CW.me = null; try { localStorage.removeItem("cw-token"); localStorage.removeItem("stainlab-studio"); } catch {}
-  studio = []; recipes = []; ideas = []; combos = []; pieces = []; renderAll(); cwRenderUser(); cwShowLogin(msg);
+  splitDocs([]); renderAll(); cwRenderUser(); cwShowLogin(msg);
 }
 function cwShowLogin(msg) {
   document.getElementById("cwLogin").hidden = false; document.querySelector(".wrap").setAttribute("inert", "");
@@ -194,8 +194,11 @@ document.getElementById("cwForm").addEventListener("submit", async e => {
 });
 (async () => {
   // Local dev: the mock worker hands out a session, so no login screen. Add ?login to the URL to see it anyway.
+  // ?as=erica (or ?as=rachel) switches the local login to that test studio.
+  const cwAs = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(API_BASE) && (location.search.match(/[?&]as=(\w+)/) || [])[1];
+  if (cwAs && localStorage.getItem("cw-as") !== cwAs) { CW.token = null; try { localStorage.setItem("cw-as", cwAs); localStorage.removeItem("stainlab-studio"); } catch {} }
   if (!CW.token && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(API_BASE) && !/[?&]login\b/.test(location.search)) {
-    try { const res = await cwApi("/dev-login"); CW.token = res.token; try { localStorage.setItem("cw-token", res.token); } catch {} }
+    try { const res = await cwApi("/dev-login" + (cwAs ? "?as=" + cwAs : "")); CW.token = res.token; try { localStorage.setItem("cw-token", res.token); } catch {} }
     catch { // test server not running: still no login locally; shelves stay in this browser, recipe generation is off
       cwHideLogin(); const st = document.getElementById("status"); if (st) st.textContent = "Local test server isn't running, so recipe generation is off. Start it with: bash scripts/dev.sh";
       return;

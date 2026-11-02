@@ -17,7 +17,7 @@ const MODELS = {
   default:  { id: "claude-haiku-5-5",  inPerM: 0.10, outPerM: 0.50, maxTokens: 2000 },
 };
 const SESSION_DAYS = 60;
-const MAX_STUDIO_BYTES = 400_000;
+const MAX_STUDIO_BYTES = 10_000_000; // KV values go to 25 MB; a production potter's 2,500 pieces are ~1.2 MB
 const MAX_IDEAS_PER_DAY = 30;
 
 export default {

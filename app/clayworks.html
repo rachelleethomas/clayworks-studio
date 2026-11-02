@@ -122,15 +122,17 @@ header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between
 .topbar .tabs{justify-self:center}
 .acct{justify-self:end;position:relative}
 .intro{display:grid;gap:4px;margin-top:-4px}
+.intro .rp-back{margin-bottom:0!important}
+.booth-on .topbar{display:none}
 .studio{display:grid;gap:22px;grid-template-columns:minmax(0,1fr)} /* one column that never grows past the screen */
-.seg.mineseg{max-width:520px;margin-top:-8px;grid-template-columns:repeat(4,minmax(0,1fr))}
+.seg.mineseg{max-width:360px;margin-top:-8px;grid-template-columns:repeat(2,minmax(0,1fr))}
 .askmain{display:grid;gap:22px;min-width:0}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .field{display:grid;gap:6px}
 .links{display:flex;flex-wrap:wrap;gap:8px 12px;font-size:13px;align-items:center}
 @media (max-width:880px){ /* tabs get their own row before they can collide with the wordmark */
   .topbar{grid-template-columns:1fr auto;row-gap:10px}
-  .topbar .tabs{grid-column:1/-1;grid-row:2;justify-self:stretch;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .topbar .tabs{grid-column:1/-1;grid-row:2;justify-self:stretch;display:grid;grid-template-columns:repeat(var(--tabs,5),minmax(0,1fr))}
 }
 @media (max-width:640px){
   .topbar .tabs button{padding:0 6px;letter-spacing:.06em}
@@ -463,7 +465,7 @@ td.muted,.muted{color:var(--muted)}
 .rp-like .acard .im{width:72px;height:72px}
 .rp-colorchip{height:72px;border-radius:12px;border:1px solid var(--line)}
 .rp-photo{width:100%;border-radius:12px;display:block}
-@media print{.topbar,.rp-nav,.rp-acts,.rp-back,.rp-scale,.rp-side,.rp-matches,#mineSeg{display:none!important}.rp-body{grid-template-columns:1fr}.rp-main{box-shadow:none;border:0}}
+@media print{.topbar,.rp-nav,.rp-acts,.rp-back,.rp-scale,.rp-side,.rp-matches,#discSeg,#grpBack,.s-acts{display:none!important}.rp-body{grid-template-columns:1fr}.rp-main{box-shadow:none;border:0}}
 .savedtools{display:flex;gap:8px;align-items:center;flex:0 1 420px;min-width:0}
 .savedtools input{flex:1 1 auto;min-width:0}
 /* Ideas, Combos and Work share these: a section head, then cards (Ideas = boards of inspiration images, Pinterest-style columns) */
@@ -630,6 +632,120 @@ img.cb-lsw{object-fit:cover}
 .banner{padding:12px 16px}
 .fnote{padding:10px 14px}
 
+/* Work, Kiln, Today, Studio, Sell: rows, stat tiles, batch grid, line bars, booth */
+.t-head,.t-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.t-h{margin:0;font:600 16px var(--body)}
+.t-row{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);font:400 14.5px var(--body);color:var(--ink);min-width:0}
+.t-row:first-of-type{border-top:0}
+button.t-row{cursor:pointer}button.t-row:hover{color:var(--accent)}
+.t-row>span:first-child{min-width:0;overflow-wrap:anywhere}
+.t-row .meta{font-size:12.5px;text-align:right}
+button.rp-box{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 20px;cursor:pointer;box-shadow:var(--shadow-card)}
+button.rp-box:hover{border-color:var(--purple-300)}
+.t-low>span:first-child{display:grid;gap:2px}
+.t-kiln{all:unset;box-sizing:border-box;display:grid;gap:10px;cursor:pointer;background:var(--tint-purple);border:1px solid var(--tint-purple-line);color:var(--tint-purple-ink);border-radius:var(--radius);padding:16px 20px}
+.t-kiln .lbl{color:inherit}
+.t-dots{display:flex;align-items:center;gap:6px;font-size:13.5px}
+.t-dots i{width:24px;height:24px;border-radius:50%;border:2px solid var(--bg);margin-left:-8px}.t-dots i:first-child{margin-left:0}
+.t-prog{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.t-board{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;cursor:pointer}
+.t-board .meta{flex:1}
+.k-sw{display:block;width:30px;height:30px;border-radius:8px;object-fit:cover;border:1px solid var(--line);background:var(--surface);flex:none}
+.k-load{display:grid;gap:12px;background:var(--tint-purple);border:1px solid var(--tint-purple-line);color:var(--tint-purple-ink);border-radius:var(--radius);padding:18px 20px}
+.k-load .lbl,.k-load .note{color:inherit}
+.k-slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:8px}
+.k-slot{all:unset;box-sizing:border-box;aspect-ratio:1;border-radius:10px;display:grid;place-items:center;background:var(--surface);cursor:pointer}
+.k-slot .k-sw{width:100%;height:100%;border:0}
+.k-empty,.k-more{border:1.5px dashed var(--tint-purple-line);background:none;font:500 18px var(--body)}
+.k-pick,.k-fire{display:grid;gap:8px;background:var(--surface);color:var(--ink);border-radius:12px;padding:14px}
+.k-stats,.s-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.k-stats>div{display:grid;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.k-stats b,.s-stats b{font:400 20px var(--mono)}.k-stats span,.s-stats span{font-size:12px;color:var(--muted)}
+.s-stats>div{display:grid;gap:2px}.s-stats b.ok{color:var(--tint-green-ink)}
+.m-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.m-tile{all:unset;box-sizing:border-box;display:grid;gap:8px;align-content:start;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;min-height:120px}
+.m-tile:hover{border-color:var(--purple-300)}
+.m-n{font:300 34px/1 var(--display);color:var(--accent)}
+.m-tile>span{display:grid;gap:2px}
+.m-rc{display:inline-flex;align-items:center;gap:10px;min-width:0}
+.m-rc i{width:22px;height:22px;border-radius:6px;flex:none;border:1px solid var(--line)}
+.pc-n{font:400 .7em var(--mono);color:var(--muted);white-space:nowrap}
+.pc-dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:14px}.pc-dl dt{color:var(--muted)}.pc-dl dd{margin:0}
+.pz-kick{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.pz-st{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.pz-t{all:unset;box-sizing:border-box;display:grid;gap:2px;border-radius:12px;padding:9px 12px;cursor:pointer;background:var(--bg);border:1px solid var(--line)}
+.pz-t b{font:400 20px var(--mono)}.pz-t span{font-size:12px}
+.pz-top{display:flex;justify-content:space-between;align-items:center}
+.pz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px}
+.pz{all:unset;box-sizing:border-box;aspect-ratio:1;border-radius:8px;display:grid;place-items:center;font:600 12px var(--mono);cursor:pointer;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
+.pz:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.st-making,.st-drying{background:var(--bg);color:var(--ink)}.st-bisqued{background:var(--tint-purple);color:var(--tint-purple-ink)}.st-glazed{background:var(--tint-blue);color:var(--tint-blue-ink)}
+.st-finished{background:var(--tint-green);color:var(--tint-green-ink)}.st-sold{background:var(--tint-teal);color:var(--tint-teal-ink)}
+.st-gift{background:var(--tint-pink);color:var(--tint-pink-ink)}.st-broken{background:var(--tint-orange);color:var(--tint-orange-ink);border-style:dashed}
+.pz.st-broken{background:var(--surface);border-color:var(--tint-orange-line)}
+.pz.sel{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.pz-sheet{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:12px}
+@media (max-width:640px){.pz-sheet{position:sticky;bottom:calc(76px + env(safe-area-inset-bottom,0px));background:var(--surface);margin:0 -20px -20px;padding:12px 20px 16px;border-radius:0 0 var(--radius) var(--radius);box-shadow:0 -6px 16px rgba(0,0,0,.08)}}
+.pz-broken{border-color:var(--tint-orange-line);color:var(--tint-orange-ink)}.pz-gift{border-color:var(--tint-pink-line);color:var(--tint-pink-ink)}
+.pz-how{display:flex;justify-content:space-between;align-items:center;gap:12px}.pz-how>span:first-child{display:grid;gap:2px}
+.pz-step{display:inline-flex;align-items:center;gap:8px}
+input.pz-num{width:76px;text-align:center;font-family:var(--mono)}
+.pz-dup{display:grid;gap:6px}
+.pz-past{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);cursor:pointer;font-size:14px}
+.pz-past>span:nth-child(2){flex:1}.pz-past small{color:var(--muted)}
+.pz-past.on{background:var(--tint-purple);border-color:var(--tint-purple-line);color:var(--tint-purple-ink)}
+.pz-psw{width:28px;height:28px;border-radius:7px;object-fit:cover;flex:none}
+.st-chip{padding-left:12px;text-transform:none;letter-spacing:0;font-family:var(--body);font-size:13px}
+.st-sell{border-radius:var(--radius);padding:10px 14px 10px 10px;align-items:flex-start}.st-sell>span{display:grid;gap:2px}.st-sell small{color:var(--muted);font-size:12.5px}
+.i-map{display:grid;grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line);font-size:14px}
+.i-map:first-child{border-top:0}.i-map b{color:var(--tint-purple-ink)}
+.mono{font-family:var(--mono)}
+.i-sum{background:var(--tint-green);border:1px solid var(--tint-green-line);color:var(--tint-green-ink);border-radius:var(--radius);padding:14px 18px;font-size:14px;line-height:1.5}
+.s-locs{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.s-loc{display:grid;gap:2px;border-radius:12px;padding:10px 12px;border:1px solid}
+.s-loc b{font:400 22px var(--mono)}.s-loc span{font-size:12px}
+.s-loc.c0{background:var(--tint-purple);border-color:var(--tint-purple-line);color:var(--tint-purple-ink)}
+.s-loc.c1{background:var(--tint-teal);border-color:var(--tint-teal-line);color:var(--tint-teal-ink)}
+.s-loc.c2{background:var(--tint-blue);border-color:var(--tint-blue-line);color:var(--tint-blue-ink)}
+.s-event{display:grid;gap:8px;background:var(--tint-orange);border:1px solid var(--tint-orange-line);color:var(--tint-orange-ink);border-radius:var(--radius);padding:16px 20px}
+.s-event .lbl{color:inherit}.s-ev-name{font:400 22px/1.15 var(--display)}
+.btn.s-ev-go{background:var(--tint-orange-ink);color:var(--tint-orange)}
+.l-card{display:grid!important;gap:10px}
+.l-top{display:flex;gap:12px;align-items:center}.l-top>span:nth-child(2){flex:1;display:grid;gap:2px;min-width:0}
+.l-sw{width:44px;height:44px;border-radius:10px;overflow:hidden;display:grid;grid-template-rows:1fr 1fr;flex:none;border:1px solid var(--line)}
+.l-sw.big{width:56px;height:56px;border-radius:12px}.l-sw i{display:block}
+.l-need{color:var(--tint-orange-ink);font-size:13.5px;font-weight:600}.l-ok{color:var(--tint-green-ink);font-size:13.5px}
+.l-bar{display:flex;height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.l-bar i,.l-legend i{display:block;background:var(--line)}.l-bar .r,.l-legend .r{background:var(--accent)}.l-bar .m,.l-legend .m{background:var(--tint-purple-line)}
+.l-foot{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.l-legend{display:flex;gap:14px;margin:0;font-size:12.5px;color:var(--muted)}.l-legend span{display:inline-flex;align-items:center;gap:5px}.l-legend i{width:10px;height:10px;border-radius:3px}
+.l-head{display:flex;gap:14px;align-items:center}
+input.l-tagin{width:auto;max-width:140px;min-height:30px;padding:4px 12px;border-radius:999px;border-style:dashed;font-size:14px}
+.l-tbl{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(4,minmax(0,1fr));align-items:center;font-size:14px}
+.l-tbl>*{padding:7px 0;border-top:1px solid var(--line)}
+.l-tbl .h:not(:first-child){text-align:right;padding-right:4px}
+.l-tbl .h{border-top:0;font:400 11px var(--pixel);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.l-tbl .n{font-family:var(--mono);text-align:right;padding-right:4px}
+.l-tbl .linkbtn.n{justify-self:stretch;text-align:right;margin:0!important}
+.l-tbl .linkbtn{margin:0!important;border-radius:0;justify-self:start}.l-tbl .l-form{padding:7px 0}
+input.l-goal{width:100%;max-width:60px;padding:4px 6px;text-align:right;font-family:var(--mono);font-size:16px}
+.b-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.b-sum{display:grid;gap:8px;background:var(--tint-green);border:1px solid var(--tint-green-line);color:var(--tint-green-ink);border-radius:var(--radius);padding:16px 20px}
+.b-sum .meta{color:inherit}.b-sum .l-bar .r{background:var(--tint-green-ink)}
+.b-total{font:400 30px var(--mono)}
+.b-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.b-sell{all:unset;box-sizing:border-box;display:grid;gap:8px;min-height:96px;align-content:space-between;padding:14px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line);cursor:pointer;box-shadow:var(--shadow-card)}
+.b-sell:active{background:var(--wash)}.b-sell b{font-size:16px}.b-sell>span{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.b-sell .mono{color:var(--ink);font-size:15px}
+.b-paid{max-width:280px}
+.s-sheet .addinner{display:grid;gap:4px;max-width:440px}
+.s-sheet .addhead h2{margin:0}
+input.s-price{width:110px;text-align:right;font-family:var(--mono)}
+.fchip-s{border:1px solid var(--purple-500);border-radius:999px;background:none;color:var(--accent);padding:6px 12px;font:400 var(--ctl-fs) var(--pixel);letter-spacing:.06em;cursor:pointer}
+.fchip-s:hover{background:var(--wash)}
+.s-keep{font-size:16px}
+@media (max-width:640px){.t-prog{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.l-tbl{font-size:13px}.k-stats b{font-size:17px}}
+
 /* ---------- 9 Shelves and Search & add ---------- */
 .shelfbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
 .shelves{display:grid;gap:22px}
@@ -696,8 +812,8 @@ body{-webkit-tap-highlight-color:transparent}
 button,summary,.tabs,.seg,.fdd,.fchip,.chip,.fx,.srcb,.pill,.rst,.lbl,.brand{-webkit-user-select:none;user-select:none}
 button,a,summary,label,select{touch-action:manipulation}
 @media (max-width:640px){
-  /* the three main tabs become an iPhone-style bottom bar */
-  .topbar .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
+  /* the main tabs become an iPhone-style bottom bar */
+  .topbar .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(var(--tabs,5),minmax(0,1fr));gap:0;
     margin:0;border-radius:0;padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);
     background:color-mix(in srgb,var(--surface) 92%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px)}
   .topbar .tabs button{flex-direction:column;gap:4px;min-height:54px;padding:4px 0;border-radius:12px;background:none!important;box-shadow:none!important;
@@ -729,23 +845,34 @@ button,a,summary,label,select{touch-action:manipulation}
 
 <div class="wrap">
   <header class="topbar">
-    <a class="brand" href="#ask" aria-label="Your Studio, home"><span class="mark" aria-hidden="true"></span><span class="brand-name">Your Studio</span></a>
+    <a class="brand" href="#today" aria-label="Your Studio, home"><span class="mark" aria-hidden="true"></span><span class="brand-name">Your Studio</span></a>
     <div class="tabs" role="tablist" aria-label="Sections" id="tabs"></div>
     <div class="acct" id="acct"></div>
   </header>
   <div class="intro">
+    <button type="button" class="linkbtn rp-back" id="grpBack" hidden>‹ Studio</button>
     <h1 id="pageTitle">Color match</h1>
     <p class="sub" id="sub">Drop in an inspiration image or hex codes, pick your clay body and cone, and get Mason stain recipes as % of dry clay with gram weights for your batch.</p>
   </div>
 
-  <div class="seg mineseg" id="mineSeg" role="radiogroup" aria-label="My Studio" hidden>
-    <button type="button" role="radio" aria-checked="true" data-sub="work">Work</button>
-    <button type="button" role="radio" aria-checked="false" data-sub="saved">Recipes</button>
-    <button type="button" role="radio" aria-checked="false" data-sub="combos">Combos</button>
-    <button type="button" role="radio" aria-checked="false" data-sub="studio">Shelves</button>
+  <div class="seg mineseg" id="discSeg" role="radiogroup" aria-label="Discover" hidden>
+    <button type="button" role="radio" aria-checked="true" data-sub="ask">Search</button>
+    <button type="button" role="radio" aria-checked="false" data-sub="ideas">My boards</button>
   </div>
 
-  <!-- MY STUDIO → WORK: pieces, from in progress to finished -->
+  <!-- TODAY: next firing, what to do, running low, in progress -->
+  <div class="studio" id="view-today" role="tabpanel" hidden><section class="ideas" id="todayRoot" aria-label="Today"></section></div>
+
+  <!-- SELL (selling on): stock, lines, markets, booth mode, sales -->
+  <div class="studio" id="view-sell" role="tabpanel" hidden><section class="ideas" id="sellRoot" aria-label="Sell"></section></div>
+
+  <!-- STUDIO overview, kiln, setup, spreadsheet import -->
+  <div class="studio" id="view-mine" role="tabpanel" hidden><section class="ideas" id="mineRoot" aria-label="Studio"></section></div>
+  <div class="studio" id="view-kiln" role="tabpanel" hidden><section class="ideas" id="kilnRoot" aria-label="Kiln"></section></div>
+  <div class="studio" id="view-setup" role="tabpanel" hidden><section class="ideas" id="setupRoot" aria-label="Setup"></section></div>
+  <div class="studio" id="view-import" role="tabpanel" hidden><section class="ideas" id="importRoot" aria-label="Import a spreadsheet"></section></div>
+
+  <!-- WORK: pieces and batches, from wet clay to finished -->
   <div class="studio" id="view-work" role="tabpanel" hidden><section class="ideas" id="piecesRoot" aria-label="Work"></section></div>
 
   <!-- MY STUDIO → COMBOS: glazes layered on each other -->
@@ -1002,11 +1129,13 @@ const keyOf = it => (it.kind+"-"+(it.brand||"")+"-"+(it.line?it.line+"-":"")+(it
 let sampleNs=null, sampleImages=false;
 
 /* ---------- Studio store (account db, falls back to this browser) ---------- */
-let studio=[], recipes=[], ideas=[], combos=[], pieces=[], studioColl=null, storeMode="loading";
+let studio=[], recipes=[], ideas=[], combos=[], pieces=[], misc=[], studioColl=null, storeMode="loading";
+// settings, kiln firings, product lines, markets, expenses and sales of things that aren't logged pieces
+const MISC=new Set(["settings","firing","line","event","expense","sale"]);
 // Saved recipes share the shelf store as docs with kind "recipe", so they sync wherever shelves do.
-function splitDocs(arr){arr=Array.isArray(arr)?arr:[];studio=arr.filter(d=>d&&d.kind!=="recipe"&&d.kind!=="prices"&&d.kind!=="idea"&&d.kind!=="combo"&&d.kind!=="piece");pieces=arr.filter(d=>d&&d.kind==="piece").sort((a,b)=>(b.updatedAt||b.addedAt||0)-(a.updatedAt||a.addedAt||0));combos=arr.filter(d=>d&&d.kind==="combo").sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));ideas=arr.filter(d=>d&&d.kind==="idea").sort((a,b)=>(a.addedAt||0)-(b.addedAt||0));recipes=arr.filter(d=>d&&d.kind==="recipe").sort((a,b)=>(b.savedAt||0)-(a.savedAt||0));pricesDoc=arr.find(d=>d&&d.kind==="prices")||null}
-const allDocs=()=>[...studio,...recipes,...ideas,...combos,...pieces,...(pricesDoc?[pricesDoc]:[])];
-function loadLocal(){try{splitDocs(JSON.parse(localStorage.getItem("stainlab-studio")||"[]"))}catch{studio=[];recipes=[];ideas=[];combos=[];pieces=[]}}
+function splitDocs(arr){arr=Array.isArray(arr)?arr:[];studio=arr.filter(d=>d&&d.kind!=="recipe"&&d.kind!=="prices"&&d.kind!=="idea"&&d.kind!=="combo"&&d.kind!=="piece"&&!MISC.has(d.kind));misc=arr.filter(d=>d&&MISC.has(d.kind));pieces=arr.filter(d=>d&&d.kind==="piece").sort((a,b)=>(b.updatedAt||b.addedAt||0)-(a.updatedAt||a.addedAt||0));combos=arr.filter(d=>d&&d.kind==="combo").sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));ideas=arr.filter(d=>d&&d.kind==="idea").sort((a,b)=>(a.addedAt||0)-(b.addedAt||0));recipes=arr.filter(d=>d&&d.kind==="recipe").sort((a,b)=>(b.savedAt||0)-(a.savedAt||0));pricesDoc=arr.find(d=>d&&d.kind==="prices")||null}
+const allDocs=()=>[...studio,...recipes,...ideas,...combos,...pieces,...misc,...(pricesDoc?[pricesDoc]:[])];
+function loadLocal(){try{splitDocs(JSON.parse(localStorage.getItem("stainlab-studio")||"[]"))}catch{splitDocs([])}}
 function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(allDocs()))}catch{}}
 async function addItem(it){
   const clean={kind:it.kind,name:String(it.name||"").slice(0,120),brand:it.brand||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",note:it.note||"",line:it.line||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",...(/^https:\/\//.test(it.img||"")?{img:it.img}:{}),addedAt:Date.now()};
@@ -1074,6 +1203,32 @@ async function deletePiece(id){
   if(studioColl){try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't delete that. "+(e?.message||""))}}
   else{pieces=pieces.filter(x=>x.id!==id);saveLocal();renderAll()}
 }
+const docsOf=k=>misc.filter(d=>d.kind===k);
+const newId=k=>k+"-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+async function putDoc(kind,d){
+  const {id:given,...doc}=d,id=given||newId(kind);doc.kind=kind;doc.addedAt=doc.addedAt||Date.now();doc.updatedAt=Date.now();
+  if(studioColl){try{await studioColl.doc(id).set(doc)}catch(e){flash("Couldn't save that. "+(e?.message||""));return null}}
+  else{const i=misc.findIndex(x=>x.id===id);if(i>=0)misc[i]={id,...doc};else misc.push({id,...doc});saveLocal();renderAll()}
+  return id;
+}
+async function deleteDoc(id){
+  if(studioColl){try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't delete that. "+(e?.message||""))}}
+  else{misc=misc.filter(x=>x.id!==id);saveLocal();renderAll()}
+}
+// many pieces at once (a batch of 40, a spreadsheet import): one render at the end; onProgress(done,total)
+async function putPieces(list,onProgress){
+  const now=Date.now(),out=[];
+  for(const [i,p] of list.entries()){const {id:given,...doc}=p,id=given||"piece-"+(now+i).toString(36)+Math.random().toString(36).slice(2,6);
+    doc.kind="piece";doc.addedAt=doc.addedAt||now;doc.updatedAt=now;out.push(id);
+    if(studioColl){try{await studioColl.doc(id).set(doc)}catch(e){flash("Saved "+i+" of "+list.length+". "+(e?.message||""));return out}}
+    else{const j=pieces.findIndex(x=>x.id===id);if(j>=0)pieces.splice(j,1);pieces.unshift({id,...doc})}
+    if(onProgress&&i%20===19)onProgress(i+1,list.length)}
+  if(!studioColl){saveLocal();renderAll()}
+  return out;
+}
+async function patchShelf(id,patch){const it=studio.find(x=>x.id===id);if(!it)return;const {id:_,...doc}={...it,...patch};
+  if(studioColl){try{await studioColl.doc(id).set(doc)}catch(e){flash("Couldn't save that. "+(e?.message||""))}}
+  else{Object.assign(it,patch);saveLocal();renderAll()}}
 async function initStore(){
   try{
     const [db,user]=await Promise.all([window.claude?.use?.("db"),window.claude?.use?.("user")]);
@@ -1095,43 +1250,65 @@ const SUBS={
   glaze:"Drop in an inspiration image or hex codes, pick your firing and surface, and get glaze recipes: a base that totals 100 plus colorants, with grams for your batch.",
   work:"Pieces you're making, from wet clay to out of the glaze kiln. Move each one along as it goes.",
   combos:"Glazes layered on each other: what you've tried, with photos of the tiles, and what you want to test.",
-  ideas:"Boards of pieces, pins and photos you love. Each one's colors are pulled out, ready for Match colors.",
+  ideas:"Your boards of pieces, pins and photos. Each one's colors are pulled out, ready for Match colors.",
   saved:"Recipes you've saved or written yourself. Tap one to see grams for any batch, what's on your shelves, and your test notes.",
   ask:"Search tested Glazy recipes, premade glazes, makers' combo tiles and your own, or tap Match colors to get stain and glaze recipes for a palette or photo.",
-  studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first."};
-let tab="ask";
-const TABS=[["ask","Discover"],["mystudio","My Studio"],["ideas","Ideas"]],START="ask";
-// "My Studio" holds four views, switched by a segmented control under the title.
-const GROUPS={mystudio:{subs:["work","saved","combos","studio"],seg:"mineSeg",title:"My Studio"}};
-const groupSub={mystudio:"work"};
-const VIEWS=["ask","ideas","work","saved","combos","studio","recipe","premade","tile"];
-const TITLES={ask:"Discover",ideas:"Ideas",work:"Work",saved:"Recipes",combos:"Combos",studio:"Shelves",recipe:"Recipe",premade:"Premade glaze",tile:"Combo tile"};
-const TAB_ICONS={ // 24px line icons for the phone tab bar: a loupe over a drip, jars on a shelf, a board of pins
-  ask:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 20 20"/><path d="M8 9.5c1-1.6 3-2 4.5-.6"/></svg>',
-  mystudio:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M3 13h18"/><rect x="5" y="6" width="4.5" height="7" rx="1.2"/><rect x="11.5" y="8" width="4" height="5" rx="1.2"/><rect x="6" y="15.5" width="5" height="4.5" rx="1.2"/><rect x="13" y="15" width="5" height="5" rx="1.2"/></svg>',
-  ideas:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="9" rx="1.5"/><rect x="13" y="4" width="7" height="5" rx="1.5"/><rect x="4" y="15" width="7" height="5" rx="1.5"/><rect x="13" y="11" width="7" height="9" rx="1.5"/></svg>'};
+  studio:"Everything on your shelves: stains, glazes, clay bodies and chemicals. Recipes use what's here first.",
+  mine:"",today:"",sell:"",kiln:"Loads, the firing log and how your elements are holding up.",setup:"Discover, Match colors and new pieces start from these.",
+  import:"One row per piece. Map your columns, check the stages, and every row becomes a piece with its own price and sale."};
+let tab="today";
+// Sell only shows once Setup → "I sell my work" is on
+const TABS_ALL=[["today","Today"],["work","Work"],["sell","Sell"],["discover","Discover"],["mystudio","Studio"]],START="today";
+const tabsNow=()=>TABS_ALL.filter(([k])=>k!=="sell"||SET().sell);
+// Discover switches Search · My boards; Studio is an overview page with its sections under it
+const GROUPS={discover:{subs:["ask","ideas"],seg:"discSeg",title:"Discover"},mystudio:{subs:["mine","saved","combos","studio","kiln","setup","import"],title:"Studio"}};
+const groupSub={discover:"ask",mystudio:"mine"};
+const VIEWS=["today","work","sell","ask","ideas","mine","saved","combos","studio","kiln","setup","import","recipe","premade","tile"];
+const TITLES={today:"Today",work:"Work",sell:"Sell",ask:"Discover",ideas:"Discover",mine:"Studio",saved:"Recipes",combos:"Combos",studio:"Shelves",kiln:"Kiln",setup:"Setup",import:"Bring in your sheet",recipe:"Recipe",premade:"Premade glaze",tile:"Combo tile"};
+const TAB_ICONS={ // 24px line icons for the phone tab bar
+  today:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></svg>',
+  work:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10M8 4c0 3-3 4-3 9a7 7 0 0 0 14 0c0-5-3-6-3-9"/></svg>',
+  sell:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>',
+  discover:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 20 20"/><path d="M8 9.5c1-1.6 3-2 4.5-.6"/></svg>',
+  mystudio:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M3 13h18"/><rect x="5" y="6" width="4.5" height="7" rx="1.2"/><rect x="11.5" y="8" width="4" height="5" rx="1.2"/><rect x="6" y="15.5" width="5" height="4.5" rx="1.2"/><rect x="13" y="15" width="5" height="5" rx="1.2"/></svg>'};
+let tabsKey="";
 function renderTabs(){
-  const t=$("tabs");t.textContent="";
-  TABS.forEach(([k,v])=>{const b=el("button",{role:"tab",id:"tab-"+k,type:"button","aria-selected":"false",onclick:()=>showTab(k)});
+  const list=tabsNow(),k=list.map(x=>x[0]).join();if(k===tabsKey)return;tabsKey=k;
+  const t=$("tabs");t.textContent="";t.style.setProperty("--tabs",list.length);
+  list.forEach(([k,v])=>{const b=el("button",{role:"tab",id:"tab-"+k,type:"button","aria-selected":"false",onclick:()=>showTab(k)});
     b.innerHTML=TAB_ICONS[k]||"";b.append(el("span",{text:v}));t.append(b)});
+  if(tab)markTab();
 }
+const groupOf=name=>name==="recipe"||name==="premade"&&premadeFrom==="studio"?"mystudio":name==="tile"||name==="premade"?"discover":Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name));
+function markTab(){const grp=groupOf(tab)||tab;[...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+grp)))}
 function showTab(name){
   if(GROUPS[name])name=groupSub[name];
   const dm={recipes:"match",match:"match",library:"search"}[name]; // old and mode hashes all land in Discover
   if(dm){name="ask";setTimeout(()=>setDmode(dm))}
   if(name==="makers"){name="ask";setTimeout(()=>showCombos(""))}
+  if(name==="lines"){SELL.page="lines";name="sell"}
   if(!VIEWS.includes(name))name=START;
   tab=name;
-  const grp=name==="recipe"?"mystudio":Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name));
-  if(grp&&name!=="recipe")groupSub[grp]=name;
-  document.querySelector(".intro").hidden=name==="recipe"||name==="premade"||name==="tile";
+  const grp=groupOf(name);
+  if(grp&&GROUPS[grp].subs.includes(name))groupSub[grp]=name;
+  const full=name==="recipe"||name==="premade"||name==="tile"||name==="sell"&&SELL.page==="booth";
+  document.querySelector(".intro").hidden=full;
+  document.querySelector(".wrap").classList.toggle("booth-on",name==="sell"&&SELL.page==="booth");
   VIEWS.forEach(v=>$("view-"+v).hidden=v!==name);
-  [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+(grp||(name==="premade"?(premadeFrom==="studio"?"mystudio":"ask"):name==="tile"?"ask":name)))));
-  Object.entries(GROUPS).forEach(([g,G])=>{$(G.seg).hidden=g!==grp||name==="recipe";
-    document.querySelectorAll("#"+G.seg+" button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.sub===name)))});
+  markTab();
+  $("discSeg").hidden=grp!=="discover"||name==="tile"||name==="premade";
+  document.querySelectorAll("#discSeg button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.sub===name)));
+  const back=grp==="mystudio"&&name!=="mine"&&name!=="recipe"&&!(name==="premade");
+  $("grpBack").hidden=!back;$("grpBack").textContent=name==="import"?"‹ Setup":"‹ Studio";
   $("sub").textContent=SUBS[name]||"";
-  $("pageTitle").textContent=(grp&&GROUPS[grp].title)||TITLES[name];
+  $("pageTitle").textContent=TITLES[name];
+  if(name==="today")renderToday();
   if(name==="work")renderPieces();
+  if(name==="sell")renderSell();
+  if(name==="mine")renderMine();
+  if(name==="kiln")renderKiln();
+  if(name==="setup")renderSetup();
+  if(name==="import")renderImport();
   if(name==="combos")renderCombos();
   if(name==="tile")renderTile();
   if(name==="ask"&&dmode==="search"&&!askQuery&&!askItems.length){askItems=askBrowse();renderAsk()}
@@ -1140,11 +1317,13 @@ function showTab(name){
   setHash();
 }
 function setHash(){
-  const h=tab==="combos"&&COMBO.open?"combo/"+COMBO.open:tab==="work"&&PIECE.open?"piece/"+PIECE.open:tab==="recipe"&&openId?"recipe/"+openId:
-    tab==="premade"&&openPremadeKey?"premade/"+encodeURIComponent(openPremadeKey):tab==="tile"&&COMBO.mkOpen!=null?"tile/"+COMBO.mkOpen:tab==="ask"&&dmode==="match"?"match":tab;
+  const h=tab==="combos"&&COMBO.open?"combo/"+COMBO.open:tab==="work"&&PIECE.open?"piece/"+PIECE.open:tab==="work"&&PIECE.batch?"batch/"+PIECE.batch:tab==="recipe"&&openId?"recipe/"+openId:
+    tab==="premade"&&openPremadeKey?"premade/"+encodeURIComponent(openPremadeKey):tab==="tile"&&COMBO.mkOpen!=null?"tile/"+COMBO.mkOpen:tab==="ask"&&dmode==="match"?"match":
+    tab==="sell"&&SELL.page==="line"&&SELL.line?"line/"+SELL.line:tab==="sell"&&SELL.page==="booth"&&SELL.event?"booth/"+SELL.event:tab==="sell"&&SELL.page==="lines"?"lines":tab;
   try{history.replaceState(null,"","#"+h)}catch{}
 }
-document.querySelectorAll("#mineSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
+document.querySelectorAll("#discSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
+$("grpBack").onclick=()=>showTab(tab==="import"?"setup":"mine");
 document.querySelector(".brand").onclick=e=>{e.preventDefault();showTab(START);window.scrollTo({top:0,behavior:"smooth"})};
 $("goStudio").onclick=()=>showTab("studio");
 
@@ -1432,7 +1611,7 @@ function renderShelves(){
       const acts=el("div",{class:"acts"});
       const rm=el("button",{type:"button",class:"linkbtn",text:"Remove"});
       rm.onclick=()=>{acts.textContent="";acts.append(el("button",{type:"button",class:"ghost sm",text:"Yes, remove",onclick:()=>removeItem(it.id)}),el("button",{type:"button",class:"linkbtn",text:"Keep",onclick:renderShelves}))};
-      acts.append(rm);
+      acts.append(el("button",{type:"button",class:"linkbtn",text:it.low?"Restocked":"Running low",onclick:()=>patchShelf(it.id,{low:!it.low,updatedAt:Date.now()})}),rm);
       if(it.recipeId){ // one of your mixed batches
         const r=recipes.find(x=>x.id===it.recipeId),sw=swatch(it);rm.textContent="Used up";
         if(r?.photo){const im=photoEl(r.photo,"","");im.onerror=()=>im.remove();sw.append(im)}
@@ -1446,7 +1625,7 @@ function renderShelves(){
       else if(pm?.hex&&!normHex(it.hex))sw.style.background="#"+pm.hex;
       const stores=pm?new Set((pm.offers||[]).map(o=>o.store)).size:0;
       const card=el("div",{class:"item"+(pm?" tappable":"")},sw,el("div",{},
-        el("h4",{text:it.code?`${it.code} ${it.name}`:it.name}),
+        el("h4",{},it.code?`${it.code} ${it.name}`:it.name,it.low?el("span",{class:"pill buy",text:"Low"}):null),
         el("div",{class:"meta",text:[it.brand,it.line,it.cone].filter(Boolean).join(" · ")}),
         pm?el("div",{class:"note",text:stores>1?`Sold at ${stores} stores · compare prices`:"Where to buy and price"}):
           it.url?el("a",{href:it.url,target:"_blank",rel:"noopener",class:"note",text:"View at "+String(it.source||"supplier").split(", ")[0]}):null,
@@ -2482,10 +2661,18 @@ function renderComboEdit(w){
 
 /* ---------- Work (My Studio → Work): pieces from in progress to finished ---------- */
 const STAGES=[["making","Making"],["drying","Drying"],["bisqued","Bisqued"],["glazed","Glazed"],["finished","Finished"]];
+const ENDS=[["sold","Sold"],["gift","Gift"],["broken","Broken"]]; // where a piece can end up besides Finished
+const ALL_ST=[...STAGES,...ENDS];
 const STAGE_TINT={making:"A79A8C",drying:"C9BCAB",bisqued:"E9DDCB"}; // wet clay, dry clay, bisque
-const PIECE={open:null,edit:null,show:"progress"};
-const stageName=k=>(STAGES.find(s=>s[0]===k)||STAGES[0])[1];
+const PIECE={open:null,edit:null,batch:null,show:"progress",sel:new Set()};
+const stageName=k=>(ALL_ST.find(s=>s[0]===k)||STAGES[0])[1];
 const nextStage=k=>{const i=STAGES.findIndex(s=>s[0]===k);return i>=0&&i<STAGES.length-1?STAGES[i+1][0]:null};
+const isLive=p=>STAGES.slice(0,4).some(s=>s[0]===(p.stage||"making"));
+const plural=(t,n)=>n===1?t:/(s|x|ch|sh)$/i.test(t)?t+"es":/[^aeiou]y$/i.test(t)?t.slice(0,-1)+"ies":t+"s";
+const batchOf=id=>pieces.filter(p=>p.batch===id).sort((a,b)=>(a.addedAt||0)-(b.addedAt||0)||a.id.localeCompare(b.id)); // made order, so the grid stays put as pieces move
+// pieces made together (one batch) stay together; a lone piece is its own group
+function pieceGroups(list){const m=new Map();list.forEach(p=>{const k=p.batch||p.id;if(!m.has(k))m.set(k,[]);m.get(k).push(p)});return [...m.values()]}
+const groupTitle=g=>plural(g[0].title||"Untitled piece",g.length);
 // the glaze on a piece: one of your combos, or anything a combo layer can be
 function pieceGlaze(p){const g=p.glaze;if(!g||!g.ref)return null;
   if(g.ref.startsWith("c:")){const c=combos.find(x=>x.id===g.ref.slice(2));
@@ -2493,7 +2680,12 @@ function pieceGlaze(p){const g=p.glaze;if(!g||!g.ref)return null;
   return layerInfo(g)}
 const pieceUses=(p,ref)=>{const g=p.glaze?.ref;if(!g)return false;if(g===ref)return true;const c=g.startsWith("c:")&&combos.find(x=>x.id===g.slice(2));return !!c&&comboHas(c,ref)};
 function openPiece(id){PIECE.open=id;PIECE.edit=null;showTab("work");window.scrollTo({top:0})}
-function newPiece(pre={}){PIECE.edit={title:"",stage:"making",clay:"",cone:"Cone 6",glaze:null,photos:[],notes:"",...pre};PIECE.open=null;showTab("work");window.scrollTo({top:0})}
+function openBatch(id){PIECE.batch=id;PIECE.open=null;PIECE.edit=null;PIECE.sel.clear();showTab("work");window.scrollTo({top:0})}
+const PIECE_FIELDS=["title","form","line","tags","clay","cone","glaze","price","notes"];
+function newPiece(pre={}){PIECE.edit={title:"",stage:"making",clay:SET().clays[0]||"",cone:"Cone "+(SET().glazeCone||"6"),glaze:null,photos:[],notes:"",tags:[],count:1,...pre};PIECE.open=null;PIECE.batch=null;showTab("work");window.scrollTo({top:0})}
+// a new batch copied from an old one: same form, line, clay, glaze and price, starting over at Making
+function dupPieces(p,count){const pre={};PIECE_FIELDS.forEach(f=>{if(p[f]!=null)pre[f]=JSON.parse(JSON.stringify(p[f]))});pre.notes="";
+  newPiece({...pre,count:count||1,from:p.batch||p.id})}
 // no photo: a pot in its stage's clay color, or its glaze once glazed
 function pieceSwatch(p,cls="cb-sw"){
   if((p.photos||[])[0])return el("img",{class:cls,src:p.photos[0],alt:p.title||"Piece",loading:"lazy"});
@@ -2503,44 +2695,83 @@ function pieceSwatch(p,cls="cb-sw"){
   svg.append(path);return svg}
 // a list of pieces for a recipe or combo page
 function piecesFor(ref){const list=pieces.filter(p=>pieceUses(p,ref));
-  return list.length?el("div",{class:"pc-mini"},...list.map(p=>el("button",{type:"button",class:"rp-rel",onclick:()=>openPiece(p.id)},pieceSwatch(p,"rp-rel-sw"),
-    el("span",{},el("b",{text:p.title||"Untitled piece"}),el("span",{class:"meta",text:stageName(p.stage)}))))):el("p",{class:"note",text:"No pieces with this glaze yet."})}
-function pieceCard(p){
-  const g=pieceGlaze(p),n=nextStage(p.stage),when=p.stageAt?.[p.stage];
+  return list.length?el("div",{class:"pc-mini"},...pieceGroups(list).map(g=>el("button",{type:"button",class:"rp-rel",onclick:()=>g.length>1?openBatch(g[0].batch):openPiece(g[0].id)},pieceSwatch(g[0],"rp-rel-sw"),
+    el("span",{},el("b",{text:groupTitle(g)+(g.length>1?" × "+g.length:"")}),el("span",{class:"meta",text:stageSummary(g)}))))):el("p",{class:"note",text:"No pieces with this glaze yet."})}
+function stageSummary(list){const n={};list.forEach(p=>n[p.stage||"making"]=(n[p.stage||"making"]||0)+1);
+  return ALL_ST.filter(([k])=>n[k]).map(([k,l])=>(list.length>1?n[k]+" ":"")+l.toLowerCase()).join(" · ").replace(/^./,c=>c.toUpperCase())}
+function pieceMeta(p){const ln=p.line&&lineOf(p.line),g=pieceGlaze(p);return [ln?ln.name:g?g.name:"",p.clay].filter(Boolean)}
+function groupCard(g){
+  const p=g[0],n=nextStage(p.stage),when=p.stageAt?.[p.stage],many=g.length>1;
   return el("div",{class:"pc-card"},
-    el("button",{type:"button",class:"pc-open",onclick:()=>openPiece(p.id)},pieceSwatch(p,"pc-th"),
-      el("span",{class:"cb-ct"},el("b",{text:p.title||"Untitled piece"}),
-        el("span",{class:"meta",text:[g?g.name:"",p.clay,when?stageName(p.stage)+" "+fmtDate(when):""].filter(Boolean).join(" · ")||"Tap to add details"}))),
-    n?el("button",{type:"button",class:"ghost sm pc-next",text:stageName(n)+" →",title:"Move to "+stageName(n),onclick:()=>movePiece(p,n)}):null)}
-function movePiece(p,stage){return putPiece({...p,stage,stageAt:{...(p.stageAt||{}),[stage]:Date.now()}})}
+    el("button",{type:"button",class:"pc-open",onclick:()=>many?openBatch(p.batch):openPiece(p.id)},pieceSwatch(p,"pc-th"),
+      el("span",{class:"cb-ct"},el("b",{},p.title||"Untitled piece",many?el("span",{class:"pc-n",text:" × "+g.length}):null),
+        el("span",{class:"meta",text:[...pieceMeta(p),when?stageName(p.stage)+" "+fmtDate(when):""].filter(Boolean).join(" · ")||"Tap to add details"}))),
+    n?el("button",{type:"button",class:"ghost sm pc-next",text:(many?"All to ":"")+stageName(n)+" →",title:"Move to "+stageName(n),onclick:()=>movePieces(g,n)}):null)}
+const movePiece=(p,stage)=>movePieces([p],stage);
+function movePieces(list,stage){const now=Date.now();
+  return putPieces(list.map(p=>({...p,stage,stageAt:{...(p.stageAt||{}),[stage]:now}})))}
 function renderPieces(){
   const w=$("piecesRoot");if(!w)return;
   const ae=document.activeElement;if(w.contains(ae)&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))return; // don't clobber typing
   w.replaceChildren();
+  if(tab==="work")document.querySelector(".intro").hidden=!!(PIECE.edit||PIECE.open||PIECE.batch); // detail pages carry their own heading
   if(PIECE.edit)return renderPieceEdit(w);
   const open=PIECE.open&&pieces.find(p=>p.id===PIECE.open);
   if(PIECE.open&&!open&&storeMode!=="loading")PIECE.open=null;
   if(open)return renderPiecePage(w,open);
-  const live=pieces.filter(p=>p.stage!=="finished"),done=pieces.filter(p=>p.stage==="finished");
+  if(PIECE.batch){const b=batchOf(PIECE.batch);if(b.length)return renderBatch(w,b);if(storeMode!=="loading")PIECE.batch=null}
+  const live=pieces.filter(isLive),done=pieces.filter(p=>p.stage==="finished");
   w.append(el("div",{class:"ideas-head"},
     pieces.length?el("div",{class:"filters cb-filters"},...[["progress","In progress",live.length],["finished","Finished",done.length]].map(([k,l,n])=>
       el("button",{type:"button","aria-pressed":String(PIECE.show===k),onclick:()=>{PIECE.show=k;renderPieces()}},l,el("small",{text:n})))):el("span"),
-    el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"+ New piece",onclick:()=>newPiece()}))));
-  if(!pieces.length){w.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"Nothing in progress yet. Add a piece when you throw or build it, then move it along: making, drying, bisqued, glazed, finished."})));return}
+    el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"+ New pieces",onclick:()=>newPiece()}))));
+  if(!pieces.length){w.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"Nothing in progress yet. Add pieces when you throw or build them, one or forty at a time, then move them along: making, drying, bisqued, glazed, finished."}),
+    el("button",{type:"button",class:"ghost",text:"Bring in a spreadsheet",onclick:()=>showTab("import")})));return}
   if(PIECE.show==="finished"){
+    const ends=ENDS.map(([k,l])=>[l,pieces.filter(p=>p.stage===k).length]).filter(x=>x[1]);
+    if(ends.length)w.append(el("p",{class:"note",text:ends.map(([l,n])=>n+" "+l.toLowerCase()).join(" · ")}));
     if(!done.length){w.append(el("p",{class:"note",text:"Nothing finished yet. Pieces land here after the glaze firing."}));return}
-    const g=el("div",{class:"cb-grid"});done.forEach(p=>g.append(el("button",{type:"button",class:"cb-card",onclick:()=>openPiece(p.id)},pieceSwatch(p),
-      el("span",{class:"cb-ct"},el("b",{text:p.title||"Untitled piece"}),el("span",{class:"meta",text:[pieceGlaze(p)?.name,p.stageAt?.finished?"finished "+fmtDate(p.stageAt.finished):""].filter(Boolean).join(" · ")})))));
+    const g=el("div",{class:"cb-grid"});pieceGroups(done).forEach(gr=>{const p=gr[0];g.append(el("button",{type:"button",class:"cb-card",onclick:()=>gr.length>1?openBatch(p.batch):openPiece(p.id)},pieceSwatch(p),
+      el("span",{class:"cb-ct"},el("b",{text:p.title+(gr.length>1?" × "+gr.length:"")}),el("span",{class:"meta",text:[...pieceMeta(p),p.stageAt?.finished?"finished "+fmtDate(p.stageAt.finished):""].filter(Boolean).join(" · ")}))))});
     w.append(g);return}
   const board=el("div",{class:"pc-board"});
   STAGES.slice(0,4).forEach(([k,l])=>{const list=live.filter(p=>(p.stage||"making")===k);
     board.append(el("section",{class:"pc-col"+(list.length?"":" is-empty"),"aria-label":l},el("h3",{},l,el("small",{text:list.length})),
-      ...(list.length?list.map(pieceCard):[el("p",{class:"note",text:"—"})])))});
+      ...(list.length?pieceGroups(list).map(groupCard):[el("p",{class:"note",text:"—"})])))});
   w.append(board);
 }
+// one batch: counts by stage, tap pieces to pick some, move them together
+function renderBatch(w,list){
+  const p=list[0],ln=p.line&&lineOf(p.line),S=PIECE.sel;
+  [...S].forEach(id=>{if(!list.some(x=>x.id===id))S.delete(id)});
+  const count={};list.forEach(x=>count[x.stage||"making"]=(count[x.stage||"making"]||0)+1);
+  const kick=el("div",{class:"lbl pz-kick"},ln?el("button",{type:"button",class:"linkbtn",text:ln.name+" line ›",onclick:()=>openLine(ln.id)}):null,
+    el("span",{text:["made "+fmtDate(Math.min(...list.map(x=>x.addedAt||Date.now()))),...(p.tags||[])].join(" · ")}));
+  const tiles=el("div",{class:"pz-st"},...ALL_ST.filter(([k])=>count[k]).map(([k,l])=>el("button",{type:"button",class:"pz-t st-"+k,title:"Pick every "+l.toLowerCase()+" piece",
+    onclick:()=>{S.clear();list.forEach(x=>(x.stage||"making")===k&&S.add(x.id));renderPieces()}},el("b",{text:count[k]}),el("span",{text:l}))));
+  const grid=el("div",{class:"pz-grid",role:"group","aria-label":"Pieces in this batch"},...list.map((x,i)=>el("button",{type:"button",class:"pz st-"+(x.stage||"making")+(S.has(x.id)?" sel":""),
+    "aria-pressed":String(S.has(x.id)),"aria-label":`${p.title} ${i+1}, ${stageName(x.stage)}`,text:S.has(x.id)?"✓":x.stage==="broken"?"×":String(i+1),
+    onclick:()=>{S.has(x.id)?S.delete(x.id):S.add(x.id);renderPieces()},ondblclick:()=>openPiece(x.id)})));
+  const picked=list.filter(x=>S.has(x.id)),cur=new Set(picked.map(x=>x.stage||"making"));
+  const to=k=>el("button",{type:"button",class:"btn",text:stageName(k),onclick:async()=>{await movePieces(picked,k);S.clear();renderPieces()}});
+  const sheet=picked.length?el("div",{class:"pz-sheet"},el("span",{class:"lbl",text:"Move "+picked.length+" to"}),
+    el("div",{class:"links"},...STAGES.filter(([k])=>!(cur.size===1&&cur.has(k))).map(([k])=>to(k))),
+    el("div",{class:"links"},el("span",{class:"note",text:"Or mark as"}),
+      ...[["broken","Broken"],["gift","Gift"]].map(([k,l])=>el("button",{type:"button",class:"ghost sm pz-"+k,text:l,onclick:async()=>{await movePieces(picked,k);S.clear();renderPieces()}})),
+      picked.length===1?el("button",{type:"button",class:"linkbtn",text:"Open this one",onclick:()=>openPiece(picked[0].id)}):null)):
+    el("p",{class:"note",text:"Tap pieces to pick them, or tap a stage above to pick all of them. Double-tap one to open it on its own."});
+  w.append(el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Work",onclick:()=>{PIECE.batch=null;showTab("work")}}),
+    el("div",{class:"rp-id"},kick,el("h2",{class:"rp-h"},plural(p.title||"Untitled piece",2),el("span",{class:"pc-n",text:" × "+list.length})),
+        el("div",{class:"meta",text:pieceMeta(p).concat(p.price&&SET().sell?["$"+p.price+" each"]:[]).join(" · ")}),
+      el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"Duplicate",onclick:()=>dupPieces(p,list.length)}),
+        el("button",{type:"button",class:"ghost sm",text:"Edit all",onclick:()=>{PIECE.edit={...JSON.parse(JSON.stringify(p)),batchEdit:p.batch};renderPieces()}}))),
+    tiles,el("section",{class:"rp-box"},el("div",{class:"pz-top"},el("b",{text:picked.length?picked.length+" picked":list.length+" pieces"}),
+      picked.length?el("button",{type:"button",class:"linkbtn",text:"Clear",onclick:()=>{S.clear();renderPieces()}}):null),grid,sheet));
+}
 function renderPiecePage(w,p){
-  const cur=()=>pieces.find(x=>x.id===p.id)||p,save=patch=>putPiece({...cur(),...patch}),g=pieceGlaze(p);
-  const st=el("div",{class:"seg rp-status pc-stages",role:"radiogroup","aria-label":"Stage"},...STAGES.map(([k,l])=>el("button",{type:"button",role:"radio","aria-checked":String((p.stage||"making")===k),onclick:()=>movePiece(cur(),k)},l)));
+  const cur=()=>pieces.find(x=>x.id===p.id)||p,save=patch=>putPiece({...cur(),...patch}),g=pieceGlaze(p),sell=SET().sell;
+  const stOpts=ALL_ST.filter(([k])=>k!=="sold"||p.stage==="sold");
+  const st=el("div",{class:"seg rp-status pc-stages",role:"radiogroup","aria-label":"Stage"},...stOpts.map(([k,l])=>el("button",{type:"button",role:"radio","aria-checked":String((p.stage||"making")===k),onclick:()=>movePiece(cur(),k)},l)));
   const del=el("button",{type:"button",class:"linkbtn",text:"Delete"});
   del.onclick=()=>del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, delete",onclick:async()=>{await deletePiece(p.id);PIECE.open=null;showTab("work")}}));
   const photos=[...(p.photos||[])],gal=el("div",{class:"cb-gal"});
@@ -2548,14 +2779,20 @@ function renderPiecePage(w,p){
   if(!photos.length)gal.append(el("figure",{class:"cb-noph"},pieceSwatch(p,"cb-big"),el("figcaption",{class:"meta",text:"Add photos as it goes: greenware, bisque, out of the kiln."})));
   const pin=el("input",{type:"file",accept:"image/*",multiple:true,"aria-label":"Add photos of the piece"});
   pin.onchange=async()=>{const add=[];for(const fl of [...pin.files].slice(0,6))try{add.push(await shrinkPhoto(fl))}catch{};if(add.length)save({photos:[...photos,...add].slice(0,10)})};
-  const notes=el("textarea",{rows:"4",placeholder:"Form, clay weight, trimming, where the glaze broke…","aria-label":"Notes"});notes.value=p.notes||"";
+  const notes=el("textarea",{rows:"4",placeholder:"Form, clay weight, trimming, where the glaze broke, what to change next time…","aria-label":"Notes"});notes.value=p.notes||"";
   notes.onchange=()=>save({notes:notes.value});
   const times=el("ol",{class:"pc-times"},...STAGES.map(([k,l])=>el("li",{class:p.stageAt?.[k]?"on":""},el("b",{text:l}),el("span",{class:"meta",text:p.stageAt?.[k]?fmtDate(p.stageAt[k]):""}))));
-  const n=nextStage(p.stage);
-  w.append(el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Work",onclick:()=>{PIECE.open=null;showTab("work")}}),
+  const fired=docsOf("firing").filter(f=>(f.pieceIds||[]).includes(p.id)).sort((a,b)=>String(a.date).localeCompare(b.date));
+  const n=nextStage(p.stage),batch=p.batch?batchOf(p.batch):[],ln=p.line&&lineOf(p.line);
+  const details=[["Line",ln?el("button",{type:"button",class:"linkbtn",text:ln.name,onclick:()=>openLine(ln.id)}):null],["Tags",(p.tags||[]).join(", ")||null],
+    ["Price",sell&&p.price?"$"+p.price:null],["Where",sell&&p.stage==="finished"?locName(p.loc):null],
+    ["Sold",p.sold?["$"+p.sold.price,p.sold.where,p.sold.at?fmtDate(p.sold.at):""].filter(Boolean).join(" · "):null],
+    ...fired.map(f=>[f.type==="bisque"?"Bisque":"Glaze fire",[fmtDate(f.date),"cone "+(f.cone||""),f.status==="done"?"✓":"planned"].join(" · ")])].filter(x=>x[1]);
+  w.append(el("button",{type:"button",class:"linkbtn rp-back",text:batch.length>1?"‹ "+plural(p.title,2)+" × "+batch.length:"‹ Work",onclick:()=>{PIECE.open=null;batch.length>1?openBatch(p.batch):showTab("work")}}),
     el("div",{class:"rp-head cb-head"},el("div",{class:"rp-id"},el("h2",{class:"rp-h",text:p.title||"Untitled piece"}),
-        el("div",{class:"meta",text:[p.clay,p.cone,p.addedAt?"started "+fmtDate(p.addedAt):""].filter(Boolean).join(" · ")})),
+        el("div",{class:"meta",text:[p.form&&p.form!==p.title?p.form:"",p.clay,p.cone,p.addedAt?"started "+fmtDate(p.addedAt):""].filter(Boolean).join(" · ")})),
       el("div",{class:"rp-acts"},st,el("div",{class:"links"},n?el("button",{type:"button",class:"btn",text:"Move to "+stageName(n),onclick:()=>movePiece(cur(),n)}):null,
+        el("button",{type:"button",class:"ghost sm",text:"Make another",onclick:()=>dupPieces(cur(),1)}),
         el("button",{type:"button",class:"ghost sm",text:"Edit",onclick:()=>{PIECE.edit=JSON.parse(JSON.stringify(cur()));renderPieces()}}),del))),
     el("div",{class:"rp-body"},
       el("section",{class:"rp-main"},gal,el("label",{class:"photo-pick cb-add"},pin,el("b",{class:"mplus","aria-hidden":"true",text:"+"}),el("span",{},"Add photos",el("small",{text:"Any stage, up to 10"})))),
@@ -2563,48 +2800,78 @@ function renderPiecePage(w,p){
         el("div",{class:"rp-box"},el("span",{class:"lbl",text:"Glaze"}),g?el("div",{class:"pc-glaze"},g.combo?comboSwatch(g.combo,"cb-lsw"):el("span",{class:"cb-lsw",style:"background:#"+(g.hex||"D8DAD5")}),
             g.open?el("button",{type:"button",class:"linkbtn",text:g.name,onclick:g.open}):el("b",{text:g.name})):
           el("p",{class:"note",text:"Not chosen yet. "},el("button",{type:"button",class:"linkbtn",text:"Pick one",onclick:()=>{PIECE.edit=JSON.parse(JSON.stringify(cur()));renderPieces()}}))),
+        details.length?el("div",{class:"rp-box"},el("dl",{class:"pc-dl"},...details.flatMap(([k,v])=>[el("dt",{text:k}),el("dd",{},v)]))):null,
         el("div",{class:"rp-box"},el("span",{class:"lbl",text:"Stages"}),times),
         el("div",{class:"rp-box"},el("label",{class:"lbl",text:"Notes"}),notes))));
 }
 // glazes for a piece: your combos first, then what a combo layer can be
 function pieceOptions(q){const words=q.toLowerCase().split(/\s+/).filter(Boolean),hit=t=>words.every(x=>t.toLowerCase().includes(x));
   return [...combos.filter(c=>hit(comboTitle(c))).slice(0,4).map(c=>({ref:"c:"+c.id,name:comboTitle(c),hex:layerInfo((c.layers||[]).at(-1)||{}).hex||"",sub:"Your combo"})),...layerOptions(q)].slice(0,8)}
+// glaze typeahead shared by pieces and lines: onPick({ref,name,hex}) or null to clear
+function glazePicker(cur,onPick){
+  if(cur?.ref){const g=pieceGlaze({glaze:cur});return el("div",{class:"cb-chosen"},el("span",{class:"cb-lsw",style:"background:#"+(g?.hex||"D8DAD5")}),el("b",{text:g?.name||cur.name}),
+    el("button",{type:"button",class:"cb-x","aria-label":"Change the glaze",text:"×",onclick:()=>onPick(null)}))}
+  const inp=el("input",{type:"search",placeholder:"Search your combos, recipes, shelves or premade glazes","aria-label":"Glaze"}),sug=el("div",{class:"cb-sug",role:"listbox"});
+  const show=()=>{sug.replaceChildren();const q=inp.value.trim();
+    pieceOptions(q).forEach(o=>sug.append(el("button",{type:"button",role:"option",onclick:()=>onPick({ref:o.ref,name:o.name,hex:o.hex||""})},
+      el("span",{class:"cb-lsw",style:"background:#"+(o.hex||"D8DAD5")}),el("span",{},el("b",{text:o.name}),el("small",{text:o.sub})))));
+    if(q)sug.append(el("button",{type:"button",role:"option",onclick:()=>onPick({ref:"t:"+q,name:q,hex:nameHex(q)||""})},el("span",{class:"cb-lsw"}),el("span",{},el("b",{text:`Use “${q}”`}),el("small",{text:"A glaze that isn't in the app"}))))};
+  inp.oninput=show;inp.onfocus=show;return el("div",{class:"cb-search"},inp,sug)}
 function renderPieceEdit(w){
-  const E=PIECE.edit,draw=()=>renderPieces();
+  const E=PIECE.edit,draw=()=>renderPieces(),isNew=!E.id&&!E.batchEdit,sell=SET().sell,lines=docsOf("line");
   const fld=(l,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:l}),i);
-  const title=el("input",{type:"text",value:E.title||"",placeholder:"Bark mug #3, big serving bowl…","aria-label":"Name"});
-  const clay=el("input",{type:"text",value:E.clay||"",placeholder:"Porcelain, speckled buff…","aria-label":"Clay body"}),cone=el("input",{type:"text",value:E.cone||"","aria-label":"Cone"});
+  const title=el("input",{type:"text",value:E.title||"",placeholder:"Mug, bark bowl, bud vase…","aria-label":"What it is"});
+  const clay=el("input",{type:"text",value:E.clay||"",placeholder:"Porcelain, speckled buff…","aria-label":"Clay body",list:"clayList"}),cone=el("input",{type:"text",value:E.cone||"","aria-label":"Cone"});
+  const tags=el("input",{type:"text",value:(E.tags||[]).join(", "),placeholder:"Kitchen, Christmas","aria-label":"Tags"});
+  const price=el("input",{type:"number",step:"any",min:"0",value:E.price??"",placeholder:"0","aria-label":"Price"});
   const notes=el("textarea",{rows:"3",placeholder:"Form, clay weight, trimming, where the glaze broke…","aria-label":"Notes"});notes.value=E.notes||"";
-  const sync=()=>Object.assign(E,{title:title.value.trim(),clay:clay.value.trim(),cone:cone.value.trim(),notes:notes.value});
-  [title,clay,cone,notes].forEach(x=>x.oninput=sync);
-  let pick;
-  if(E.glaze?.ref){const g=pieceGlaze(E);pick=el("div",{class:"cb-chosen"},el("span",{class:"cb-lsw",style:"background:#"+(g?.hex||"D8DAD5")}),el("b",{text:g?.name||E.glaze.name}),
-    el("button",{type:"button",class:"cb-x","aria-label":"Change the glaze",text:"×",onclick:()=>{sync();E.glaze=null;draw()}}))}
-  else{const inp=el("input",{type:"search",placeholder:"Search your combos, recipes, shelves or premade glazes","aria-label":"Glaze"}),sug=el("div",{class:"cb-sug",role:"listbox"});
-    const show=()=>{sug.replaceChildren();const q=inp.value.trim();
-      pieceOptions(q).forEach(o=>sug.append(el("button",{type:"button",role:"option",onclick:()=>{sync();E.glaze={ref:o.ref,name:o.name,hex:o.hex||""};draw()}},
-        el("span",{class:"cb-lsw",style:"background:#"+(o.hex||"D8DAD5")}),el("span",{},el("b",{text:o.name}),el("small",{text:o.sub})))));
-      if(q)sug.append(el("button",{type:"button",role:"option",onclick:()=>{sync();E.glaze={ref:"t:"+q,name:q,hex:nameHex(q)||""};draw()}},el("span",{class:"cb-lsw"}),el("span",{},el("b",{text:`Use “${q}”`}),el("small",{text:"A glaze that isn't in the app"}))))};
-    inp.oninput=show;inp.onfocus=show;pick=el("div",{class:"cb-search"},inp,sug)}
+  const sync=()=>Object.assign(E,{title:title.value.trim(),clay:clay.value.trim(),cone:cone.value.trim(),notes:notes.value,
+    tags:tags.value.split(",").map(t=>t.trim()).filter(Boolean),price:price.value===""?null:+price.value});
+  [title,clay,cone,notes,tags,price].forEach(x=>x.oninput=sync);
+  const lineSel=el("select",{"aria-label":"Line"},el("option",{value:"",text:"No line"}),...lines.map(l=>el("option",{value:l.id,text:l.name})));lineSel.value=E.line||"";
+  lineSel.onchange=()=>{sync();E.line=lineSel.value||null;const l=lineOf(E.line);
+    if(l){if(l.clay)E.clay=l.clay;if(l.glaze)E.glaze=l.glaze;if(l.cone)E.cone=l.cone;E.tags=[...new Set([...(E.tags||[]),...(l.tags||[])])];if(l.price&&E.price==null)E.price=l.price}draw()};
+  const pick=glazePicker(E.glaze,g=>{sync();E.glaze=g;draw()});
   const pinIn=el("input",{type:"file",accept:"image/*",multiple:true,"aria-label":"Photos"}),thumbs=el("div",{class:"cb-thumbs"});
   const drawThumbs=()=>{thumbs.replaceChildren(...(E.photos||[]).map((ph,j)=>el("figure",{},el("img",{src:ph,alt:""}),el("button",{type:"button",class:"cb-x","aria-label":"Remove this photo",text:"×",onclick:()=>{E.photos.splice(j,1);drawThumbs()}}))))};drawThumbs();
   pinIn.onchange=async()=>{for(const fl of [...pinIn.files].slice(0,6))try{(E.photos=E.photos||[]).push(await shrinkPhoto(fl))}catch{};E.photos=E.photos.slice(0,10);drawThumbs()};
   const msg=el("p",{class:"note",role:"status"});
+  const n=Math.max(1,Math.min(500,E.count||1)),setN=v=>{sync();E.count=Math.max(1,Math.min(500,v||1));draw()};
+  const num=el("input",{type:"number",min:"1",max:"500",step:"1",value:n,"aria-label":"How many",class:"pz-num"});num.onchange=()=>setN(parseInt(num.value));
+  const how=isNew?el("div",{class:"rp-box pz-how"},el("span",{},el("b",{text:"How many"}),el("span",{class:"note",text:"Each one is its own piece, so they can move and sell on their own."})),
+    el("span",{class:"pz-step"},el("button",{type:"button",class:"ghost sm","aria-label":"Fewer",text:"−",onclick:()=>setN(n-1)}),num,
+      el("button",{type:"button",class:"ghost sm","aria-label":"More",text:"+",onclick:()=>setN(n+1)}))):null;
+  // start from something you've made before
+  const past=isNew?pieceGroups(pieces).slice(0,4):[];
+  const dup=past.length?el("div",{class:"pz-dup"},el("span",{class:"lbl",text:"Duplicate"}),...past.map(g=>{const p=g[0],on=E.from===(p.batch||p.id);
+      return el("button",{type:"button",class:"pz-past"+(on?" on":""),"aria-pressed":String(on),onclick:()=>{const keep=E.count;dupPieces(p,keep>1?keep:g.length)}},pieceSwatch(p,"pz-psw"),
+        el("span",{},el("b",{text:groupTitle(g)}),g.length>1?" × "+g.length:"",el("small",{text:" · "+fmtDate(p.addedAt)})),el("span",{text:on?"✓":"›"}))}),
+    E.from?el("button",{type:"button",class:"linkbtn",text:"Start blank instead",onclick:()=>newPiece()}):null):null;
   const f=el("form",{class:"cb-edit",novalidate:true},
     el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Cancel",onclick:()=>{PIECE.edit=null;renderPieces()}}),
-    el("h2",{text:E.id?"Edit piece":"New piece"}),
-    el("div",{class:"rp-grid"},fld("Name",title),fld("Clay body",clay),fld("Cone",cone)),
-    el("span",{class:"lbl",text:"Stage"}),
-    el("div",{class:"seg rp-status pc-stages",role:"radiogroup","aria-label":"Stage"},...STAGES.map(([k,l])=>el("button",{type:"button",role:"radio","aria-checked":String((E.stage||"making")===k),onclick:()=>{sync();E.stage=k;draw()}},l))),
+    el("h2",{text:E.batchEdit?"Edit all "+batchOf(E.batchEdit).length:E.id?"Edit piece":"New pieces"}),
+    isNew?el("p",{class:"note",text:"Start from something you've made before, then change what's different."}):null,
+    dup,
+    el("div",{class:"rp-grid"},fld("What it is",title),lines.length||sell?fld("Line",lineSel):null,fld("Tags",tags)),
+    el("div",{class:"rp-grid"},fld("Clay body",clay),fld("Cone",cone),sell?fld("Price, $",price):null),
+    E.batchEdit?null:el("span",{class:"lbl",text:"Stage now"}),
+    E.batchEdit?null:el("div",{class:"seg rp-status pc-stages",role:"radiogroup","aria-label":"Stage"},...STAGES.map(([k,l])=>el("button",{type:"button",role:"radio","aria-checked":String((E.stage||"making")===k),onclick:()=>{sync();E.stage=k;draw()}},l))),
     el("div",{class:"cb-row"},el("span",{class:"lbl",text:"Glaze (optional)"}),pick),
-    fld("Notes",notes),
-    el("label",{class:"photo-pick"},pinIn,el("b",{class:"mplus","aria-hidden":"true",text:"+"}),el("span",{},"Add photos",el("small",{text:"Optional. Up to 10."}))),thumbs,
-    el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Save piece"}),msg));
+    how,
+    E.batchEdit?null:fld("Notes",notes),
+    E.batchEdit?null:el("label",{class:"photo-pick"},pinIn,el("b",{class:"mplus","aria-hidden":"true",text:"+"}),el("span",{},"Add photos",el("small",{text:"Optional. Up to 10."}))),E.batchEdit?null:thumbs,
+    el("datalist",{id:"clayList"},...SET().clays.map(c=>el("option",{value:c}))),
+    el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:E.batchEdit?"Save all":isNew?(n>1?"Make "+n+" pieces":"Save piece"):"Save piece"}),msg));
   f.onsubmit=async e=>{e.preventDefault();sync();
-    if(!E.title){msg.textContent="Give it a name.";title.focus();return}
-    const {id,...rest}=E,stage=rest.stage||"making",doc={...rest,stage,stageAt:{...(rest.stageAt||{}),[stage]:rest.stageAt?.[stage]||Date.now()}};
-    const nid=await putPiece(id?{id,...doc}:doc);if(!nid)return;
-    PIECE.edit=null;PIECE.open=nid;showTab("work");window.scrollTo({top:0})};
+    if(!E.title){msg.textContent="Say what it is: mug, bowl, vase…";title.focus();return}
+    if(E.batchEdit){const patch={};PIECE_FIELDS.forEach(k=>{if(k!=="notes")patch[k]=E[k]??null});patch.form=E.title;
+      await putPieces(batchOf(E.batchEdit).map(p=>({...p,...patch})));PIECE.edit=null;openBatch(E.batchEdit);return}
+    const {id,count,from,batchEdit,...rest}=E,stage=rest.stage||"making",doc={...rest,form:rest.title,stage,stageAt:{...(rest.stageAt||{}),[stage]:rest.stageAt?.[stage]||Date.now()}};
+    if(id){const nid=await putPiece({id,...doc});if(!nid)return;PIECE.edit=null;openPiece(nid);return}
+    if(n===1){const nid=await putPiece(doc);if(!nid)return;PIECE.edit=null;openPiece(nid);return}
+    msg.textContent="Making "+n+" pieces…";const batch=newId("batch");
+    await putPieces(Array.from({length:n},(_,i)=>({...doc,batch,photos:i?[]:doc.photos})),(d,t)=>msg.textContent=`Saved ${d} of ${t}…`);
+    PIECE.edit=null;openBatch(batch)};
   w.append(f);
 }
 
@@ -3226,7 +3493,477 @@ $("ownPanel").addEventListener("submit",async e=>{
   if(id){msg.textContent="";["ownName","ownHex","ownRows"].forEach(i=>$(i).value="");$("ownPanel").hidden=true;savedMsg("Saved “"+title+"”.")}
 });
 
-function renderAll(){renderCombos();renderPieces();if(tab==="tile")renderTile();updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();renderIdeas();if(tab==="recipe")renderRecipePage()}
+const add=(w,...kids)=>w.append(...kids.flat().filter(k=>k!=null)); // append, skipping the nulls left by optional blocks
+/* ---------- Setup: what you fire, your clay, your kiln, whether you sell ---------- */
+const SET_DEFAULT={cones:["04","6"],bisqueCone:"04",glazeCone:"6",atmosphere:"Oxidation",clays:["Porcelain"],kiln:{type:"Electric",model:"",elementsAt:""},
+  stores:[],units:"grams",sell:false,fee:10,cardFee:2.9,shops:[]};
+function SET(){const d=docsOf("settings")[0]||{};return {...SET_DEFAULT,...d,kiln:{...SET_DEFAULT.kiln,...(d.kiln||{})}}}
+function putSet(patch){const d=docsOf("settings")[0];return putDoc("settings",{...(d||{id:"settings"}),...patch})}
+const CONE_CHOICES=["022–018","06","04","5","6","10"];
+const money=v=>v==null||v===""||isNaN(v)?"":(v<0?"−$":"$")+Math.abs(+v).toLocaleString(undefined,{minimumFractionDigits:+v%1?2:0,maximumFractionDigits:2});
+const dayStr=t=>new Date(t).toISOString().slice(0,10);
+const fmtDay=d=>d?new Date(d+"T12:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"}):"";
+const card=(...kids)=>el("section",{class:"rp-box"},...kids);
+const rowBtn=(l,r,on)=>el("button",{type:"button",class:"t-row",onclick:on},el("span",{text:l}),typeof r==="string"?el("span",{class:"meta",text:r}):r);
+function renderSetup(){
+  const w=$("setupRoot");if(!w)return;const ae=document.activeElement;if(w.contains(ae)&&/^(INPUT|TEXTAREA)$/.test(ae.tagName))return;
+  const S=SET();w.replaceChildren();
+  const cones=el("div",{class:"filters"},...CONE_CHOICES.map(c=>el("button",{type:"button","aria-pressed":String(S.cones.includes(c)),text:c,
+    onclick:()=>putSet({cones:S.cones.includes(c)?S.cones.filter(x=>x!==c):[...S.cones,c]})})));
+  const sel=(v,opts,on,lab)=>{const s=el("select",{"aria-label":lab},...opts.map(o=>el("option",{value:o,text:o})));s.value=v;s.onchange=()=>on(s.value);return s};
+  const fld=(l,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:l}),i);
+  const txt=(v,on,ph,lab,type="text")=>{const i=el("input",{type,value:v??"",placeholder:ph||"","aria-label":lab,step:type==="number"?"any":null});i.onchange=()=>on(type==="number"?(i.value===""?null:+i.value):i.value.trim());return i};
+  const clayAdd=el("input",{type:"text",placeholder:"Add a clay body: B-Mix, speckled buff…","aria-label":"Add a clay body"});
+  clayAdd.onkeydown=e=>{if(e.key==="Enter"&&clayAdd.value.trim()){e.preventDefault();putSet({clays:[...S.clays,clayAdd.value.trim()]})}};
+  const clays=el("div",{class:"chips"},...S.clays.map((c,i)=>el("span",{class:"chip st-chip"},i?c:c+" · default",
+    i?el("button",{type:"button","aria-label":"Make "+c+" the default",text:"↑",onclick:()=>putSet({clays:[c,...S.clays.filter(x=>x!==c)]})}):null,
+    el("button",{type:"button","aria-label":"Remove "+c,text:"×",onclick:()=>putSet({clays:S.clays.filter(x=>x!==c)})}))));
+  const stores=[...$("store").options].map(o=>o.value).filter(Boolean);
+  const storeChips=el("div",{class:"filters"},...stores.map(st=>el("button",{type:"button","aria-pressed":String(S.stores.includes(st)),text:st,
+    onclick:()=>putSet({stores:S.stores.includes(st)?S.stores.filter(x=>x!==st):[...S.stores,st]})})));
+  const sellIn=el("input",{type:"checkbox",id:"sellOn"});sellIn.checked=!!S.sell;sellIn.onchange=()=>putSet({sell:sellIn.checked});
+  const shopAdd=el("input",{type:"text",placeholder:"Shop name","aria-label":"Shop name"}),shopCut=el("input",{type:"number",step:"any",placeholder:"Their cut %","aria-label":"Shop's cut, percent"});
+  const addShop=()=>{if(shopAdd.value.trim())putSet({shops:[...S.shops,{name:shopAdd.value.trim(),cut:+shopCut.value||0}]})};
+  add(w,
+    el("span",{class:"lbl",text:"Cones you fire"}),
+    card(cones,el("div",{class:"rp-grid"},fld("Bisque at",sel(S.bisqueCone,S.cones.length?S.cones:CONE_CHOICES,v=>putSet({bisqueCone:v}),"Bisque cone")),
+      fld("Glaze at",sel(S.glazeCone,S.cones.length?S.cones:CONE_CHOICES,v=>putSet({glazeCone:v}),"Glaze cone")),
+      fld("Atmosphere",sel(S.atmosphere,["Oxidation","Reduction","Both"],v=>putSet({atmosphere:v}),"Atmosphere")))),
+    el("span",{class:"lbl",text:"Clay bodies"}),card(clays,clayAdd),
+    el("span",{class:"lbl",text:"Kiln"}),
+    card(el("div",{class:"rp-grid"},fld("Type",sel(S.kiln.type,["Electric","Gas","Wood","Raku","Shared / community"],v=>putSet({kiln:{...S.kiln,type:v}}),"Kiln type")),
+      fld("Model",txt(S.kiln.model,v=>putSet({kiln:{...S.kiln,model:v}}),"Skutt KM-1027","Kiln model")),
+      fld("Elements installed",txt(S.kiln.elementsAt,v=>putSet({kiln:{...S.kiln,elementsAt:v}}),"","Elements installed","date")))),
+    el("span",{class:"lbl",text:"Buying"}),
+    card(el("span",{class:"note",text:"Stores I use"}),storeChips,fld("Units",sel(S.units,["grams","grams · lb for clay","ounces"],v=>putSet({units:v}),"Units")),
+      rowBtn("Import a spreadsheet","One row per piece ›",()=>showTab("import"))),
+    card(el("label",{class:"mtog st-sell",for:"sellOn"},sellIn,el("i"),el("span",{},el("b",{text:"I sell my work"}),el("small",{text:"Adds Sell: prices, stock, markets and margins. Your data stays the same."})))),
+    S.sell?card(el("div",{class:"rp-grid"},fld("Usual market fee, %",txt(S.fee,v=>putSet({fee:v??0}),"10","Market fee","number")),
+        fld("Card fee, %",txt(S.cardFee,v=>putSet({cardFee:v??0}),"2.9","Card fee","number"))),
+      el("span",{class:"note",text:"Shops that carry your work"}),
+      el("div",{class:"chips"},...S.shops.map((sh,i)=>el("span",{class:"chip st-chip"},sh.name+(sh.cut?" · "+sh.cut+"%":""),el("button",{type:"button","aria-label":"Remove "+sh.name,text:"×",onclick:()=>putSet({shops:S.shops.filter((_,j)=>j!==i)})})))),
+      el("div",{class:"rp-grid"},shopAdd,shopCut,el("button",{type:"button",class:"ghost sm",text:"Add shop",onclick:addShop}))):null);
+}
+
+/* ---------- Kiln: next load, firing log ---------- */
+const KILN={add:false,fire:false};
+const firingsDone=()=>docsOf("firing").filter(f=>f.status==="done").sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+const nextFiring=()=>docsOf("firing").filter(f=>f.status!=="done").sort((a,b)=>String(a.date).localeCompare(String(b.date)))[0]||null;
+const firingLabel=f=>(f.type==="bisque"?"Bisque":"Glaze")+" · cone "+(f.cone||"");
+const loadCandidates=f=>pieces.filter(p=>f.type==="bisque"?["making","drying"].includes(p.stage||"making"):p.stage==="glazed");
+function renderKiln(){
+  const w=$("kilnRoot");if(!w)return;const ae=document.activeElement;if(w.contains(ae)&&/^(INPUT|TEXTAREA)$/.test(ae.tagName))return;
+  const S=SET(),nf=nextFiring(),done=firingsDone();w.replaceChildren();
+  add(w,el("p",{class:"lbl",text:[S.kiln.type,S.kiln.model].filter(Boolean).join(" · ")}));
+  if(nf){
+    const ids=new Set(nf.pieceIds||[]),inside=pieces.filter(p=>ids.has(p.id));
+    const slots=el("div",{class:"k-slots"},...inside.slice(0,23).map(p=>el("button",{type:"button",class:"k-slot","aria-label":p.title,onclick:()=>openPiece(p.id)},pieceSwatch(p,"k-sw"))),
+      inside.length>23?el("span",{class:"k-slot k-more",text:"+"+(inside.length-23)}):null,el("button",{type:"button",class:"k-slot k-empty","aria-label":"Add pieces",text:"+",onclick:()=>{KILN.add=!KILN.add;renderKiln()}}));
+    const box=el("section",{class:"k-load"},el("div",{class:"k-top"},el("span",{class:"lbl",text:"Next load · "+fmtDay(nf.date)}),el("span",{text:firingLabel(nf)})),slots,
+      el("p",{class:"note",text:inside.length?inside.length+(inside.length===1?" piece":" pieces")+" loaded"+(nf.notes?" · "+nf.notes:""):"Nothing loaded yet. Tap + to add pieces."}),
+      el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"Fire it",onclick:()=>{KILN.fire=true;renderKiln()}}),
+        el("button",{type:"button",class:"ghost sm",text:KILN.add?"Done adding":"Add pieces",onclick:()=>{KILN.add=!KILN.add;renderKiln()}}),
+        el("button",{type:"button",class:"linkbtn",text:"Cancel this load",onclick:()=>deleteDoc(nf.id)})));
+    if(KILN.add){const groups=pieceGroups(loadCandidates(nf).concat(inside.filter(p=>!loadCandidates(nf).includes(p))));
+      box.append(el("div",{class:"k-pick"},el("span",{class:"lbl",text:nf.type==="bisque"?"Dry pieces":"Glazed pieces"}),
+        ...(groups.length?groups.map(g=>{const on=g.every(p=>ids.has(p.id)),cb=el("input",{type:"checkbox"});cb.checked=on;
+          cb.onchange=()=>{const set=new Set(ids);g.forEach(p=>cb.checked?set.add(p.id):set.delete(p.id));putDoc("firing",{...nf,pieceIds:[...set]})};
+          return el("label",{class:"check"},cb,pieceSwatch(g[0],"k-sw"),el("span",{text:g[0].title+(g.length>1?" × "+g.length:"")+" · "+stageName(g[0].stage)}))}):
+          [el("p",{class:"note",text:nf.type==="bisque"?"No dry pieces waiting. Pieces in Making or Drying show up here.":"No glazed pieces waiting. Move pieces to Glazed in Work first."})])))}
+    if(KILN.fire){const hrs=el("input",{type:"number",step:"any",placeholder:"9.5","aria-label":"Hours"}),res=el("input",{type:"text",placeholder:"Cone 6 half bent, all fine","aria-label":"How it went"});
+      const f=el("form",{class:"k-fire",novalidate:true},el("div",{class:"rp-grid"},el("label",{class:"rp-f"},el("span",{class:"lbl",text:"Hours"}),hrs),el("label",{class:"rp-f"},el("span",{class:"lbl",text:"How it went"}),res)),
+        el("p",{class:"note",text:nf.type==="bisque"?"Loaded pieces move to Bisqued.":"Loaded pieces move to Finished."}),
+        el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Log this firing"}),el("button",{type:"button",class:"linkbtn",text:"Not yet",onclick:()=>{KILN.fire=false;renderKiln()}})));
+      f.onsubmit=async e=>{e.preventDefault();KILN.fire=false;KILN.add=false;
+        await putDoc("firing",{...nf,status:"done",hours:hrs.value===""?null:+hrs.value,result:res.value.trim(),firedAt:Date.now()});
+        if(inside.length)await movePieces(inside,nf.type==="bisque"?"bisqued":"finished")};
+      box.append(f)}
+    add(w,box);
+  }else{
+    const type=el("select",{"aria-label":"Firing"},el("option",{value:"bisque",text:"Bisque"}),el("option",{value:"glaze",text:"Glaze"}));
+    const ready={bisque:pieces.filter(p=>p.stage==="drying").length,glaze:pieces.filter(p=>p.stage==="glazed").length};type.value=ready.glaze>ready.bisque?"glaze":"bisque";
+    const cone=el("input",{type:"text",value:type.value==="bisque"?S.bisqueCone:S.glazeCone,"aria-label":"Cone"});type.onchange=()=>cone.value=type.value==="bisque"?S.bisqueCone:S.glazeCone;
+    const date=el("input",{type:"date",value:dayStr(Date.now()+3*864e5),"aria-label":"Date"});
+    const f=el("form",{class:"k-load",novalidate:true},el("span",{class:"lbl",text:"Plan the next firing"}),
+      el("p",{class:"note",text:ready.bisque||ready.glaze?`${ready.bisque} dry pieces ready to bisque · ${ready.glaze} glazed pieces ready to fire`:"Nothing waiting for the kiln yet."}),
+      el("div",{class:"rp-grid"},el("label",{class:"rp-f"},el("span",{class:"lbl",text:"Firing"}),type),el("label",{class:"rp-f"},el("span",{class:"lbl",text:"Cone"}),cone),el("label",{class:"rp-f"},el("span",{class:"lbl",text:"Date"}),date)),
+      el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Plan it and load"})));
+    f.onsubmit=async e=>{e.preventDefault();const t=type.value,ids=pieces.filter(p=>t==="bisque"?p.stage==="drying":p.stage==="glazed").map(p=>p.id);
+      KILN.add=true;await putDoc("firing",{type:t,cone:cone.value.trim(),date:date.value||dayStr(Date.now()),status:"planned",pieceIds:ids})};
+    add(w,f);
+  }
+  const since=S.kiln.elementsAt?done.filter(f=>String(f.date)>=S.kiln.elementsAt).length:null;
+  const glz=done.filter(f=>f.type==="glaze"&&f.hours),avg=glz.length>=3?glz.slice(1).reduce((s,f)=>s+f.hours,0)/(glz.length-1):null,diff=avg?Math.round((glz[0].hours-avg)*60):null;
+  add(w,el("div",{class:"k-stats"},el("div",{},el("b",{text:done.length}),el("span",{text:"Firings logged"})),
+    el("div",{},el("b",{text:since??"–"}),el("span",{text:since==null?"Add the element date in Setup":"On these elements"})),
+    el("div",{},el("b",{text:diff==null?"–":(diff>0?"+":"")+diff+"m"}),el("span",{text:diff==null?"Glaze firing time":diff>20?"Slower than usual":diff<-20?"Faster than usual":"About usual"}))));
+  add(w,card(el("h3",{class:"t-h",text:"Firing log"}),
+    ...(done.length?done.slice(0,12).map(f=>el("div",{class:"t-row"},el("span",{text:[fmtDay(f.date),firingLabel(f),f.hours?f.hours+" h":""].filter(Boolean).join(" · ")}),
+      el("span",{class:"meta",text:f.result||((f.pieceIds||[]).length+" pieces")}))):[el("p",{class:"note",text:"Firings you log show here, with how long they took and how they came out."})])));
+}
+
+/* ---------- Today ---------- */
+function renderToday(){
+  const w=$("todayRoot");if(!w)return;w.replaceChildren();
+  const h=new Date().getHours();$("pageTitle").textContent=h<12?"Good morning":h<17?"Good afternoon":"Good evening";
+  $("sub").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"});
+  const nf=nextFiring();
+  if(nf){const ids=new Set(nf.pieceIds||[]),inside=pieces.filter(p=>ids.has(p.id));
+    add(w,el("button",{type:"button",class:"t-kiln",onclick:()=>showTab("kiln")},el("span",{class:"t-top"},el("span",{class:"lbl",text:"Next firing · "+fmtDay(nf.date)}),el("span",{text:firingLabel(nf)})),
+      el("span",{class:"t-dots"},...inside.slice(0,6).map(p=>pieceSwatch(p,"k-sw")),el("span",{text:inside.length?inside.length+(inside.length===1?" piece":" pieces")+" loaded":"Nothing loaded yet"}))))}
+  // what to do next, from where your pieces are
+  const todo=[],live=pieceGroups(pieces.filter(isLive));
+  const verb={making:"Trim or finish",drying:"Bisque",bisqued:"Glaze",glazed:"Glaze-fire"};
+  const byStage=k=>live.filter(g=>(g[0].stage||"making")===k);
+  ["making","bisqued","drying","glazed"].forEach(k=>byStage(k).forEach(g=>{const p=g[0],inK=nf&&g.some(x=>(nf.pieceIds||[]).includes(x.id));
+    todo.push({t:verb[k]+" "+(g.length>1?groupTitle(g).toLowerCase()+" × "+g.length:(p.title||"piece").toLowerCase()),r:inK?"in the kiln "+fmtDay(nf.date).split(",")[0]:p.stageAt?.[k]?stageName(k).toLowerCase()+" "+fmtDate(p.stageAt[k]).replace(/, \d{4}$/,""):"",
+      on:()=>g.length>1?openBatch(p.batch):openPiece(p.id)})}));
+  if(SET().sell){const ev=nextEvent();if(ev&&String(ev.date)<=dayStr(Date.now()+14*864e5))todo.unshift({t:"Pack for "+ev.name,r:fmtDay(ev.date),warn:true,on:()=>{SELL.page="pack";SELL.event=ev.id;showTab("sell")}})}
+  recipes.filter(r=>statusOf(r)==="testing").forEach(r=>{const m=shelfCheck(r).miss;if(m.length&&todo.length<8)todo.push({t:"Get "+m.slice(0,2).join(", ")+" for "+(r.title||"a recipe"),r:"short "+m.length,warn:true,on:()=>openRecipe(r.id)})});
+  add(w,card(el("div",{class:"t-head"},el("h3",{class:"t-h",text:"To do"}),el("span",{class:"meta",text:"from your pieces"})),
+    ...(todo.length?todo.slice(0,7).map(x=>rowBtn(x.t,x.warn?el("span",{class:"pill buy",text:x.r}):x.r,x.on)):[el("p",{class:"note",text:"Nothing waiting. Add pieces in Work when you throw or build them, and this fills in."}),
+      el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"+ New pieces",onclick:()=>newPiece()}))])));
+  const low=studio.filter(s=>s.low);
+  if(low.length)add(w,el("button",{type:"button",class:"rp-box t-low",onclick:()=>showTab("studio")},el("span",{},el("b",{text:"Running low"}),el("span",{class:"meta",text:low.slice(0,3).map(s=>s.code?s.code+" "+s.name:s.name).join(" · ")})),
+    el("span",{class:"pill buy",text:low.length+(low.length===1?" item":" items")})));
+  if(live.length)add(w,el("div",{class:"t-head"},el("h3",{class:"t-h",text:"In progress"}),el("button",{type:"button",class:"linkbtn",text:"All work",onclick:()=>showTab("work")})),
+    el("div",{class:"t-prog"},...live.slice(0,3).map(g=>el("button",{type:"button",class:"cb-card",onclick:()=>g.length>1?openBatch(g[0].batch):openPiece(g[0].id)},pieceSwatch(g[0]),
+      el("span",{class:"cb-ct"},el("b",{text:g[0].title+(g.length>1?" × "+g.length:"")}),el("span",{class:"meta",text:stageSummary(g)}))))));
+  const boards=[...ideaBoards()].sort((a,b)=>Math.max(...b[1].map(x=>x.addedAt||0))-Math.max(...a[1].map(x=>x.addedAt||0)));
+  if(boards.length){const [b,list]=boards[0],pal=boardPalette(list,3);
+    add(w,el("button",{type:"button",class:"t-board",onclick:()=>{showTab("ideas");openBoard(b)}},el("span",{class:"t-dots"},...pal.map(h=>el("i",{style:"background:#"+h}))),
+      el("span",{class:"meta",text:b+" · "+list.length+(list.length===1?" pin":" pins")}),el("span",{class:"linkbtn",text:"Open"})))}
+}
+
+/* ---------- Studio overview ---------- */
+function renderMine(){
+  const w=$("mineRoot");if(!w)return;w.replaceChildren();const S=SET(),nf=nextFiring();
+  $("sub").textContent=[S.clays[0],"cone "+S.glazeCone,S.kiln.type.toLowerCase()+" kiln"].filter(Boolean).join(" · ");
+  const st=recipes.map(statusOf),low=studio.filter(s=>s.low).length;
+  const tile=(n,t,sub,go)=>el("button",{type:"button",class:"m-tile",onclick:go},el("b",{class:"m-n",text:n}),el("span",{},el("b",{text:t}),el("span",{class:"meta",text:sub})));
+  add(w,el("div",{class:"m-tiles"},
+    tile(recipes.length,"Recipes",[st.filter(x=>x==="testing").length+" testing",st.filter(x=>x==="keeper").length+" keepers"].join(" · "),()=>showTab("saved")),
+    tile(combos.length,"Combos",combos.filter(comboHave).length+" you can make now",()=>showTab("combos")),
+    tile(studio.length,"Shelves",low?low+" running low":"Stains, glazes, clay, chemicals",()=>showTab("studio")),
+    tile(firingsDone().length,"Kiln",nf?"Next firing "+fmtDay(nf.date):"Nothing planned",()=>showTab("kiln"))));
+  const recent=[...recipes.map(r=>({t:r.updatedAt||r.savedAt||0,n:r.title||"Recipe",s:statusOf(r)==="testing"?"testing":"saved",hex:recipeHex(r),go:()=>openRecipe(r.id)})),
+    ...studio.map(it=>({t:it.updatedAt||it.addedAt||0,n:it.code?it.code+" "+it.name:it.name,s:it.low?"running low":"on your shelves",hex:normHex(it.hex)||premadeFor(it)?.hex,go:()=>showTab("studio")})),
+    ...firingsDone().map(f=>({t:f.firedAt||f.updatedAt||0,n:firingLabel(f)+" logged",s:fmtDay(f.date),hex:"",go:()=>showTab("kiln")}))].sort((a,b)=>b.t-a.t).slice(0,4);
+  if(recent.length)add(w,card(el("h3",{class:"t-h",text:"Recently changed"}),...recent.map(x=>el("button",{type:"button",class:"t-row",onclick:x.go},
+    el("span",{class:"m-rc"},el("i",{style:"background:#"+(x.hex||"E4E0D9")}),x.n),el("span",{class:"meta",text:x.s})))));
+  add(w,el("button",{type:"button",class:"rp-box t-low",onclick:()=>showTab("setup")},el("span",{},el("b",{text:"Setup"}),el("span",{class:"meta",text:"Cones, clay bodies, kiln · Selling: "+(S.sell?"on":"off")})),el("span",{text:"›"})));
+}
+
+/* ---------- Import a spreadsheet: one row per piece ---------- */
+const IMP={rows:null,head:-1,map:{},stageMap:{},name:"",busy:"",sellOn:true};
+const IMP_FIELDS=[["title","Item",/^(item|form|product|piece|name)$/i,"Form"],["set","Set",/^(set|line|collection|series)$/i,"Line + tag"],["stage","Product Phase",/phase|stage|status/i,"Stage"],
+  ["clay","Clay Body",/clay/i,"Clay"],["glaze","Color",/^(colou?r|glaze)/i,"Glaze"],["price","Revenue",/^(revenue|price|retail)/i,"Price"],["where","Quant",/^(quant|sold at|venue|where|market|location)$/i,"Sold at"],
+  ["soldFor","Sale Price",/sale price|sold for/i,"Sold for"],["fee","Shipping/market Cost",/fee|market cost|shipping/i,"Fee"],["soldAt","Sale Month",/sale (month|date)|sold on/i,"Sold on"],["made","Month",/^(month|date|made)$/i,"Made"],["notes","Notes",/note/i,"Notes"]];
+function parseSheet(text){const sep=(text.split("\n")[0].match(/\t/g)||[]).length>=(text.split("\n")[0].match(/,/g)||[]).length?"\t":",";
+  const rows=[];let row=[],cell="",q=false;
+  for(let i=0;i<text.length;i++){const c=text[i];
+    if(q){if(c==='"'&&text[i+1]==='"'){cell+='"';i++}else if(c==='"')q=false;else cell+=c}
+    else if(c==='"')q=true;else if(c===sep){row.push(cell);cell=""}else if(c==="\n"||c==="\r"){if(c==="\r"&&text[i+1]==="\n")i++;row.push(cell);rows.push(row);row=[];cell=""}else cell+=c}
+  if(cell||row.length){row.push(cell);rows.push(row)}
+  return rows.map(r=>r.map(x=>x.trim()))}
+function impLoad(text,name){const rows=parseSheet(text);let best=-1,bs=0;
+  rows.slice(0,60).forEach((r,i)=>{const sc=IMP_FIELDS.filter(f=>r.some(c=>f[2].test(c))).length;if(sc>bs){bs=sc;best=i}});
+  Object.assign(IMP,{rows,head:bs>=2?best:0,name,map:{},stageMap:{}});const hd=rows[IMP.head]||[],used=new Set();
+  IMP_FIELDS.forEach(([k,,re])=>{const i=hd.findIndex((c,j)=>!used.has(j)&&re.test(c));if(i>=0){IMP.map[k]=i;used.add(i)}});
+  impStages();renderImport()}
+function stageGuess(v){const s=v.toLowerCase();return /sold/.test(s)?"sold":/broke|crack/.test(s)?"broken":/gift/.test(s)?"gift":/etsy|posted|online|listed/.test(s)?"online":
+  /complete|finish|done|ready/.test(s)?"finished":/glaz/.test(s)?"glazed":/bisq/.test(s)?"bisqued":/dry|green/.test(s)?"drying":/throw|thrown|wet|trim|mak|built|form/.test(s)?"making":"finished"}
+function impStages(){const i=IMP.map.stage;IMP.stageMap={};if(i==null)return;impBody().forEach(r=>{const v=r[i]||"";if(v&&!(v in IMP.stageMap))IMP.stageMap[v]=stageGuess(v)})}
+const impBody=()=>(IMP.rows||[]).slice(IMP.head+1).filter(r=>r[IMP.map.title??-1]);
+const impCell=(r,k)=>IMP.map[k]==null?"":r[IMP.map[k]]||"";
+const num=v=>{const n=parseFloat(String(v).replace(/[$,\s]/g,""));return isNaN(n)?null:n};
+function impDate(v){if(!v)return null;const ym=String(v).trim().match(/^(\d{2})(0[1-9]|1[0-2])(\.0*)?$/); // "2603" = March 2026
+  if(ym)return new Date(2000+ +ym[1],+ym[2]-1,15).getTime();const t=Date.parse(v);if(!isNaN(t))return t;const m=String(v).match(/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s*(\d{4})?/i);
+  return m?Date.parse(m[1]+" 15 "+(m[2]||new Date().getFullYear())):null}
+// "Kitchen Set #4 (B-MB&FM)": the code in brackets is the look → a line, named from that code's most common clay + color
+// ("Brown · Matte Black & Foggy Mountain"); the words before "Set" → a tag ("Kitchen"). A set with no code is only a tag.
+function splitSet(v){const m=String(v).match(/\(([^)]*)\)?\s*$/),pre=String(v).replace(/\s*\(.*$/,"").replace(/\s*\bset\b.*$/i,"").replace(/\s*#?\d+\s*$/,"").trim();
+  return {code:m?m[1].trim():"",tag:pre}}
+function impPlan(){const out=[],looks=new Map();
+  impBody().forEach(r=>{const raw=impCell(r,"stage"),st=IMP.stageMap[raw]||"finished",sp=splitSet(impCell(r,"set"));
+    if(sp.code){const k=[impCell(r,"clay"),impCell(r,"glaze")].filter(Boolean).join(" · ");if(!looks.has(sp.code))looks.set(sp.code,new Map());const m=looks.get(sp.code);if(k)m.set(k,(m.get(k)||0)+1)}
+    out.push({r,stage:st==="online"?"finished":st,online:st==="online",...sp})});
+  const name=new Map([...looks].map(([c,m])=>[c,[...m].sort((a,b)=>b[1]-a[1])[0]?.[0]||c]));
+  out.forEach(x=>x.line=x.code?name.get(x.code):"");return out}
+function renderImport(){
+  const w=$("importRoot");if(!w)return;w.replaceChildren();
+  const file=el("input",{type:"file",accept:".csv,.tsv,.txt,text/csv,text/tab-separated-values","aria-label":"Choose a CSV file"});
+  file.onchange=async()=>{const f=file.files[0];if(f)impLoad(await f.text(),f.name)};
+  const paste=el("textarea",{rows:"4",placeholder:"Or paste rows straight from Google Sheets or Excel, header row included","aria-label":"Paste rows"});
+  paste.onchange=()=>{if(paste.value.trim())impLoad(paste.value,"pasted rows")};
+  add(w,card(el("label",{class:"photo-pick"},file,el("b",{class:"mplus","aria-hidden":"true",text:"+"}),el("span",{},"Choose a CSV",el("small",{text:"In Google Sheets: File › Download › CSV, one tab at a time"}))),paste));
+  if(!IMP.rows)return;
+  const hd=IMP.rows[IMP.head]||[],body=impBody();
+  const colSel=k=>{const s=el("select",{"aria-label":"Column for "+k},el("option",{value:"",text:"Skip"}),...hd.map((h,i)=>el("option",{value:i,text:h||"Column "+(i+1)})));
+    s.value=IMP.map[k]??"";s.onchange=()=>{if(s.value==="")delete IMP.map[k];else IMP.map[k]=+s.value;if(k==="stage")impStages();renderImport()};return s};
+  add(w,el("p",{class:"lbl",text:IMP.name+" · header on row "+(IMP.head+1)+" · "+body.length+" rows"}),
+    el("span",{class:"lbl",text:"Your column → Clayworks"}),
+    card(...IMP_FIELDS.map(([k,,,to])=>el("div",{class:"i-map"},colSel(k),el("span",{"aria-hidden":"true",text:"→"}),el("b",{text:to}))),
+      el("p",{class:"note",text:"Profit and pay per hour are skipped: Clayworks works them out from price, fees and costs."})));
+  const plan=impPlan(),ex=plan.find(x=>x.tag&&x.line)||plan.find(x=>x.line);
+  if(IMP.map.set!=null&&ex)add(w,card(el("b",{text:"Sets split into a line and a tag"}),
+    el("span",{class:"note"},el("span",{class:"mono",text:impCell(ex.r,"set")})," → line ",el("b",{text:ex.line}),ex.tag?" + tag ":"",ex.tag?el("b",{text:ex.tag}):null),
+    el("span",{class:"note",text:"Sets without a code in brackets become a tag only."})));
+  const stK=Object.keys(IMP.stageMap);
+  if(stK.length)add(w,el("span",{class:"lbl",text:"Stages in your sheet"}),card(...stK.map(v=>{const s=el("select",{"aria-label":"Stage for "+v},
+      ...[...ALL_ST,["online","Finished, listed online"]].map(([k,l])=>el("option",{value:k,text:l})));s.value=IMP.stageMap[v];s.onchange=()=>{IMP.stageMap[v]=s.value;renderImport()};
+    return el("div",{class:"i-map"},el("span",{class:"mono",text:v}),el("span",{"aria-hidden":"true",text:"→"}),s)})));
+  const n=k=>plan.filter(x=>x.stage===k).length,lines=new Set(plan.map(x=>x.line).filter(Boolean)),sets=new Set(plan.map(x=>impCell(x.r,"set")).filter(Boolean));
+  const sellIn=el("input",{type:"checkbox",id:"impSell"});sellIn.checked=IMP.sellOn;sellIn.onchange=()=>IMP.sellOn=sellIn.checked;
+  add(w,el("div",{class:"i-sum"},el("b",{text:plan.length.toLocaleString()+" pieces"}),
+    ` from ${sets.size||lines.size} sets: ${n("sold").toLocaleString()} sold, ${n("finished").toLocaleString()} finished, ${plan.filter(x=>isLive(x)).length.toLocaleString()} in progress, ${n("gift")} gifts${n("broken")?", "+n("broken")+" broken":""}. ${lines.size} lines. Sales keep their own price, fee and where they sold.`),
+    SET().sell?null:el("label",{class:"check"},sellIn,"Turn on Sell (prices, stock and markets)"),
+    el("div",{class:"links"},el("button",{type:"button",class:"btn",disabled:!!IMP.busy,text:IMP.busy||"Import "+plan.length.toLocaleString()+" pieces",onclick:impGo}),
+      el("button",{type:"button",class:"linkbtn",text:"Start over",onclick:()=>{IMP.rows=null;renderImport()}})));
+}
+async function impGo(){
+  const plan=impPlan();if(!plan.length)return;IMP.busy="Making lines…";renderImport();
+  const have=new Map(docsOf("line").map(l=>[l.name.toLowerCase(),l.id]));
+  for(const x of plan){if(x.line&&!have.has(x.line.toLowerCase())){const tags=[...new Set(plan.filter(y=>y.line===x.line&&y.tag).map(y=>y.tag))];
+    const [clay,...gl]=x.line.split(" · "),glaze=gl.join(" · ");
+    const id=await putDoc("line",{name:x.line,clay:gl.length?clay:"",glaze:glaze?{ref:"t:"+glaze,name:glaze,hex:nameHex(glaze)||""}:null,tags,forms:{}});
+    have.set(x.line.toLowerCase(),id)}}
+  const now=Date.now(),bid=new Map();
+  const docs=plan.map(x=>{const r=x.r,c=k=>impCell(r,k),made=impDate(c("made"))||now,key=[c("set"),c("title"),x.stage].join("|");
+    if(!bid.has(key))bid.set(key,"batch-imp-"+bid.size.toString(36)+now.toString(36));
+    const d={title:c("title"),form:c("title"),line:x.line?have.get(x.line.toLowerCase()):null,tags:x.tag?[x.tag]:[],clay:c("clay"),cone:"Cone "+SET().glazeCone,
+      glaze:c("glaze")?{ref:"t:"+c("glaze"),name:c("glaze"),hex:nameHex(c("glaze"))||""}:null,price:num(c("price")),stage:x.stage,stageAt:{[x.stage]:made},
+      notes:c("notes"),photos:[],batch:bid.get(key),addedAt:made,imported:IMP.name,...(x.online?{loc:"online"}:{})};
+    if(x.stage==="sold")d.sold={price:num(c("soldFor"))??num(c("price")),feeAmt:num(c("fee")),where:c("where"),at:impDate(c("soldAt"))||made};
+    return d});
+  await putPieces(docs,(a,t)=>{IMP.busy=`Saved ${a.toLocaleString()} of ${t.toLocaleString()}…`;renderImport()});
+  if(IMP.sellOn&&!SET().sell)await putSet({sell:true});
+  IMP.busy="";IMP.rows=null;showTab("work");
+}
+
+/* ---------- Sell: stock, lines, markets, booth mode ---------- */
+const SELL={page:"home",line:null,event:null,tag:"",paid:"card"};
+const lineOf=id=>docsOf("line").find(l=>l.id===id)||null;
+function openLine(id){SELL.page="line";SELL.line=id;showTab("sell");window.scrollTo({top:0})}
+const locName=l=>!l||l==="studio"?"Studio":l==="online"?"Online":String(l).replace(/^shop:/,"");
+const inStock=()=>pieces.filter(p=>p.stage==="finished");
+const nextEvent=()=>docsOf("event").filter(e=>!e.closed&&String(e.date)>=dayStr(Date.now()-864e5)).sort((a,b)=>String(a.date).localeCompare(String(b.date)))[0]||null;
+// a sale is on its piece (piece.sold) or, for things that aren't logged pieces, a sale doc
+function salesAll(){return [...pieces.filter(p=>p.stage==="sold"&&p.sold).map(p=>({...p.sold,name:p.title,piece:p})),...docsOf("sale")].sort((a,b)=>(b.at||0)-(a.at||0))}
+const saleFees=s=>(s.feeAmt!=null?s.feeAmt:(s.price||0)*(s.fee||0)/100)+(s.paid==="card"?(s.price||0)*(s.card||0)/100:0);
+const saleNet=s=>(s.price||0)-saleFees(s);
+function lineStats(l){const ps=pieces.filter(p=>p.line===l.id),forms=new Map(),cut=Date.now()-90*864e5;
+  Object.keys(l.forms||{}).forEach(f=>forms.set(f,{form:f,ready:0,making:0,sold:0,goal:+l.forms[f]||0}));
+  ps.forEach(p=>{const f=p.form||p.title||"Other";if(!forms.has(f))forms.set(f,{form:f,ready:0,making:0,sold:0,goal:0});const r=forms.get(f);
+    if(p.stage==="finished")r.ready++;else if(isLive(p))r.making++;else if(p.stage==="sold"&&(p.sold?.at||0)>=cut)r.sold++});
+  const rows=[...forms.values()].map(r=>({...r,need:Math.max(0,r.goal-r.ready-r.making)}));
+  const t=k=>rows.reduce((s,r)=>s+r[k],0),prices=ps.map(p=>p.price).filter(Boolean),avg=prices.length?prices.reduce((a,b)=>a+b,0)/prices.length:0;
+  return {rows,ready:t("ready"),making:t("making"),goal:t("goal"),need:t("need"),sold:t("sold"),avg,count:ps.length}}
+function lineSwatch(l,cls="l-sw"){const g=l.glaze?pieceGlaze({glaze:l.glaze}):null;
+  return el("span",{class:cls},el("i",{style:"background:#"+(g?.hex||"C9BCAB")}),el("i",{style:"background:#"+(nameHex(l.clay||"")||"E9DDCB")}))}
+function goalBar(s){const g=Math.max(s.goal,s.ready+s.making,1);
+  return el("span",{class:"l-bar"},el("i",{class:"r",style:`width:${100*s.ready/g}%`}),el("i",{class:"m",style:`width:${100*s.making/g}%`}))}
+function renderSell(){
+  const w=$("sellRoot");if(!w)return;const ae=document.activeElement;if(w.contains(ae)&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))return;
+  w.replaceChildren();const P=SELL.page,T={lines:"Lines",pack:"Pack list",move:"Move pieces",expense:"Expenses"}[P];
+  if(tab==="sell"){document.querySelector(".intro").hidden=!["home","lines","pack","move","expense"].includes(P);$("pageTitle").textContent=T||"Sell";if(!T)$("sub").textContent=""}
+  if(P==="lines")return sellLines(w);if(P==="line"){const l=lineOf(SELL.line);if(l)return sellLine(w,l);if(storeMode!=="loading")SELL.page="lines";return}
+  if(P==="lineEdit")return sellLineEdit(w);if(P==="booth"){const e=docsOf("event").find(x=>x.id===SELL.event);if(e)return sellBooth(w,e)}
+  if(P==="pack"){const e=docsOf("event").find(x=>x.id===SELL.event);if(e)return sellPack(w,e)}
+  if(P==="event")return sellEvent(w);if(P==="move")return sellMove(w);if(P==="expense")return sellExpense(w);
+  SELL.page="home";$("sub").textContent=new Date().toLocaleDateString(undefined,{month:"long"})+(SET().sell?" · selling is on":" · turn selling on in Setup");
+  const mo=dayStr(Date.now()).slice(0,7),inMo=t=>t&&dayStr(t).slice(0,7)===mo,sales=salesAll(),ms=sales.filter(s=>inMo(s.at));
+  const exp=docsOf("expense").filter(x=>String(x.date).slice(0,7)===mo).reduce((s,x)=>s+(+x.amount||0),0),booth=docsOf("event").filter(e=>String(e.date).slice(0,7)===mo).reduce((s,e)=>s+(+e.boothFee||0),0);
+  const gross=ms.reduce((s,x)=>s+(x.price||0),0),costs=ms.reduce((s,x)=>s+saleFees(x),0)+exp+booth;
+  add(w,el("section",{class:"rp-box s-stats"},...[[money(gross)||"$0","Sales"],[money(costs)||"$0","Costs + fees"],[money(gross-costs)||"$0","Margin"]].map(([v,l],i)=>el("div",{},el("b",{class:i===2&&gross-costs>=0?"ok":"",text:v}),el("span",{text:l})))));
+  const stock=inStock(),locs=new Map([["studio",0]]);SET().shops.forEach(s=>locs.set("shop:"+s.name,0));locs.set("online",0);
+  stock.forEach(p=>{const k=p.loc||"studio";locs.set(k,(locs.get(k)||0)+1)});
+  add(w,el("div",{class:"t-head"},el("h3",{class:"t-h",text:"Where your stock is"}),el("span",{class:"links"},el("button",{type:"button",class:"linkbtn",text:"By line",onclick:()=>{SELL.page="lines";renderSell();setHash()}}),
+      el("button",{type:"button",class:"linkbtn",text:"Move pieces",onclick:()=>{SELL.page="move";renderSell()}}))),
+    el("div",{class:"s-locs"},...[...locs].map(([k,n],i)=>{const sh=SET().shops.find(s=>"shop:"+s.name===k);
+      return el("div",{class:"s-loc c"+(i%3)},el("b",{text:n}),el("span",{text:locName(k)+(sh?.cut?" · "+sh.cut+"%":"")}))})));
+  const ev=nextEvent();
+  if(ev){const packed=(ev.packed||[]).length;add(w,el("section",{class:"s-event"},el("div",{class:"t-top"},el("span",{class:"lbl",text:"Next event · "+fmtDay(ev.date)}),el("span",{text:ev.boothFee?"Booth "+money(ev.boothFee):""})),
+    el("b",{class:"s-ev-name",text:ev.name}),el("span",{text:packed?packed+" packed · "+stock.filter(p=>(p.loc||"studio")==="studio").length+" in the studio":stock.filter(p=>(p.loc||"studio")==="studio").length+" in the studio. Pack what you're bringing."}),
+    el("div",{class:"links"},el("button",{type:"button",class:"btn s-ev-go",text:"Open booth mode",onclick:()=>{SELL.page="booth";SELL.event=ev.id;showTab("sell")}}),
+      el("button",{type:"button",class:"ghost sm",text:"Pack list",onclick:()=>{SELL.page="pack";SELL.event=ev.id;renderSell()}}),
+      el("button",{type:"button",class:"linkbtn",text:"Edit",onclick:()=>{SELL.page="event";SELL.event=ev.id;renderSell()}}))))}
+  else add(w,el("button",{type:"button",class:"rp-box t-low",onclick:()=>{SELL.page="event";SELL.event=null;renderSell()}},el("span",{},el("b",{text:"Add a market"}),el("span",{class:"meta",text:"Date, booth fee and their cut. Then pack and sell from booth mode."})),el("span",{text:"+"})));
+  add(w,card(el("div",{class:"t-head"},el("h3",{class:"t-h",text:"Recent sales"}),el("span",{class:"meta",text:sales.length?sales.length.toLocaleString()+" in all":""})),
+    ...(sales.length?sales.slice(0,5).map(s=>el("div",{class:"t-row"},el("span",{text:[s.name,s.where].filter(Boolean).join(" · ")}),el("span",{class:"mono",text:money(s.price)}))):[el("p",{class:"note",text:"Sales you record or ring up in booth mode show here."})])),
+    el("div",{class:"links s-acts"},el("button",{type:"button",class:"btn",text:"Record a sale",onclick:()=>saleSheet({})}),el("button",{type:"button",class:"ghost",text:"Add expense",onclick:()=>{SELL.page="expense";renderSell()}})));
+}
+const backTo=(t,go)=>el("button",{type:"button",class:"linkbtn rp-back",text:"‹ "+t,onclick:go});
+const toSell=()=>{SELL.page="home";renderSell();setHash();window.scrollTo({top:0})};
+function sellLines(w){
+  $("sub").textContent="Each line is one clay and glaze look. Give it goals per form and see what's still to make.";
+  const lines=docsOf("line"),tags=[...new Set(lines.flatMap(l=>l.tags||[]))],T=SELL.tag;
+  add(w,el("div",{class:"ideas-head"},backTo("Sell",toSell),el("button",{type:"button",class:"btn",text:"+ New line",onclick:()=>{SELL.page="lineEdit";SELL.line=null;renderSell()}})));
+  if(!lines.length){add(w,el("div",{class:"empty"},el("p",{style:"margin:0",text:"No lines yet. A line is a look you make again and again, like porcelain with bark slip. Pieces in a line share clay, glaze and tags, and the line tracks how many of each form you have against a goal."})));return}
+  add(w,el("div",{class:"filters"},...[["","All "+lines.length],...tags.map(t=>[t,t])].map(([k,l])=>el("button",{type:"button","aria-pressed":String(T===k),text:l,onclick:()=>{SELL.tag=k;renderSell()}}))));
+  lines.filter(l=>!T||(l.tags||[]).includes(T)).forEach(l=>{const s=lineStats(l),g=l.glaze?pieceGlaze({glaze:l.glaze}):null;
+    add(w,el("button",{type:"button",class:"rp-box l-card",onclick:()=>openLine(l.id)},el("span",{class:"l-top"},lineSwatch(l),
+        el("span",{},el("b",{text:l.name}),el("span",{class:"meta",text:[l.clay,g?.name,s.rows.length+(s.rows.length===1?" form":" forms")].filter(Boolean).join(" · ")})),
+        el("span",{class:s.need?"l-need":"l-ok",text:s.goal?s.need?"Need "+s.need:"On track":""})),goalBar(s),
+      el("span",{class:"l-foot"},el("span",{class:"meta",text:[s.ready+" ready",s.making?s.making+" in progress":"",s.goal?"goal "+s.goal:""].filter(Boolean).join(" · ")}),
+        el("span",{class:"chips"},...(l.tags||[]).map(t=>el("span",{class:"pill",text:t}))))))});
+  add(w,el("p",{class:"l-legend"},el("span",{},el("i",{class:"r"}),"Ready"),el("span",{},el("i",{class:"m"}),"In progress"),el("span",{},el("i"),"Still to make")));
+}
+function sellLine(w,l){
+  const s=lineStats(l),g=l.glaze?pieceGlaze({glaze:l.glaze}):null,save=patch=>putDoc("line",{...l,...patch});
+  $("sub").textContent="";
+  const tagIn=el("input",{type:"text",placeholder:"+ Tag","aria-label":"Add a tag",class:"l-tagin"});
+  tagIn.onkeydown=e=>{if(e.key==="Enter"&&tagIn.value.trim()){e.preventDefault();save({tags:[...new Set([...(l.tags||[]),tagIn.value.trim()])]})}};
+  const make=(r,n)=>dupPieces({title:r.form,form:r.form,line:l.id,clay:l.clay,cone:l.cone||"Cone "+SET().glazeCone,glaze:l.glaze,tags:l.tags||[],price:l.price??null},n);
+  const goalIn=r=>{const i=el("input",{type:"number",min:"0",step:"1",value:r.goal||"","aria-label":"Goal for "+r.form,class:"l-goal",placeholder:"0"});
+    i.onchange=()=>save({forms:{...(l.forms||{}),[r.form]:+i.value||0}});return i};
+  const top=[...s.rows].sort((a,b)=>b.need-a.need)[0];
+  const formAdd=el("input",{type:"text",placeholder:"Add a form: tumbler, spoon rest…","aria-label":"Add a form"});
+  formAdd.onkeydown=e=>{if(e.key==="Enter"&&formAdd.value.trim()){e.preventDefault();save({forms:{...(l.forms||{}),[formAdd.value.trim()]:0}})}};
+  const soldRows=s.rows.filter(r=>r.sold).sort((a,b)=>b.sold-a.sold);
+  add(w,el("div",{class:"ideas-head"},backTo("Lines",()=>{SELL.page="lines";renderSell();setHash()}),el("button",{type:"button",class:"ghost sm",text:"Edit",onclick:()=>{SELL.page="lineEdit";renderSell()}})),
+    el("div",{class:"l-head"},lineSwatch(l,"l-sw big"),el("div",{},el("h2",{class:"rp-h",text:l.name}),
+      el("span",{class:"meta"},[l.clay].filter(Boolean).join(""),g?" · ":"",g?.open?el("button",{type:"button",class:"linkbtn",text:g.name,onclick:g.open}):g?.name||"",l.cone?" · "+l.cone.toLowerCase():""))),
+    el("div",{class:"chips"},...(l.tags||[]).map(t=>el("span",{class:"chip st-chip"},t,el("button",{type:"button","aria-label":"Remove "+t,text:"×",onclick:()=>save({tags:(l.tags||[]).filter(x=>x!==t)})}))),tagIn),
+    card(el("div",{class:"t-top"},el("span",{class:"lbl",text:[l.goalName||"Goal",l.goalDate?fmtDay(l.goalDate):""].filter(Boolean).join(" · ")}),el("span",{class:s.need?"l-need":"l-ok",text:s.goal?s.need?s.need+" to make":"On track":"Set goals per form below"})),
+      goalBar(s),el("div",{class:"t-top"},el("span",{class:"meta",text:`${s.ready} ready · ${s.making} in progress · goal ${s.goal}`}),s.avg&&s.goal?el("span",{class:"mono meta",text:money(Math.round(s.ready*s.avg))+" of "+money(Math.round(s.goal*s.avg))}):null)),
+    card(el("div",{class:"l-tbl"},...["Form","Ready","Making","Goal","Need"].map(h=>el("span",{class:"h",text:h})),
+      ...s.rows.flatMap(r=>{const bt=pieces.find(p=>p.line===l.id&&(p.form||p.title)===r.form&&isLive(p));
+        return [el("button",{type:"button",class:"linkbtn l-form",text:r.form+" ›",onclick:()=>bt?(bt.batch?openBatch(bt.batch):openPiece(bt.id)):make(r,r.need||1)}),
+          el("span",{class:"n",text:r.ready}),el("span",{class:"n",text:r.making}),el("span",{class:"n"},goalIn(r)),
+          r.need?el("button",{type:"button",class:"linkbtn n l-need",title:"Make "+r.need,text:r.need,onclick:()=>make(r,r.need)}):el("span",{class:"n",text:"0"})]})),formAdd),
+    soldRows.length?card(el("span",{class:"lbl",text:"Sold, last 3 months"}),...soldRows.map(r=>el("div",{class:"t-row"},el("span",{text:r.form}),el("span",{class:"mono",text:r.sold})))):null,
+    el("div",{class:"links"},top&&top.need?el("button",{type:"button",class:"btn",text:"Make "+top.need+" "+plural(top.form,top.need).toLowerCase(),onclick:()=>make(top,top.need)}):null,
+      el("button",{type:"button",class:"ghost",text:"+ Pieces in this line",onclick:()=>make({form:""},1)})));
+}
+function sellLineEdit(w){
+  const l=SELL.line?lineOf(SELL.line):null,E=l?JSON.parse(JSON.stringify(l)):{name:"",clay:SET().clays[0]||"",cone:"Cone "+SET().glazeCone,glaze:null,tags:[],forms:{}};
+  const fld=(lab,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:lab}),i);
+  const name=el("input",{type:"text",value:E.name,placeholder:"Bark, Sky on white…","aria-label":"Name"}),clay=el("input",{type:"text",value:E.clay||"","aria-label":"Clay body"}),cone=el("input",{type:"text",value:E.cone||"","aria-label":"Cone"});
+  const tags=el("input",{type:"text",value:(E.tags||[]).join(", "),placeholder:"Kitchen, Christmas","aria-label":"Tags"}),price=el("input",{type:"number",step:"any",value:E.price??"","aria-label":"Usual price"});
+  const gname=el("input",{type:"text",value:E.goalName||"",placeholder:"Christmas markets","aria-label":"Goal"}),gdate=el("input",{type:"date",value:E.goalDate||"","aria-label":"Goal date"});
+  let glaze=E.glaze;const gbox=el("div",{});const drawG=()=>gbox.replaceChildren(glazePicker(glaze,g=>{glaze=g;drawG()}));drawG();
+  const msg=el("p",{class:"note",role:"status"}),del=l?el("button",{type:"button",class:"linkbtn",text:"Delete line"}):null;
+  if(del)del.onclick=()=>del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, delete. Pieces stay.",onclick:async()=>{await deleteDoc(l.id);SELL.page="lines";renderSell()}}));
+  const f=el("form",{class:"cb-edit",novalidate:true},backTo("Cancel",()=>{SELL.page=l?"line":"lines";renderSell()}),el("h2",{text:l?"Edit line":"New line"}),
+    el("div",{class:"rp-grid"},fld("Name",name),fld("Clay body",clay),fld("Cone",cone)),el("div",{class:"cb-row"},el("span",{class:"lbl",text:"Glaze or combo"}),gbox),
+    el("div",{class:"rp-grid"},fld("Tags",tags),fld("Usual price, $",price)),el("div",{class:"rp-grid"},fld("Goal",gname),fld("By",gdate)),
+    el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Save line"}),del,msg));
+  f.onsubmit=async e=>{e.preventDefault();if(!name.value.trim()){msg.textContent="Give it a name.";return}
+    const id=await putDoc("line",{...E,name:name.value.trim(),clay:clay.value.trim(),cone:cone.value.trim(),glaze,tags:tags.value.split(",").map(t=>t.trim()).filter(Boolean),
+      price:price.value===""?null:+price.value,goalName:gname.value.trim(),goalDate:gdate.value});if(id)openLine(id)};
+  add(w,f);
+}
+function sellEvent(w){
+  const e=SELL.event?docsOf("event").find(x=>x.id===SELL.event):null,E=e||{name:"",date:dayStr(Date.now()+7*864e5),boothFee:null,fee:SET().fee};
+  const fld=(lab,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:lab}),i);
+  const name=el("input",{type:"text",value:E.name,placeholder:"Freret Market","aria-label":"Market"}),date=el("input",{type:"date",value:E.date,"aria-label":"Date"});
+  const boothFee=el("input",{type:"number",step:"any",value:E.boothFee??"","aria-label":"Booth fee"}),fee=el("input",{type:"number",step:"any",value:E.fee??"","aria-label":"Their cut, percent"});
+  const msg=el("p",{class:"note",role:"status"}),del=e?el("button",{type:"button",class:"linkbtn",text:"Delete"}):null;
+  if(del)del.onclick=async()=>{await deleteDoc(e.id);toSell()};
+  const f=el("form",{class:"cb-edit",novalidate:true},backTo("Sell",toSell),el("h2",{text:e?"Edit market":"Add a market"}),
+    el("div",{class:"rp-grid"},fld("Market",name),fld("Date",date)),el("div",{class:"rp-grid"},fld("Booth fee, $",boothFee),fld("Their cut of sales, %",fee)),
+    el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Save"}),del,msg));
+  f.onsubmit=async ev=>{ev.preventDefault();if(!name.value.trim()){msg.textContent="Name the market.";return}
+    await putDoc("event",{...E,name:name.value.trim(),date:date.value,boothFee:boothFee.value===""?null:+boothFee.value,fee:fee.value===""?null:+fee.value});toSell()};
+  add(w,f);
+}
+// pieces grouped for selling: same form, line and price
+function stockGroups(list){const m=new Map();list.forEach(p=>{const k=[p.title,p.line||"",p.price||""].join("|");if(!m.has(k))m.set(k,[]);m.get(k).push(p)});return [...m.values()]}
+function sellPack(w,e){
+  $("sub").textContent="What you're bringing to "+e.name+". Booth mode sells from this list.";
+  const packed=new Set(e.packed||[]),studioStock=inStock().filter(p=>(p.loc||"studio")==="studio"||packed.has(p.id));
+  const save=set=>putDoc("event",{...e,packed:[...set]});
+  add(w,el("div",{class:"ideas-head"},backTo("Sell",toSell),el("span",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"Pack everything",onclick:()=>save(new Set(studioStock.map(p=>p.id)))}),
+    packed.size?el("button",{type:"button",class:"linkbtn",text:"Clear",onclick:()=>save(new Set())}):null)),
+    el("p",{class:"lbl",text:packed.size+" packed · "+studioStock.length+" finished in the studio"}));
+  if(!studioStock.length){add(w,el("p",{class:"note",text:"Nothing finished in the studio. Pieces show up here once they're out of the glaze kiln."}));return}
+  add(w,card(...stockGroups(studioStock).map(g=>{const n=g.filter(p=>packed.has(p.id)).length,setN=k=>{const set=new Set(packed);g.forEach((p,i)=>i<k?set.add(p.id):set.delete(p.id));save(set)};
+    return el("div",{class:"t-row"},el("span",{class:"m-rc"},pieceSwatch(g[0],"k-sw"),g[0].title+(g[0].price?" · "+money(g[0].price):"")),
+      el("span",{class:"pz-step"},el("button",{type:"button",class:"ghost sm","aria-label":"Pack one fewer",text:"−",onclick:()=>setN(n-1)}),el("span",{class:"mono",text:n+" of "+g.length}),
+        el("button",{type:"button",class:"ghost sm","aria-label":"Pack one more",text:"+",onclick:()=>setN(n+1)})))})));
+}
+function sellMove(w){
+  $("sub").textContent="Finished pieces and where they are. Change a row to move those pieces.";
+  const S=SET(),opts=[["studio","Studio"],...S.shops.map(s=>["shop:"+s.name,s.name]),["online","Online"]];
+  add(w,backTo("Sell",toSell));
+  const stock=inStock();if(!stock.length){add(w,el("p",{class:"note",text:"Nothing finished yet."}));return}
+  const m=new Map();stock.forEach(p=>{const k=[p.title,p.line||"",p.loc||"studio"].join("|");if(!m.has(k))m.set(k,[]);m.get(k).push(p)});
+  add(w,card(...[...m.values()].map(g=>{const s=el("select",{"aria-label":"Where "+g[0].title+" are"},...opts.map(([v,l])=>el("option",{value:v,text:l})));s.value=g[0].loc||"studio";
+    const k=el("input",{type:"number",min:"1",max:String(g.length),value:g.length,"aria-label":"How many",class:"pz-num"});
+    s.onchange=()=>putPieces(g.slice(0,Math.max(1,Math.min(g.length,+k.value||g.length))).map(p=>({...p,loc:s.value})));
+    return el("div",{class:"t-row"},el("span",{class:"m-rc"},pieceSwatch(g[0],"k-sw"),g[0].title),el("span",{class:"pz-step"},k,el("span",{class:"meta",text:"of "+g.length}),s))})),
+    S.shops.length?null:el("p",{class:"note",text:"Add the shops that carry your work in Setup to move pieces there."}));
+}
+function sellExpense(w){
+  $("sub").textContent="Clay, glaze materials, rent, market fees. They come off your margin.";
+  const fld=(lab,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:lab}),i);
+  const name=el("input",{type:"text",placeholder:"25 lb porcelain","aria-label":"What"}),amt=el("input",{type:"number",step:"any","aria-label":"Amount"}),date=el("input",{type:"date",value:dayStr(Date.now()),"aria-label":"Date"});
+  const f=el("form",{class:"cb-edit",novalidate:true},backTo("Sell",toSell),el("div",{class:"rp-grid"},fld("What",name),fld("Amount, $",amt),fld("Date",date)),
+    el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Add expense"})));
+  f.onsubmit=async e=>{e.preventDefault();if(!name.value.trim()||amt.value==="")return;await putDoc("expense",{name:name.value.trim(),amount:+amt.value,date:date.value});renderSell()};
+  const list=docsOf("expense").sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+  add(w,f,list.length?card(el("h3",{class:"t-h",text:"Expenses"}),...list.slice(0,30).map(x=>el("div",{class:"t-row"},el("span",{text:fmtDay(x.date)+" · "+x.name}),
+    el("span",{class:"pz-step"},el("span",{class:"mono",text:money(x.amount)}),el("button",{type:"button",class:"cb-x","aria-label":"Delete "+x.name,text:"×",onclick:()=>deleteDoc(x.id)}))))):null);
+}
+// booth mode: tap to sell from what you packed
+function sellBooth(w,e){
+  const packed=new Set(e.packed||[]),left=inStock().filter(p=>packed.size?packed.has(p.id):(p.loc||"studio")==="studio");
+  const sales=salesAll().filter(s=>s.event===e.id),total=sales.reduce((s,x)=>s+(x.price||0),0);
+  let run=0,covered=null;[...sales].reverse().forEach(s=>{run+=saleNet(s);if(covered==null&&e.boothFee&&run>=e.boothFee)covered=s.at});
+  const pct=e.boothFee?Math.min(100,100*Math.max(0,run)/e.boothFee):100;
+  const paidSeg=el("div",{class:"seg b-paid",role:"radiogroup","aria-label":"Paid with"},...[["card","Card"],["cash","Cash"]].map(([k,l])=>el("button",{type:"button",role:"radio","aria-checked":String(SELL.paid===k),text:l,onclick:()=>{SELL.paid=k;renderSell()}})));
+  add(w,el("div",{class:"b-head"},el("div",{},el("span",{class:"lbl",text:"Booth · "+e.name}),el("h2",{class:"rp-h",text:fmtDay(e.date)})),
+      el("button",{type:"button",class:"ghost",text:"End day",onclick:async()=>{await putDoc("event",{...e,closed:true});SELL.page="home";showTab("sell")}})),
+    el("section",{class:"b-sum"},el("div",{class:"t-top"},el("b",{class:"b-total",text:money(total)||"$0"}),el("span",{text:sales.length+" sold · "+left.length+" left"})),
+      el("span",{class:"l-bar"},el("i",{class:"r",style:`width:${pct}%`})),
+      el("span",{class:"meta",text:!e.boothFee?"No booth fee":covered?"Booth fee covered at "+new Date(covered).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})+" · everything since is profit":money(Math.max(0,e.boothFee-run))+" to cover the booth fee"})),
+    el("span",{class:"lbl",text:"Tap to sell"}),
+    el("div",{class:"b-grid"},...stockGroups(left).map(g=>el("button",{type:"button",class:"b-sell",onclick:()=>saleSheet({pieces:g,event:e})},
+      el("b",{text:g[0].title}),el("span",{},el("span",{class:"mono",text:money(g[0].price)||"no price"}),el("span",{text:g.length+" left"})))),
+      left.length?null:el("p",{class:"note",text:"Nothing left to sell. Pack more in the Pack list, or use Other item."})),
+    paidSeg,
+    sales.length?card(...sales.slice(0,6).map(s=>el("div",{class:"t-row"},el("span",{text:[s.qty>1?s.qty+" × "+s.name:s.name,s.paid].filter(Boolean).join(" · ")}),el("span",{class:"meta",text:new Date(s.at).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})}))),
+      el("button",{type:"button",class:"linkbtn",text:"Undo last sale",onclick:()=>undoSale(sales[0])})):null,
+    el("div",{class:"links"},el("button",{type:"button",class:"ghost",text:"Other item",onclick:()=>saleSheet({event:e,other:true})}),el("button",{type:"button",class:"ghost",text:"Take an order",onclick:()=>saleSheet({event:e,other:true,order:true})})));
+}
+async function undoSale(s){if(!s)return;
+  if(s.piece){const sib=s.group?pieces.filter(p=>p.sold?.group===s.group):[s.piece];await putPieces(sib.map(p=>({...p,stage:"finished",sold:null})))}else await deleteDoc(s.id)}
+// the sale sheet: its own price, this market's fee, how they paid, what you keep
+function saleSheet({pieces:g=null,event:e=null,other=false,order=false}){
+  const S=SET(),dlg=el("dialog",{class:"addmodal s-sheet","aria-label":"Sale"});document.body.append(dlg);
+  const stock=inStock();let list=g;
+  const base=()=>list?.[0]?.price||0;let qty=1,price=base(),fee=e?.fee??S.fee,paid=SELL.paid,name=order?"Custom order":"";
+  const draw=()=>{const left=list?list.length-qty:0,card=paid==="card"?S.cardFee:0,keep=price-price*(fee||0)/100-price*card/100;
+    const pick=!e&&!other?(()=>{const s=el("select",{"aria-label":"Which piece"},el("option",{value:"",text:"Something that isn't logged"}),
+        ...stockGroups(stock).map((gr,i)=>el("option",{value:i,text:gr[0].title+(gr[0].price?" · "+money(gr[0].price):"")+" · "+gr.length+" in stock"})));
+      const gs=stockGroups(stock);s.value=list?String(gs.findIndex(gr=>gr.includes(list[0]))):"";s.onchange=()=>{list=s.value===""?null:gs[+s.value];qty=1;price=base();draw()};return s})():null;
+    const nm=!list?el("input",{type:"text",value:name,placeholder:order?"4 mugs, deposit":"Seconds mug","aria-label":"What sold"}):null;if(nm)nm.oninput=()=>name=nm.value;
+    const pr=el("input",{type:"number",step:"any",value:price||"","aria-label":"Price",class:"s-price"});pr.onchange=()=>{price=+pr.value||0;draw()};
+    const fe=el("input",{type:"number",step:"any",value:fee??"","aria-label":"Market fee, percent",class:"pz-num"});fe.onchange=()=>{fee=+fe.value||0;draw()};
+    dlg.replaceChildren(el("div",{class:"addinner"},
+      el("div",{class:"addhead"},el("div",{},el("h2",{text:list?list[0].title+" sold":order?"Take an order":"Record a sale"}),list?el("span",{class:"meta",text:left+" left after this"}):null),
+        el("button",{type:"button",class:"ghost",text:"Cancel",onclick:()=>dlg.close()})),
+      pick,nm,
+      el("div",{class:"t-row"},el("span",{text:qty>1?qty+" for":"Price"}),el("span",{class:"pz-step"},base()&&price!==base()*qty?el("s",{class:"meta mono",text:money(base()*qty)}):null,pr)),
+      list?el("div",{class:"chips"},el("button",{type:"button",class:"fchip-s",text:"− $5",onclick:()=>{price=Math.max(0,price-5);draw()}}),
+        el("button",{type:"button",class:"fchip-s",text:"− 10%",onclick:()=>{price=Math.round(price*0.9*100)/100;draw()}}),
+        list.length>1?el("button",{type:"button",class:"fchip-s",text:"2 for "+money(Math.round(base()*2*0.9)),onclick:()=>{qty=2;price=Math.round(base()*2*0.9);draw()}}):null):null,
+      el("div",{class:"t-row"},el("span",{},el("span",{text:"Market fee, %"}),el("small",{class:"meta",text:e?" "+e.name+"'s usual: "+(e.fee??S.fee)+"%":" your usual: "+S.fee+"%"})),fe),
+      paid==="card"?el("div",{class:"t-row"},el("span",{text:"Card fee"}),el("span",{class:"mono",text:S.cardFee+"% · "+money(Math.round(price*S.cardFee)/100)})):null,
+      el("div",{class:"t-row"},el("span",{text:"Paid with"}),el("div",{class:"filters"},...["card","cash","venmo","other"].map(k=>el("button",{type:"button","aria-pressed":String(paid===k),text:k[0].toUpperCase()+k.slice(1),onclick:()=>{paid=k;draw()}})))),
+      el("div",{class:"t-row s-keep"},el("b",{text:"You keep"}),el("b",{class:"mono",text:money(Math.round(keep*100)/100)})),
+      el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"Done",onclick:done}),list?el("button",{type:"button",class:"ghost",text:"Gift",onclick:gift}):null)))};
+  async function done(){const at=Date.now(),where=e?e.name:"",common={fee,card:paid==="card"?S.cardFee:0,paid,at,event:e?.id||null,where};
+    if(list){const sold=list.slice(0,qty),group=qty>1?newId("sale"):null;
+      await putPieces(sold.map(p=>({...p,stage:"sold",sold:{...common,price:Math.round(price/qty*100)/100,...(group?{group,qty}:{})}})))}
+    else await putDoc("sale",{...common,name:name.trim()||(order?"Custom order":"Other item"),price,...(order?{order:true}:{})});
+    dlg.close()}
+  async function gift(){await putPieces(list.slice(0,qty).map(p=>({...p,stage:"gift",stageAt:{...(p.stageAt||{}),gift:Date.now()}})));dlg.close()}
+  dlg.onclose=()=>dlg.remove();draw();dlg.showModal();
+}
+
+function renderAll(){renderTabs();renderCombos();renderPieces();if(tab==="today")renderToday();if(tab==="sell")renderSell();if(tab==="mine")renderMine();if(tab==="kiln")renderKiln();if(tab==="setup")renderSetup();if(tab==="import")renderImport();if(tab==="tile")renderTile();updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();renderIdeas();if(tab==="recipe")renderRecipePage()}
 
 /* ---------- boot ---------- */
 try{const s=JSON.parse(localStorage.getItem("stainlab-last")||"null");if(s?.colors?.length)last=s}catch{}
@@ -3235,7 +3972,8 @@ try{const g=JSON.parse(localStorage.getItem("stainlab-last-glaze")||"null");if(g
 try{if(localStorage.getItem("stainlab-mode")==="glaze")setMode("glaze")}catch{}
 renderTabs();
 {const h=(location.hash||"").slice(1);if(h.startsWith("recipe/")){openId=decodeURIComponent(h.slice(7));showTab("recipe")}else if(h.startsWith("premade/")){openPremadeKey=decodeURIComponent(h.slice(8));showTab("premade")}
-  else if(h.startsWith("combo/")){COMBO.open=decodeURIComponent(h.slice(6));showTab("combos")}else if(h.startsWith("piece/")){PIECE.open=decodeURIComponent(h.slice(6));showTab("work")}else if(h.startsWith("tile/")){COMBO.mkOpen=+h.slice(5);showTab("tile")}else showTab(h||START)}
+  else if(h.startsWith("combo/")){COMBO.open=decodeURIComponent(h.slice(6));showTab("combos")}else if(h.startsWith("piece/")){PIECE.open=decodeURIComponent(h.slice(6));showTab("work")}else if(h.startsWith("batch/")){PIECE.batch=decodeURIComponent(h.slice(6));showTab("work")}
+  else if(h.startsWith("line/")){SELL.page="line";SELL.line=decodeURIComponent(h.slice(5));showTab("sell")}else if(h.startsWith("booth/")){SELL.page="booth";SELL.event=decodeURIComponent(h.slice(6));showTab("sell")}else if(h.startsWith("tile/")){COMBO.mkOpen=+h.slice(5);showTab("tile")}else showTab(h||START)}
 renderAll();
 initStore();
 (()=>{let arr=[];try{arr=JSON.parse(document.getElementById("catalogData").textContent)}catch{}

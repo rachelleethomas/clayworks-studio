@@ -21,7 +21,7 @@ export const Buttons = {
 export const TabsAndSwitches = () => stack(
   label("Top-level tabs · .topbar .tabs"),
   `<header class="topbar" style="position:static"><a class="brand" href="#"><span class="mark" aria-hidden="true"></span><span class="brand-name">Clayworks Studio</span></a>
-    <div class="tabs" role="tablist"><button role="tab" aria-selected="true">Discover</button><button role="tab" aria-selected="false">My Studio</button><button role="tab" aria-selected="false">Ideas</button></div>
+    <div class="tabs" role="tablist"><button role="tab" aria-selected="true">Today</button><button role="tab" aria-selected="false">Work</button><button role="tab" aria-selected="false">Sell</button><button role="tab" aria-selected="false">Discover</button><button role="tab" aria-selected="false">Studio</button></div>
     <div class="acct"><div class="cw-user"><button class="cw-avatar" type="button" aria-label="Account">R</button></div></div></header>`,
   label("Segmented switch · .seg"),
   `<div class="seg dmode" role="radiogroup" style="max-width:320px"><button role="radio" aria-checked="true">Search</button><button role="radio" aria-checked="false">Match colors</button></div>`,
@@ -145,7 +145,7 @@ export const MatchResults = () => `<div class="board" style="max-width:900px">
 MatchResults.storyName = "Match results (board, tiles, shopping list)";
 
 export const ShelvesPage = () => `<div class="studio" style="max-width:1000px">
-  <div class="seg mineseg" role="radiogroup"><button role="radio" aria-checked="false">Work</button><button role="radio" aria-checked="false">Recipes</button><button role="radio" aria-checked="false">Combos</button><button role="radio" aria-checked="true">Shelves</button></div>
+  <button class="linkbtn rp-back" type="button">‹ Studio</button>
   <div class="shelfbar"><div class="filters"><button aria-pressed="true">All<b>6</b></button><button aria-pressed="false">Stains<b>5</b></button><button aria-pressed="false">Clay bodies<b>1</b></button></div><button class="btn" type="button">Search &amp; add</button></div>
   <div class="shelves"><section class="shelf"><div class="shelfhead"><h2>Stains</h2><span>5 items</span></div>
     <div class="items"><div class="item"><span class="sw" style="${sw("8A2A35")}"></span><div><h4>6006 Deep Crimson</h4><div class="meta">Mason</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div>
@@ -212,7 +212,7 @@ export const RecipeSummaryCards = () => `<div class="savedgrid" style="max-width
 RecipeSummaryCards.storyName = "Recipe summary cards (tap to open)";
 
 export const RecipePage = () => `<div id="recipePage" style="max-width:1100px">
-  <div class="rp-head"><div class="rp-sw" style="${sw("D8DAD5")}"></div><div class="rp-id"><button class="linkbtn rp-back" type="button">‹ My Studio · Recipes</button><input type="text" class="rp-title" value="Amber celadon"><div class="meta">Glaze · Cone 6 · Satin · saved Oct 20, 2026 · From Glazy #9199 by chance taylor · <a href="#" target="_blank" rel="noopener">view</a></div></div>
+  <div class="rp-head"><div class="rp-sw" style="${sw("D8DAD5")}"></div><div class="rp-id"><button class="linkbtn rp-back" type="button">‹ Studio · Recipes</button><input type="text" class="rp-title" value="Amber celadon"><div class="meta">Glaze · Cone 6 · Satin · saved Oct 20, 2026 · From Glazy #9199 by chance taylor · <a href="#" target="_blank" rel="noopener">view</a></div></div>
     <div class="rp-acts"><div class="seg rp-status" role="radiogroup"><button role="radio" aria-checked="false">Idea</button><button role="radio" aria-checked="true">Testing</button><button role="radio" aria-checked="false">Keeper</button></div><div class="links"><button class="ghost sm">Copy</button><button class="ghost sm">Print</button><button class="linkbtn">Delete</button></div></div></div>
   <div class="rp-nav" role="tablist"><button role="tab" aria-selected="true">Recipe</button>${["Tests & versions", "Swap", "Lab", "Cost & availability", "Used in"].map((t, i) => `<button role="tab" aria-selected="false">${t}${i === 0 ? "<small>2</small>" : ""}</button>`).join("")}</div>
   <div class="rp-body"><section class="rp-main"><div class="rp-batch"><label class="batch">Batch<input type="number" value="1000">g dry glaze</label><div class="rp-scale"><span class="lbl">Scale</span><button class="fdd">100 g</button><button class="fdd">300 g</button><button class="fdd">1 kg</button><button class="fdd">5 kg</button></div></div>
