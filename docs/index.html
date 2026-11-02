@@ -1515,6 +1515,13 @@ async function deletePiece(id){
   if(studioColl){try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't delete that. "+(e?.message||""))}}
   else{pieces=pieces.filter(x=>x.id!==id);saveLocal();renderAll()}
 }
+async function deletePieces(ids){
+  if(studioColl){for(const id of ids)try{await studioColl.doc(id).delete()}catch(e){flash("Couldn't delete all of them. "+(e?.message||""));return}}
+  else{const gone=new Set(ids);pieces=pieces.filter(x=>!gone.has(x.id));saveLocal();renderAll()}
+}
+// a Delete link that asks once before it acts
+function confirmDel(text,yes,act){const b=el("button",{type:"button",class:"linkbtn",text});
+  b.onclick=()=>b.replaceWith(el("button",{type:"button",class:"ghost sm",text:yes,onclick:act}));return b}
 const docsOf=k=>misc.filter(d=>d.kind===k);
 const newId=k=>k+"-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 async function putDoc(kind,d){
@@ -3070,13 +3077,15 @@ function renderBatch(w,list){
     el("div",{class:"links"},...STAGES.filter(([k])=>!(cur.size===1&&cur.has(k))).map(([k])=>to(k))),
     el("div",{class:"links"},el("span",{class:"note",text:"Or mark as"}),
       ...[["broken","Broken"],["gift","Gift"]].map(([k,l])=>el("button",{type:"button",class:"ghost sm pz-"+k,text:l,onclick:async()=>{await movePieces(picked,k);S.clear();renderPieces()}})),
-      picked.length===1?el("button",{type:"button",class:"linkbtn",text:"Open this one",onclick:()=>openPiece(picked[0].id)}):null)):
+      picked.length===1?el("button",{type:"button",class:"linkbtn",text:"Open this one",onclick:()=>openPiece(picked[0].id)}):null,
+      confirmDel("Delete "+picked.length,"Yes, delete "+picked.length,async()=>{await deletePieces(picked.map(x=>x.id));S.clear();renderPieces()}))):
     el("p",{class:"note",text:"Tap pieces to pick them, or tap a stage above to pick all of them. Double-tap one to open it on its own."});
   w.append(el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Work",onclick:()=>{PIECE.batch=null;showTab("work")}}),
     el("div",{class:"rp-id"},kick,el("h2",{class:"rp-h"},plural(p.title||"Untitled piece",2),el("span",{class:"pc-n",text:" × "+list.length})),
         el("div",{class:"meta",text:pieceMeta(p).concat(p.price&&SET().sell?["$"+p.price+" each"]:[]).join(" · ")}),
       el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"Duplicate",onclick:()=>dupPieces(p,list.length)}),
-        el("button",{type:"button",class:"ghost sm",text:"Edit all",onclick:()=>{PIECE.edit={...JSON.parse(JSON.stringify(p)),batchEdit:p.batch};renderPieces()}}))),
+        el("button",{type:"button",class:"ghost sm",text:"Edit all",onclick:()=>{PIECE.edit={...JSON.parse(JSON.stringify(p)),batchEdit:p.batch};renderPieces()}}),
+        confirmDel("Delete all","Yes, delete all "+list.length,async()=>{await deletePieces(list.map(x=>x.id));S.clear();PIECE.batch=null;showTab("work")}))),
     tiles,el("section",{class:"rp-box"},el("div",{class:"pz-top"},el("b",{text:picked.length?picked.length+" picked":list.length+" pieces"}),
       picked.length?el("button",{type:"button",class:"linkbtn",text:"Clear",onclick:()=>{S.clear();renderPieces()}}):null),grid,sheet));
 }
@@ -3084,8 +3093,7 @@ function renderPiecePage(w,p){
   const cur=()=>pieces.find(x=>x.id===p.id)||p,save=patch=>putPiece({...cur(),...patch}),g=pieceGlaze(p),sell=SET().sell;
   const stOpts=ALL_ST.filter(([k])=>k!=="sold"||p.stage==="sold");
   const st=el("div",{class:"seg rp-status pc-stages",role:"radiogroup","aria-label":"Stage"},...stOpts.map(([k,l])=>el("button",{type:"button",role:"radio","aria-checked":String((p.stage||"making")===k),onclick:()=>movePiece(cur(),k)},l)));
-  const del=el("button",{type:"button",class:"linkbtn",text:"Delete"});
-  del.onclick=()=>del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, delete",onclick:async()=>{await deletePiece(p.id);PIECE.open=null;showTab("work")}}));
+  const del=confirmDel("Delete","Yes, delete",async()=>{await deletePiece(p.id);PIECE.open=null;showTab("work")});
   const photos=[...(p.photos||[])],gal=el("div",{class:"cb-gal"});
   photos.forEach((ph,i)=>gal.append(el("figure",{},el("img",{src:ph,alt:"Photo "+(i+1)}),el("button",{type:"button",class:"cb-x","aria-label":"Remove this photo",text:"×",onclick:()=>save({photos:photos.filter((_,j)=>j!==i)})}))));
   if(!photos.length)gal.append(el("figure",{class:"cb-noph"},pieceSwatch(p,"cb-big"),el("figcaption",{class:"meta",text:"Add photos as it goes: greenware, bisque, out of the kiln."})));
@@ -3173,7 +3181,8 @@ function renderPieceEdit(w){
     E.batchEdit?null:fld("Notes",notes),
     E.batchEdit?null:el("label",{class:"photo-pick"},pinIn,el("b",{class:"mplus","aria-hidden":"true",text:"+"}),el("span",{},"Add photos",el("small",{text:"Optional. Up to 10."}))),E.batchEdit?null:thumbs,
     el("datalist",{id:"clayList"},...SET().clays.map(c=>el("option",{value:c}))),
-    el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:E.batchEdit?"Save all":isNew?(n>1?"Make "+n+" pieces":"Save piece"):"Save piece"}),msg));
+    el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:E.batchEdit?"Save all":isNew?(n>1?"Make "+n+" pieces":"Save piece"):"Save piece"}),msg,
+      E.id&&!E.batchEdit?confirmDel("Delete this piece","Yes, delete",async()=>{await deletePiece(E.id);PIECE.edit=null;PIECE.open=null;showTab("work")}):null));
   f.onsubmit=async e=>{e.preventDefault();sync();
     if(!E.title){msg.textContent="Say what it is: mug, bowl, vase…";title.focus();return}
     if(E.batchEdit){const patch={};PIECE_FIELDS.forEach(k=>{if(k!=="notes")patch[k]=E[k]??null});patch.form=E.title;
