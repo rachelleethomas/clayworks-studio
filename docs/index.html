@@ -680,6 +680,7 @@ button.rp-box:hover{border-color:var(--purple-300)}
 .k-slot{all:unset;box-sizing:border-box;aspect-ratio:1;border-radius:10px;display:grid;place-items:center;background:var(--surface);cursor:pointer}
 .k-slot .k-sw{width:100%;height:100%;border:0}
 .k-empty,.k-more{border:1.5px dashed var(--tint-purple-line);background:none;font:500 18px var(--body)}
+.k-share{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:10px}
 .k-pick,.k-fire{display:grid;gap:8px;background:var(--surface);color:var(--ink);border-radius:12px;padding:14px}
 .k-stats,.s-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .k-stats>div{display:grid;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
@@ -1174,6 +1175,12 @@ window.cwImage = async src => {
   if (!r.ok) throw new Error("pinimg " + r.status);
   return URL.createObjectURL(await r.blob());
 };
+// Shared kilns (the artifact has no server, so the app shows sharing only when this exists).
+window.cwKilns = {
+  get: q => cwApi("/kilns" + (q ? "?q=" + encodeURIComponent(q) : "")),
+  act: body => cwApi("/kilns", { method: "POST", body: JSON.stringify(body) }),
+  me: () => (CW.me && CW.me.user) || "",
+};
 window.cwPinterest = async boardUrl => {
   const b = await cwApi("/pinterest?board=" + encodeURIComponent(boardUrl));
   b.pins = await Promise.all(b.pins.map(async p => {
@@ -1591,7 +1598,7 @@ function showTab(name){
   const dm={recipes:"match",match:"match",library:"search"}[name]; // old and mode hashes all land in Discover
   if(dm){name="ask";setTimeout(()=>setDmode(dm))}
   if(name==="makers"){name="ask";setTimeout(()=>showCombos(""))}
-  if(name==="lines"){SELL.page="lines";name="sell"}
+  if(name==="lines"||name==="markets"){SELL.page=name==="lines"?"lines":"events";name="sell"}
   if(!VIEWS.includes(name))name=START;
   tab=name;
   const grp=groupOf(name);
@@ -1624,7 +1631,7 @@ function showTab(name){
 function setHash(){
   const h=tab==="combos"&&COMBO.open?"combo/"+COMBO.open:tab==="work"&&PIECE.open?"piece/"+PIECE.open:tab==="work"&&PIECE.batch?"batch/"+PIECE.batch:tab==="recipe"&&openId?"recipe/"+openId:
     tab==="premade"&&openPremadeKey?"premade/"+encodeURIComponent(openPremadeKey):tab==="tile"&&COMBO.mkOpen!=null?"tile/"+COMBO.mkOpen:tab==="ask"&&dmode==="match"?"match":
-    tab==="sell"&&SELL.page==="line"&&SELL.line?"line/"+SELL.line:tab==="sell"&&SELL.page==="booth"&&SELL.event?"booth/"+SELL.event:tab==="sell"&&SELL.page==="lines"?"lines":tab;
+    tab==="sell"&&SELL.page==="line"&&SELL.line?"line/"+SELL.line:tab==="sell"&&SELL.page==="booth"&&SELL.event?"booth/"+SELL.event:tab==="sell"&&SELL.page==="lines"?"lines":tab==="sell"&&SELL.page==="events"?"markets":tab;
   try{history.replaceState(null,"","#"+h)}catch{}
 }
 document.querySelectorAll("#discSeg button").forEach(b=>b.onclick=()=>showTab(b.dataset.sub));
@@ -3812,7 +3819,7 @@ const card=(...kids)=>el("section",{class:"rp-box"},...kids);
 const rowBtn=(l,r,on)=>el("button",{type:"button",class:"t-row",onclick:on},el("span",{text:l}),typeof r==="string"?el("span",{class:"meta",text:r}):r);
 function renderSetup(){
   const w=$("setupRoot");if(!w)return;const ae=document.activeElement;if(w.contains(ae)&&/^(INPUT|TEXTAREA)$/.test(ae.tagName))return;
-  const S=SET();w.replaceChildren();
+  const S=SET();w.replaceChildren();if(canShare()&&(!SHARED.loaded||SHARED.user!==meUser())&&!SHARED.busy)loadShared();
   const cones=el("div",{class:"filters"},...CONE_CHOICES.map(c=>el("button",{type:"button","aria-pressed":String(S.cones.includes(c)),text:c,
     onclick:()=>putSet({cones:S.cones.includes(c)?S.cones.filter(x=>x!==c):[...S.cones,c]})})));
   const sel=(v,opts,on,lab)=>{const s=el("select",{"aria-label":lab},...opts.map(o=>el("option",{value:o,text:o})));s.value=v;s.onchange=()=>on(s.value);return s};
@@ -3835,10 +3842,7 @@ function renderSetup(){
       fld("Glaze at",sel(S.glazeCone,S.cones.length?S.cones:CONE_CHOICES,v=>putSet({glazeCone:v}),"Glaze cone")),
       fld("Atmosphere",sel(S.atmosphere,["Oxidation","Reduction","Both"],v=>putSet({atmosphere:v}),"Atmosphere")))),
     el("span",{class:"lbl",text:"Clay bodies"}),card(clays,clayAdd),
-    el("span",{class:"lbl",text:"Kiln"}),
-    card(el("div",{class:"rp-grid"},fld("Type",sel(S.kiln.type,["Electric","Gas","Wood","Raku","Shared / community"],v=>putSet({kiln:{...S.kiln,type:v}}),"Kiln type")),
-      fld("Model",txt(S.kiln.model,v=>putSet({kiln:{...S.kiln,model:v}}),"Skutt KM-1027","Kiln model")),
-      fld("Elements installed",txt(S.kiln.elementsAt,v=>putSet({kiln:{...S.kiln,elementsAt:v}}),"","Elements installed","date")))),
+    el("span",{class:"lbl",text:"Kilns"}),...setupKilns(S),
     el("span",{class:"lbl",text:"Buying"}),
     card(el("span",{class:"note",text:"Stores I use"}),storeChips,fld("Units",sel(S.units,["grams","grams · lb for clay","ounces"],v=>putSet({units:v}),"Units")),
       rowBtn("Import a spreadsheet","One row per piece ›",()=>showTab("import"))),
@@ -3850,26 +3854,49 @@ function renderSetup(){
       el("div",{class:"rp-grid"},shopAdd,shopCut,el("button",{type:"button",class:"ghost sm",text:"Add shop",onclick:addShop}))):null);
 }
 
-/* ---------- Kiln: next load, firing log ---------- */
-const KILN={add:false,fire:false};
-const firingsDone=()=>docsOf("firing").filter(f=>f.status==="done").sort((a,b)=>String(b.date).localeCompare(String(a.date)));
-const nextFiring=()=>docsOf("firing").filter(f=>f.status!=="done").sort((a,b)=>String(a.date).localeCompare(String(b.date)))[0]||null;
+/* ---------- Kiln: your kilns and studio kilns you share; next load, reservations, firing log ---------- */
+const KILN={add:false,fire:false,sel:null,msg:""};
+// your kilns live in settings; older setups kept one kiln in settings.kiln
+function kilnsOf(S=SET()){return S.kilns?.length?S.kilns:[{id:"kiln-1",name:"My kiln",type:S.kiln.type,make:"",model:S.kiln.model,purchased:"",elementsAt:S.kiln.elementsAt}]}
+const kilnTitle=k=>k.name||[k.make,k.model].filter(Boolean).join(" ")||k.type+" kiln";
+// studio kilns other potters share with you (GitHub build only: they live on the server)
+const SHARED={mine:[],found:[],q:"",loaded:false,busy:false,err:""};
+const canShare=()=>!!window.cwKilns&&!!window.cwKilns.me(); // signed in on the GitHub build
+async function loadShared(q=SHARED.q){if(!canShare())return;SHARED.busy=true;SHARED.user=meUser();
+  try{const r=await window.cwKilns.get(q);Object.assign(SHARED,{mine:r.mine||[],found:r.found||[],loaded:true,err:""})}catch(e){SHARED.err=e.message;SHARED.loaded=true}
+  SHARED.busy=false;if(tab==="kiln")renderKiln();if(tab==="setup")renderSetup()}
+async function kilnAct(body){try{const r=await window.cwKilns.act(body);await loadShared();return r}catch(e){KILN.msg=e.message;SHARED.err=e.message;if(tab==="kiln")renderKiln();if(tab==="setup")renderSetup();return null}}
+const meUser=()=>window.cwKilns?.me()||"";
+// every kiln you can fire: yours (some of them shared out), then other studios' kilns you've joined
+function kilnChoices(){const own=kilnsOf().map(k=>({key:"l:"+k.id,name:kilnTitle(k),local:k,shared:SHARED.mine.find(s=>s.id===k.shared)||null,owner:true}));
+  const joined=SHARED.mine.filter(s=>s.owner!==meUser()).map(s=>({key:"s:"+s.id,name:s.studio+" · "+s.name,local:null,shared:s,owner:false}));
+  return [...own,...joined]}
+const firingKey=f=>f.kilnId||"l:"+kilnsOf()[0].id;
+const firingsDone=(key)=>docsOf("firing").filter(f=>f.status==="done"&&(!key||firingKey(f)===key)).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+const nextFiring=(key)=>docsOf("firing").filter(f=>f.status!=="done"&&(!key||firingKey(f)===key)).sort((a,b)=>String(a.date).localeCompare(String(b.date)))[0]||null;
 const firingLabel=f=>(f.type==="bisque"?"Bisque":"Glaze")+" · cone "+(f.cone||"");
+const PART={day:"all day",am:"morning",pm:"afternoon"};
 const loadCandidates=f=>pieces.filter(p=>f.type==="bisque"?["making","drying"].includes(p.stage||"making"):p.stage==="glazed");
 function renderKiln(){
-  const w=$("kilnRoot");if(!w)return;const ae=document.activeElement;if(w.contains(ae)&&/^(INPUT|TEXTAREA)$/.test(ae.tagName))return;
-  const S=SET(),nf=nextFiring(),done=firingsDone();w.replaceChildren();
-  add(w,el("p",{class:"lbl",text:[S.kiln.type,S.kiln.model].filter(Boolean).join(" · ")}));
+  const w=$("kilnRoot");if(!w)return;const ae=document.activeElement;if(w.contains(ae)&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))return;
+  if(canShare()&&(!SHARED.loaded||SHARED.user!==meUser())&&!SHARED.busy)loadShared();
+  const S=SET(),ch=kilnChoices(),K=ch.find(c=>c.key===KILN.sel)||ch[0];KILN.sel=K.key;w.replaceChildren();
+  const sk=K.shared,nf=nextFiring(K.key),done=firingsDone(K.key);
+  if(ch.length>1)add(w,el("div",{class:"filters"},...ch.map(c=>el("button",{type:"button","aria-pressed":String(c.key===K.key),text:c.name,onclick:()=>{KILN.sel=c.key;KILN.add=KILN.fire=false;renderKiln()}}))));
+  const k=K.local;
+  add(w,el("p",{class:"lbl",text:K.owner?[k.type,k.make,k.model].filter(Boolean).join(" · "):[sk.owner+"'s studio",sk.type,sk.make,sk.model,sk.city].filter(Boolean).join(" · ")}),
+    sk?el("p",{class:"note",text:K.owner?`Shared as ${sk.studio}. ${sk.members.length} other potter${sk.members.length===1?"":"s"} can reserve it.`:"Reserve a day, load your pieces, and log the firing. The log is shared with everyone who fires here."}):null,
+    KILN.msg?el("p",{class:"note warn",role:"alert",text:KILN.msg}):null);
   if(nf){
     const ids=new Set(nf.pieceIds||[]),inside=pieces.filter(p=>ids.has(p.id));
     const slots=el("div",{class:"k-slots"},...inside.slice(0,23).map(p=>el("button",{type:"button",class:"k-slot","aria-label":p.title,onclick:()=>openPiece(p.id)},pieceSwatch(p,"k-sw"))),
       inside.length>23?el("span",{class:"k-slot k-more",text:"+"+(inside.length-23)}):null,el("button",{type:"button",class:"k-slot k-empty","aria-label":"Add pieces",text:"+",onclick:()=>{KILN.add=!KILN.add;renderKiln()}}));
     const box=el("section",{class:"k-load"},el("div",{class:"k-top"},el("span",{class:"lbl",text:"Next load · "+fmtDay(nf.date)}),el("span",{text:firingLabel(nf)})),slots,
-      el("p",{class:"note",text:inside.length?inside.length+(inside.length===1?" piece":" pieces")+" loaded"+(nf.notes?" · "+nf.notes:""):"Nothing loaded yet. Tap + to add pieces."}),
+      el("p",{class:"note",text:inside.length?inside.length+(inside.length===1?" piece":" pieces")+" loaded":"Nothing loaded yet. Tap + to add pieces."}),
       el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"Fire it",onclick:()=>{KILN.fire=true;renderKiln()}}),
         el("button",{type:"button",class:"ghost sm",text:KILN.add?"Done adding":"Add pieces",onclick:()=>{KILN.add=!KILN.add;renderKiln()}}),
-        el("button",{type:"button",class:"linkbtn",text:"Cancel this load",onclick:()=>deleteDoc(nf.id)})));
-    if(KILN.add){const groups=pieceGroups(loadCandidates(nf).concat(inside.filter(p=>!loadCandidates(nf).includes(p))));
+        el("button",{type:"button",class:"linkbtn",text:"Cancel this load",onclick:async()=>{if(sk&&nf.rid)await kilnAct({action:"unreserve",id:sk.id,rid:nf.rid});deleteDoc(nf.id)}})));
+    if(KILN.add){const cand=loadCandidates(nf),groups=pieceGroups(cand.concat(inside.filter(p=>!cand.includes(p))));
       box.append(el("div",{class:"k-pick"},el("span",{class:"lbl",text:nf.type==="bisque"?"Dry pieces":"Glazed pieces"}),
         ...(groups.length?groups.map(g=>{const on=g.every(p=>ids.has(p.id)),cb=el("input",{type:"checkbox"});cb.checked=on;
           cb.onchange=()=>{const set=new Set(ids);g.forEach(p=>cb.checked?set.add(p.id):set.delete(p.id));putDoc("firing",{...nf,pieceIds:[...set]})};
@@ -3877,10 +3904,11 @@ function renderKiln(){
           [el("p",{class:"note",text:nf.type==="bisque"?"No dry pieces waiting. Pieces in Making or Drying show up here.":"No glazed pieces waiting. Move pieces to Glazed in Work first."})])))}
     if(KILN.fire){const hrs=el("input",{type:"number",step:"any",placeholder:"9.5","aria-label":"Hours"}),res=el("input",{type:"text",placeholder:"Cone 6 half bent, all fine","aria-label":"How it went"});
       const f=el("form",{class:"k-fire",novalidate:true},el("div",{class:"rp-grid"},el("label",{class:"rp-f"},el("span",{class:"lbl",text:"Hours"}),hrs),el("label",{class:"rp-f"},el("span",{class:"lbl",text:"How it went"}),res)),
-        el("p",{class:"note",text:nf.type==="bisque"?"Loaded pieces move to Bisqued.":"Loaded pieces move to Finished."}),
+        el("p",{class:"note",text:(nf.type==="bisque"?"Loaded pieces move to Bisqued.":"Loaded pieces move to Finished.")+(sk?" The firing goes in the studio's shared log.":"")}),
         el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Log this firing"}),el("button",{type:"button",class:"linkbtn",text:"Not yet",onclick:()=>{KILN.fire=false;renderKiln()}})));
-      f.onsubmit=async e=>{e.preventDefault();KILN.fire=false;KILN.add=false;
-        await putDoc("firing",{...nf,status:"done",hours:hrs.value===""?null:+hrs.value,result:res.value.trim(),firedAt:Date.now()});
+      f.onsubmit=async e=>{e.preventDefault();KILN.fire=false;KILN.add=false;const h=hrs.value===""?null:+hrs.value,r=res.value.trim();
+        await putDoc("firing",{...nf,status:"done",hours:h,result:r,firedAt:Date.now()});
+        if(sk)await kilnAct({action:"log",id:sk.id,date:nf.date,type:nf.type,cone:nf.cone,hours:h,result:r,pieces:inside.length});
         if(inside.length)await movePieces(inside,nf.type==="bisque"?"bisqued":"finished")};
       box.append(f)}
     add(w,box);
@@ -3888,23 +3916,85 @@ function renderKiln(){
     const type=el("select",{"aria-label":"Firing"},el("option",{value:"bisque",text:"Bisque"}),el("option",{value:"glaze",text:"Glaze"}));
     const ready={bisque:pieces.filter(p=>p.stage==="drying").length,glaze:pieces.filter(p=>p.stage==="glazed").length};type.value=ready.glaze>ready.bisque?"glaze":"bisque";
     const cone=el("input",{type:"text",value:type.value==="bisque"?S.bisqueCone:S.glazeCone,"aria-label":"Cone"});type.onchange=()=>cone.value=type.value==="bisque"?S.bisqueCone:S.glazeCone;
-    const date=el("input",{type:"date",value:dayStr(Date.now()+3*864e5),"aria-label":"Date"});
-    const f=el("form",{class:"k-load",novalidate:true},el("span",{class:"lbl",text:"Plan the next firing"}),
+    const date=el("input",{type:"date",value:dayStr(Date.now()+3*864e5),"aria-label":"Date"}),part=partSel();
+    const f=el("form",{class:"k-load",novalidate:true},el("span",{class:"lbl",text:sk?"Reserve and plan your next firing":"Plan the next firing"}),
       el("p",{class:"note",text:ready.bisque||ready.glaze?`${ready.bisque} dry pieces ready to bisque · ${ready.glaze} glazed pieces ready to fire`:"Nothing waiting for the kiln yet."}),
-      el("div",{class:"rp-grid"},el("label",{class:"rp-f"},el("span",{class:"lbl",text:"Firing"}),type),el("label",{class:"rp-f"},el("span",{class:"lbl",text:"Cone"}),cone),el("label",{class:"rp-f"},el("span",{class:"lbl",text:"Date"}),date)),
-      el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Plan it and load"})));
-    f.onsubmit=async e=>{e.preventDefault();const t=type.value,ids=pieces.filter(p=>t==="bisque"?p.stage==="drying":p.stage==="glazed").map(p=>p.id);
-      KILN.add=true;await putDoc("firing",{type:t,cone:cone.value.trim(),date:date.value||dayStr(Date.now()),status:"planned",pieceIds:ids})};
+      el("div",{class:"rp-grid"},el("label",{class:"rp-f"},el("span",{class:"lbl",text:"Firing"}),type),el("label",{class:"rp-f"},el("span",{class:"lbl",text:"Cone"}),cone),el("label",{class:"rp-f"},el("span",{class:"lbl",text:"Date"}),date),
+        sk?el("label",{class:"rp-f"},el("span",{class:"lbl",text:"When"}),part):null),
+      el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:sk?"Reserve it and load":"Plan it and load"})));
+    f.onsubmit=async e=>{e.preventDefault();KILN.msg="";const t=type.value,d=date.value||dayStr(Date.now());let rid=null;
+      if(sk){const r=await kilnAct({action:"reserve",id:sk.id,date:d,part:part.value,type:t,cone:cone.value.trim()});if(!r)return;
+        rid=(r.kiln?.reservations||[]).filter(x=>x.user===meUser()&&x.date===d).at(-1)?.id||null}
+      const ids=pieces.filter(p=>t==="bisque"?p.stage==="drying":p.stage==="glazed").map(p=>p.id);
+      KILN.add=true;await putDoc("firing",{type:t,cone:cone.value.trim(),date:d,status:"planned",pieceIds:ids,kilnId:K.key,...(rid?{rid}:{})})};
     add(w,f);
   }
-  const since=S.kiln.elementsAt?done.filter(f=>String(f.date)>=S.kiln.elementsAt).length:null;
+  if(sk)add(w,kilnShared(K));
+  const since=k?.elementsAt?done.filter(f=>String(f.date)>=k.elementsAt).length:null;
   const glz=done.filter(f=>f.type==="glaze"&&f.hours),avg=glz.length>=3?glz.slice(1).reduce((s,f)=>s+f.hours,0)/(glz.length-1):null,diff=avg?Math.round((glz[0].hours-avg)*60):null;
-  add(w,el("div",{class:"k-stats"},el("div",{},el("b",{text:done.length}),el("span",{text:"Firings logged"})),
-    el("div",{},el("b",{text:since??"–"}),el("span",{text:since==null?"Add the element date in Setup":"On these elements"})),
+  add(w,el("div",{class:"k-stats"},el("div",{},el("b",{text:done.length}),el("span",{text:sk?"Your firings here":"Firings logged"})),
+    el("div",{},el("b",{text:since??"–"}),el("span",{text:since==null?(K.owner?"Add the element date in Setup":"Elements: ask "+sk.owner):"On these elements"})),
     el("div",{},el("b",{text:diff==null?"–":(diff>0?"+":"")+diff+"m"}),el("span",{text:diff==null?"Glaze firing time":diff>20?"Slower than usual":diff<-20?"Faster than usual":"About usual"}))));
-  add(w,card(el("h3",{class:"t-h",text:"Firing log"}),
-    ...(done.length?done.slice(0,12).map(f=>el("div",{class:"t-row"},el("span",{text:[fmtDay(f.date),firingLabel(f),f.hours?f.hours+" h":""].filter(Boolean).join(" · ")}),
-      el("span",{class:"meta",text:f.result||((f.pieceIds||[]).length+" pieces")}))):[el("p",{class:"note",text:"Firings you log show here, with how long they took and how they came out."})])));
+  const log=sk?sk.log||[]:done;
+  add(w,card(el("h3",{class:"t-h",text:sk?"Studio firing log":"Firing log"}),
+    ...(log.length?log.slice(0,15).map(f=>el("div",{class:"t-row"},el("span",{text:[fmtDay(f.date),firingLabel(f),f.hours?f.hours+" h":"",sk?f.user:""].filter(Boolean).join(" · ")}),
+      el("span",{class:"meta",text:f.result||((f.pieces??(f.pieceIds||[]).length)+" pieces")}))):[el("p",{class:"note",text:"Firings you log show here, with how long they took and how they came out."})])));
+  if(K.owner)add(w,el("button",{type:"button",class:"rp-box t-low",onclick:()=>showTab("setup")},el("span",{},el("b",{text:"Your kilns"}),el("span",{class:"meta",text:"Make, model, purchase date, elements, sharing"})),el("span",{text:"›"})));
+}
+function partSel(){return el("select",{"aria-label":"When"},...Object.entries(PART).map(([v,l])=>el("option",{value:v,text:l[0].toUpperCase()+l.slice(1)})))}
+// reservations on a shared kiln: everyone's upcoming days, yours removable (the owner can remove any)
+function kilnShared(K){const sk=K.shared,me=meUser(),up=(sk.reservations||[]).filter(r=>r.date>=dayStr(Date.now()));
+  const date=el("input",{type:"date",value:dayStr(Date.now()+7*864e5),"aria-label":"Date"}),part=partSel(),note=el("input",{type:"text",placeholder:"Glaze load, ^6","aria-label":"Note"});
+  const f=el("form",{class:"rp-grid",novalidate:true},date,part,note,el("button",{type:"submit",class:"ghost sm",text:"Reserve"}));
+  f.onsubmit=async e=>{e.preventDefault();KILN.msg="";await kilnAct({action:"reserve",id:sk.id,date:date.value,part:part.value,note:note.value.trim()})};
+  return card(el("h3",{class:"t-h",text:"Reservations"}),
+    ...(up.length?up.map(r=>el("div",{class:"t-row"},el("span",{text:[fmtDay(r.date),PART[r.part]||"",r.user===me?"you":r.user].join(" · ")+(r.type?" · "+r.type+(r.cone?" ^"+r.cone:""):"")+(r.note?" · "+r.note:"")}),
+      r.user===me||K.owner?el("button",{type:"button",class:"cb-x","aria-label":"Cancel this reservation",text:"×",onclick:()=>kilnAct({action:"unreserve",id:sk.id,rid:r.id})}):el("span"))):
+      [el("p",{class:"note",text:"Nobody has reserved it yet."})]),
+    el("span",{class:"lbl",text:"Reserve a day"}),f)}
+// Setup → Kilns: your kilns, sharing one with other potters, finding a studio kiln to join
+function setupKilns(S){
+  const ks=kilnsOf(S),save=list=>putSet({kilns:list});
+  const fld=(l,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:l}),i);
+  const cards=ks.map((k,i)=>{const up=patch=>{const nk={...k,...patch};save(ks.map(x=>x.id===k.id?nk:x));
+      const sk=SHARED.mine.find(s=>s.id===k.shared);if(sk&&("name" in patch||"make" in patch||"model" in patch||"type" in patch))kilnAct({action:"update",id:sk.id,studio:sk.studio,city:sk.city,name:kilnTitle(nk),type:nk.type,make:nk.make,model:nk.model})};
+    const txt=(f,ph,type="text")=>{const x=el("input",{type,value:k[f]||"",placeholder:ph,"aria-label":f});x.onchange=()=>up({[f]:x.value.trim()});return x};
+    const type=el("select",{"aria-label":"Type"},...["Electric","Gas","Wood","Raku","Test kiln"].map(t=>el("option",{value:t,text:t})));type.value=k.type||"Electric";type.onchange=()=>up({type:type.value});
+    const del=ks.length>1?el("button",{type:"button",class:"linkbtn",text:"Remove"}):null;
+    if(del)del.onclick=()=>del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, remove "+kilnTitle(k),onclick:async()=>{if(k.shared)await kilnAct({action:"unshare",id:k.shared});save(ks.filter(x=>x.id!==k.id))}}));
+    return card(el("div",{class:"rp-grid"},fld("Name",txt("name","Big Skutt, test kiln…")),fld("Type",type),fld("Make",txt("make","Skutt, L&L, Paragon…")),fld("Model",txt("model","KM-1027")),
+      fld("Purchased",txt("purchased","","date")),fld("Elements installed",txt("elementsAt","","date"))),shareBox(k,up),el("div",{class:"links"},del))});
+  const addK=el("button",{type:"button",class:"ghost sm",text:"+ Add a kiln",onclick:()=>save([...ks,{id:newId("kiln"),name:"",type:"Electric",make:"",model:"",purchased:"",elementsAt:""}])});
+  return [...cards,el("div",{class:"links"},addK),findKilns()];
+}
+function shareBox(k,up){
+  if(!canShare())return el("p",{class:"note",text:window.cwKilns?"Log in to share this kiln with other potters.":"Sharing a kiln with other potters works on the GitHub version of Clayworks, where everyone has a login."});
+  const sk=SHARED.mine.find(s=>s.id===k.shared);
+  if(k.shared&&!sk&&SHARED.loaded)return el("p",{class:"note",text:"This kiln's sharing was turned off."},el("button",{type:"button",class:"linkbtn",text:"Clear",onclick:()=>up({shared:null})}));
+  if(!sk){const studio=el("input",{type:"text",placeholder:"Your studio's name","aria-label":"Studio name"}),city=el("input",{type:"text",placeholder:"City","aria-label":"City"});
+    const box=el("div",{class:"k-share",hidden:true},el("p",{class:"note",text:"Other Clayworks potters can find this kiln by your studio's name or city and ask to join. You approve each one. Members see the reservations and the firing log, never your pieces."}),
+      el("div",{class:"rp-grid"},studio,city,el("button",{type:"button",class:"btn",text:"Share it",onclick:async()=>{
+        const r=await kilnAct({action:"create",studio:studio.value.trim(),city:city.value.trim(),name:kilnTitle(k),type:k.type,make:k.make,model:k.model});if(r?.kiln)up({shared:r.kiln.id})}})));
+    return el("div",{},el("button",{type:"button",class:"linkbtn",text:"Share this kiln with other potters ›",onclick:e=>{box.hidden=false;e.target.remove()}}),box)}
+  return el("div",{class:"k-share"},el("p",{class:"note"},el("b",{text:"Shared as "+sk.studio}),sk.city?" · "+sk.city:"",". ",sk.members.length?sk.members.length+" member"+(sk.members.length===1?"":"s")+".":"No members yet."),
+    ...sk.pending.map(u=>el("div",{class:"t-row"},el("span",{text:u+" asked to join"}),el("span",{class:"links"},el("button",{type:"button",class:"btn",text:"Approve",onclick:()=>kilnAct({action:"approve",id:sk.id,user:u,yes:true})}),
+      el("button",{type:"button",class:"linkbtn",text:"Decline",onclick:()=>kilnAct({action:"approve",id:sk.id,user:u,yes:false})})))),
+    ...sk.members.map(u=>el("div",{class:"t-row"},el("span",{text:u}),el("button",{type:"button",class:"linkbtn",text:"Remove",onclick:()=>kilnAct({action:"remove",id:sk.id,user:u})}))),
+    el("button",{type:"button",class:"linkbtn",text:"Stop sharing",onclick:async()=>{await kilnAct({action:"unshare",id:sk.id});up({shared:null})}}));
+}
+function findKilns(){
+  if(!canShare())return null;
+  const q=el("input",{type:"search",value:SHARED.q,placeholder:"Studio name, city or potter","aria-label":"Find a studio kiln"});
+  const go=()=>{SHARED.q=q.value.trim();loadShared()};q.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();go()}};
+  const joined=SHARED.mine.filter(s=>s.owner!==meUser());
+  return card(el("h3",{class:"t-h",text:"Fire at someone else's studio"}),
+    ...joined.map(s=>el("div",{class:"t-row"},el("span",{text:s.studio+" · "+s.name+" · "+s.owner}),el("span",{class:"links"},el("button",{type:"button",class:"linkbtn",text:"Open",onclick:()=>{KILN.sel="s:"+s.id;showTab("kiln")}}),
+      el("button",{type:"button",class:"linkbtn",text:"Leave",onclick:()=>kilnAct({action:"leave",id:s.id})})))),
+    el("div",{class:"rp-grid"},q,el("button",{type:"button",class:"ghost sm",text:"Find a studio kiln",onclick:go})),
+    SHARED.err?el("p",{class:"note warn",text:SHARED.err}):null,
+    ...SHARED.found.filter(s=>s.status!=="member").map(s=>el("div",{class:"t-row"},el("span",{},el("b",{text:s.studio}),el("span",{class:"meta",text:" · "+[s.name,s.city,s.owner].filter(Boolean).join(" · ")})),
+      s.status==="pending"?el("span",{class:"pill",text:"Asked"}):el("button",{type:"button",class:"btn",text:"Ask to join",onclick:()=>kilnAct({action:"join",id:s.id})}))),
+    SHARED.q&&!SHARED.busy&&SHARED.loaded&&!SHARED.found.length?el("p",{class:"note",text:"No shared kilns match “"+SHARED.q+"”."}):null);
 }
 
 /* ---------- Today ---------- */
@@ -3914,7 +4004,7 @@ function renderToday(){
   $("sub").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"});
   const nf=nextFiring();
   if(nf){const ids=new Set(nf.pieceIds||[]),inside=pieces.filter(p=>ids.has(p.id));
-    add(w,el("button",{type:"button",class:"t-kiln",onclick:()=>showTab("kiln")},el("span",{class:"t-top"},el("span",{class:"lbl",text:"Next firing · "+fmtDay(nf.date)}),el("span",{text:firingLabel(nf)})),
+    add(w,el("button",{type:"button",class:"t-kiln",onclick:()=>{KILN.sel=firingKey(nf);showTab("kiln")}},el("span",{class:"t-top"},el("span",{class:"lbl",text:"Next firing · "+fmtDay(nf.date)}),el("span",{text:firingLabel(nf)})),
       el("span",{class:"t-dots"},...inside.slice(0,6).map(p=>pieceSwatch(p,"k-sw")),el("span",{text:inside.length?inside.length+(inside.length===1?" piece":" pieces")+" loaded":"Nothing loaded yet"}))))}
   // what to do next, from where your pieces are
   const todo=[],live=pieceGroups(pieces.filter(isLive));
@@ -3943,7 +4033,7 @@ function renderToday(){
 /* ---------- Studio overview ---------- */
 function renderMine(){
   const w=$("mineRoot");if(!w)return;w.replaceChildren();const S=SET(),nf=nextFiring();
-  $("sub").textContent=[S.clays[0],"cone "+S.glazeCone,S.kiln.type.toLowerCase()+" kiln"].filter(Boolean).join(" · ");
+  const ks=kilnsOf(S);$("sub").textContent=[S.clays[0],"cone "+S.glazeCone,ks.length>1?ks.length+" kilns":(ks[0].type||"").toLowerCase()+" kiln"].filter(Boolean).join(" · ");
   const st=recipes.map(statusOf),low=studio.filter(s=>s.low).length;
   const tile=(n,t,sub,go)=>el("button",{type:"button",class:"m-tile",onclick:go},el("b",{class:"m-n",text:n}),el("span",{},el("b",{text:t}),el("span",{class:"meta",text:sub})));
   add(w,el("div",{class:"m-tiles"},
@@ -4068,14 +4158,16 @@ function lineSwatch(l,cls="l-sw"){const g=l.glaze?pieceGlaze({glaze:l.glaze}):nu
   return el("span",{class:cls},el("i",{style:"background:#"+(g?.hex||"C9BCAB")}),el("i",{style:"background:#"+(nameHex(l.clay||"")||"E9DDCB")}))}
 function goalBar(s){const g=Math.max(s.goal,s.ready+s.making,1);
   return el("span",{class:"l-bar"},el("i",{class:"r",style:`width:${100*s.ready/g}%`}),el("i",{class:"m",style:`width:${100*s.making/g}%`}))}
-function renderSell(){
+function renderSell(bg){
   const w=$("sellRoot");if(!w)return;const ae=document.activeElement;if(w.contains(ae)&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))return;
-  w.replaceChildren();const P=SELL.page,T={lines:"Lines",pack:"Pack list",move:"Move pieces",expense:"Expenses"}[P];
-  if(tab==="sell"){document.querySelector(".intro").hidden=!["home","lines","pack","move","expense"].includes(P);$("pageTitle").textContent=T||"Sell";if(!T)$("sub").textContent=""}
+  if(bg&&SELL.page==="event"&&w.dataset.ev===String(SELL.event||"new"))return; // a background save mustn't wipe what you're typing in the market editor
+  delete w.dataset.ev;
+  w.replaceChildren();const P=SELL.page,T={lines:"Lines",pack:"Pack list",move:"Move pieces",expense:"Expenses",events:"Markets"}[P];
+  if(tab==="sell"){document.querySelector(".intro").hidden=!["home","lines","pack","move","expense","events"].includes(P);$("pageTitle").textContent=T||"Sell";if(!T)$("sub").textContent=""}
   if(P==="lines")return sellLines(w);if(P==="line"){const l=lineOf(SELL.line);if(l)return sellLine(w,l);if(storeMode!=="loading")SELL.page="lines";return}
   if(P==="lineEdit")return sellLineEdit(w);if(P==="booth"){const e=docsOf("event").find(x=>x.id===SELL.event);if(e)return sellBooth(w,e)}
   if(P==="pack"){const e=docsOf("event").find(x=>x.id===SELL.event);if(e)return sellPack(w,e)}
-  if(P==="event")return sellEvent(w);if(P==="move")return sellMove(w);if(P==="expense")return sellExpense(w);
+  if(P==="event")return sellEvent(w);if(P==="events")return sellEvents(w);if(P==="move")return sellMove(w);if(P==="expense")return sellExpense(w);
   SELL.page="home";$("sub").textContent=new Date().toLocaleDateString(undefined,{month:"long"})+(SET().sell?" · selling is on":" · turn selling on in Setup");
   const mo=dayStr(Date.now()).slice(0,7),inMo=t=>t&&dayStr(t).slice(0,7)===mo,sales=salesAll(),ms=sales.filter(s=>inMo(s.at));
   const exp=docsOf("expense").filter(x=>String(x.date).slice(0,7)===mo).reduce((s,x)=>s+(+x.amount||0),0),booth=docsOf("event").filter(e=>String(e.date).slice(0,7)===mo).reduce((s,e)=>s+(+e.boothFee||0),0);
@@ -4092,11 +4184,13 @@ function renderSell(){
     el("b",{class:"s-ev-name",text:ev.name}),el("span",{text:packed?packed+" packed · "+stock.filter(p=>(p.loc||"studio")==="studio").length+" in the studio":stock.filter(p=>(p.loc||"studio")==="studio").length+" in the studio. Pack what you're bringing."}),
     el("div",{class:"links"},el("button",{type:"button",class:"btn s-ev-go",text:"Open booth mode",onclick:()=>{SELL.page="booth";SELL.event=ev.id;showTab("sell")}}),
       el("button",{type:"button",class:"ghost sm",text:"Pack list",onclick:()=>{SELL.page="pack";SELL.event=ev.id;renderSell()}}),
-      el("button",{type:"button",class:"linkbtn",text:"Edit",onclick:()=>{SELL.page="event";SELL.event=ev.id;renderSell()}}))))}
+      el("button",{type:"button",class:"linkbtn",text:"Edit",onclick:()=>{SELL.page="event";SELL.event=ev.id;renderSell()}}),
+      el("button",{type:"button",class:"linkbtn",text:"All markets",onclick:()=>{SELL.page="events";renderSell();setHash()}}))))}
   else add(w,el("button",{type:"button",class:"rp-box t-low",onclick:()=>{SELL.page="event";SELL.event=null;renderSell()}},el("span",{},el("b",{text:"Add a market"}),el("span",{class:"meta",text:"Date, booth fee and their cut. Then pack and sell from booth mode."})),el("span",{text:"+"})));
   add(w,card(el("div",{class:"t-head"},el("h3",{class:"t-h",text:"Recent sales"}),el("span",{class:"meta",text:sales.length?sales.length.toLocaleString()+" in all":""})),
     ...(sales.length?sales.slice(0,5).map(s=>el("div",{class:"t-row"},el("span",{text:[s.name,s.where].filter(Boolean).join(" · ")}),el("span",{class:"mono",text:money(s.price)}))):[el("p",{class:"note",text:"Sales you record or ring up in booth mode show here."})])),
-    el("div",{class:"links s-acts"},el("button",{type:"button",class:"btn",text:"Record a sale",onclick:()=>saleSheet({})}),el("button",{type:"button",class:"ghost",text:"Add expense",onclick:()=>{SELL.page="expense";renderSell()}})));
+    el("div",{class:"links s-acts"},el("button",{type:"button",class:"btn",text:"Record a sale",onclick:()=>saleSheet({})}),
+      el("button",{type:"button",class:"ghost",text:"Markets",onclick:()=>{SELL.page="events";renderSell();setHash()}}),el("button",{type:"button",class:"ghost",text:"Add expense",onclick:()=>{SELL.page="expense";renderSell()}})));
 }
 const backTo=(t,go)=>el("button",{type:"button",class:"linkbtn rp-back",text:"‹ "+t,onclick:go});
 const toSell=()=>{SELL.page="home";renderSell();setHash();window.scrollTo({top:0})};
@@ -4164,29 +4258,67 @@ function sellEvent(w){
   const fld=(lab,i)=>el("label",{class:"rp-f"},el("span",{class:"lbl",text:lab}),i);
   const name=el("input",{type:"text",value:E.name,placeholder:"Freret Market","aria-label":"Market"}),date=el("input",{type:"date",value:E.date,"aria-label":"Date"});
   const boothFee=el("input",{type:"number",step:"any",value:E.boothFee??"","aria-label":"Booth fee"}),fee=el("input",{type:"number",step:"any",value:E.fee??"","aria-label":"Their cut, percent"});
-  const msg=el("p",{class:"note",role:"status"}),del=e?el("button",{type:"button",class:"linkbtn",text:"Delete"}):null;
-  if(del)del.onclick=async()=>{await deleteDoc(e.id);toSell()};
-  const f=el("form",{class:"cb-edit",novalidate:true},backTo("Sell",toSell),el("h2",{text:e?"Edit market":"Add a market"}),
-    el("div",{class:"rp-grid"},fld("Market",name),fld("Date",date)),el("div",{class:"rp-grid"},fld("Booth fee, $",boothFee),fld("Their cut of sales, %",fee)),
+  $("sellRoot").dataset.ev=String(SELL.event||"new");
+  const packed=new Set((E.packed||[]).filter(id=>pieces.some(p=>p.id===id)));
+  const end=el("input",{type:"date",value:E.endDate||"","aria-label":"Last day"}),notes=el("input",{type:"text",value:E.notes||"",placeholder:"Booth 14, load in 7 am","aria-label":"Notes"});
+  const msg=el("p",{class:"note",role:"status"}),del=e?el("button",{type:"button",class:"linkbtn",text:"Delete"}):null,back=()=>{SELL.page="events";renderSell();setHash()};
+  if(del)del.onclick=()=>del.replaceWith(el("button",{type:"button",class:"ghost sm",text:"Yes, delete",onclick:async()=>{await deleteDoc(e.id);back()}}));
+  const f=el("form",{class:"cb-edit",novalidate:true},backTo("Markets",back),el("h2",{text:e?"Edit market":"Add a market"}),
+    el("div",{class:"rp-grid"},fld("Market",name),fld("Date",date),fld("Last day (optional)",end)),el("div",{class:"rp-grid"},fld("Booth fee, $",boothFee),fld("Their cut of sales, %",fee)),fld("Notes",notes),
+    el("span",{class:"lbl",text:"What you're bringing"}),card(packPicker(packed,()=>{})),
+    e?.closed?el("button",{type:"button",class:"linkbtn",text:"Reopen for booth mode",onclick:async()=>{await putDoc("event",{...e,closed:false});back()}}):null,
     el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Save"}),del,msg));
   f.onsubmit=async ev=>{ev.preventDefault();if(!name.value.trim()){msg.textContent="Name the market.";return}
-    await putDoc("event",{...E,name:name.value.trim(),date:date.value,boothFee:boothFee.value===""?null:+boothFee.value,fee:fee.value===""?null:+fee.value});toSell()};
+    await putDoc("event",{...E,name:name.value.trim(),date:date.value,endDate:end.value||"",notes:notes.value.trim(),packed:[...packed],boothFee:boothFee.value===""?null:+boothFee.value,fee:fee.value===""?null:+fee.value});back()};
   add(w,f);
+}
+// every market: upcoming first, then past with what you took in
+function sellEvents(w){
+  $("sub").textContent="Markets and shows: dates, booth fees and their cut. Tap one to edit it.";
+  const all=docsOf("event").sort((a,b)=>String(a.date).localeCompare(String(b.date))),today=dayStr(Date.now()),sales=salesAll();
+  const up=all.filter(e=>String(e.endDate||e.date)>=today&&!e.closed),past=all.filter(e=>!up.includes(e)).reverse();
+  const row=e=>{const s=sales.filter(x=>x.event===e.id),took=s.reduce((a,x)=>a+(x.price||0),0)||e.revenue||0;
+    return el("button",{type:"button",class:"t-row",onclick:()=>{SELL.page="event";SELL.event=e.id;renderSell()}},
+      el("span",{},el("b",{text:e.name}),el("span",{class:"meta",text:" · "+fmtDay(e.date)+(e.endDate&&e.endDate!==e.date?" – "+fmtDay(e.endDate):"")})),
+      el("span",{class:"meta",text:[e.boothFee?"booth "+money(e.boothFee):"",took?(String(e.date)>=today&&!s.length?"expect ":"took ")+money(took):""].filter(Boolean).join(" · ")||"›"}))};
+  add(w,el("div",{class:"ideas-head"},backTo("Sell",toSell),el("button",{type:"button",class:"btn",text:"+ Add a market",onclick:()=>{SELL.page="event";SELL.event=null;renderSell()}})),
+    card(el("h3",{class:"t-h",text:"Coming up"}),...(up.length?up.map(row):[el("p",{class:"note",text:"Nothing on the calendar. Add your next market."})])),
+    past.length?card(el("h3",{class:"t-h",text:"Past"}),...past.slice(0,40).map(row)):null);
 }
 // pieces grouped for selling: same form, line and price
 function stockGroups(list){const m=new Map();list.forEach(p=>{const k=[p.title,p.line||"",p.price||""].join("|");if(!m.has(k))m.set(k,[]);m.get(k).push(p)});return [...m.values()]}
+// what you're bringing: a stepper per kind of finished piece in the studio, plus a quick way to add stock that isn't logged yet
+function packPicker(packed,onChange){
+  const box=el("div",{class:"k-share"}),st={q:"",all:false};
+  const label=g=>[g[0].title,g[0].line&&lineOf(g[0].line)?.name,g[0].price?money(g[0].price):""].filter(Boolean).join(" · ");
+  const draw=()=>{const stock=inStock().filter(p=>(p.loc||"studio")==="studio"||packed.has(p.id)),set=next=>{packed.clear();next.forEach(id=>packed.add(id));onChange(packed);draw()};
+    const name=el("input",{type:"text",placeholder:"Bark mug","aria-label":"What it is"}),price=el("input",{type:"number",step:"any",placeholder:"Price","aria-label":"Price"}),
+      n=el("input",{type:"number",min:"1",value:"1","aria-label":"How many",class:"pz-num"}),msg=el("span",{class:"note",role:"status"});
+    const addStock=async()=>{const t=name.value.trim(),k=Math.max(1,Math.min(200,parseInt(n.value)||1));if(!t){msg.textContent="Say what it is.";return}
+      const now=Date.now(),batch=k>1?newId("batch"):undefined;msg.textContent="Adding…";
+      const ids=await putPieces(Array.from({length:k},()=>({title:t,form:t,stage:"finished",stageAt:{finished:now},price:price.value===""?null:+price.value,clay:SET().clays[0]||"",tags:[],photos:[],notes:"",...(batch?{batch}:{})})));
+      ids.forEach(id=>packed.add(id));onChange(packed);draw()};
+    box.replaceChildren(...[el("div",{class:"t-top"},el("span",{class:"lbl",text:packed.size+" packed · "+stock.length+" finished in the studio"}),
+        el("span",{class:"links"},stock.length?el("button",{type:"button",class:"linkbtn",text:"Pack everything",onclick:()=>set(stock.map(p=>p.id))}):null,
+          packed.size?el("button",{type:"button",class:"linkbtn",text:"Clear",onclick:()=>set([])}):null)),
+      stock.length>12?(()=>{const q=el("input",{type:"search",value:st.q,placeholder:"Find a piece: mug, bowl…","aria-label":"Find a piece"});
+        q.oninput=()=>{st.q=q.value;const pos=q.selectionStart;draw();const n=box.querySelector('input[aria-label="Find a piece"]');n.focus();n.setSelectionRange(pos,pos)};return q})():null,
+      ...(()=>{const words=st.q.toLowerCase().split(/\s+/).filter(Boolean),gs=stockGroups(stock).filter(g=>words.every(w=>label(g).toLowerCase().includes(w)))
+          ,show=st.all||words.length?gs:gs.filter((g,i)=>i<12||g.some(p=>packed.has(p.id)));
+        return [...show.map(rowOf),gs.length>show.length?el("button",{type:"button",class:"linkbtn",text:"Show all "+gs.length,onclick:()=>{st.all=true;draw()}}):null]})(),
+      stock.length?null:el("p",{class:"note",text:"Nothing finished in the studio yet. Add what you're bringing below."}),
+      el("span",{class:"lbl",text:"Add stock that isn't logged yet"}),
+      el("div",{class:"rp-grid"},name,price,el("span",{class:"pz-step"},n,el("button",{type:"button",class:"ghost sm",text:"Add and pack",onclick:addStock})),msg)].flat().filter(x=>x!=null))};
+  const rowOf=g=>{const c=g.filter(p=>packed.has(p.id)).length,set=next=>{packed.clear();next.forEach(id=>packed.add(id));onChange(packed);draw()},
+      setN=k=>{const nx=new Set(packed);g.forEach((p,i)=>i<k?nx.add(p.id):nx.delete(p.id));set([...nx])};
+    return el("div",{class:"t-row"},el("span",{class:"m-rc"},pieceSwatch(g[0],"k-sw"),label(g)),
+      el("span",{class:"pz-step"},el("button",{type:"button",class:"ghost sm","aria-label":"Pack one fewer",text:"−",onclick:()=>setN(c-1)}),el("span",{class:"mono",text:c+" of "+g.length}),
+        el("button",{type:"button",class:"ghost sm","aria-label":"Pack one more",text:"+",onclick:()=>setN(c+1)})))};
+  draw();return box}
 function sellPack(w,e){
   $("sub").textContent="What you're bringing to "+e.name+". Booth mode sells from this list.";
-  const packed=new Set(e.packed||[]),studioStock=inStock().filter(p=>(p.loc||"studio")==="studio"||packed.has(p.id));
-  const save=set=>putDoc("event",{...e,packed:[...set]});
-  add(w,el("div",{class:"ideas-head"},backTo("Sell",toSell),el("span",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"Pack everything",onclick:()=>save(new Set(studioStock.map(p=>p.id)))}),
-    packed.size?el("button",{type:"button",class:"linkbtn",text:"Clear",onclick:()=>save(new Set())}):null)),
-    el("p",{class:"lbl",text:packed.size+" packed · "+studioStock.length+" finished in the studio"}));
-  if(!studioStock.length){add(w,el("p",{class:"note",text:"Nothing finished in the studio. Pieces show up here once they're out of the glaze kiln."}));return}
-  add(w,card(...stockGroups(studioStock).map(g=>{const n=g.filter(p=>packed.has(p.id)).length,setN=k=>{const set=new Set(packed);g.forEach((p,i)=>i<k?set.add(p.id):set.delete(p.id));save(set)};
-    return el("div",{class:"t-row"},el("span",{class:"m-rc"},pieceSwatch(g[0],"k-sw"),g[0].title+(g[0].price?" · "+money(g[0].price):"")),
-      el("span",{class:"pz-step"},el("button",{type:"button",class:"ghost sm","aria-label":"Pack one fewer",text:"−",onclick:()=>setN(n-1)}),el("span",{class:"mono",text:n+" of "+g.length}),
-        el("button",{type:"button",class:"ghost sm","aria-label":"Pack one more",text:"+",onclick:()=>setN(n+1)})))})));
+  const packed=new Set(e.packed||[]);
+  add(w,backTo("Sell",toSell),card(packPicker(packed,set=>putDoc("event",{...e,packed:[...set]}))));
 }
 function sellMove(w){
   $("sub").textContent="Finished pieces and where they are. Change a row to move those pieces.";
@@ -4268,7 +4400,7 @@ function saleSheet({pieces:g=null,event:e=null,other=false,order=false}){
   dlg.onclose=()=>dlg.remove();draw();dlg.showModal();
 }
 
-function renderAll(){renderTabs();renderCombos();renderPieces();if(tab==="today")renderToday();if(tab==="sell")renderSell();if(tab==="mine")renderMine();if(tab==="kiln")renderKiln();if(tab==="setup")renderSetup();if(tab==="import")renderImport();if(tab==="tile")renderTile();updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();renderIdeas();if(tab==="recipe")renderRecipePage()}
+function renderAll(){renderTabs();renderCombos();renderPieces();if(tab==="today")renderToday();if(tab==="sell")renderSell(true);if(tab==="mine")renderMine();if(tab==="kiln")renderKiln();if(tab==="setup")renderSetup();if(tab==="import")renderImport();if(tab==="tile")renderTile();updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();renderIdeas();if(tab==="recipe")renderRecipePage()}
 
 /* ---------- boot ---------- */
 try{const s=JSON.parse(localStorage.getItem("stainlab-last")||"null");if(s?.colors?.length)last=s}catch{}

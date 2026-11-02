@@ -137,6 +137,48 @@ export default {
         return json({ ok: true });
       }
 
+      // Shared kilns: an owner lists a kiln, other potters ask to join, members reserve firings and share one log.
+      // All of them live in one KV key "skilns" = {id: kiln}; the numbers stay small (a studio has a few kilns).
+      if (url.pathname === "/kilns" && req.method === "GET") {
+        const all = JSON.parse((await env.USAGE.get("skilns")) || "{}"), q = (url.searchParams.get("q") || "").toLowerCase().trim();
+        const mine = Object.values(all).filter(k => k.owner === name || k.members.includes(name)).map(k => k.owner === name ? k : { ...k, pending: [] });
+        const found = q ? Object.values(all).filter(k => k.owner !== name && [k.studio, k.name, k.city, k.owner].join(" ").toLowerCase().includes(q))
+          .slice(0, 20).map(k => ({ id: k.id, owner: k.owner, studio: k.studio, name: k.name, city: k.city, type: k.type, make: k.make, model: k.model,
+            status: k.members.includes(name) ? "member" : k.pending.includes(name) ? "pending" : "" })) : [];
+        return json({ mine, found });
+      }
+      if (url.pathname === "/kilns" && req.method === "POST") {
+        const b = JSON.parse((await req.text()) || "{}"), all = JSON.parse((await env.USAGE.get("skilns")) || "{}");
+        const str = (v, n = 80) => String(v ?? "").slice(0, n), k = all[b.id], own = k && k.owner === name, member = k && (own || k.members.includes(name));
+        const save = async () => { await env.USAGE.put("skilns", JSON.stringify(all)); return json({ ok: true, kiln: all[b.id] || null }); };
+        const info = { studio: str(b.studio), name: str(b.name), city: str(b.city), type: str(b.type, 30), make: str(b.make), model: str(b.model) };
+        if (b.action === "create") {
+          if (!info.studio || !info.name) return json({ error: "Name your studio and the kiln." }, 400);
+          b.id = "k" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+          all[b.id] = { id: b.id, owner: name, ...info, members: [], pending: [], reservations: [], log: [], createdAt: Date.now() }; return save();
+        }
+        if (!k) return json({ error: "That kiln isn't shared any more." }, 404);
+        if (b.action === "update" && own) { Object.assign(k, info); return save(); }
+        if (b.action === "unshare" && own) { delete all[b.id]; return save(); }
+        if (b.action === "join") { if (!own && !k.members.includes(name) && !k.pending.includes(name)) k.pending.push(name); return save(); }
+        if (b.action === "leave") { k.members = k.members.filter(m => m !== name); k.pending = k.pending.filter(m => m !== name); return save(); }
+        if (b.action === "approve" && own) { const who = str(b.user, 40); k.pending = k.pending.filter(m => m !== who); if (b.yes && !k.members.includes(who)) k.members.push(who); return save(); }
+        if (b.action === "remove" && own) { k.members = k.members.filter(m => m !== b.user); return save(); }
+        if (b.action === "reserve" && member) {
+          const date = str(b.date, 10), part = ["day", "am", "pm"].includes(b.part) ? b.part : "day";
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return json({ error: "Pick a date." }, 400);
+          const clash = k.reservations.find(r => r.date === date && (r.part === "day" || part === "day" || r.part === part));
+          if (clash) return json({ error: `${clash.user} has the kiln then (${clash.part === "day" ? "all day" : clash.part}).` }, 409);
+          k.reservations.push({ id: "r" + Date.now().toString(36), user: name, date, part, type: str(b.type, 20), cone: str(b.cone, 10), note: str(b.note, 200) });
+          k.reservations = k.reservations.filter(r => r.date >= new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10)).sort((x, y) => x.date.localeCompare(y.date)); return save();
+        }
+        if (b.action === "unreserve" && member) { k.reservations = k.reservations.filter(r => !(r.id === b.rid && (r.user === name || own))); return save(); }
+        if (b.action === "log" && member) {
+          k.log.unshift({ id: "f" + Date.now().toString(36), user: name, date: str(b.date, 10), type: str(b.type, 20), cone: str(b.cone, 10), hours: +b.hours || null, result: str(b.result, 200), pieces: +b.pieces || 0 });
+          k.log = k.log.slice(0, 300); k.reservations = k.reservations.filter(r => !(r.user === name && r.date === str(b.date, 10))); return save();
+        }
+        return json({ error: "You can't do that on this kiln." }, 403);
+      }
       if (url.pathname === "/claude" && req.method === "POST") {
         const before = await usage(env, name, u);
         if (before.cap != null && before.spent >= before.cap)

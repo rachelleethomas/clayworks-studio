@@ -47,6 +47,12 @@ window.cwImage = async src => {
   if (!r.ok) throw new Error("pinimg " + r.status);
   return URL.createObjectURL(await r.blob());
 };
+// Shared kilns (the artifact has no server, so the app shows sharing only when this exists).
+window.cwKilns = {
+  get: q => cwApi("/kilns" + (q ? "?q=" + encodeURIComponent(q) : "")),
+  act: body => cwApi("/kilns", { method: "POST", body: JSON.stringify(body) }),
+  me: () => (CW.me && CW.me.user) || "",
+};
 window.cwPinterest = async boardUrl => {
   const b = await cwApi("/pinterest?board=" + encodeURIComponent(boardUrl));
   b.pins = await Promise.all(b.pins.map(async p => {
