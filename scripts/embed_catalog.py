@@ -14,6 +14,13 @@ if os.path.exists(ipath):
         if v and v.get("img"): it["img"] = v["img"]; hit += 1
         if v and v.get("ph"): it["ph"] = v["ph"]
     print("attached photos to", hit, "products")
+lpath = os.path.join(R, "catalog", "catalog-looks.json")  # scripts/tag_glaze_photos.py: what the fired glaze looks like
+if os.path.exists(lpath):
+    looks = json.load(open(lpath)); hit = 0
+    for it in cat:
+        v = looks.get(f'{it.get("url")}|{it.get("code") or ""}|{it.get("name")}')
+        if v: it["look"] = v; hit += 1
+    print("attached looks to", hit, "glazes")
 ppath = os.path.join(R, "catalog", "catalog-prices.json")  # scripts/catalog_prices.py: per-pound price, smallest bag
 if os.path.exists(ppath):
     prices = json.load(open(ppath)); hit = 0
