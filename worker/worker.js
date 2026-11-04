@@ -179,12 +179,18 @@ export default {
         }
         return json({ error: "You can't do that on this kiln." }, 403);
       }
+      if (url.pathname === "/spend" && req.method === "POST") {
+        if (!isAdmin(env, name)) return json({ error: "Not allowed." }, 403);
+        const { cost } = await req.json();
+        if (!(cost >= 0 && cost < 100)) return json({ error: "Bad cost." }, 400);
+        return json({ ok: await addSpend(env, name, cost) });
+      }
       if (url.pathname === "/claude" && req.method === "POST") {
         const before = await usage(env, name, u);
         if (before.cap != null && before.spent >= before.cap)
           return json({ error: `You've used your $${before.cap} for this week. It resets ${before.resetLabel}.`, code: "cap_reached", ...before }, 429);
 
-        const { prompt, images = [], task = "default" } = await req.json();
+        const { prompt, images = [], task = "default", batch = false } = await req.json();
         if (typeof prompt !== "string" || !prompt || prompt.length > 60_000) return json({ error: "Bad request." }, 400);
         if (images.length > 2) return json({ error: "Send at most two images." }, 400);
         const model = MODELS[task] || MODELS.default;
@@ -201,7 +207,8 @@ export default {
         if (!r.ok) return json({ error: out?.error?.message || "Claude request failed.", code: "upstream" }, 502);
         const inTok = out.usage?.input_tokens || 0, outTok = out.usage?.output_tokens || 0;
         const cost = (inTok * model.inPerM + outTok * model.outPerM) / 1e6;
-        await addSpend(env, name, cost);
+        // a batch run (admin only) adds its total once at the end through /spend, so it can't use up the day's KV writes
+        if (!(batch && isAdmin(env, name))) await addSpend(env, name, cost);
         const text = (out.content || []).filter(b => b.type === "text").map(b => b.text).join("");
         return json({ text, truncated: out.stop_reason === "max_tokens", cost, ...(await usage(env, name, u)) });
       }
@@ -235,7 +242,9 @@ async function usage(env, name, u) {
 async function addSpend(env, name, cost) {
   const w = weekStart(), k = `spend:${name}:${w.key}`;
   const cur = parseFloat((await env.USAGE.get(k)) || "0");
-  await env.USAGE.put(k, String(cur + cost), { expirationTtl: 60 * 864e2 });
+  // the call already happened and was paid for, so a full KV quota mustn't turn its answer into an error
+  try { await env.USAGE.put(k, String(cur + cost), { expirationTtl: 60 * 864e2 }); return true; }
+  catch (e) { console.error("spend not recorded", name, cost, e?.message); return false; }
 }
 
 /* ---- crypto ---- */

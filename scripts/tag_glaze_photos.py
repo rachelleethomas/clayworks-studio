@@ -4,8 +4,9 @@ Writes catalog/catalog-looks.json: {"<url>|<code>|<name>": {"f":1,"h":"RRGGBB","
 "o":"opaque|semi|transparent","e":["speckled",...],"d":"short description"}} or {"f":0} for jars, labels and logos.
 scripts/embed_catalog.py attaches these as `look`; Find a premade and the Discover filters use them.
 
-Goes through the Worker with your own login (Haiku, added to your weekly spend), so it needs no API key here. It asks for
-your password in the terminal and never stores it. Photos are read once and not kept. Resumable; skips what's done.
+Goes through the Worker with your own login (Haiku), so it needs no API key here. It asks for your password in the terminal
+and never stores it. The Worker's KV allows about 1,000 writes a day on the free plan, so calls are marked `batch` and the
+run's total is added to your weekly spend once at the end (admin logins only). Photos are read once and not kept. Resumable; skips what's done.
 
 Usage: python3 scripts/tag_glaze_photos.py [--limit N] [--api URL] [--user NAME]
 """
@@ -53,12 +54,12 @@ def photo(u):  # one request per second per site
 def tag(it):
     k = key(it); name = " ".join(filter(None, [it.get("brand"), it.get("code"), it.get("name")]))
     try:
-        res = post("/claude", {"prompt": PROMPT % name + "\n\nRespond with only the JSON, no other text.", "images": [{"type": "image/jpeg", "data": photo(imgs[k]["img"])}], "task": "default"}, token)
+        res = post("/claude", {"prompt": PROMPT % name + "\n\nRespond with only the JSON, no other text.", "images": [{"type": "image/jpeg", "data": photo(imgs[k]["img"])}], "task": "default", "batch": True}, token)
         t = res["text"]; d = json.loads(t[t.index("{"): t.rindex("}") + 1]); spent[0] += res.get("cost") or 0
         hexes = lambda v: v.strip("# ").upper() if isinstance(v, str) and len(v.strip("# ")) == 6 else ""
         v = {"f": 1, "h": hexes(d.get("hex")), "b": hexes(d.get("break")), "s": str(d.get("surface") or ""), "o": str(d.get("opacity") or ""), "e": d.get("effects") or [], "d": str(d.get("desc") or "")[:90]} if d.get("fired") and hexes(d.get("hex")) else {"f": 0}
     except urllib.error.HTTPError as e:
-        if e.code in (401, 429): raise SystemExit(f"Stopped: {e.code} {e.read()[:200]!r}. Run again to pick up where it left off.")
+        if e.code in (401, 403, 429): raise SystemExit(f"Stopped: {e.code} {e.read()[:200]!r}. Run again to pick up where it left off.")
         print("skip", name, e.code); return
     except Exception as e:
         print("skip", name, repr(e)[:120]); return
@@ -71,5 +72,8 @@ try:
     with ThreadPoolExecutor(4) as ex: list(ex.map(tag, todo))
 finally:
     json.dump(done, open(OUT, "w"), indent=0)
+    try:
+        if spent[0] and not post("/spend", {"cost": spent[0]}, token).get("ok"): print("Note: this run's cost couldn't be added to your weekly spend.")
+    except Exception as e: print("Note: this run's cost couldn't be added to your weekly spend.", repr(e)[:100])
 fired = sum(1 for v in done.values() if v.get("f"))
 print(f"Done: {len(done)} read, {fired} show a fired glaze, about ${spent[0]:.2f} this run. Now run: python3 scripts/embed_catalog.py")

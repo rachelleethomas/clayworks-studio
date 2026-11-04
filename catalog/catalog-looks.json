@@ -15155,5 +15155,767 @@
 "o": "opaque",
 "e": [],
 "d": "Glossy pale yellow with cream pooling over stamped relief."
+},
+"https://alligatorclay.com/products/sp153-green-mirror-06-04-pint|SP153|Green Mirror": {
+"f": 1,
+"h": "A3B1A0",
+"b": "5E6E60",
+"s": "gloss",
+"o": "semi",
+"e": [
+"mottled",
+"metallic"
+],
+"d": "Glossy grey-green glaze with mottled texture and metallic sheen."
+},
+"https://alligatorclay.com/products/ms-77-jade-dry-839366601|MS-77|Jade": {
+"f": 1,
+"h": "1E5C54",
+"b": "",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Glossy deep teal-green with subtle surface ripples"
+},
+"https://alligatorclay.com/products/ms-84-sunflower-dry-839367330|MS-84|Sunflower": {
+"f": 1,
+"h": "E6B94A",
+"b": "8B5E2B",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Bright golden yellow glaze over embossed star, glossy, darker brown edges."
+},
+"https://alligatorclay.com/products/ms-94-high-gloss-black-dry-839365908|MS-94|High Gloss Black": {
+"f": 1,
+"h": "141414",
+"b": "",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Deep glossy black glaze with smooth reflective surface."
+},
+"https://www.sheffield-pottery.com/products/mayco-non-toxic-clear-one-dipping-glaze-3-gallon-mayntclr3||Clear One Dipping Glaze": {
+"f": 0
+},
+"https://baileypottery.com/c-054-pc-4.html|PC-4|Palladium": {
+"f": 1,
+"h": "B8B8B8",
+"b": "6F6A66",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"metallic"
+],
+"d": "Glossy silver metallic beads scattered over a taupe ground"
+},
+"https://www.sheffield-pottery.com/products/ritual-glaze-textural-mid-fire-pottery-glazes-scult-gloop-pint||Sculpt Gloop": {
+"f": 0
+},
+"https://www.sheffield-pottery.com/products/coyote-glazes-satins-and-shinos|042|Shino": {
+"f": 1,
+"h": "B5693A",
+"b": "D9A277",
+"s": "satin",
+"o": "opaque",
+"e": [
+"speckled",
+"mottled"
+],
+"d": "Burnt orange-tan surface with darker speckles and a soft matte sheen."
+},
+"https://www.sheffield-pottery.com/products/coyote-glazes-satins-and-shinos|043|Blue Shino": {
+"f": 1,
+"h": "55618C",
+"b": "7A5B45",
+"s": "satin",
+"o": "opaque",
+"e": [
+"speckled",
+"breaking"
+],
+"d": "Dusty slate blue satin glaze with brown speckles at edges."
+},
+"https://www.sheffield-pottery.com/products/coyote-glazes-satins-and-shinos|044|Green Shino": {
+"f": 1,
+"h": "6B8A6A",
+"b": "7A5238",
+"s": "satin",
+"o": "semi",
+"e": [
+"speckled"
+],
+"d": "Muted sage green with dark specks and brown edges."
+},
+"https://www.sheffield-pottery.com/products/coyote-glazes-satins-and-shinos|045|Light Shino": {
+"f": 1,
+"h": "D6D3CA",
+"b": "E9E7E1",
+"s": "satin",
+"o": "semi",
+"e": [
+"speckled"
+],
+"d": "Off-white satin glaze with scattered brown specks."
+},
+"https://www.sheffield-pottery.com/products/coyote-glazes-satins-and-shinos|067|Light Blue Shino": {
+"f": 1,
+"h": "8C98A4",
+"b": "9A5A36",
+"s": "satin",
+"o": "opaque",
+"e": [
+"speckled",
+"breaking"
+],
+"d": "Grey-blue speckled glaze with rust-brown breaks at edges."
+},
+"https://www.sheffield-pottery.com/products/coyote-glazes-satins-and-shinos|068|Light Green Shino": {
+"f": 1,
+"h": "9FB09E",
+"b": "B07A5A",
+"s": "satin",
+"o": "semi",
+"e": [
+"speckled",
+"mottled"
+],
+"d": "Sage green with rust-brown speckles and soft satin finish."
+},
+"https://www.sheffield-pottery.com/products/coyote-glazes-satins-and-shinos|075|Baby Blue Satin": {
+"f": 1,
+"h": "8DB0C6",
+"b": "",
+"s": "satin",
+"o": "opaque",
+"e": [],
+"d": "Uniform pale blue with a soft satin sheen."
+},
+"https://www.sheffield-pottery.com/products/coyote-glazes-satins-and-shinos|074|Alabaster Satin": {
+"f": 1,
+"h": "EDEDE6",
+"b": "",
+"s": "satin",
+"o": "opaque",
+"e": [],
+"d": "Plain off-white, opaque, soft satin finish, faint speckling."
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-by-mid-south-gloss-glazes-100-599|512|Tropical Melon": {
+"f": 1,
+"h": "EE8A4E",
+"b": "F7B88A",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Glossy opaque orange glaze over carved relief texture."
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-by-mid-south-gloss-glazes-100-599|518|Red Wagon": {
+"f": 1,
+"h": "C81A24",
+"b": "9E0F1C",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Glossy bright red glaze, deeper red pooling in carved recesses."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|600|Antique Iron": {
+"f": 1,
+"h": "7A8A74",
+"b": "A0522D",
+"s": "satin",
+"o": "semi",
+"e": [
+"speckled",
+"mottled",
+"breaking"
+],
+"d": "Sage green speckled glaze breaking to rust brown at edges."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|601|Autumn Frost": {
+"f": 1,
+"h": "E2D5B6",
+"b": "A8643A",
+"s": "satin",
+"o": "semi",
+"e": [
+"mottled",
+"breaking",
+"variegated"
+],
+"d": "Pale cream glaze with mauve mottling and rust-brown breaks at edges."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|603|Floating Blue": {
+"f": 1,
+"h": "7394B0",
+"b": "8B5A2B",
+"s": "gloss",
+"o": "semi",
+"e": [
+"mottled",
+"breaking",
+"variegated",
+"float"
+],
+"d": "Mottled powder blue with brown breaks at edges"
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|604|Calico": {
+"f": 1,
+"h": "C4642C",
+"b": "8C8CB4",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"breaking",
+"mottled"
+],
+"d": "Orange-rust glaze with lavender breaks over carved relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|605|Blue Monday": {
+"f": 1,
+"h": "2B5B8C",
+"b": "A9B5BE",
+"s": "satin",
+"o": "opaque",
+"e": [
+"speckled",
+"breaking"
+],
+"d": "Deep blue speckled glaze with grey breaks on relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|606|Smokey Mountain Mist": {
+"f": 1,
+"h": "7D9AA3",
+"b": "C4B38A",
+"s": "gloss",
+"o": "semi",
+"e": [
+"mottled",
+"speckled",
+"breaking"
+],
+"d": "Grey-blue mottled glaze breaking to tan over raised relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|607|Sea Spray": {
+"f": 1,
+"h": "A6D6DE",
+"b": "5DA5BE",
+"s": "gloss",
+"o": "semi",
+"e": [
+"speckled",
+"breaking"
+],
+"d": "Pale sky-blue glaze with darker blue speckles, glossy."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|608|Pebble Beach": {
+"f": 1,
+"h": "A8C8E4",
+"b": "EDE6D2",
+"s": "satin",
+"o": "semi",
+"e": [
+"speckled",
+"breaking"
+],
+"d": "Pale blue speckled glaze, breaking to cream on carved relief edges."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|609|Milky Way": {
+"f": 1,
+"h": "1E2735",
+"b": "A8AFB6",
+"s": "textured",
+"o": "opaque",
+"e": [
+"speckled",
+"breaking"
+],
+"d": "Dark navy speckled glaze with pale silver breaks."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|611|Eggshell": {
+"f": 1,
+"h": "EDE4CE",
+"b": "",
+"s": "satin",
+"o": "opaque",
+"e": [
+"speckled",
+"mottled"
+],
+"d": "Creamy off-white eggshell glaze with fine speckles over relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|614|Paprika": {
+"f": 1,
+"h": "A67F8C",
+"b": "C8965A",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"speckled",
+"breaking"
+],
+"d": "Mauve speckled glaze with amber breaks on raised relief"
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|616|Celery": {
+"f": 1,
+"h": "E3ECDF",
+"b": "C9A77A",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"mottled",
+"breaking"
+],
+"d": "Pale celery-green glaze, glossy, breaking tan over relief edges"
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|617|Galaxy": {
+"f": 1,
+"h": "5E7283",
+"b": "8A6A32",
+"s": "gloss",
+"o": "semi",
+"e": [
+"mottled",
+"breaking",
+"variegated"
+],
+"d": "Mottled blue-grey glaze with amber breaks over relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|620|Cherry Blossom": {
+"f": 1,
+"h": "E88C98",
+"b": "F2DCCB",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"speckled",
+"breaking"
+],
+"d": "Pink glaze with cream breaks over raised relief edges"
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|623|Orange": {
+"f": 1,
+"h": "F08E7E",
+"b": "F5DCD0",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"speckled",
+"mottled"
+],
+"d": "Salmon pink glaze, speckled, glossy, pooling cream over relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|625|Blue Odyssey": {
+"f": 1,
+"h": "1E3A8A",
+"b": "1C2030",
+"s": "textured",
+"o": "opaque",
+"e": [
+"mottled",
+"breaking"
+],
+"d": "Deep cobalt blue glaze with glossy relief edges."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|628|Plum": {
+"f": 1,
+"h": "8A3232",
+"b": "C0643A",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"mottled",
+"breaking"
+],
+"d": "Glossy deep red-plum glaze, breaking orange-brown over raised relief edges."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|630|Red Shimmer": {
+"f": 1,
+"h": "B8294F",
+"b": "E8C4B0",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"breaking",
+"mottled"
+],
+"d": "Glossy raspberry red; cream breaks on raised relief edges."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|650|Shino": {
+"f": 1,
+"h": "A9A28C",
+"b": "B0703C",
+"s": "satin",
+"o": "opaque",
+"e": [
+"breaking",
+"speckled"
+],
+"d": "Pale greyish tan glaze with rusty orange breaks on raised edges."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6|656|Butterscotch": {
+"f": 1,
+"h": "EBDCAE",
+"b": "B8905E",
+"s": "satin",
+"o": "opaque",
+"e": [
+"mottled",
+"breaking"
+],
+"d": "Pale cream glaze with tan breaks over carved relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-cone-6-from-mid-south-satin-matte-glazes-700-series|710|Clear as a Bell": {
+"f": 1,
+"h": "F2F0EB",
+"b": "",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Glossy creamy white glaze with raised textured relief pattern."
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-cone-6-from-mid-south-satin-matte-glazes-700-series|713|Marshmallow": {
+"f": 1,
+"h": "F3F2EE",
+"b": "",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Glossy white glaze over raised textured relief pattern."
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-cone-6-from-mid-south-satin-matte-glazes-700-series|720|Cast Iron": {
+"f": 1,
+"h": "2B353A",
+"b": "",
+"s": "satin",
+"o": "opaque",
+"e": [],
+"d": "Dark charcoal blue-grey glaze with a raised carved symbol"
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-cone-6-from-mid-south-satin-matte-glazes-700-series|722|Muddy Boots": {
+"f": 1,
+"h": "8B5A3C",
+"b": "B98B5E",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Warm brown glossy glaze with lighter tan on carved edges."
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-cone-6-from-mid-south-satin-matte-glazes-700-series|730|Orange Sherbet": {
+"f": 1,
+"h": "F5A267",
+"b": "F8DCC0",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"breaking"
+],
+"d": "Glossy peach-orange with cream breaks on carved ridges."
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-cone-6-from-mid-south-satin-matte-glazes-700-series|733|Beeswax": {
+"f": 1,
+"h": "F4E8C4",
+"b": "",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Pale cream glaze with a glossy finish over carved relief lines."
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-cone-6-from-mid-south-satin-matte-glazes-700-series|740|Lima Bean": {
+"f": 1,
+"h": "8EC79C",
+"b": "D2E8D0",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"speckled"
+],
+"d": "Soft mint-green glossy glaze, paler where it thins over relief"
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-cone-6-from-mid-south-satin-matte-glazes-700-series|751|Cornflower Blue": {
+"f": 1,
+"h": "5D8FCB",
+"b": "B5D3EC",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"breaking"
+],
+"d": "Smooth glossy medium blue with pale edges in carved relief"
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-cone-6-from-mid-south-satin-matte-glazes-700-series|753|Wisteria": {
+"f": 1,
+"h": "8F5C96",
+"b": "B07CA8",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"breaking"
+],
+"d": "Glossy lavender-purple with lighter pinkish breaks over carved lines."
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-cone-6-from-mid-south-satin-matte-glazes-700-series|761|Flamingo": {
+"f": 1,
+"h": "E6A0B4",
+"b": "DDB5CC",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Glossy bubblegum pink, opaque, paler lilac-pink in carved recesses."
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-cone-6-from-mid-south-satin-matte-glazes-700-series|764|Cranberry": {
+"f": 1,
+"h": "942E40",
+"b": "B8505F",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Deep cranberry red gloss over carved relief, pooling darker."
+},
+"https://www.sheffield-pottery.com/products/opulence-glazes-cone-6-from-mid-south-satin-matte-glazes-700-series|768|Rooster Red": {
+"f": 1,
+"h": "A3272F",
+"b": "",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Glossy opaque crimson red with a carved relief mark"
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|803|Winter Day": {
+"f": 1,
+"h": "EAE6DA",
+"b": "",
+"s": "satin",
+"o": "opaque",
+"e": [],
+"d": "Soft cream-white glaze with gentle sheen over relief pattern."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|808|London Fog": {
+"f": 1,
+"h": "C2BDB3",
+"b": "",
+"s": "satin",
+"o": "opaque",
+"e": [
+"speckled"
+],
+"d": "Warm grey-beige glaze with fine darker speckles and relief detail"
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|810|Sandstone": {
+"f": 1,
+"h": "F3EBD8",
+"b": "D8C4A0",
+"s": "satin",
+"o": "opaque",
+"e": [],
+"d": "Creamy off-white glaze, tan edges on raised relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|815|Bamboo": {
+"f": 1,
+"h": "D9CCB4",
+"b": "7A6A4C",
+"s": "satin",
+"o": "semi",
+"e": [
+"speckled",
+"mottled"
+],
+"d": "Cream-beige glaze with brown speckles pooling in recesses"
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|836|Wildflower": {
+"f": 1,
+"h": "E3C28F",
+"b": "C9925F",
+"s": "satin",
+"o": "opaque",
+"e": [],
+"d": "Pale honey-tan glaze over carved relief, thinner at edges."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|840|French Blue": {
+"f": 1,
+"h": "8E9CB8",
+"b": "",
+"s": "satin",
+"o": "opaque",
+"e": [],
+"d": "Soft periwinkle blue glaze with pale highlights over raised relief"
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|845|Overcast": {
+"f": 1,
+"h": "8F9A9A",
+"b": "6F8A8E",
+"s": "satin",
+"o": "opaque",
+"e": [
+"speckled"
+],
+"d": "Grey-blue satin glaze with reddish-brown speckles over relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|851|Pine Forest": {
+"f": 1,
+"h": "2B3F31",
+"b": "",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"mottled"
+],
+"d": "Dark forest green glossy glaze over raised relief pattern."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|852|Meadow": {
+"f": 1,
+"h": "7E9C88",
+"b": "3E6A5C",
+"s": "satin",
+"o": "opaque",
+"e": [
+"speckled",
+"breaking"
+],
+"d": "Sage green speckled glaze, darker teal pooling in carved recesses."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|856|Everglade": {
+"f": 1,
+"h": "4F6E6C",
+"b": "8AA3A0",
+"s": "satin",
+"o": "opaque",
+"e": [
+"speckled"
+],
+"d": "Dark teal-grey satin glaze, speckled, pooling lighter in carved relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|865|Petrified Wood": {
+"f": 1,
+"h": "8A6038",
+"b": "5A3A22",
+"s": "matte",
+"o": "opaque",
+"e": [
+"speckled",
+"mottled"
+],
+"d": "Matte tan-brown glaze with dark speckles over embossed pattern."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|869|Bark": {
+"f": 1,
+"h": "4A3222",
+"b": "B5622C",
+"s": "satin",
+"o": "opaque",
+"e": [
+"speckled",
+"breaking"
+],
+"d": "Speckled dark brown glaze, copper-orange breaks on relief edges"
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-cone-6-envirocolors-glazes-800-series|890|Chicory": {
+"f": 1,
+"h": "4A4030",
+"b": "8B5A2B",
+"s": "satin",
+"o": "opaque",
+"e": [
+"mottled",
+"speckled"
+],
+"d": "Dark olive-brown glaze with rust-brown mottling and speckles."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-900-series-translucent-glazes|941|Violet": {
+"f": 1,
+"h": "4E4262",
+"b": "7A6A8E",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"mottled"
+],
+"d": "Glossy dark violet glaze pooling lighter on carved relief"
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-900-series-translucent-glazes|945|Ultramarine": {
+"f": 1,
+"h": "2F3A8E",
+"b": "",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Glossy deep ultramarine blue with raised relief pattern on tile."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-900-series-translucent-glazes|933|Lemondrop": {
+"f": 1,
+"h": "F4E2A2",
+"b": "EED48A",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Pale lemon yellow glossy glaze with raised cream relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-900-series-translucent-glazes|950|Icy Mint": {
+"f": 1,
+"h": "B8DCD2",
+"b": "",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Pale mint glossy glaze, pooling slightly in carved relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-900-series-translucent-glazes|957|Stormy Skies": {
+"f": 1,
+"h": "6F7B7F",
+"b": "",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Smooth slate gray glaze with glossy sheen over carved texture"
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-900-series-translucent-glazes|958|Emerald": {
+"f": 1,
+"h": "4D6E4E",
+"b": "2E4A33",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Glossy deep green glaze pooling darker in carved relief recesses."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-900-series-translucent-glazes|960|Whole Wheat": {
+"f": 1,
+"h": "A8846C",
+"b": "",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"speckled"
+],
+"d": "Warm tan-brown glaze with dark speckles and glossy carved relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-900-series-translucent-glazes|964|Tiger's Eye": {
+"f": 1,
+"h": "3B1F0F",
+"b": "B8612A",
+"s": "gloss",
+"o": "opaque",
+"e": [
+"speckled",
+"breaking",
+"mottled"
+],
+"d": "Glossy dark brown with orange breaks over carved relief."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-900-series-translucent-glazes|975|Retro Red": {
+"f": 1,
+"h": "C94A50",
+"b": "D9707A",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Glossy cherry red with lighter pink edges over relief pattern."
+},
+"https://www.sheffield-pottery.com/products/opulence-glaze-900-series-translucent-glazes|971|Bubble Gum": {
+"f": 1,
+"h": "D98A93",
+"b": "",
+"s": "gloss",
+"o": "opaque",
+"e": [],
+"d": "Glossy dusty pink glaze with raised carved pattern"
 }
 }
