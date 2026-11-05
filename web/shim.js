@@ -110,6 +110,7 @@ function cwRenderUser(open = false) {
   const menu = el("div", { class: "cw-menu", role: "dialog", "aria-label": "Account", hidden: true },
     el("div", { class: "who" }, avatar("span", { "aria-hidden": "true" }), el("div", {}, el("b", { text: m.user }), el("small", { text: "Signed in" }))),
     spend,
+    el("button", { type: "button", class: "cw-mitem", text: "Shopping list", onclick: () => { CW.closeMenu && CW.closeMenu(); window.showTab("shopping"); window.scrollTo({ top: 0 }); } }),
     el("button", { type: "button", class: "cw-mitem", text: "Send an idea", onclick: () => { CW.closeMenu && CW.closeMenu(); cwOpenIdea(); } }),
     m.admin ? el("button", { type: "button", class: "cw-mitem", text: "Ideas inbox" + (CW.newIdeas ? " · " + CW.newIdeas + " new" : ""), onclick: () => { CW.closeMenu && CW.closeMenu(); cwOpenInbox(); } }) : null,
     el("button", { type: "button", class: "cw-mitem out", text: "Log out", onclick: () => cwLogout() }));
