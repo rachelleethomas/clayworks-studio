@@ -500,11 +500,25 @@ td.muted,.muted{color:var(--muted)}
 .fp-card:hover .fp-tile{filter:brightness(.95)}
 .fp-tile{display:block;width:100%;aspect-ratio:1;object-fit:contain;background:var(--bg);border:1px solid var(--line);border-radius:12px}
 .fp-ct{display:grid;gap:4px;justify-items:start;min-width:0}.fp-ct b{font-weight:600;line-height:1.25}.fp-diff{font-size:13.5px;line-height:1.35}
+.fp-item{display:grid;gap:8px;align-content:start;min-width:0}.fp-keep{justify-self:start}.fp-keep[aria-pressed="true"]{background:var(--tint-purple);border-color:var(--tint-purple-line);color:var(--tint-purple-ink)}
+.fp-steer{display:grid;grid-template-columns:168px minmax(0,1fr);gap:16px;align-items:start;padding:14px 0;border-block:1px solid var(--line)}
+.fp-field{position:relative;width:100%;aspect-ratio:1;border-radius:12px;overflow:hidden;cursor:crosshair;touch-action:none;border:1px solid var(--line)}.fp-field:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fp-field canvas{display:block;width:100%;height:100%}
+.fp-field i{position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px;border-radius:50%;background:var(--surface);opacity:.7;pointer-events:none}
+.fp-field b{position:absolute;width:22px;height:22px;margin:-11px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 1px var(--ink,#222);pointer-events:none}
+.fp-steer-side{display:grid;gap:10px;min-width:0}.fp-steer-side .linkbtn{justify-self:start;text-align:left}.fp-pair{display:flex;gap:10px}.fp-pair>span{display:grid;gap:4px;font-size:12.5px;color:var(--muted)}
+.fp-pair img,.fp-pair u{display:block;width:72px;height:72px;border-radius:10px;object-fit:cover;border:1px solid var(--line)}
+.fp-light{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;font-size:12.5px;color:var(--muted)}.fp-light input{width:100%;accent-color:var(--accent);margin:0}
+.fp-kept{display:grid;gap:8px;min-width:0}.fp-kept-row{display:flex;flex-wrap:wrap;gap:10px}
+.fp-k{position:relative;width:104px;display:grid;gap:4px;min-width:0}.fp-k-open{all:unset;box-sizing:border-box;display:grid;gap:4px;cursor:pointer;min-width:0}.fp-k-open:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+.fp-k img{display:block;width:104px;height:104px;object-fit:contain;background:var(--bg);border:1px solid var(--line);border-radius:10px}.fp-k-open span{font-size:12.5px;line-height:1.25;overflow-wrap:anywhere}
+.fp-k-x{all:unset;box-sizing:border-box;position:absolute;top:4px;right:4px;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:var(--surface);border:1px solid var(--line);cursor:pointer;line-height:1}.fp-k-x:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.fp-all{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;align-items:start}
 .fp-tweak{display:grid;gap:8px;padding-top:12px;border-top:1px solid var(--line)}
 .fp-refine{display:flex;gap:8px}.fp-refine input{flex:1;min-width:0}
 .fp-nudges{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .fp-aim{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);flex:none}
-@media (max-width:640px){.fp-cards{grid-template-columns:minmax(0,1fr)}.fp-card{grid-template-columns:96px minmax(0,1fr);gap:12px}}
+@media (max-width:640px){.fp-cards{grid-template-columns:minmax(0,1fr)}.fp-card{grid-template-columns:96px minmax(0,1fr);gap:12px}.fp-all{grid-template-columns:minmax(0,1fr)}.fp-steer{grid-template-columns:132px minmax(0,1fr);gap:12px}}
 .cb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px 14px}
 .cb-card{all:unset;box-sizing:border-box;display:grid;gap:8px;cursor:pointer;min-width:0}
 .cb-card:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:16px}
@@ -1152,7 +1166,7 @@ let sampleNs=null, sampleImages=false;
 /* ---------- Studio store (account db, falls back to this browser) ---------- */
 let studio=[], recipes=[], ideas=[], combos=[], pieces=[], misc=[], studioColl=null, storeMode="loading";
 // settings, kiln firings, product lines, markets, expenses and sales of things that aren't logged pieces
-const MISC=new Set(["settings","firing","line","event","expense","sale"]);
+const MISC=new Set(["settings","firing","line","event","expense","sale","match"]);
 // Saved recipes share the shelf store as docs with kind "recipe", so they sync wherever shelves do.
 function splitDocs(arr){arr=Array.isArray(arr)?arr:[];studio=arr.filter(d=>d&&d.kind!=="recipe"&&d.kind!=="prices"&&d.kind!=="idea"&&d.kind!=="combo"&&d.kind!=="piece"&&!MISC.has(d.kind));misc=arr.filter(d=>d&&MISC.has(d.kind));pieces=arr.filter(d=>d&&d.kind==="piece").sort((a,b)=>(b.updatedAt||b.addedAt||0)-(a.updatedAt||a.addedAt||0));combos=arr.filter(d=>d&&d.kind==="combo").sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));ideas=arr.filter(d=>d&&d.kind==="idea").sort((a,b)=>(a.addedAt||0)-(b.addedAt||0));recipes=arr.filter(d=>d&&d.kind==="recipe").sort((a,b)=>(b.savedAt||0)-(a.savedAt||0));pricesDoc=arr.find(d=>d&&d.kind==="prices")||null}
 const allDocs=()=>[...studio,...recipes,...ideas,...combos,...pieces,...misc,...(pricesDoc?[pricesDoc]:[])];
@@ -1307,7 +1321,7 @@ function renderTabs(){
     b.innerHTML=TAB_ICONS[k]||"";b.append(el("span",{text:v}));t.append(b)});
   if(tab)markTab();
 }
-const groupOf=name=>name==="recipe"||name==="premade"&&premadeFrom==="studio"?"mystudio":name==="tile"||name==="find"||name==="premade"?"discover":Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name));
+const groupOf=name=>name==="recipe"||name==="premade"&&(premadeFrom==="studio"||premadeFrom==="recipe")?"mystudio":name==="tile"||name==="find"||name==="premade"?"discover":Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name));
 function markTab(){const grp=groupOf(tab)||tab;[...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+grp)))}
 function showTab(name){
   if(GROUPS[name])name=groupSub[name];
@@ -2349,7 +2363,8 @@ function ideaCard(x){
     return el("figure",{class:"idea pick"+(on?" on":""),role:"checkbox","aria-checked":String(on),tabindex:"0","aria-label":x.title||"Idea",
       onclick:()=>{on?IDEA.picked.delete(x.id):IDEA.picked.add(x.id);renderIdeas()},onkeydown:e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();e.currentTarget.click()}}},
       img,el("span",{class:"idea-check","aria-hidden":"true",text:on?"✓":""}),x.hex?.length?sw:null)}
-  const acts=el("div",{class:"idea-acts"});
+  const acts=el("div",{class:"idea-acts"}),keptN=matchDocs().filter(d=>d.src?.type==="pin"&&d.src.id===x.id).reduce((n,d)=>n+(d.kept||[]).length,0);
+  if(keptN)acts.append(el("span",{class:"meta",text:keptN+" kept"}));
   const open=el("button",{type:"button",class:"idea-open","aria-label":"Open "+(x.title||"this idea")+" to pick colors",onclick:()=>openPin(x.id)},img);
   if(x.hex?.length)acts.append(el("button",{type:"button",class:"linkbtn",text:"Match colors",onclick:()=>matchIdea(x.hex,x.title?`Inspired by: ${x.title}`:"")}));
   if(x.href)acts.append(el("a",{href:x.href,target:"_blank",rel:"noopener",text:"Pinterest"}));
@@ -2401,8 +2416,9 @@ function renderIdeas(){
   const boards=ideaBoards();if(IDEA.board&&!boards.has(IDEA.board))IDEA.board=null;
   if(IDEA.board){const list=boards.get(IDEA.board),x=IDEA.pin&&list.find(i=>i.id===IDEA.pin);
     return x?renderPin(w,x,list):renderBoard(w,IDEA.board,list)}
+  const keptAll=matchDocs().reduce((n,d)=>n+(d.kept||[]).length,0);
   w.append(el("div",{class:"ideas-head"},
-    el("div",{class:"links"},photoPicker("+ Add photos","My photos"),
+    el("div",{class:"links"},keptAll?el("button",{type:"button",class:"linkbtn",text:`Kept matches (${keptAll})`,onclick:()=>{Object.assign(FIND,{targets:[],title:"",back:()=>showTab("ideas")});showTab("find");scrollTo({top:0})}}):null,photoPicker("+ Add photos","My photos"),
       el("button",{type:"button",class:IDEA.importOpen?"linkbtn":"btn",text:IDEA.importOpen?"Close":"Import a Pinterest board",onclick:()=>{IDEA.importOpen=!IDEA.importOpen;renderIdeas()}}))));
   if(IDEA.importOpen)w.append(ideaImport(""));
   if(IDEA.busy)w.append(el("p",{class:"note",role:"status",text:IDEA.busy}));
@@ -2443,7 +2459,7 @@ async function pixelImage(src){if(PIN_PX.has(src))return PIN_PX.get(src);const u
 function renderPin(w,x,list){
   const i=list.indexOf(x),go=d=>openPin(list[(i+d+list.length)%list.length].id);
   let picks=[...(x.picks||[])];
-  const save=()=>putIdeas([{...x,picks}]);
+  const save=()=>putIdeas([{...x,picks}]),pinBack=()=>{showTab("ideas");renderIdeas()},pinSrc=(whole,p)=>({type:"pin",id:x.id,title:x.title||"Your pin",...(whole?{whole:true}:{x:p.x,y:p.y})});
   const big=x.src.replace(/^(https:\/\/i\.pinimg\.com\/)(236x|474x)\//,"$1736x/"),img=el("img",{src:big,alt:x.title||"Idea",referrerpolicy:"no-referrer",draggable:"false"});
   const marks=el("div",{class:"pin-marks"}),loupe=el("div",{class:"pin-loupe",hidden:true});
   const stage=el("div",{class:"pin-stage"},img,marks,loupe);
@@ -2456,7 +2472,12 @@ function renderPin(w,x,list){
   const add=(hex,px,py)=>{if(picks.length>=8)picks.shift();picks.push({hex,x:px,y:py});drawMarks();save()};
   matchBtn.onclick=()=>matchIdea(picks.map(p=>p.hex),`Colors picked from "${x.title||"a pin"}" in my ${x.board} board.`);
   findBtn.onclick=()=>{const whole=!picks.length&&cx?[{hex:mainColor(cx.canvas),blob:cx.canvas}]:[];
-    openFind({title:x.title||"Your pin",back:()=>{showTab("ideas");renderIdeas()},targets:whole.length?whole:picks.map(p=>({hex:p.hex,blob:cx&&p.x!=null?cropAround(cx.canvas,p.x,p.y):null}))})};
+    openFind({title:x.title||"Your pin",back:pinBack,targets:whole.length?whole.map(t=>({...t,key:`pin:${x.id}:whole`,src:pinSrc(true)})):picks.map(p=>({hex:p.hex,blob:cx&&p.x!=null?cropAround(cx.canvas,p.x,p.y):null,key:`pin:${x.id}:${p.hex}`,src:pinSrc(false,p)}))})};
+  // what you've kept stays on the pin, whether or not that color is still picked
+  const pinKept=matchDocs().filter(d=>d.src?.type==="pin"&&d.src.id===x.id&&(d.kept||[]).length);
+  const findMore=d=>{const s=d.src,blob=!cx?null:s.whole?cx.canvas:s.x!=null?cropAround(cx.canvas,s.x,s.y):null;openFind({title:x.title||"Your pin",back:pinBack,targets:[{hex:d.hex,blob,thumb:d.thumb,key:d.key,src:s}]})};
+  const pinKeptBox=pinKept.length?el("div",{class:"fp-kept"},el("h3",{text:"Kept matches"}),...pinKept.map(d=>el("div",{class:"fp-kept"},
+    el("div",{class:"links"},el("span",{class:"fp-aim",style:"background:#"+d.hex,title:"#"+d.hex}),el("span",{class:"meta",text:d.src.whole?"Whole photo":d.look||"#"+d.hex}),el("button",{type:"button",class:"linkbtn",text:"Find more",onclick:()=>findMore(d)})),keptRow(d)))):null;
   let cx=null;const at=e=>{const r=img.getBoundingClientRect(),fx=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)),fy=Math.min(1,Math.max(0,(e.clientY-r.top)/r.height));
     const W=cx.canvas.width,H=cx.canvas.height,R=Math.max(2,Math.round(W/120)),px=Math.round(fx*(W-1)),py=Math.round(fy*(H-1));
     const x0=Math.max(0,px-R),y0=Math.max(0,py-R),d=cx.getImageData(x0,y0,Math.min(W,px+R+1)-x0,Math.min(H,py+R+1)-y0).data;let s=[0,0,0],n=0;
@@ -2477,6 +2498,7 @@ function renderPin(w,x,list){
       el("div",{class:"pin-side"},x.title?el("h2",{text:x.title}):null,status,
         el("h3",{text:"Colors you picked"}),chosen,
         el("div",{class:"links"},findBtn,matchBtn,picks.length?el("button",{type:"button",class:"linkbtn",text:"Clear",onclick:()=>{picks=[];drawMarks();save()}}):null),
+        pinKeptBox,
         photoCols.length?el("div",{},el("h3",{text:"Whole photo's colors"}),el("p",{class:"note",text:"Tap one to add it."}),el("div",{class:"pin-pals"},...photoCols)):null,
         el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"Save as a combo",onclick:()=>newCombo({src:x.src,href:x.href,notes:x.title||""})}),
           x.href?el("a",{href:x.href,target:"_blank",rel:"noopener",text:"See it on Pinterest"}):null))));
@@ -2484,7 +2506,7 @@ function renderPin(w,x,list){
 
 /* ---------- Find a premade: for each color you tap, the premade glazes that look closest. Color shortlists the catalog; Claude compares the crop's look
    against what scripts/tag_glaze_photos.py read from each fired tile, and says how close each one is and what's different. Without Claude it stays color only. ---------- */
-const FIND={targets:[],title:"",back:null,cone:null,run:0};
+const FIND={targets:[],title:"",back:null,cone:null,run:0,drag:null};
 const srgbLin=v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)};
 function labOf(h){h=normHex(h);if(!h)return null;const [r,g,b]=[0,2,4].map(i=>srgbLin(parseInt(h.slice(i,i+2),16)));
   const f=t=>t>.008856?Math.cbrt(t):7.787*t+16/116,x=f((.4124*r+.3576*g+.1805*b)/.95047),y=f(.2126*r+.7152*g+.0722*b),z=f((.0193*r+.1192*g+.9505*b)/1.08883);return [116*y-16,500*(x-y),200*(y-z)]}
@@ -2496,7 +2518,10 @@ function nudgeHex(hex,ask){let l=labOf(hex);if(!l)return hex;const w=ask.toLower
   if(/muted|grayer|greyer|less saturated/.test(w)){a*=.7;b*=.7}if(/vivid|brighter|more saturated/.test(w)){a*=1.35;b*=1.35}
   const m=!/^(less|not|no)\b/.test(w)&&nameHex(w),t=m&&labOf(m);if(t){a+=(t[1]-a)*.55;b+=(t[2]-b)*.55}
   return hexOfLab([L,a,b])}
-const NUDGES=["Lighter","Darker","Warmer","Cooler","More muted","More vivid"];
+// the color field: how far you've dragged from your glaze's color, in Lab
+const STEER_0={L:0,a:0,b:0},steered=t=>!!(t.shift&&(t.shift.L||t.shift.a||t.shift.b));
+const baseHex=t=>t.asks.reduce(nudgeHex,t.hex);
+function aimOf(t){const h=baseHex(t);if(!steered(t))return h;const l=labOf(h);return hexOfLab([Math.max(4,Math.min(96,l[0]+t.shift.L)),l[1]+t.shift.a,l[2]+t.shift.b])}
 const labDist=(a,b)=>a&&b?Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]):999;
 // lightness counts for less: a pin's lighting often makes a glaze read darker than the same glaze on a supplier's tile
 const lookDist=(a,b)=>a&&b?Math.hypot((a[0]-b[0])*.4,a[1]-b[1],a[2]-b[2]):999;
@@ -2511,61 +2536,151 @@ function findPool(cone){const seen=new Set();
   return storeItems().filter(it=>!it.under&&it.img&&it.hex&&it.look!==undefined&&(cone==null||coversCone(it.cone,cone))&&!/discontinued/i.test(it.title)&&it.cat?.look?.f!==0)
     .filter(it=>{const k=(it.cat.brand+"|"+it.cat.name).toLowerCase();if(seen.has(k))return false;seen.add(k);return true})}
 // two neighborhoods: the color as tapped, and as it might read on a well-lit tile (brighter, less blue), since pin photos are often dim and cool
-function findShortlist(hex,cone){const t=labOf(hex),lit=[Math.min(96,t[0]+22),t[1],t[2]+4],pool=findPool(cone).map(it=>({it,lab:labOf(it.hex),pen:it.look?0:it.est?10:5}));
+function findShortlist(hex,cone,skip=new Set(),learn=null){const t=labOf(hex),lit=[Math.min(96,t[0]+22),t[1],t[2]+4],pool=findPool(cone).filter(it=>!skip.has(it.pk)).map(it=>({it,lab:labOf(it.hex),pen:(it.look?0:it.est?10:5)+(learn?learn.pen(it.pk):0)}));
   const near=(c,n,skip=new Set())=>pool.filter(x=>!skip.has(x)).map(x=>({x,d:lookDist(c,x.lab)+x.pen})).sort((a,b)=>a.d-b.d).slice(0,n).map(({x})=>x);
-  const first=near(t,40);return [...first,...near(lit,20,new Set(first))].map(x=>({it:x.it}))}
+  const first=near(t,40),second=near(lit,20,new Set(first)),off=learn?.offset; // the third neighborhood is where your kept picks say matches usually sit
+  return [...first,...second,...(off?near([Math.max(4,Math.min(96,t[0]+off[0])),t[1]+off[1],t[2]+off[2]],15,new Set([...first,...second])):[])].map(x=>({it:x.it}))}
 // the part of a photo around where you tapped, sent to Claude and shown beside the results
 function cropAround(src,fx,fy,frac=.13){const W=src.width,H=src.height,s=Math.round(Math.min(W,H)*frac*2),x=Math.max(0,Math.min(W-s,Math.round(fx*W-s/2))),y=Math.max(0,Math.min(H-s,Math.round(fy*H-s/2)));
   const c=document.createElement("canvas");c.width=c.height=Math.min(320,s);c.getContext("2d").drawImage(src,x,y,s,s,0,0,c.width,c.height);return c}
 const canvasBlob=c=>new Promise(ok=>c.toBlob(ok,"image/jpeg",.85));
-const findPrompt=(hex,cone,list,hasImg,asks=[])=>`A potter wants a premade ${cone==null?"":"cone "+cone+" "}glaze that looks like ${hasImg?"the glaze in this photo (look at the middle, ignore the background)":"this color"}, about #${hex}.
-${asks.length?`They looked at earlier matches and said: ${asks.join("; ")}. The color above is already adjusted for that, and those earlier matches are gone from the list. Follow what they said first.\n`:""}Compare color, surface and effects like speckle or breaking. The photo's lighting may make it read darker or cooler than a tile, so don't rule a glaze out on lightness alone. Be honest: "close" means they'd accept it as the same look, "partial" means right idea but clearly different, "weak" means it's only the nearest there is.
+// Kept matches: a "match" doc per thing you matched (a spot on a pin, a photo, a recipe, a color) holds the glazes you kept, removed and passed over.
+const matchDocs=()=>docsOf("match");
+const matchOf=key=>matchDocs().find(d=>d.key===key);
+const FIND_UNDO={key:"",snap:null};
+function saveMatch(d){const i=misc.findIndex(x=>x.id===d.id);if(i>=0)misc[i]=d;else misc.push(d);putDoc("match",d);if(studioColl&&tab==="find")renderFind()}
+function editMatch(t,fn){const d=matchOf(t.key)||{id:newId("match"),key:t.key,src:t.src,hex:t.hex,thumb:t.thumb||"",kept:[],removed:[],passed:[],asks:[]},next={...d,kind:"match"};fn(next);saveMatch(next)}
+const matchSnap=(p,ai)=>({pk:p.it.pk,title:p.it.title,img:p.it.img,hex:p.it.hex,d:p.it.look?.d||"",s:p.it.look?.s||"",close:p.close,diff:p.diff||"",ai:!!ai,at:Date.now()});
+function toggleKeep(t,p,ai){const pk=p.it.pk;editMatch(t,d=>{const had=d.kept.find(k=>k.pk===pk);d.look=t.res?.look||d.look||"";
+  if(!had){d.kept=[...d.kept,matchSnap(p,ai)];d.removed=d.removed.filter(k=>k.pk!==pk);d.passed=d.passed.filter(k=>k!==pk);return}
+  d.kept=d.kept.filter(k=>k.pk!==pk);if(Date.now()-had.at>20000)d.removed=[...d.removed.filter(k=>k.pk!==pk),{...had,at:Date.now()}].slice(-30)})} // taken back right away = a slip, not a no
+function removeKept(d,snap){const next={...d,kind:"match",kept:d.kept.filter(k=>k.pk!==snap.pk),removed:[...(d.removed||[]).filter(k=>k.pk!==snap.pk),{...snap,at:Date.now()}].slice(-30)};FIND_UNDO.key=d.key;FIND_UNDO.snap=snap;saveMatch(next)}
+function undoRemove(d){const snap=FIND_UNDO.snap;FIND_UNDO.key="";FIND_UNDO.snap=null;saveMatch({...d,kind:"match",kept:[...d.kept,snap],removed:(d.removed||[]).filter(k=>k.pk!==snap.pk)})}
+function keptRow(d){const kept=d?.kept||[],undo=d&&FIND_UNDO.key===d.key&&FIND_UNDO.snap;if(!kept.length&&!undo)return null;
+  return el("div",{class:"fp-kept"},kept.length?el("div",{class:"fp-kept-row"},...kept.map(k=>el("div",{class:"fp-k"},
+      el("button",{type:"button",class:"fp-k-open",onclick:()=>openPremade(k.pk)},el("img",{src:k.img,alt:"",loading:"lazy",referrerpolicy:"no-referrer"}),el("span",{text:k.title})),
+      el("button",{type:"button",class:"fp-k-x","aria-label":"Remove "+k.title,text:"×",onclick:()=>removeKept(d,k)})))):null,
+    undo?el("div",{class:"links"},el("span",{class:"meta",text:"Removed "+undo.title}),el("button",{type:"button",class:"linkbtn",text:"Undo",onclick:()=>undoRemove(d)})):null)}
+// What your choices teach: glazes you kept or removed for a similar color move up or down the shortlist, your kept picks show how far from the photo's color a real match tends to sit, and Claude sees the nearest examples.
+function findLearn(hex,key){const t=labOf(hex),kept=[],removed=[],asks=[],steers=[],pen=new Map,bump=(pk,v)=>pen.set(pk,(pen.get(pk)||0)+v);let w=0,sum=[0,0,0],n=0;
+  matchDocs().forEach(d=>{const lab=labOf(d.hex),dist=labDist(t,lab),same=d.key===key;
+    (d.kept||[]).forEach(k=>{kept.push({...k,for:d.hex,dist,same});if(!same&&dist<25)bump(k.pk,-6);const kl=labOf(k.hex);if(kl&&lab){const wt=1/(1+dist/25);n++;w+=wt;[0,1,2].forEach(i=>sum[i]+=(kl[i]-lab[i])*wt)}});
+    (d.removed||[]).forEach(k=>{removed.push({...k,for:d.hex,dist,same});if(dist<25)bump(k.pk,8)});
+    if(!same&&dist<15)(d.passed||[]).forEach(pk=>bump(pk,2));
+    if(dist<30)(d.asks||[]).forEach(q=>asks.push({q,for:d.hex,dist}));
+    if(d.steer?.aim){const al=labOf(d.steer.aim);if(al&&lab){const wt=.5/(1+dist/25);n++;w+=wt;[0,1,2].forEach(i=>sum[i]+=(al[i]-lab[i])*wt)}if(!same&&dist<30)steers.push({for:d.hex,aim:d.steer.aim,dist})}});
+  const byDist=(a,b)=>a.dist-b.dist||(b.at||0)-(a.at||0),clamp=v=>Math.max(-25,Math.min(25,v));
+  return {kept:kept.filter(k=>!k.same).sort(byDist).slice(0,6),here:kept.filter(k=>k.same),removed:removed.sort(byDist).slice(0,4),asks:asks.sort(byDist).slice(0,3),steers:steers.sort(byDist).slice(0,3),nKept:kept.length,nRemoved:removed.length,
+    offset:n>=3?sum.map(v=>clamp(v/w)):null,pen:pk=>pen.get(pk)||0}}
+function learnedLines(l){if(!l)return "";const out=[];const look=k=>[k.s,k.d].filter(Boolean).join(", ");
+  if(l.here.length)out.push(`For this same glaze they already kept: ${l.here.map(k=>k.title).join("; ")}. They want more options to compare against those, so judge the candidates with those in mind.`);
+  l.kept.forEach(k=>out.push(`Kept for a glaze near #${k.for}: ${k.title} (#${k.hex}${look(k)?", "+look(k):""})`));
+  l.removed.forEach(k=>out.push(`Removed for a glaze near #${k.for}: ${k.title} (#${k.hex}${look(k)?", "+look(k):""})`));
+  l.asks.forEach(a=>out.push(`Said about matches for #${a.for}: "${a.q}"`));
+  l.steers.forEach(a=>out.push(`Steered the search for a glaze near #${a.for} to #${a.aim}`));
+  return out.length?`This potter's own past choices. They show what this person accepts as a match, so weigh them above color distance:\n${out.join("\n")}\n`:""}
+function thumbOf(c,n=120){try{const s=Math.min(c.width,c.height),o=document.createElement("canvas");o.width=o.height=n;o.getContext("2d").drawImage(c,(c.width-s)/2,(c.height-s)/2,s,s,0,0,n,n);return o.toDataURL("image/jpeg",.7)}catch{return ""}}
+const findPrompt=(hex,cone,list,hasImg,asks=[],learned=null,from="")=>`A potter wants a premade ${cone==null?"":"cone "+cone+" "}glaze that looks like ${hasImg?"the glaze in this photo (look at the middle, ignore the background)":"this color"}, about #${hex}.
+${asks.length?`They looked at earlier matches and said: ${asks.join("; ")}. The color above is already adjusted for that, and those earlier matches are gone from the list. Follow what they said first.\n`:""}${from?`They steered the search by hand from #${from} to #${hex}. That color is what they want now, even where the photo reads differently, but still compare surface and effects against the photo.\n`:""}${learnedLines(learned)}Compare color, surface and effects like speckle or breaking. The photo's lighting may make it read darker or cooler than a tile, so don't rule a glaze out on lightness alone. Be honest: "close" means they'd accept it as the same look, "partial" means right idea but clearly different, "weak" means it's only the nearest there is.
 Candidates: each comes from the supplier's photo of a fired tile, where it has one.
 ${list.map(({it},i)=>`${i+1}. ${it.title} | #${it.hex} | ${it.look?[it.look.s,it.look.o,(it.look.e||[]).join(" "),it.look.d].filter(Boolean).join(" | "):"color estimated, no tile read"}`).join("\n")}
 Return JSON {"look":"at most 8 plain words describing the glaze you were shown","clay_note":"one plain sentence if part of this look probably comes from the clay showing through or the firing rather than the glaze, otherwise empty","picks":[{"n":candidate number,"close":"close|partial|weak","diff":"at most 10 plain words on what's different"}]} with the best 3 first.`;
 function openFind({targets,title,back}){const c=+SET().glazeCone;
-  Object.assign(FIND,{targets:targets.map(t=>({...t,res:null,busy:false,asks:[],seen:[]})),title,back,cone:isNaN(c)?6:(String(SET().glazeCone)[0]==="0"?-Math.abs(c):c)});
+  Object.assign(FIND,{targets:targets.map(t=>{const key=t.key||(t.blob?"photo:":"color:")+t.hex;return {...t,key,src:t.src||{type:t.blob?"photo":"color",title},thumb:t.blob?thumbOf(t.blob):t.thumb||"",res:null,busy:false,asks:[],shift:{...STEER_0,...(({L=0,a=0,b=0})=>({L,a,b}))(matchOf(key)?.steer||{})},seen:[...(matchOf(key)?.passed||[])]}}),title,back,cone:isNaN(c)?6:(String(SET().glazeCone)[0]==="0"?-Math.abs(c):c)});
   showTab("find");window.scrollTo({top:0});runFind()}
 function runFind(){const run=++FIND.run;FIND.targets.forEach(t=>runTarget(t,run));renderFind()}
-function runTarget(t,run){const aim=t.asks.reduce(nudgeHex,t.hex),list=findShortlist(aim,FIND.cone).filter(({it})=>!t.seen.includes(it.pk));t.aim=aim;
-  t.res={look:t.res?.look||"",clay:t.res?.clay||"",ai:false,picks:list.slice(0,3).map(({it})=>({it,close:closeOf(lookDist(labOf(aim),labOf(it.hex))),diff:diffWords(aim,it.hex)}))};t.busy=!!sampleNs&&!!list.length;t.err="";
+function findList(t,learn){const aim=aimOf(t),d=matchOf(t.key);learn=learn||findLearn(aim,t.key);t.aim=aim;
+  return {aim,learn,list:findShortlist(aim,FIND.cone,new Set([...t.seen,...(d?.kept||[]).map(k=>k.pk),...(d?.removed||[]).map(k=>k.pk)]),learn)}}
+const colorPicks=(list,aim)=>list.slice(0,3).map(({it})=>({it,close:closeOf(lookDist(labOf(aim),labOf(it.hex))),diff:diffWords(aim,it.hex)}));
+function runTarget(t,run){const {aim,learn,list}=findList(t);
+  t.res={look:t.res?.look||"",clay:t.res?.clay||"",ai:false,picks:colorPicks(list,aim)};t.busy=!!sampleNs&&!!list.length;t.err="";
   if(!t.busy)return;const mine=t.req=(t.req||0)+1,live=()=>run===FIND.run&&mine===t.req;
   (async()=>{const blob=t.blob&&sampleImages?await canvasBlob(t.blob):null,opts={modelTier:"default"};if(blob)opts.images=[blob];
-    const res=await sampleNs.json(findPrompt(aim,FIND.cone,list,!!blob,t.asks),opts);if(!live())return;
+    const res=await sampleNs.json(findPrompt(aim,FIND.cone,list,!!blob,t.asks,learn,steered(t)?baseHex(t):""),opts);if(!live())return;
     const picks=(res?.picks||[]).map(p=>({it:list[(+p.n||0)-1]?.it,close:CLOSE[p.close]?p.close:"weak",diff:String(p.diff||"")})).filter(p=>p.it).slice(0,3);
     if(picks.length)t.res={look:String(res.look||""),clay:String(res.clay_note||""),ai:true,picks}})()
     .catch(()=>{if(live())t.err="Couldn't compare the surfaces this time, so these are by color only."})
     .finally(()=>{if(live()){t.busy=false;renderFind()}})}
 // tweak one group's matches: the shown picks step aside and the rest of the catalog is searched again
-function refineFind(t,ask){ask=ask.trim();if(!ask)return;t.asks=[...t.asks,ask];t.seen=[...new Set([...t.seen,...(t.res?.picks||[]).map(p=>p.it.pk)])];runTarget(t,FIND.run);renderFind()}
-function refineBox(t){const inp=el("input",{type:"text",placeholder:"What's off? More purple, less glossy…","aria-label":"What's off about these matches"});
+const shownPks=t=>(t.res?.picks||[]).map(p=>p.it.pk).filter(pk=>!(matchOf(t.key)?.kept||[]).some(k=>k.pk===pk));
+function refineFind(t,ask){ask=ask.trim();if(!ask)return;const off=shownPks(t);t.asks=[...t.asks,ask];t.seen=[...new Set([...t.seen,...off])];editMatch(t,d=>{d.asks=[...d.asks,ask].slice(-10);d.passed=[...new Set([...d.passed,...off])].slice(-60)});runTarget(t,FIND.run);renderFind()}
+// new matches to compare: what's showing steps aside, what you kept stays on the page
+function moreFind(t){const off=shownPks(t);t.seen=[...new Set([...t.seen,...off])];editMatch(t,d=>{d.passed=[...new Set([...d.passed,...off])].slice(-60)});runTarget(t,FIND.run);renderFind()}
+function startOverFind(t){t.asks=[];t.seen=[];t.shift={...STEER_0};const d=matchOf(t.key);if(d?.passed?.length||d?.steer)editMatch(t,x=>{x.passed=[];delete x.steer});runTarget(t,FIND.run);renderFind()}
+// drag toward the color the match should go: the tiles follow by color as you move (free), Claude compares when you let go
+const fieldCards=t=>t.res?.picks?.length?t.res.picks.map(p=>findCard(p,t.res.ai,t)):[el("p",{class:"note",text:t.seen.length?"That's every glaze near this color. Start over to see them again.":"No premade glazes at this cone have a color to compare."})];
+function steerBox(t){const R=40,cv=el("canvas",{width:64,height:64}),dot=el("b"),field=el("div",{class:"fp-field",role:"slider",tabindex:"0","aria-label":"Drag toward the color the match should go. Arrow keys work too.","aria-valuemin":"0","aria-valuemax":"100"},cv,el("i"),dot);
+  const swatch=el("u"),hexTxt=el("span"),you=t.blob||t.thumb||t.img?el("img",{alt:"",src:t.thumb||t.img||""}):el("u",{style:"background:#"+t.hex});
+  const light=el("input",{type:"range",min:"-30",max:"30",step:"1","aria-label":"Lightness"}),reset=el("button",{type:"button",class:"linkbtn",text:"Back to your color"});
+  let drawn="",from=null,timer=0,learn=null,raf=0,shown="";
+  const draw=()=>{const l=labOf(baseHex(t)),L=Math.max(4,Math.min(96,l[0]+t.shift.L)),k=L+"|"+l[1]+"|"+l[2];if(k===drawn)return;drawn=k;const g=cv.getContext("2d"),im=g.createImageData(64,64);
+    for(let y=0;y<64;y++)for(let x=0;x<64;x++){const h=hexOfLab([L,l[1]+(x/63*2-1)*R,l[2]+(1-y/63*2)*R]),i=(y*64+x)*4;im.data[i]=parseInt(h.slice(0,2),16);im.data[i+1]=parseInt(h.slice(2,4),16);im.data[i+2]=parseInt(h.slice(4,6),16);im.data[i+3]=255}g.putImageData(im,0,0)};
+  const sync=()=>{draw();const a=aimOf(t);dot.style.left=(t.shift.a+R)/(2*R)*100+"%";dot.style.top=(R-t.shift.b)/(2*R)*100+"%";dot.style.background="#"+a;swatch.style.background="#"+a;hexTxt.textContent="Looking for";light.value=t.shift.L;
+    field.setAttribute("aria-valuenow",Math.round((t.shift.a+R)/(2*R)*100));field.setAttribute("aria-valuetext",steered(t)?"Looking for #"+a+". "+diffWords(baseHex(t),a):"Your glaze's color");reset.hidden=!steered(t)};
+  const preview=()=>{raf=0;const {aim,list}=findList(t,learn),picks=colorPicks(list,aim),k=picks.map(p=>p.it.pk).join();t.res={...t.res,ai:false,picks};if(k!==shown){shown=k;t.cardsEl?.replaceChildren(...fieldCards(t))}};
+  const begin=()=>{if(FIND.drag===t)return;FIND.drag=t;from=JSON.stringify(t.shift);learn=findLearn(aimOf(t),t.key);t.req=(t.req||0)+1;t.busy=false;t.err=""};
+  const move=()=>{sync();if(!raf)raf=requestAnimationFrame(preview)};
+  const commit=()=>{clearTimeout(timer);if(raf){cancelAnimationFrame(raf);raf=0}const changed=from!==JSON.stringify(t.shift);FIND.drag=null;
+    if(changed){const on=steered(t);runTarget(t,FIND.run);if(on||matchOf(t.key)?.steer)editMatch(t,d=>{if(on)d.steer={...t.shift,aim:t.aim};else delete d.steer})}renderFind()};
+  const at=e=>{const r=field.getBoundingClientRect(),c=v=>Math.max(-R,Math.min(R,v)),a=c(((e.clientX-r.left)/r.width*2-1)*R),b=c((1-(e.clientY-r.top)/r.height*2)*R),near=Math.hypot(a,b)<3;t.shift={...t.shift,a:near?0:Math.round(a),b:near?0:Math.round(b)}};
+  field.onpointerdown=e=>{begin();field.setPointerCapture(e.pointerId);at(e);move()};
+  field.onpointermove=e=>{if(FIND.drag===t&&field.hasPointerCapture(e.pointerId)){at(e);move()}};
+  field.onpointerup=field.onpointercancel=e=>{if(FIND.drag===t&&field.hasPointerCapture(e.pointerId))commit()};
+  field.onkeydown=e=>{const d={ArrowLeft:[-3,0],ArrowRight:[3,0],ArrowUp:[0,3],ArrowDown:[0,-3]}[e.key];if(!d)return;e.preventDefault();begin();const c=v=>Math.max(-R,Math.min(R,v));t.shift={...t.shift,a:c(t.shift.a+d[0]),b:c(t.shift.b+d[1])};move();clearTimeout(timer);timer=setTimeout(commit,500)};
+  light.oninput=()=>{begin();t.shift={...t.shift,L:+light.value};move()};
+  light.onchange=()=>{clearTimeout(timer);timer=setTimeout(commit,300)};
+  reset.onclick=()=>{begin();t.shift={...STEER_0};sync();commit()};
+  const box=el("div",{class:"fp-steer"},field,el("div",{class:"fp-steer-side"},
+    el("span",{class:"lbl",text:"Drag toward the color you want"}),
+    el("div",{class:"fp-pair"},el("span",{},you,el("span",{text:"Your glaze"})),el("span",{},swatch,hexTxt)),reset),
+    el("label",{class:"fp-light"},el("span",{text:"Darker"}),light,el("span",{text:"Lighter"})));
+  sync();return {box,sync}}
+function refineBox(t){const inp=el("input",{type:"text",placeholder:"Anything else? Less glossy, more speckle…","aria-label":"What's off about these matches"});
   const f=el("form",{class:"fp-refine",novalidate:true},inp,el("button",{type:"submit",class:"ghost sm",text:"Refine"}));f.onsubmit=e=>{e.preventDefault();refineFind(t,inp.value)};
-  return el("div",{class:"fp-tweak"},f,el("div",{class:"fp-nudges"},...NUDGES.map(n=>el("button",{type:"button",class:"fchip",text:n,onclick:()=>refineFind(t,n)}))),
-    t.asks.length?el("div",{class:"fp-nudges"},el("span",{class:"fp-aim",style:"background:#"+t.aim,title:"Now looking for #"+t.aim}),...t.asks.map((q,i)=>el("span",{class:"chip"},q,el("button",{type:"button","aria-label":"Remove "+q,text:"×",onclick:()=>{t.asks=t.asks.filter((_,j)=>j!==i);if(!t.asks.length)t.seen=[];runTarget(t,FIND.run);renderFind()}}))),
-      el("button",{type:"button",class:"linkbtn",text:"Start over",onclick:()=>{t.asks=[];t.seen=[];runTarget(t,FIND.run);renderFind()}})):null)}
-function findCard(p,ai){const it=p.it,rows=offerRows(it).filter(r=>r.price),pint=rows.filter(r=>r.size==="Pint"),low=pint.length?pint:rows,cheap=low.length?Math.min(...low.map(r=>r.price)):0,have=ownNow().has(it.pk),[cl,lab0]=CLOSE[p.close],lab=ai||p.close==="weak"?lab0:lab0+" color";
-  return el("button",{type:"button",class:"fp-card",onclick:()=>openPremade(it.pk)},el("img",{class:"fp-tile",src:it.img,alt:it.title,loading:"lazy",referrerpolicy:"no-referrer"}),
+  return el("div",{class:"fp-tweak"},f,
+    t.asks.length||t.seen.length?el("div",{class:"fp-nudges"},t.asks.length?el("span",{class:"fp-aim",style:"background:#"+t.aim,title:"Now looking for #"+t.aim}):null,...t.asks.map((q,i)=>el("span",{class:"chip"},q,el("button",{type:"button","aria-label":"Remove "+q,text:"×",onclick:()=>{t.asks=t.asks.filter((_,j)=>j!==i);runTarget(t,FIND.run);renderFind()}}))),
+      el("button",{type:"button",class:"linkbtn",text:"Start over",onclick:()=>startOverFind(t)})):null)}
+function findCard(p,ai,t){const it=p.it,on=(matchOf(t.key)?.kept||[]).some(k=>k.pk===it.pk),rows=offerRows(it).filter(r=>r.price),pint=rows.filter(r=>r.size==="Pint"),low=pint.length?pint:rows,cheap=low.length?Math.min(...low.map(r=>r.price)):0,have=ownNow().has(it.pk),[cl,lab0]=CLOSE[p.close],lab=ai||p.close==="weak"?lab0:lab0+" color";
+  return el("div",{class:"fp-item"},el("button",{type:"button",class:"fp-card",onclick:()=>openPremade(it.pk)},el("img",{class:"fp-tile",src:it.img,alt:it.title,loading:"lazy",referrerpolicy:"no-referrer"}),
     el("span",{class:"fp-ct"},el("span",{class:"rst "+cl,text:lab}),el("b",{text:it.title}),p.diff?el("span",{class:"fp-diff",text:p.diff}):null,
-      el("span",{class:"meta",text:have?"✓ On your shelves":cheap?(pint.length?"$"+cheap.toFixed(2)+" pint":"From $"+cheap.toFixed(2)):"Price on their site"})))}
+      el("span",{class:"meta",text:have?"✓ On your shelves":cheap?(pint.length?"$"+cheap.toFixed(2)+" pint":"From $"+cheap.toFixed(2)):"Price on their site"}))),
+    el("button",{type:"button",class:"ghost sm fp-keep","aria-pressed":String(on),"aria-label":(on?"Remove ":"Keep ")+it.title,text:on?"✓ Kept":"Keep",onclick:()=>toggleKeep(t,p,ai)}))}
+// every match you've kept, grouped by what it was matched to (Discover → My boards → Kept matches)
+async function reopenMatch(d){let blob=null;if(d.thumb)try{const im=new Image;im.src=d.thumb;await im.decode();blob=document.createElement("canvas");blob.width=im.width;blob.height=im.height;blob.getContext("2d").drawImage(im,0,0)}catch{blob=null}
+  openFind({title:d.src?.title||"Your glaze",back:()=>{Object.assign(FIND,{targets:[],title:"",back:()=>showTab("ideas")});showTab("find")},targets:[{hex:d.hex,blob,thumb:d.thumb,key:d.key,src:d.src}]})}
+function renderKeptAll(w){const docs=matchDocs().filter(d=>(d.kept||[]).length||FIND_UNDO.key===d.key).sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+  w.replaceChildren(el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Back",onclick:()=>FIND.back?FIND.back():showTab("ideas")}),el("h1",{class:"rp-h",text:"Kept matches"}),
+    ...(docs.length?docs.map(d=>{const pin=d.src?.type==="pin"&&ideas.find(x=>x.id===d.src.id),rec=d.src?.type==="recipe"&&recipes.find(r=>r.id===d.src.id);
+      return el("section",{class:"fp-group"},el("div",{class:"fp-all"},d.thumb?el("img",{class:"fp-you",src:d.thumb,alt:""}):el("span",{class:"fp-you",style:"background:#"+d.hex}),
+        el("div",{class:"fp-kept"},el("div",{},el("span",{class:"lbl",text:d.src?.title||"Your glaze"}),d.look?el("h3",{class:"fp-look",text:d.look}):null),keptRow(d),
+          el("div",{class:"links"},pin?el("button",{type:"button",class:"linkbtn",text:"Open pin",onclick:()=>{IDEA.board=pin.board;IDEA.pin=pin.id;showTab("ideas");renderIdeas();scrollTo({top:0})}}):rec?el("button",{type:"button",class:"linkbtn",text:"Open recipe",onclick:()=>openRecipe(rec.id)}):null,
+            el("button",{type:"button",class:"linkbtn",text:"Find more",onclick:()=>reopenMatch(d)})))))}):[el("div",{class:"empty"},el("p",{style:"margin:0",text:"Nothing kept yet. Find a premade from a pin, a photo or a recipe, then tap Keep on the ones that look right."}))]))}
 function renderFind(){const w=$("findPage");if(!w)return;
+  if(FIND.drag)return; // the tiles update on their own while you steer
   const ae=document.activeElement;if(ae?.closest?.(".fp-refine")&&ae.value)return; // don't clobber typing while another group's answer lands
+  if(!FIND.targets.length)return renderKeptAll(w);
   const coneSel=el("select",{"aria-label":"Cone"},...[["-6","Cone 06"],["-4","Cone 04"],["5","Cone 5"],["6","Cone 6"],["10","Cone 10"]].map(([v,l])=>el("option",{value:v,text:l})));coneSel.value=String(FIND.cone);
   coneSel.onchange=()=>{FIND.cone=+coneSel.value;runFind()};
   const groups=FIND.targets.map((t,i)=>{const r=t.res,top=r?.picks?.[0],mk=top?makerCombos().filter(c=>c.top.pk===top.it.pk||c.base.pk===top.it.pk).length:0,weak=!top||top.close==="weak";
     const thumb=t.blob?el("img",{class:"fp-you",src:t.blob.toDataURL("image/jpeg",.8),alt:"The spot you picked"}):t.img?el("img",{class:"fp-you",src:t.img,alt:""}):el("span",{class:"fp-you",style:"background:#"+t.hex});
+    const md=matchOf(t.key);
     return el("section",{class:"fp-group"},
       el("div",{class:"fp-head"},thumb,el("div",{},el("span",{class:"lbl",text:FIND.targets.length>1?"Glaze "+(i+1):"Your glaze"}),el("h3",{class:"fp-look",text:r?.look||"#"+t.hex}),
         t.busy?el("p",{class:"note",role:"status",text:"Comparing surfaces…"}):t.err?el("p",{class:"note",text:t.err}):null,
         r?.clay?el("p",{class:"fp-clay",text:r.clay}):null)),
-      r?.picks?.length?el("div",{class:"fp-cards"},...r.picks.map(p=>findCard(p,r.ai))):el("p",{class:"note",text:"No premade glazes at this cone have a color to compare."}),
-      el("div",{class:"links"},weak&&!t.busy?el("span",{class:"note",text:"Nothing close in the catalog."}):null,
+      (md?.kept||[]).length||FIND_UNDO.key===t.key?el("div",{class:"fp-kept"},el("span",{class:"lbl",text:"Kept for this glaze"}),keptRow(md)):null,
+      (t.steer=t.steer||steerBox(t),t.steer.sync(),t.steer.box),
+      (t.cardsEl=el("div",{class:"fp-cards"},...fieldCards(t))),
+      el("div",{class:"links"},r?.picks?.length?el("button",{type:"button",class:"ghost sm",text:"Show 3 more",onclick:()=>moreFind(t)}):null,weak&&!t.busy&&!t.seen.length?el("span",{class:"note",text:"Nothing close in the catalog."}):null,
         el("button",{type:"button",class:weak&&!t.busy?"btn":"linkbtn",text:"Get a recipe like this",onclick:()=>matchIdea([t.hex],`Colors picked from "${FIND.title}".`)}),
         mk?el("button",{type:"button",class:"linkbtn",text:`${mk} makers' tile${mk===1?"":"s"} with ${top.it.cat.code||top.it.cat.name}`,onclick:()=>showCombos(top.it.cat.code||top.it.cat.name)}):null),refineBox(t))});
   w.replaceChildren(el("button",{type:"button",class:"linkbtn rp-back",text:"‹ Back",onclick:()=>FIND.back?FIND.back():showTab("ask")}),
     el("div",{class:"fp-top"},el("div",{},el("h1",{class:"rp-h",text:"Find a premade"}),el("p",{class:"meta",text:FIND.title})),coneSel),
-    ...(FIND.targets.length?groups:[el("div",{class:"empty"},el("p",{style:"margin:0",text:"Pick a color on a pin first."}))]),
+    ...groups,
+    (()=>{const l=findLearn(FIND.targets[0].hex,"");return l.nKept+l.nRemoved?el("p",{class:"note",text:`Choosing with your ${l.nKept} kept and ${l.nRemoved} removed ${l.nKept+l.nRemoved===1?"match":"matches"}.`}):null})(),
     !sampleNs?el("p",{class:"note",text:"Compared by color only here, because Claude isn't available in this view."}):null,
-    el("p",{class:"note",text:"Clay body, thickness and firing all change a glaze, so test a tile before you buy much."}))}
+    el("p",{class:"note",text:"Clay body, thickness and firing all change a glaze, so test a tile before you buy much."}));
+  if(ae?.closest?.(".fp-steer")&&ae.isConnected&&document.activeElement!==ae)ae.focus()}
 
 /* ---------- Glaze combos (My Studio → Combos): layered glazes, base first, with test photos. Makers' tiles are in Discover → Combos ---------- */
 const COMBO={open:null,edit:null,filter:"all",mkOpen:null};
@@ -3369,7 +3484,7 @@ function rpUsed(r){
 
 /* ---------- Premade glaze page: where to buy (best price), make one like this ---------- */
 let openPremadeKey=null,premadeFrom="ask";
-function openPremade(k){premadeFrom=tab==="studio"?"studio":tab==="find"?"find":"ask";openPremadeKey=k;showTab("premade");window.scrollTo({top:0})}
+function openPremade(k){premadeFrom=["studio","find","ideas","recipe"].includes(tab)?tab:"ask";openPremadeKey=k;showTab("premade");window.scrollTo({top:0})}
 const SIZE_ORDER=["4 oz","8 oz","Pint","Quart","Gallon"];
 function offerRows(it){ // [{store,url,size,price,note}]
   const rows=[];
@@ -3390,7 +3505,7 @@ function renderPremadePage(){
   const on=()=>studio.some(s=>s.id===keyOf(it.cat));
   const add=el("button",{type:"button",class:"ghost sm",text:on()?"✓ On your shelves":"Add to shelves",disabled:on()||undefined});
   add.onclick=async()=>{add.disabled=true;await addItem(it.cat);add.textContent="✓ On your shelves"};
-  box.append(el("button",{type:"button",class:"linkbtn rp-back",text:premadeFrom==="studio"?"‹ My Studio · Shelves":premadeFrom==="find"?"‹ Your matches":"‹ Discover",onclick:()=>showTab(premadeFrom)}),
+  box.append(el("button",{type:"button",class:"linkbtn rp-back",text:premadeFrom==="studio"?"‹ My Studio · Shelves":premadeFrom==="find"?"‹ Your matches":premadeFrom==="ideas"?"‹ Your pin":premadeFrom==="recipe"?"‹ Recipe":"‹ Discover",onclick:()=>showTab(premadeFrom)}),
     el("div",{class:"rp-head"},ph,el("div",{class:"rp-id"},
     el("h1",{class:"rp-h",text:it.title}),el("div",{class:"meta",text:["Premade "+(it.under?"underglaze":"glaze"),it.kind,it.cone?"cone "+String(it.cone).replace(/^\^|^cone\s*/i,""):""].filter(Boolean).join(" · ")})),
     el("div",{class:"rp-acts"},el("span",{class:"srcb store",text:"Premade"}),add)));
@@ -3556,7 +3671,8 @@ function rpMatchesFor(r,fromPhoto){
   studio.forEach(it=>{const pm=premadeFor(it);if(!pm||!pm.hex)return;const d=hexDist(hex,pm.hex);if(d>=55)return;
     const sw=pm.img?el("img",{class:"rp-rel-sw swphoto",src:pm.img,alt:"",referrerpolicy:"no-referrer"}):el("div",{class:"rp-rel-sw",style:"background:#"+pm.hex});
     mine.push({d:d-8,node:el("button",{type:"button",class:"rp-rel",onclick:()=>openPremade(pm.pk)},sw,el("span",{},el("b",{text:pm.title}),el("span",{class:"meta",text:"✓ Premade, on your shelves"})))})});
-  sec.append(el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"Find a premade like this",onclick:()=>openFind({title:r.title||"This recipe",back:()=>showTab("recipe"),targets:[{hex,img:r.pic||""}]})})));
+  sec.append(el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"Find a premade like this",onclick:()=>openFind({title:r.title||"This recipe",back:()=>showTab("recipe"),targets:[{hex,img:r.pic||"",key:"recipe:"+r.id,src:{type:"recipe",id:r.id,title:r.title||"This recipe"}}]})})));
+  {const kr=keptRow(matchOf("recipe:"+r.id));if(kr)sec.append(el("span",{class:"lbl",text:"Kept matches"}),kr)}
   sec.append(el("span",{class:"lbl",text:"In your studio"}));
   if(mine.length){const g=el("div",{class:"rp-match-grid"});mine.sort((a,b)=>a.d-b.d).slice(0,6).forEach(x=>g.append(x.node));sec.append(g)}
   else sec.append(el("p",{class:"note",text:"Nothing close in your recipes or on your shelves yet."}));
@@ -4213,7 +4329,7 @@ function saleSheet({pieces:g=null,event:e=null,other=false,order=false}){
   dlg.onclose=()=>dlg.remove();draw();dlg.showModal();
 }
 
-function renderAll(){renderTabs();renderCombos();renderPieces();if(tab==="today")renderToday();if(tab==="sell")renderSell(true);if(tab==="mine")renderMine();if(tab==="kiln")renderKiln();if(tab==="setup")renderSetup();if(tab==="import")renderImport();if(tab==="tile")renderTile();updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();renderIdeas();if(tab==="recipe")renderRecipePage()}
+function renderAll(){renderTabs();renderCombos();renderPieces();if(tab==="today")renderToday();if(tab==="sell")renderSell(true);if(tab==="mine")renderMine();if(tab==="kiln")renderKiln();if(tab==="setup")renderSetup();if(tab==="import")renderImport();if(tab==="tile")renderTile();if(tab==="find")renderFind();updateStoreNote();renderFilters();renderShelves();renderResults();renderInv();renderBodySelect();render();renderSaved();renderIdeas();if(tab==="recipe")renderRecipePage()}
 
 /* ---------- boot ---------- */
 try{const s=JSON.parse(localStorage.getItem("stainlab-last")||"null");if(s?.colors?.length)last=s}catch{}
