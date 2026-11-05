@@ -215,6 +215,7 @@ export default {
 
       return json({ error: "Not found." }, 404);
     } catch (e) {
+      if (/limit/i.test(e?.message || "")) return json({ error: "Clayworks hit its daily limit for saving, which resets early evening Central time. Please try again then.", code: "save_limit" }, 503);
       return json({ error: "Server error: " + (e?.message || e) }, 500);
     }
   },

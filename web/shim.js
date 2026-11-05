@@ -69,19 +69,26 @@ window.cwPinterest = async boardUrl => {
 };
 
 /* shelves sync */
-let cwSyncTimer = null;
+// Edits not yet on the server are flagged, so a reload pushes them instead of overwriting them with the older copy there.
+let cwSyncTimer = null, cwSyncGen = 0, cwPulled = false;
+const cwDirty = v => { try { if (v === undefined) return !!localStorage.getItem("cw-unsynced"); v ? localStorage.setItem("cw-unsynced", "1") : localStorage.removeItem("cw-unsynced"); } catch {} return false; };
 function cwQueueSync() {
   if (!CW.token) return;
-  clearTimeout(cwSyncTimer);
-  cwSyncTimer = setTimeout(() => cwApi("/studio", { method: "PUT", body: JSON.stringify({ items: allDocs() }) }).catch(e => flash("Couldn't sync shelves. " + e.message)), 600);
+  if (cwPulled) cwDirty(true);
+  clearTimeout(cwSyncTimer); const gen = ++cwSyncGen;
+  cwSyncTimer = setTimeout(async () => {
+    try { await cwApi("/studio", { method: "PUT", body: JSON.stringify({ items: allDocs() }) }); if (gen === cwSyncGen) cwDirty(false); }
+    catch (e) { if (gen === cwSyncGen && CW.token) { flash("Saved on this device, not your account yet. It'll keep trying. " + (e.message || "")); cwSyncTimer = setTimeout(cwQueueSync, 3e5); } }
+  }, 600);
 }
 async function cwPullStudio() {
   try {
     const { items } = await cwApi("/studio");
-    if (items.length) { splitDocs(items); try { localStorage.setItem("stainlab-studio", JSON.stringify(allDocs())); } catch {} }
+    if (cwDirty() && allDocs().length) cwQueueSync();
+    else if (items.length) { splitDocs(items); try { localStorage.setItem("stainlab-studio", JSON.stringify(allDocs())); } catch {} }
     else if (allDocs().length) cwQueueSync();
     renderAll();
-  } catch {}
+  } catch {} finally { cwPulled = true; }
 }
 
 /* login UI */
@@ -180,7 +187,7 @@ async function cwCountIdeas() {
   try { CW.newIdeas = ((await cwApi("/feedback")).items || []).filter(x => !x.done).length; cwRenderUser(); } catch {}
 }
 function cwLogout(msg) {
-  CW.token = null; CW.me = null; try { localStorage.removeItem("cw-token"); localStorage.removeItem("stainlab-studio"); } catch {}
+  CW.token = null; CW.me = null; cwPulled = false; clearTimeout(cwSyncTimer); cwDirty(false); try { localStorage.removeItem("cw-token"); localStorage.removeItem("stainlab-studio"); } catch {}
   splitDocs([]); renderAll(); cwRenderUser(); cwShowLogin(msg);
 }
 function cwShowLogin(msg) {
@@ -202,7 +209,7 @@ document.getElementById("cwForm").addEventListener("submit", async e => {
   // Local dev: the mock worker hands out a session, so no login screen. Add ?login to the URL to see it anyway.
   // ?as=erica (or ?as=rachel) switches the local login to that test studio.
   const cwAs = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(API_BASE) && (location.search.match(/[?&]as=(\w+)/) || [])[1];
-  if (cwAs && localStorage.getItem("cw-as") !== cwAs) { CW.token = null; try { localStorage.setItem("cw-as", cwAs); localStorage.removeItem("stainlab-studio"); } catch {} }
+  if (cwAs && localStorage.getItem("cw-as") !== cwAs) { CW.token = null; try { localStorage.setItem("cw-as", cwAs); localStorage.removeItem("stainlab-studio"); localStorage.removeItem("cw-unsynced"); } catch {} }
   if (!CW.token && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(API_BASE) && !/[?&]login\b/.test(location.search)) {
     try { const res = await cwApi("/dev-login" + (cwAs ? "?as=" + cwAs : "")); CW.token = res.token; try { localStorage.setItem("cw-token", res.token); } catch {} }
     catch { // test server not running: still no login locally; shelves stay in this browser, recipe generation is off

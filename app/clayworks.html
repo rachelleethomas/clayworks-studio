@@ -3834,11 +3834,14 @@ function renderKiln(){
     if(KILN.fire){const hrs=el("input",{type:"number",step:"any",placeholder:"9.5","aria-label":"Hours"}),res=el("input",{type:"text",placeholder:"Cone 6 half bent, all fine","aria-label":"How it went"});
       const f=el("form",{class:"k-fire",novalidate:true},el("div",{class:"rp-grid"},el("label",{class:"rp-f"},el("span",{class:"lbl",text:"Hours"}),hrs),el("label",{class:"rp-f"},el("span",{class:"lbl",text:"How it went"}),res)),
         el("p",{class:"note",text:(nf.type==="bisque"?"Loaded pieces move to Bisqued.":"Loaded pieces move to Finished.")+(sk?" The firing goes in the studio's shared log.":"")}),
-        el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Log this firing"}),el("button",{type:"button",class:"linkbtn",text:"Not yet",onclick:()=>{KILN.fire=false;renderKiln()}})));
-      f.onsubmit=async e=>{e.preventDefault();KILN.fire=false;KILN.add=false;const h=hrs.value===""?null:+hrs.value,r=res.value.trim();
-        await putDoc("firing",{...nf,status:"done",hours:h,result:r,firedAt:Date.now()});
-        if(sk)await kilnAct({action:"log",id:sk.id,date:nf.date,type:nf.type,cone:nf.cone,hours:h,result:r,pieces:inside.length});
-        if(inside.length)await movePieces(inside,nf.type==="bisque"?"bisqued":"finished")};
+        el("div",{class:"links"},el("button",{type:"submit",class:"btn",text:"Log this firing"}),el("button",{type:"button",class:"linkbtn",text:"Not yet",onclick:()=>{KILN.fire=false;KILN.draft=null;KILN.msg="";renderKiln()}})));
+      if(KILN.draft){hrs.value=KILN.draft.h;res.value=KILN.draft.r}
+      // the shared log goes first: if it can't save, nothing has changed and the form stays open with what you typed, ready to try again
+      f.onsubmit=async e=>{e.preventDefault();if(KILN.firing)return;KILN.firing=true;document.activeElement?.blur?.();KILN.msg="";KILN.draft={h:hrs.value,r:res.value};const h=hrs.value===""?null:+hrs.value,r=res.value.trim();
+        try{if(sk&&!await kilnAct({action:"log",id:sk.id,date:nf.date,type:nf.type,cone:nf.cone,hours:h,result:r,pieces:inside.length}))return;
+          KILN.fire=false;KILN.add=false;KILN.draft=null;
+          await putDoc("firing",{...nf,status:"done",hours:h,result:r,firedAt:Date.now()});
+          if(inside.length)await movePieces(inside,nf.type==="bisque"?"bisqued":"finished")}finally{KILN.firing=false}};
       box.append(f)}
     add(w,box);
   }else{
