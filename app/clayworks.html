@@ -830,6 +830,11 @@ input.s-price{width:110px;text-align:right;font-family:var(--mono)}
 .item h4{margin:0;font-size:14px;font-weight:600;overflow-wrap:anywhere}
 .item .meta{font-size:12.5px}
 .item .acts{display:flex;flex-wrap:wrap;gap:4px 8px;margin-top:4px}
+.sh-amt{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:8px}
+.sh-amt>button:not(.linkbtn){flex:none;width:28px;height:28px;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--accent);font:400 16px/1 var(--body);cursor:pointer}
+.sh-amt>button:not(.linkbtn):disabled{color:var(--muted);cursor:default}
+.sh-amt input{width:46px;min-width:0;padding:4px 2px;text-align:center;font:400 13px var(--body)}
+.sh-amt select{width:auto;min-width:0;padding:4px 24px 4px 8px;font:400 13px var(--body);letter-spacing:0;text-transform:none}
 .sl-add{display:grid;gap:6px;margin-bottom:20px}
 .sl-add input{width:100%}
 .sl-res{display:grid;gap:4px}
@@ -1240,11 +1245,25 @@ function splitDocs(arr){arr=Array.isArray(arr)?arr:[];studio=arr.filter(d=>d&&d.
 const allDocs=()=>[...studio,...recipes,...ideas,...combos,...pieces,...misc,...(pricesDoc?[pricesDoc]:[])];
 function loadLocal(){try{splitDocs(JSON.parse(localStorage.getItem("stainlab-studio")||"[]"))}catch{splitDocs([])}}
 function saveLocal(){try{localStorage.setItem("stainlab-studio",JSON.stringify(allDocs()))}catch{}}
+// the same product under two listings (a store's line name differs, say) is one thing on your shelves
+function sameShelfItem(a,b){if(a.kind!==b.kind||a.recipeId||b.recipeId)return false;if((a.id||keyOf(a))===(b.id||keyOf(b)))return true;
+  const pa=premadeFor(a)?.pk;if(pa&&pa===premadeFor(b)?.pk)return true;
+  const ca=nc(a.code),ba=nc(a.brand),bb=nc(b.brand);return !!ca&&ca===nc(b.code)&&(!ba||!bb||ba===bb)}
+const shelfTwin=it=>studio.find(s=>sameShelfItem(s,it));
+const shelfHas=s=>s.amt!==0; // no amount set yet still counts as having it
+function shelfGroups(list){const out=[];list.forEach(s=>{const g=out.find(x=>sameShelfItem(x.all[0],s));if(g)g.all.push(s);else out.push({all:[s]})});
+  out.forEach(g=>{const main=g.all.find(x=>x.amt!=null)||g.all[0];g.it=g.all.some(x=>x.low)&&!main.low?{...main,low:true}:main});return out}
+// how much you have: {amt, unit}. Sizes convert within volume (pints) or weight (pounds)
+const AMT_UNITS={"2 oz":["v",.125],"4 oz":["v",.25],"8 oz":["v",.5],pint:["v",1],quart:["v",2],gallon:["v",8],oz:["w",1/16],g:["w",1/453.6],kg:["w",2.2046],lb:["w",1]};
+const unitsFor=it=>it.kind==="glaze"||it.kind==="underglaze"?["2 oz","4 oz","8 oz","pint","quart","gallon","lb"]:it.kind==="clay"?["lb","kg"]:["oz","lb","g","kg"];
+const unitOf=it=>unitsFor(it).includes(it.unit)?it.unit:it.kind==="glaze"||it.kind==="underglaze"?"pint":"lb";
+const unitName=(u,n)=>n!==1&&(u==="pint"||u==="quart"||u==="gallon")?u+"s":u;
+const amtText=(n,u)=>`${+(+n).toFixed(2)} ${unitName(u,+n)}`;
 async function addItem(it){
-  const clean={kind:it.kind,name:String(it.name||"").slice(0,120),brand:it.brand||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",note:it.note||"",line:it.line||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",...(/^https:\/\//.test(it.img||"")?{img:it.img}:{}),addedAt:Date.now()};
+  const clean={kind:it.kind,name:String(it.name||"").slice(0,120),brand:it.brand||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",note:it.note||"",line:it.line||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",...(/^https:\/\//.test(it.img||"")?{img:it.img}:{}),...(it.amt!=null?{amt:it.amt,unit:it.unit}:{}),addedAt:Date.now()};
   if(!clean.name)return;
   const id=keyOf(clean);
-  if(studio.some(s=>s.id===id))return;
+  if(shelfTwin(clean)){flash("That's already on your shelves. Change the amount on its card.");return}
   if(studioColl){try{await studioColl.doc(id).set(clean)}catch(e){flash("Couldn't save that. "+(e?.message||""))}}
   else{studio.push({id,...clean});saveLocal();renderAll()}
 }
@@ -1493,7 +1512,7 @@ document.addEventListener("paste",e=>{const it=[...(e.clipboardData?.items||[])]
 
 function dryGrams(){const lbs=parseFloat($("lbs").value)||0,w=Math.min(60,Math.max(0,parseFloat($("water").value)||0));return lbs*453.6*(1-w/100)}
 const studioOf = k => studio.filter(s=>s.kind===k);
-function haveCodes(){return new Set(studioOf("stain").map(s=>s.code).filter(Boolean))}
+function haveCodes(){return new Set(studioOf("stain").filter(shelfHas).map(s=>s.code).filter(Boolean))}
 function glazyLink(stains){return "https://glazy.org/recipes?q="+encodeURIComponent("mason "+stains.map(s=>s[0]).join(" "))}
 
 function renderBodySelect(){
@@ -1582,7 +1601,7 @@ const ncMat=s=>nc(s).replace(/^ferro/,"").replace(/^(epk|ep)kaolin$/,"epk").repl
 function haveMaterial(name){
   const n=ncMat(name),code=(String(name).match(/\b6\d{3}\b/)||[])[0];
   if(code)return haveCodes().has(code);
-  return [...studioOf("chemical"),...studioOf("stain"),...studioOf("glaze")].some(s=>{const a=ncMat(s.name),b=nc(label(s));return a&&n&&(n.includes(a)||a.includes(n)||b.includes(n))});
+  return [...studioOf("chemical"),...studioOf("stain"),...studioOf("glaze")].filter(shelfHas).some(s=>{const a=ncMat(s.name),b=nc(label(s));return a&&n&&(n.includes(a)||a.includes(n)||b.includes(n))});
 }
 function gBatch(){return Math.max(0,parseFloat($("gbatch").value)||0)}
 function renderGlaze(){
@@ -1708,7 +1727,8 @@ function swatch(it,cls="sw"){const s=el("span",{class:cls+(it.kind==="glaze"?" j
 function renderFilters(){
   const f=$("filters");f.textContent="";
   const cb=shelfCombos();
-  [["all","All",studio.length],...Object.entries(KINDS).map(([k,v])=>[k,v,studioOf(k).length]),["combos","Combos",cb.mine.length+cb.mk.length]].forEach(([k,v,n])=>
+  const counts=Object.entries(KINDS).map(([k,v])=>[k,v,shelfGroups(studioOf(k)).length]);
+  [["all","All",counts.reduce((n,c)=>n+c[2],0)],...counts,["combos","Combos",cb.mine.length+cb.mk.length]].forEach(([k,v,n])=>
     f.append(el("button",{type:"button","aria-pressed":String(filter===k),onclick:()=>{filter=k;renderFilters();renderShelves()}},v,el("b",{text:String(n)}))));
 }
 // combos you can make now: your own with every layer on hand, then makers' tiles when you own both glazes
@@ -1720,8 +1740,18 @@ function shelfCombosSection(){const {own,mine,mk}=shelfCombos(),n=mine.length+mk
   return el("section",{class:"shelf"},el("div",{class:"shelfhead"},el("h2",{text:"Combos you can make"}),n>cap&&!only?el("button",{type:"button",class:"linkbtn",text:"See all "+n,onclick:()=>{filter="combos";renderFilters();renderShelves();window.scrollTo({top:0})}}):el("span",{text:n+(n===1?" combo":" combos")})),
     n?el("div",{class:"cb-grid"},...cards):el("p",{class:"note",text:"None yet. Your combos and makers' test tiles show up here once every glaze in them is on your shelves."}),
     only&&n>cap?el("p",{class:"note",text:`Showing the first ${cap} of ${n}.`}):null)}
+// − 2 + [pints]: the amount on a shelf card
+function amtBox(it,all){const u=unitOf(it),set=(amt,unit=u)=>{const patch={amt,unit,updatedAt:Date.now()};if(amt===0)patch.low=true;else if(it.amt===0)patch.low=false;
+    return Promise.all(all.map(x=>x.id===it.id?patchShelf(x.id,patch):patchShelf(x.id,{low:patch.low??x.low,updatedAt:patch.updatedAt})))};
+  if(it.amt==null)return el("div",{class:"sh-amt"},el("button",{type:"button",class:"linkbtn",text:"Set amount","data-f":it.id+":set",onclick:()=>set(1)}));
+  const n=+it.amt,num=el("input",{type:"number",min:"0",step:"any",inputmode:"decimal",value:String(+n.toFixed(2)),"aria-label":"Amount of "+it.name,"data-f":it.id+":amt"});
+  num.onchange=()=>{const v=parseFloat(num.value);if(v>=0)set(v);else num.value=String(+n.toFixed(2))};
+  const sel=el("select",{"aria-label":"Unit for "+it.name,"data-f":it.id+":unit",onchange:e=>set(n,e.target.value)},...unitsFor(it).map(x=>el("option",{value:x,text:unitName(x,n)})));sel.value=u;
+  return el("div",{class:"sh-amt"},el("button",{type:"button","aria-label":"One less "+it.name,text:"−","data-f":it.id+":less",disabled:n<=0||undefined,onclick:()=>set(Math.max(0,+(n-1).toFixed(2)))}),num,
+    el("button",{type:"button","aria-label":"One more "+it.name,text:"+","data-f":it.id+":more",onclick:()=>set(+(n+1).toFixed(2))}),sel)}
 function renderShelves(){
-  const s=$("shelves");s.textContent="";
+  const s=$("shelves"),ae=document.activeElement;if(s.contains(ae)&&ae.tagName==="INPUT")return; // don't clobber typing
+  const focus=s.contains(ae)?ae.dataset?.f:null;s.textContent="";
   if(storeMode==="loading"){s.append(el("div",{class:"empty",text:"Loading your studio…"}));return}
   if(!studio.length){
     s.append(el("div",{class:"empty"},
@@ -1731,15 +1761,15 @@ function renderShelves(){
   }
   Object.entries(KINDS).forEach(([k,v])=>{
     if(filter!=="all"&&filter!==k)return;
-    const items=studioOf(k).sort((a,b)=>(a.code||a.name).localeCompare(b.code||b.name,undefined,{numeric:true}));
+    const items=shelfGroups(studioOf(k)).sort((a,b)=>(a.it.code||a.it.name).localeCompare(b.it.code||b.it.name,undefined,{numeric:true}));
     if(!items.length&&filter==="all")return;
     const grid=el("div",{class:"items"});
     if(!items.length)grid.append(el("p",{class:"note",text:"Nothing here yet. Tap Search & add to find "+v.toLowerCase()+"."}));
-    items.forEach(it=>{
+    items.forEach(({it,all})=>{
       const acts=el("div",{class:"acts"});
       const rm=el("button",{type:"button",class:"linkbtn",text:"Remove"});
-      rm.onclick=()=>{acts.textContent="";acts.append(el("button",{type:"button",class:"ghost sm",text:"Yes, remove",onclick:()=>removeItem(it.id)}),el("button",{type:"button",class:"linkbtn",text:"Keep",onclick:renderShelves}))};
-      acts.append(el("button",{type:"button",class:"linkbtn",text:it.low?"Restocked":"Running low",onclick:()=>patchShelf(it.id,{low:!it.low,updatedAt:Date.now()})}),it.recipeId?null:shopToggle(it,"linkbtn"),rm);
+      rm.onclick=()=>{acts.textContent="";acts.append(el("button",{type:"button",class:"ghost sm",text:"Yes, remove",onclick:async()=>{for(const x of all)await removeItem(x.id)}}),el("button",{type:"button",class:"linkbtn",text:"Keep",onclick:renderShelves}))};
+      acts.append(el("button",{type:"button",class:"linkbtn",text:it.low?"Restocked":"Running low",onclick:()=>Promise.all(all.map(x=>patchShelf(x.id,{low:!it.low,updatedAt:Date.now()})))}),it.recipeId?null:shopToggle(it,"linkbtn"),rm);
       if(it.recipeId){ // one of your mixed batches
         const r=recipes.find(x=>x.id===it.recipeId),sw=swatch(it);rm.textContent="Used up";
         if(r?.photo){const im=photoEl(r.photo,"","");im.onerror=()=>im.remove();sw.append(im)}
@@ -1753,17 +1783,18 @@ function renderShelves(){
       else if(pm?.hex&&!normHex(it.hex))sw.style.background="#"+pm.hex;
       const stores=pm?new Set((pm.offers||[]).map(o=>o.store)).size:0;
       const card=el("div",{class:"item"+(pm?" tappable":"")},sw,el("div",{},
-        el("h4",{},it.code?`${it.code} ${it.name}`:it.name,it.low?el("span",{class:"pill buy",text:"Low"}):null),
+        el("h4",{},it.code?`${it.code} ${it.name}`:it.name,it.amt===0?el("span",{class:"pill buy",text:"Out"}):it.low?el("span",{class:"pill buy",text:"Low"}):null),
         el("div",{class:"meta",text:[it.brand,it.line,it.cone].filter(Boolean).join(" · ")}),
         pm?el("div",{class:"note",text:stores>1?`Sold at ${stores} stores · compare prices`:"Where to buy and price"}):
           it.url?el("a",{href:it.url,target:"_blank",rel:"noopener",class:"note",text:"View at "+String(it.source||"supplier").split(", ")[0]}):null,
-        it.note?el("div",{class:"note",text:it.note}):null,acts));
-      if(pm)card.onclick=e=>{if(!e.target.closest("a,button"))openPremade(pm.pk)};
+        it.note?el("div",{class:"note",text:it.note}):null,amtBox(it,all),acts));
+      if(pm)card.onclick=e=>{if(!e.target.closest("a,button,input,select"))openPremade(pm.pk)};
       grid.append(card);
     });
     s.append(el("section",{class:"shelf"},el("div",{class:"shelfhead"},el("h2",{text:v}),el("span",{text:items.length+(items.length===1?" item":" items")})),grid));
   });
   if(filter==="all"||filter==="combos"){const cb=shelfCombosSection();if(cb)s.append(cb)}
+  if(focus)[...s.querySelectorAll("[data-f]")].find(x=>x.dataset.f===focus)?.focus();
 }
 /* ---------- catalog search, browse, paste ---------- */
 const nc = s => String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"");
@@ -2186,7 +2217,7 @@ function askBrowse(){ // no query: the whole library, photos first, then swatche
 }
 // Makers' combo tiles as Discover items (Make → Combos); a pair of glazes, so most single-glaze filters leave them out
 let ckCache=null,ckSrc=null,ownCache=null,ownKey="";
-function ownNow(){const k=studio.length+"|"+(studio[0]?.id||"");if(ownCache&&ownKey===k)return ownCache;ownKey=k;return ownCache=ownedPks()}
+function ownNow(){const k=studio.length+"|"+(studio[0]?.id||"")+"|"+studio.filter(s=>s.amt===0).length;if(ownCache&&ownKey===k)return ownCache;ownKey=k;return ownCache=ownedPks()}
 function comboItems(){const all=makerCombos();if(ckSrc===all)return ckCache;ckSrc=all;
   return ckCache=all.map(c=>{const title=mkTitle(c);
     return {src:"combo",key:"k"+c.i,type:"combo",combo:c,title,hex:c.top.item?.hex||c.base.item?.hex||"",img:mkImg(c),cone:"^5-6",rows:[],batch:0,atm:["Oxidation"],kind:"",surface:"",opacity:"",
@@ -2807,7 +2838,7 @@ function layerInfo(l){
   if(k.startsWith("r:")){const r=recipes.find(x=>x.id===id);if(r){const b=bucketsOf(r.id).length;
     return {name:r.title||l.name,hex:recipeHex(r)||nameHex(r.title||"")||l.hex,img:r.pic||(r.photo?glazyPhoto(r.photo):""),have:b>0||shelfCheck(r).ok,
       why:b?"mixed bucket on your shelves":shelfCheck(r).ok?"materials on your shelves":"your recipe · missing materials",open:()=>openRecipe(r.id)}}}
-  if(k.startsWith("p:")){const pm=storeItems().find(x=>x.pk===id);if(pm){const have=studio.some(it=>premadeFor(it)?.pk===id);
+  if(k.startsWith("p:")){const pm=storeItems().find(x=>x.pk===id);if(pm){const have=studio.some(it=>shelfHas(it)&&premadeFor(it)?.pk===id);
     return {name:pm.title,hex:pm.hex||l.hex,img:pm.img,have,why:have?"on your shelves":"premade · not on your shelves",open:()=>openPremade(id)}}}
   if(k.startsWith("s:")){const it=studio.find(x=>x.id===id);if(it)return {name:[it.brand,it.code,it.name].filter(Boolean).join(" "),hex:normHex(it.hex)||nameHex(it.name)||l.hex,img:it.img||"",have:true,why:"on your shelves",open:()=>showTab("studio")}}
   return {name:l.name||"Glaze",hex:normHex(l.hex)||nameHex(l.name||""),img:"",have:false,why:k.startsWith("t:")?"typed in":"not in your studio anymore",open:null};
@@ -2879,7 +2910,7 @@ function makerCombos(){
     return {i,maker,top:G[t],base:G[b],img:img&&!/^https?:/.test(img)?ip+img:img,url:/^https?:/.test(url)?url:up+url}}).filter(c=>c.top&&c.base);
 }
 const andList=a=>a.length<3?a.join(" and "):a.slice(0,-1).join(", ")+" and "+a[a.length-1];
-const ownedPks=()=>new Set(studio.map(it=>premadeFor(it)?.pk).filter(Boolean));
+const ownedPks=()=>new Set(studio.filter(shelfHas).map(it=>premadeFor(it)?.pk).filter(Boolean));
 const mkOwned=(c,own)=>(own.has(c.top.pk)?1:0)+(own.has(c.base.pk)?1:0);
 const mkName=g=>g.code+" "+g.name;
 const mkTitle=c=>mkName(c.top)+" over "+mkName(c.base);
@@ -4099,7 +4130,7 @@ function renderMine(){
   add(w,el("button",{type:"button",class:"rp-box t-low",onclick:()=>showTab("setup")},el("span",{},el("b",{text:"Setup"}),el("span",{class:"meta",text:"Cones, clay bodies, kiln · Selling: "+(S.sell?"on":"off")})),el("span",{text:"›"})));
 }
 
-/* ---------- Shopping list: docs {kind:"shop", itemKind, name, brand, line, code, cone, hex, img, url, source, qty, size, store, amt, got, gotAt}; store empty = cheapest. Catalog and shelf items keep their id per product, so adding twice is one row ---------- */
+/* ---------- Shopping list: docs {kind:"shop", itemKind, name, brand, line, code, cone, hex, img, url, source, qty, size, store, amt, got, gotAt, shelved}; store empty = cheapest. Catalog and shelf items keep their id per product, so adding twice is one row ---------- */
 const SHOP={input:null,res:null,list:null};
 const shopDocs=()=>docsOf("shop");
 const shopToBuy=()=>shopDocs().filter(d=>!d.got);
@@ -4108,7 +4139,7 @@ const onShopList=it=>shopToBuy().some(d=>d.id===shopIdOf(it));
 const shopLow=()=>studio.filter(s=>s.low&&!s.recipeId&&!onShopList(s));
 const shopItem=d=>({kind:d.itemKind,name:d.name,brand:d.brand,line:d.line,code:d.code,cone:d.cone,hex:d.hex,img:d.img,url:d.url,source:d.source});
 function addToList(it){const id=shopIdOf(it),had=shopDocs().find(d=>d.id===id);
-  return putDoc("shop",{...(had||{}),id,itemKind:it.kind||"",name:String(it.name||"").slice(0,120),brand:it.brand||"",line:it.line||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",img:it.img||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",amt:had?.amt||"",got:false})}
+  return putDoc("shop",{...(had||{}),id,itemKind:it.kind||"",name:String(it.name||"").slice(0,120),brand:it.brand||"",line:it.line||"",code:it.code||"",cone:it.cone||"",hex:normHex(it.hex)||"",img:it.img||"",url:/^https:\/\//.test(it.url||"")?it.url:"",source:it.source||"",amt:had?.amt||"",got:false,shelved:false})}
 // "Add to list" for a catalog or shelf item; works on pages that don't re-render after a save
 function shopToggle(it,cls){const paint=on=>{b.textContent=on?"✓ On your list":"Add to list"};
   const b=el("button",{type:"button",class:cls,onclick:async()=>{const on=onShopList(it);paint(!on);if(on)await deleteDoc(shopIdOf(it));else await addToList(it)}});paint(onShopList(it));return b}
@@ -4154,11 +4185,20 @@ function shopBuy(d,p,paint){const lbl=(t,c)=>el("label",{},el("span",{text:t}),c
   return el("div",{class:"sl-buy"},...kids)}
 function shopThumb(d){const pm=premadeFor(shopItem(d)),sw=swatch({kind:d.itemKind,hex:d.hex||pm?.hex}),src=d.img||pm?.img;
   if(src){const im=el("img",{src,alt:"",loading:"lazy",referrerpolicy:"no-referrer"});im.onerror=()=>im.remove();sw.append(im)}return sw}
-function shopAfter(d){const it=shopItem(d),own=d.itemKind?studio.find(s=>s.id===keyOf(it)):null;
+// what a bought row adds to your shelves: in the unit you keep it in, when the sizes convert; else null
+function shopBought(d,own){const r=shopPick(d)?.row,size=String(r?.price?r.size:d.amt||""),q=shopQty(d),lb=size.match(/([\d.]+)\s*(lb|pound)/i),oz=size.match(/([\d.]+)\s*oz/i),wet=d.itemKind==="glaze"||d.itemKind==="underglaze";
+  const got=r?.perPound?["w",q]:lb?["w",q*+lb[1]]:oz?(wet?["v",q*+oz[1]/16]:["w",q*+oz[1]/16]):/pint/i.test(size)?["v",q]:/quart/i.test(size)?["v",q*2]:/gallon/i.test(size)?["v",q*8]:null;
+  const unit=unitOf(own||{kind:d.itemKind});
+  if(!own||own.amt==null){if(!got)return {amt:q,unit};if(AMT_UNITS[unit][0]===got[0])return {amt:+(got[1]/AMT_UNITS[unit][1]).toFixed(2),unit};const u=got[0]==="v"?"pint":"lb";return {amt:+got[1].toFixed(2),unit:u}}
+  if(!got)return {amt:+(+own.amt+q).toFixed(2),unit};
+  return AMT_UNITS[unit][0]===got[0]?{amt:+(+own.amt+got[1]/AMT_UNITS[unit][1]).toFixed(2),unit}:null}
+function shopAfter(d){const it=shopItem(d),own=d.itemKind?shelfTwin(it):null;
   if(!d.itemKind)return null;
-  if(own?.low)return el("button",{type:"button",class:"ghost sm sl-after",text:"Restocked",onclick:()=>patchShelf(own.id,{low:false,updatedAt:Date.now()})});
-  if(own)return el("span",{class:"meta sl-after",text:"✓ On your shelves"});
-  return el("button",{type:"button",class:"ghost sm sl-after",text:"Add to shelves",onclick:()=>addItem(it)})}
+  if(d.shelved)return el("span",{class:"meta sl-after",text:own?.amt!=null?`✓ ${amtText(own.amt,unitOf(own))} on your shelves`:"✓ On your shelves"});
+  const next=shopBought(d,own),done=()=>shopSet(d.id,{shelved:true});
+  if(own&&!next)return el("button",{type:"button",class:"ghost sm sl-after",text:own.low?"Restocked: set amount on Shelves":"Update amount on Shelves",onclick:async()=>{await patchShelf(own.id,{low:false,updatedAt:Date.now()});await done();showTab("studio")}});
+  const gain=own?.amt!=null?+(next.amt-own.amt).toFixed(2):next.amt;
+  return el("button",{type:"button",class:"ghost sm sl-after",text:`Add ${amtText(gain,next.unit)} to shelves`,onclick:async()=>{if(own)await patchShelf(own.id,{...next,low:false,updatedAt:Date.now()});else await addItem({...it,...next});await done()}})}
 function shopRow(d){const it=shopItem(d),pm=premadeFor(it),p=shopPick(d);
   const cb=el("input",{type:"checkbox","aria-label":(d.got?"Not bought yet: ":"Bought: ")+d.name,checked:d.got||undefined,onchange:()=>shopSet(d.id,{got:!d.got,gotAt:d.got?null:Date.now()})});
   const title=[d.code,d.name].filter(Boolean).join(" "),unit=p?.row.price||0;
