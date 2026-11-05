@@ -71,9 +71,9 @@ export const TestTile = () => `<div class="tiles" style="max-width:640px">
 TestTile.storyName = "Test tile (Color match)";
 
 export const ShelfItem = () => `<div class="items" style="max-width:720px">
-  <div class="item"><span class="sw" style="${sw("1E1E20")}"></span><div><h4>6600 Best Black</h4><div class="meta">Mason</div><a class="note" href="#">View at Sheffield Pottery</a><div class="note">body OK</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div>
-  <div class="item"><span class="sw jar" style="${sw("5C6F86")}"></span><div><h4>PC-20 Blue Rutile</h4><div class="meta">Amaco · Potter's Choice · Cone 5–6</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div>
-  <div class="item"><span class="sw bag" style="${sw("E6E4DE")}"></span><div><h4>Frit 3134</h4><div class="meta">Ferro</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div>
+  <div class="item"><span class="sw" style="${sw("1E1E20")}"></span><div class="item-body"><h4>6600 Best Black</h4><div class="meta">Mason</div><a class="note" href="#">View at Sheffield Pottery</a><div class="note">body OK</div></div><div class="item-foot"><div class="sh-amt"><button class="linkbtn">Set amount</button></div></div><div class="item-more"><button class="sh-more" aria-label="More">⋯</button></div></div>
+  <div class="item"><span class="sw" style="${sw("5C6F86")}"></span><div class="item-body"><h4>PC-20 Blue Rutile</h4><div class="meta">Amaco · Potter's Choice · Cone 5–6</div></div><div class="item-foot"><div class="sh-amt"><button class="linkbtn">Set amount</button></div></div><div class="item-more"><button class="sh-more" aria-label="More">⋯</button></div></div>
+  <div class="item"><span class="sw" style="${sw("E6E4DE")}"></span><div class="item-body"><h4>Frit 3134</h4><div class="meta">Ferro</div></div><div class="item-foot"><div class="sh-amt"><button class="linkbtn">Set amount</button></div></div><div class="item-more"><button class="sh-more" aria-label="More">⋯</button></div></div>
 </div>`;
 
 export const FilterBar = () => `<div style="max-width:1100px">
@@ -148,11 +148,11 @@ export const ShelvesPage = () => `<div class="studio" style="max-width:1000px">
   <button class="linkbtn rp-back" type="button">‹ Studio</button>
   <div class="shelfbar"><div class="filters"><button aria-pressed="true">All<b>6</b></button><button aria-pressed="false">Stains<b>5</b></button><button aria-pressed="false">Clay bodies<b>1</b></button></div><button class="btn" type="button">Search &amp; add</button></div>
   <div class="shelves"><section class="shelf"><div class="shelfhead"><h2>Stains</h2><span>5 items</span></div>
-    <div class="items"><div class="item"><span class="sw" style="${sw("8A2A35")}"></span><div><h4>6006 Deep Crimson</h4><div class="meta">Mason</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div>
-    <div class="item"><span class="sw" style="${sw("86A6D6")}"></span><div><h4>6363 Sky Blue</h4><div class="meta">Mason</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div></div></section>
+    <div class="items"><div class="item"><span class="sw" style="${sw("8A2A35")}"></span><div class="item-body"><h4>6006 Deep Crimson</h4><div class="meta">Mason</div></div><div class="item-foot"><div class="sh-amt"><button class="linkbtn">Set amount</button></div></div><div class="item-more"><button class="sh-more" aria-label="More">⋯</button></div></div>
+    <div class="item"><span class="sw" style="${sw("86A6D6")}"></span><div class="item-body"><h4>6363 Sky Blue</h4><div class="meta">Mason</div></div><div class="item-foot"><div class="sh-amt"><button class="linkbtn">Set amount</button></div></div><div class="item-more"><button class="sh-more" aria-label="More">⋯</button></div></div></div></section>
     <section class="shelf"><div class="shelfhead"><h2>Glazes</h2><span>2 items</span></div><div class="items">
-    <div class="item bucket tappable"><span class="sw jar" style="${sw("D8DAD5")}"></span><div><h4>Amber celadon</h4><div class="meta">My recipe · v2 · 5 kg · mixed Oct 23, 2026</div><div class="acts"><button class="linkbtn">Used up</button></div></div></div>
-    <div class="item tappable"><span class="sw jar" style="${sw("3E7DA6")}"></span><div><h4>PC-20 Blue Rutile</h4><div class="meta">Amaco · Potter's Choice · Cone 5–6</div><div class="note">Sold at 4 stores · compare prices</div><div class="acts"><button class="linkbtn">Remove</button></div></div></div></div></section></div>
+    <div class="item bucket tappable"><span class="sw" style="${sw("D8DAD5")}"></span><div class="item-body"><h4>Amber celadon</h4><div class="meta">My recipe · v2 · 5 kg · mixed Oct 23, 2026</div></div><div class="item-foot"><div class="sh-amt"><button class="linkbtn">Set amount</button></div></div><div class="item-more"><button class="sh-more" aria-label="More">⋯</button></div></div>
+    <div class="item tappable"><span class="sw" style="${sw("3E7DA6")}"></span><div class="item-body"><h4>PC-20 Blue Rutile</h4><div class="meta">Amaco · Potter's Choice · Cone 5–6</div><div class="note">Sold at 4 stores · compare prices</div></div><div class="item-foot"><div class="sh-amt"><button class="linkbtn">Set amount</button></div></div><div class="item-more"><button class="sh-more" aria-label="More">⋯</button></div></div></div></section></div>
 </div>`;
 ShelvesPage.storyName = "Shelves page (switch, filters, shelf)";
 

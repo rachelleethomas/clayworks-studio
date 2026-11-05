@@ -840,24 +840,32 @@ input.s-price{width:110px;text-align:right;font-family:var(--mono)}
 .shelfhead h2{font-size:30px}
 .shelfhead span{font:400 12px var(--mono);color:var(--muted)}
 .items{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-.item{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow-card)}
-.item .sw{width:30px;height:30px;border-radius:8px;border:1px solid rgba(0,0,0,.12)}
-.item .sw.jar{border-radius:3px 3px 8px 8px}
-.item .sw{overflow:hidden;position:relative}
+.item{position:relative;display:flex;flex-direction:column;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-card)}
+.item .sw{display:block;position:relative;overflow:hidden;flex:none;width:100%;aspect-ratio:3/2;border-radius:calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;border-bottom:1px solid var(--line)}
 .item .sw img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.item:has(.sw img){grid-template-columns:52px minmax(0,1fr)}
-.item .sw:has(img){width:52px;height:52px;border-radius:10px}
 .item.tappable{cursor:pointer;transition:border-color .15s,box-shadow .15s}
 .item.tappable:hover{border-color:var(--purple-300);box-shadow:0 6px 20px rgba(84,47,156,.10)}
-.item .sw.bag{border-radius:2px;background-image:repeating-linear-gradient(0deg,transparent 0 5px,rgba(0,0,0,.08) 5px 6px)}
+.item-body{flex:1;padding:10px 12px 0}
 .item h4{margin:0;font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.item h4 .pill{margin-left:6px}
 .item .meta{font-size:12.5px}
-.item .acts{display:flex;flex-wrap:wrap;gap:4px 8px;margin-top:4px}
-.sh-amt{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:8px}
+.item-foot{padding:8px 12px 10px}
+.sh-amt{display:flex;flex-wrap:wrap;align-items:center;gap:4px;min-width:0}
 .sh-amt>button:not(.linkbtn){flex:none;width:28px;height:28px;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--accent);font:400 16px/1 var(--body);cursor:pointer}
 .sh-amt>button:not(.linkbtn):disabled{color:var(--muted);cursor:default}
 .sh-amt input{width:46px;min-width:0;padding:4px 2px;text-align:center;font:400 13px var(--body)}
 .sh-amt select{width:auto;min-width:0;padding:4px 24px 4px 8px;font:400 13px var(--body);letter-spacing:0;text-transform:none}
+.item-more{position:absolute;top:8px;right:8px}
+.sh-more{display:block;width:32px;height:32px;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--ink);font:400 18px/1 var(--body);cursor:pointer}
+.sh-more:hover,.sh-more[aria-expanded="true"]{background:var(--purple-50);color:var(--accent)}
+.sh-menu{position:absolute;top:calc(100% + 4px);right:0;z-index:25;display:grid;min-width:170px;padding:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 6px 20px rgba(84,47,156,.10)}
+.sh-menu[hidden]{display:none}
+.sh-menu button,.sh-menu a{display:block;width:100%;padding:8px 10px;border:0;border-radius:8px;background:none;color:var(--ink);font:400 14px var(--body);letter-spacing:0;text-transform:none;text-align:left;text-decoration:none;cursor:pointer}
+.sh-menu button:hover,.sh-menu a:hover{background:var(--purple-50)}
+.sh-menu .danger{color:var(--tint-orange-ink)}
+@media (max-width:640px){
+  .items{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sh-menu button,.sh-menu a{padding:12px 10px}}
 .sl-add{display:grid;gap:6px;margin-bottom:20px}
 .sl-add input{width:100%}
 .sl-res{display:grid;gap:4px}
@@ -962,7 +970,7 @@ button,a,summary,label,select{touch-action:manipulation}
 /* ---------- 10b Touch: bigger tap targets where the pointer is a finger ---------- */
 @media (pointer:coarse){
   :root{--ctl-sm-h:36px}  /* chips, filter pills, small buttons */
-  .acard details summary,.rp-table a,.rp-buy a,.acard .acts a,.fclear,.linkbtn,.ritem .nm small a,.item a.note{display:inline-flex;align-items:center;min-height:44px}
+  .acard details summary,.rp-table a,.rp-buy a,.acard .acts a,.fclear,.linkbtn,.ritem .nm small a{display:inline-flex;align-items:center;min-height:44px}
   .acard details summary{display:flex}
   .chip button,.fx b{width:30px;height:30px}
   input[type=checkbox]{width:22px;height:22px}
@@ -2068,7 +2076,19 @@ function amtBox(it,all){const u=unitOf(it),set=(amt,unit=u)=>{const patch={amt,u
   const sel=el("select",{"aria-label":"Unit for "+it.name,"data-f":it.id+":unit",onchange:e=>set(n,e.target.value)},...unitsFor(it).map(x=>el("option",{value:x,text:unitName(x,n)})));sel.value=u;
   return el("div",{class:"sh-amt"},el("button",{type:"button","aria-label":"One less "+it.name,text:"−","data-f":it.id+":less",disabled:n<=0||undefined,onclick:()=>set(Math.max(0,+(n-1).toFixed(2)))}),num,
     el("button",{type:"button","aria-label":"One more "+it.name,text:"+","data-f":it.id+":more",onclick:()=>set(+(n+1).toFixed(2))}),sel)}
+// the ⋯ on a shelf card. Rows: {text,on,sure?} (sure = ask once), {href,text}, or {node}
+let shelfOpen=null;
+const closeShelfMenu=()=>{if(shelfOpen){shelfOpen();shelfOpen=null}};
+document.addEventListener("click",e=>{if(!e.target.closest(".sh-menu,.sh-more"))closeShelfMenu()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeShelfMenu()});
+function shelfMenu(rows){const box=el("div",{class:"sh-menu",role:"menu",hidden:true});
+  rows.filter(Boolean).forEach(x=>{if(x.node){box.append(x.node);return}if(x.href){box.append(el("a",{href:x.href,target:"_blank",rel:"noopener",text:x.text}));return}
+    const b=el("button",{type:"button",class:x.sure?"danger":"",text:x.text,onclick:()=>{if(x.sure&&b.textContent!==x.sure){b.textContent=x.sure;return}closeShelfMenu();x.on()}});box.append(b)});
+  const more=el("button",{type:"button",class:"sh-more",text:"⋯","aria-label":"More","aria-expanded":"false"});
+  more.onclick=()=>{const was=!box.hidden;closeShelfMenu();if(was)return;box.hidden=false;more.setAttribute("aria-expanded","true");shelfOpen=()=>{box.hidden=true;more.setAttribute("aria-expanded","false")}};
+  return [more,box]}
 function renderShelves(){
+  shelfOpen=null;
   const s=$("shelves"),ae=document.activeElement;if(s.contains(ae)&&ae.tagName==="INPUT")return; // don't clobber typing
   const focus=s.contains(ae)?ae.dataset?.f:null;s.textContent="";
   if(storeMode==="loading"){s.append(el("div",{class:"empty",text:"Loading your studio…"}));return}
@@ -2085,29 +2105,22 @@ function renderShelves(){
     const grid=el("div",{class:"items"});
     if(!items.length)grid.append(el("p",{class:"note",text:"Nothing here yet. Tap Search & add to find "+v.toLowerCase()+"."}));
     items.forEach(({it,all})=>{
-      const acts=el("div",{class:"acts"});
-      const rm=el("button",{type:"button",class:"linkbtn",text:"Remove"});
-      rm.onclick=()=>{acts.textContent="";acts.append(el("button",{type:"button",class:"ghost sm",text:"Yes, remove",onclick:async()=>{for(const x of all)await removeItem(x.id)}}),el("button",{type:"button",class:"linkbtn",text:"Keep",onclick:renderShelves}))};
-      acts.append(el("button",{type:"button",class:"linkbtn",text:it.low?"Restocked":"Running low",onclick:()=>Promise.all(all.map(x=>patchShelf(x.id,{low:!it.low,updatedAt:Date.now()})))}),it.recipeId?null:shopToggle(it,"linkbtn"),rm);
-      if(it.recipeId){ // one of your mixed batches
-        const r=recipes.find(x=>x.id===it.recipeId),sw=swatch(it);rm.textContent="Used up";
-        if(r?.photo){const im=photoEl(r.photo,"","");im.onerror=()=>im.remove();sw.append(im)}
-        const card=el("div",{class:"item bucket"+(r?" tappable":"")},sw,el("div",{},el("h4",{text:it.name}),
-          el("div",{class:"meta",text:["My recipe",it.version?"v"+it.version:"",it.grams?fmtG(it.grams):"",it.mixedAt?"mixed "+fmtDate(it.mixedAt):""].filter(Boolean).join(" · ")}),acts));
-        if(r)card.onclick=e=>{if(!e.target.closest("a,button"))openRecipe(r.id)};
-        grid.append(card);return;
-      }
-      const pm=premadeFor(it),sw=swatch(it);
-      if(pm?.img){const im=el("img",{src:pm.img,alt:"",loading:"lazy",referrerpolicy:"no-referrer"});im.onerror=()=>im.remove();sw.append(im)}
-      else if(pm?.hex&&!normHex(it.hex))sw.style.background="#"+pm.hex;
-      const stores=pm?new Set((pm.offers||[]).map(o=>o.store)).size:0;
-      const card=el("div",{class:"item"+(pm?" tappable":"")},sw,el("div",{},
-        el("h4",{},it.code?`${it.code} ${it.name}`:it.name,it.amt===0?el("span",{class:"pill buy",text:"Out"}):it.low?el("span",{class:"pill buy",text:"Low"}):null),
-        el("div",{class:"meta",text:[it.brand,it.line,it.cone].filter(Boolean).join(" · ")}),
-        pm?el("div",{class:"note",text:stores>1?`Sold at ${stores} stores · compare prices`:"Where to buy and price"}):
-          it.url?el("a",{href:it.url,target:"_blank",rel:"noopener",class:"note",text:"View at "+String(it.source||"supplier").split(", ")[0]}):null,
-        it.note?el("div",{class:"note",text:it.note}):null,amtBox(it,all),acts));
-      if(pm)card.onclick=e=>{if(!e.target.closest("a,button,input,select"))openPremade(pm.pk)};
+      const r=it.recipeId?recipes.find(x=>x.id===it.recipeId):null,pm=it.recipeId?null:premadeFor(it),sw=swatch(it),src=it.recipeId?r?.pic:pm?.img||it.img;
+      sw.className="sw";if(!normHex(it.hex))sw.style.background="#"+(pm?.hex||nameHex(it.name)||"D8DAD5");
+      if(src){const im=el("img",{src,alt:"",loading:"lazy",referrerpolicy:"no-referrer"});im.onerror=()=>im.remove();sw.append(im)}
+      else if(r?.photo){const im=photoEl(r.photo,"","");im.onerror=()=>im.remove();sw.append(im)}
+      const remove=async()=>{for(const x of all)await removeItem(x.id)};
+      const menu=shelfMenu([
+        {text:it.low?"Restocked":"Running low",on:()=>Promise.all(all.map(x=>patchShelf(x.id,{low:!it.low,updatedAt:Date.now()})))},
+        it.recipeId?null:{node:shopToggle(it,"")},
+        !pm&&it.url?{href:it.url,text:"View at "+String(it.source||"supplier").split(", ")[0]}:null,
+        {text:it.recipeId?"Used up":"Remove",sure:it.recipeId?"Yes, used up":"Yes, remove",on:remove}]);
+      const body=it.recipeId?el("div",{class:"item-body"},el("h4",{text:it.name}),el("div",{class:"meta",text:["My recipe",it.version?"v"+it.version:"",it.grams?fmtG(it.grams):"",it.mixedAt?"mixed "+fmtDate(it.mixedAt):""].filter(Boolean).join(" · ")})):
+        el("div",{class:"item-body"},el("h4",{},it.code?`${it.code} ${it.name}`:it.name,it.amt===0?el("span",{class:"pill buy",text:"Out"}):it.low?el("span",{class:"pill buy",text:"Low"}):null),
+          el("div",{class:"meta",text:[it.brand,it.line,it.cone].filter(Boolean).join(" · ")}),it.note?el("div",{class:"note",text:it.note}):null);
+      const open=it.recipeId?(r?()=>openRecipe(r.id):null):pm?()=>openPremade(pm.pk):null;
+      const card=el("div",{class:"item"+(it.recipeId?" bucket":"")+(open?" tappable":"")},sw,body,it.recipeId?null:el("div",{class:"item-foot"},amtBox(it,all)),el("div",{class:"item-more"},...menu));
+      if(open)card.onclick=e=>{if(!e.target.closest("a,button,input,select,.item-more"))open()};
       grid.append(card);
     });
     s.append(el("section",{class:"shelf"},el("div",{class:"shelfhead"},el("h2",{text:v}),el("span",{text:items.length+(items.length===1?" item":" items")})),grid));
