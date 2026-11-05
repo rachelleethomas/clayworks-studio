@@ -2712,8 +2712,9 @@ function runTarget(t,run){const {aim,learn,list}=findList(t);
   if(!t.busy)return;const mine=t.req=(t.req||0)+1,live=()=>run===FIND.run&&mine===t.req;
   (async()=>{const blob=t.blob&&sampleImages?await canvasBlob(t.blob):null,opts={modelTier:"default"};if(blob)opts.images=[blob];
     const res=await sampleNs.json(findPrompt(aim,FIND.cone,list,!!blob,t.asks,learn,steered(t)?baseHex(t):""),opts);if(!live())return;
-    const picks=(res?.picks||[]).map(p=>({it:list[(+p.n||0)-1]?.it,close:CLOSE[p.close]?p.close:"weak",diff:String(p.diff||"")})).filter(p=>p.it).slice(0,3);
-    if(picks.length)t.res={look:String(res.look||""),clay:String(res.clay_note||""),ai:true,picks}})()
+    const said=(res?.picks||[]).map(p=>({it:list[(+p.n||0)-1]?.it,close:CLOSE[p.close]?p.close:"weak",diff:String(p.diff||"")})).filter((p,i,a)=>p.it&&a.findIndex(x=>x.it===p.it)===i).slice(0,3);
+    const picks=[...said,...colorPicks(list.filter(({it})=>!said.some(p=>p.it===it)),aim).slice(0,3-said.length).map(p=>({...p,byColor:true}))]; // always three when the catalog has them: Claude can name fewer, the rest are the nearest by color
+    if(said.length)t.res={look:String(res.look||""),clay:String(res.clay_note||""),ai:true,picks}})()
     .catch(()=>{if(live())t.err="Couldn't compare the surfaces this time, so these are by color only."})
     .finally(()=>{if(live()){t.busy=false;renderFind()}})}
 // tweak one group's matches: the shown picks step aside and the rest of the catalog is searched again
@@ -2755,11 +2756,11 @@ function refineBox(t){const inp=el("input",{type:"text",placeholder:"Anything el
   return el("div",{class:"fp-tweak"},f,
     t.asks.length||t.seen.length?el("div",{class:"fp-nudges"},t.asks.length?el("span",{class:"fp-aim",style:"background:#"+t.aim,title:"Now looking for #"+t.aim}):null,...t.asks.map((q,i)=>el("span",{class:"chip"},q,el("button",{type:"button","aria-label":"Remove "+q,text:"×",onclick:()=>{t.asks=t.asks.filter((_,j)=>j!==i);runTarget(t,FIND.run);renderFind()}}))),
       el("button",{type:"button",class:"linkbtn",text:"Start over",onclick:()=>startOverFind(t)})):null)}
-function findCard(p,ai,t){const it=p.it,on=(matchOf(t.key)?.kept||[]).some(k=>k.pk===it.pk),rows=offerRows(it).filter(r=>r.price),pint=rows.filter(r=>r.size==="Pint"),low=pint.length?pint:rows,cheap=low.length?Math.min(...low.map(r=>r.price)):0,have=ownNow().has(it.pk),[cl,lab0]=CLOSE[p.close],lab=ai||p.close==="weak"?lab0:lab0+" color";
+function findCard(p,ai,t){const it=p.it,on=(matchOf(t.key)?.kept||[]).some(k=>k.pk===it.pk),rows=offerRows(it).filter(r=>r.price),pint=rows.filter(r=>r.size==="Pint"),low=pint.length?pint:rows,cheap=low.length?Math.min(...low.map(r=>r.price)):0,have=ownNow().has(it.pk),[cl,lab0]=CLOSE[p.close],judged=ai&&!p.byColor,lab=judged||p.close==="weak"?lab0:lab0+" color";
   return el("div",{class:"fp-item"},el("button",{type:"button",class:"fp-card",onclick:()=>openPremade(it.pk)},el("img",{class:"fp-tile",src:it.img,alt:it.title,loading:"lazy",referrerpolicy:"no-referrer"}),
     el("span",{class:"fp-ct"},el("span",{class:"rst "+cl,text:lab}),el("b",{text:it.title}),p.diff?el("span",{class:"fp-diff",text:p.diff}):null,
       el("span",{class:"meta",text:have?"✓ On your shelves":cheap?(pint.length?"$"+cheap.toFixed(2)+" pint":"From $"+cheap.toFixed(2)):"Price on their site"}))),
-    el("button",{type:"button",class:"ghost sm fp-keep","aria-pressed":String(on),"aria-label":(on?"Remove ":"Keep ")+it.title,text:on?"✓ Kept":"Keep",onclick:()=>toggleKeep(t,p,ai)}))}
+    el("button",{type:"button",class:"ghost sm fp-keep","aria-pressed":String(on),"aria-label":(on?"Remove ":"Keep ")+it.title,text:on?"✓ Kept":"Keep",onclick:()=>toggleKeep(t,p,judged)}))}
 // every match you've kept, grouped by what it was matched to (Discover → My boards → Kept matches)
 async function reopenMatch(d){let blob=null;if(d.thumb)try{const im=new Image;im.src=d.thumb;await im.decode();blob=document.createElement("canvas");blob.width=im.width;blob.height=im.height;blob.getContext("2d").drawImage(im,0,0)}catch{blob=null}
   openFind({title:d.src?.title||"Your glaze",back:()=>{Object.assign(FIND,{targets:[],title:"",back:()=>showTab("ideas")});showTab("find")},targets:[{hex:d.hex,blob,thumb:d.thumb,key:d.key,src:d.src}]})}
