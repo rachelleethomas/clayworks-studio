@@ -624,9 +624,31 @@ img.cb-lsw{object-fit:cover}
 .pin-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
 .pin-top .rp-back{margin:0 0 0 -10px!important}
 .pin-view{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(260px,1fr);gap:24px;align-items:start}
-.pin-stage{position:relative;justify-self:center;max-width:100%;border-radius:16px;overflow:hidden;background:var(--purple-50);touch-action:none;user-select:none;-webkit-user-select:none}
+.pin-stage{position:relative;justify-self:center;max-width:100%;border-radius:16px;overflow:hidden;background:var(--purple-50)}
 .pin-stage img{display:block;max-width:100%;max-height:78vh;width:auto;height:auto}
-.pin-stage.live{cursor:crosshair}
+.pin-tools{position:absolute;right:10px;bottom:10px;display:flex;gap:6px}
+.pin-tool{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:40px;height:40px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font:500 11px var(--pixel);text-transform:uppercase;letter-spacing:.06em;cursor:pointer}
+.pin-tool:hover{background:var(--purple-50)}
+.pin-tool:disabled{color:var(--muted);cursor:default}
+.pin-tool svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.pin-tool.icon{padding:0}
+.pin-tool[hidden]{display:none}
+.addmodal.pin-full{background:#141318}
+.addmodal.pin-full::backdrop{background:#141318}
+.pin-full img{display:block;width:100%;height:100%;object-fit:contain}
+.pin-full .pin-tool{position:absolute;top:calc(12px + env(safe-area-inset-top));right:12px;font:400 22px/1 var(--body)}
+.cp{display:grid;grid-template-columns:minmax(0,1fr) 300px;height:100%}
+.cp-photo{display:grid;place-items:center;min-width:0;min-height:0;overflow:hidden}
+.cp-stage{position:relative;cursor:crosshair;touch-action:none;user-select:none;-webkit-user-select:none}
+.cp-stage img{display:block;width:100%;height:100%;border-radius:12px}
+.cp-side{display:flex;flex-direction:column;gap:12px;padding:16px;padding-top:calc(16px + env(safe-area-inset-top));border-left:1px solid var(--line);background:var(--surface);overflow-y:auto;min-height:0}
+.cp-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cp-head h2{margin:0;font-size:20px}
+.cp-read{display:flex;align-items:center;gap:12px}
+.cp-read i{flex:none;width:64px;height:64px;border-radius:12px;border:1px solid var(--line);background:var(--purple-50)}
+.cp-read b{display:block;font:500 20px var(--mono)}
+.cp-side h3{margin:4px 0 0;font:500 11px var(--pixel);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.pin-chip button.cp-hex{flex:1;width:auto;height:auto;padding:0;border-radius:0;background:none;color:inherit;font:500 13px var(--mono);text-align:left}
 .pin-marks span{position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.35);display:grid;place-items:center;font:600 11px/1 var(--body);color:#fff;text-shadow:0 0 2px rgba(0,0,0,.7);pointer-events:none}
 .pin-loupe{position:absolute;transform:translate(-50%,calc(-100% - 22px));min-width:84px;padding:30px 8px 6px;border-radius:12px;border:2px solid #fff;box-shadow:0 4px 14px rgba(0,0,0,.3);font:500 11px var(--mono);color:#32313B;text-align:center;pointer-events:none}
 .pin-loupe.below{transform:translate(-50%,22px)}
@@ -641,7 +663,14 @@ img.cb-lsw{object-fit:cover}
 .pin-chip button{width:28px;height:28px;padding:0;border-radius:50%;border:0;background:var(--purple-50);color:var(--accent);font:400 16px/1 var(--body);cursor:pointer}
 .pin-pals{display:flex;gap:6px;margin-top:6px}
 .pin-pal{flex:1;height:36px;border-radius:8px;border:1px solid rgba(0,0,0,.1);cursor:pointer;padding:0}
-@media (max-width:640px){.pin-view{grid-template-columns:1fr}.pin-stage img{max-height:none;width:100%}}
+@media (max-width:640px){.pin-view{grid-template-columns:1fr}.pin-stage img{max-height:none;width:100%}
+  .cp{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto}
+  .cp-side{border-left:0;border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));gap:8px}
+  .cp-read i{width:44px;height:44px}
+  .cp-read b{font-size:16px}
+  .cp-side .pin-picks{display:flex;overflow-x:auto;padding-bottom:2px}
+  .cp-side .pin-chip{flex:none}
+  .cp-hint{display:none}}
 @media (max-width:640px){.idea-grid{columns:2 140px}.idea-boards{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.idea-cname{font-size:16px}}
 
 /* Match results board */
@@ -2461,8 +2490,10 @@ function renderPin(w,x,list){
   let picks=[...(x.picks||[])];
   const save=()=>putIdeas([{...x,picks}]),pinBack=()=>{showTab("ideas");renderIdeas()},pinSrc=(whole,p)=>({type:"pin",id:x.id,title:x.title||"Your pin",...(whole?{whole:true}:{x:p.x,y:p.y})});
   const big=x.src.replace(/^(https:\/\/i\.pinimg\.com\/)(236x|474x)\//,"$1736x/"),img=el("img",{src:big,alt:x.title||"Idea",referrerpolicy:"no-referrer",draggable:"false"});
-  const marks=el("div",{class:"pin-marks"}),loupe=el("div",{class:"pin-loupe",hidden:true});
-  const stage=el("div",{class:"pin-stage"},img,marks,loupe);
+  const marks=el("div",{class:"pin-marks"});
+  const colorBtn=el("button",{type:"button",class:"pin-tool",disabled:true,text:"Find a color",onclick:()=>openColorPicker(x,cx)});
+  const fullBtn=el("button",{type:"button",class:"pin-tool icon",title:"Full screen","aria-label":"See the photo full screen",onclick:()=>openPhotoFull(big,x.title)});fullBtn.innerHTML=PIN_FULL_ICON;
+  const stage=el("div",{class:"pin-stage"},img,marks,el("div",{class:"pin-tools"},colorBtn,fullBtn));
   const status=el("p",{class:"note",role:"status",text:"Getting the photo ready…"});
   const chosen=el("div",{class:"pin-picks"}),matchBtn=el("button",{type:"button",class:"ghost",text:"Get recipes"}),findBtn=el("button",{type:"button",class:"btn",text:"Find a premade"});
   const drawMarks=()=>{marks.replaceChildren(...picks.filter(p=>p.x!=null).map((p,k)=>el("span",{style:`left:${p.x*100}%;top:${p.y*100}%;background:#${p.hex}`,text:String(k+1)})));
@@ -2478,20 +2509,12 @@ function renderPin(w,x,list){
   const findMore=d=>{const s=d.src,blob=!cx?null:s.whole?cx.canvas:s.x!=null?cropAround(cx.canvas,s.x,s.y):null;openFind({title:x.title||"Your pin",back:pinBack,targets:[{hex:d.hex,blob,thumb:d.thumb,key:d.key,src:s}]})};
   const pinKeptBox=pinKept.length?el("div",{class:"fp-kept"},el("h3",{text:"Kept matches"}),...pinKept.map(d=>el("div",{class:"fp-kept"},
     el("div",{class:"links"},el("span",{class:"fp-aim",style:"background:#"+d.hex,title:"#"+d.hex}),el("span",{class:"meta",text:d.src.whole?"Whole photo":d.look||"#"+d.hex}),el("button",{type:"button",class:"linkbtn",text:"Find more",onclick:()=>findMore(d)})),keptRow(d)))):null;
-  let cx=null;const at=e=>{const r=img.getBoundingClientRect(),fx=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)),fy=Math.min(1,Math.max(0,(e.clientY-r.top)/r.height));
-    const W=cx.canvas.width,H=cx.canvas.height,R=Math.max(2,Math.round(W/120)),px=Math.round(fx*(W-1)),py=Math.round(fy*(H-1));
-    const x0=Math.max(0,px-R),y0=Math.max(0,py-R),d=cx.getImageData(x0,y0,Math.min(W,px+R+1)-x0,Math.min(H,py+R+1)-y0).data;let s=[0,0,0],n=0;
-    for(let k=0;k<d.length;k+=4){s[0]+=d[k];s[1]+=d[k+1];s[2]+=d[k+2];n++}
-    return {fx,fy,hex:s.map(v=>Math.round(v/n).toString(16).padStart(2,"0")).join("").toUpperCase()}};
-  const showLoupe=(e,c)=>{loupe.hidden=false;loupe.style.cssText=`left:${c.fx*100}%;top:${c.fy*100}%;background:#${c.hex}`;loupe.classList.toggle("below",c.fy<.25);loupe.textContent="#"+c.hex;loupe.classList.toggle("on-dark",lum(c.hex)<.45)};
-  let down=false;
-  stage.onpointerdown=e=>{if(!cx)return;down=true;stage.setPointerCapture(e.pointerId);showLoupe(e,at(e))};
-  stage.onpointermove=e=>{if(!cx||(!down&&e.pointerType!=="mouse"))return;showLoupe(e,at(e))};
-  stage.onpointerup=e=>{if(!cx||!down)return;down=false;const c=at(e);add(c.hex,+c.fx.toFixed(4),+c.fy.toFixed(4));if(e.pointerType!=="mouse")loupe.hidden=true};
-  stage.onpointerleave=()=>{if(!down)loupe.hidden=true};stage.onpointercancel=()=>{down=false;loupe.hidden=true};
-  pixelImage(big).then(c=>{cx=c;findBtn.disabled=!picks.length&&!cx;if(c){stage.classList.add("live");status.textContent="Tap each glaze you like, or find a premade for the photo's main color. On a phone, hold and drag to aim, then let go."}
-    else status.textContent="This photo won't share its pixels here. Pick from its colors below, or use the Clayworks site to tap the photo."});
+  let cx=null;
+  pixelImage(big).then(c=>{cx=c;findBtn.disabled=!picks.length&&!cx;colorBtn.disabled=!c;colorBtn.hidden=!c;if(c)status.textContent="Use Find a color to pick glazes from the photo, or find a premade for its main color.";
+    else{status.textContent="This photo won't share its pixels here. Pick from its colors below, or use the Clayworks site to pick from the photo.";palBox.hidden=!photoCols.length}});
   const photoCols=(x.hex||[]).map(h=>el("button",{type:"button",class:"pin-pal",style:"background:#"+h,title:"Add #"+h,"aria-label":"Add #"+h,onclick:()=>add(h)}));
+  // only when the photo won't share its pixels, so Find a color can't open
+  const palBox=el("div",{hidden:true},el("h3",{text:"Whole photo's colors"}),el("p",{class:"note",text:"Tap one to add it."}),el("div",{class:"pin-pals"},...photoCols));
   w.append(el("div",{class:"pin-top"},el("button",{type:"button",class:"linkbtn rp-back",text:"‹ "+x.board,onclick:()=>openPin(null)}),
       list.length>1?el("div",{class:"links"},el("button",{type:"button",class:"linkbtn",text:"‹ Previous",onclick:()=>go(-1)}),el("span",{class:"meta",text:`${i+1} of ${list.length}`}),el("button",{type:"button",class:"linkbtn",text:"Next ›",onclick:()=>go(1)})):null),
     el("div",{class:"pin-view"},stage,
@@ -2499,10 +2522,51 @@ function renderPin(w,x,list){
         el("h3",{text:"Colors you picked"}),chosen,
         el("div",{class:"links"},findBtn,matchBtn,picks.length?el("button",{type:"button",class:"linkbtn",text:"Clear",onclick:()=>{picks=[];drawMarks();save()}}):null),
         pinKeptBox,
-        photoCols.length?el("div",{},el("h3",{text:"Whole photo's colors"}),el("p",{class:"note",text:"Tap one to add it."}),el("div",{class:"pin-pals"},...photoCols)):null,
-        el("div",{class:"links"},el("button",{type:"button",class:"ghost sm",text:"Save as a combo",onclick:()=>newCombo({src:x.src,href:x.href,notes:x.title||""})}),
-          x.href?el("a",{href:x.href,target:"_blank",rel:"noopener",text:"See it on Pinterest"}):null))));
+        palBox,
+        x.href?el("div",{class:"links"},el("a",{href:x.href,target:"_blank",rel:"noopener",text:"See it on Pinterest"})):null)));
   drawMarks()}
+const PIN_FULL_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
+// The photo alone, as big as the screen allows: for pins kept for a shape or a form, not a color
+function openPhotoFull(src,title){
+  const close=el("button",{type:"button",class:"pin-tool icon","aria-label":"Close",text:"×",onclick:()=>dlg.close()});
+  const dlg=el("dialog",{class:"addmodal pin-full","aria-label":title||"Photo"},el("img",{src,alt:title||"Idea",referrerpolicy:"no-referrer"}),close);
+  dlg.onclick=e=>{if(e.target.tagName!=="BUTTON")dlg.close()};
+  dlg.onclose=()=>dlg.remove();document.body.append(dlg);dlg.showModal()}
+// Full-screen color picker. It lives on the body because every pick saves and re-renders the pin page behind it
+function openColorPicker(x,cx){
+  let picks=[...(x.picks||[])],last=picks.at(-1)?.hex||null;
+  const W=cx.canvas.width,H=cx.canvas.height;
+  const img=el("img",{src:cx.canvas.toDataURL("image/jpeg",.92),alt:x.title||"Idea",draggable:"false"}),marks=el("div",{class:"pin-marks"}),loupe=el("div",{class:"pin-loupe",hidden:true});
+  const stage=el("div",{class:"cp-stage"},img,marks,loupe),photo=el("div",{class:"cp-photo"},stage);
+  const swatch=el("i"),hexOut=el("b"),copyBtn=el("button",{type:"button",class:"ghost sm",text:"Copy"}),chosen=el("div",{class:"pin-picks"}),clear=el("button",{type:"button",class:"linkbtn",text:"Clear"});
+  const copy=(hex,b)=>navigator.clipboard.writeText("#"+hex).then(()=>b.textContent="Copied",()=>b.textContent="Copy failed");
+  const save=()=>putIdeas([{...x,picks}]);
+  const draw=()=>{swatch.style.background=last?"#"+last:"";hexOut.textContent=last?"#"+last:"No color yet";copyBtn.hidden=!last;copyBtn.textContent="Copy";clear.hidden=!picks.length;
+    marks.replaceChildren(...picks.filter(p=>p.x!=null).map((p,k)=>el("span",{style:`left:${p.x*100}%;top:${p.y*100}%;background:#${p.hex}`,text:String(k+1)})));
+    chosen.replaceChildren(...(picks.length?picks.map((p,k)=>{const hex=el("button",{type:"button",class:"cp-hex",title:"Copy #"+p.hex,text:`${k+1} · #${p.hex}`,onclick:()=>copy(p.hex,hex)});
+      return el("span",{class:"pin-chip"},el("i",{style:"background:#"+p.hex}),hex,el("button",{type:"button","aria-label":"Remove #"+p.hex,text:"×",onclick:()=>{picks.splice(k,1);last=picks.at(-1)?.hex||null;draw();save()}}))}):[el("p",{class:"note",text:"Nothing picked yet."})]))};
+  copyBtn.onclick=()=>copy(last,copyBtn);clear.onclick=()=>{picks=[];last=null;draw();save()};
+  const at=e=>{const r=img.getBoundingClientRect(),fx=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)),fy=Math.min(1,Math.max(0,(e.clientY-r.top)/r.height));
+    const R=Math.max(2,Math.round(W/120)),px=Math.round(fx*(W-1)),py=Math.round(fy*(H-1));
+    const x0=Math.max(0,px-R),y0=Math.max(0,py-R),d=cx.getImageData(x0,y0,Math.min(W,px+R+1)-x0,Math.min(H,py+R+1)-y0).data;let s=[0,0,0],n=0;
+    for(let k=0;k<d.length;k+=4){s[0]+=d[k];s[1]+=d[k+1];s[2]+=d[k+2];n++}
+    return {fx,fy,hex:s.map(v=>Math.round(v/n).toString(16).padStart(2,"0")).join("").toUpperCase()}};
+  const showLoupe=c=>{loupe.hidden=false;loupe.style.cssText=`left:${c.fx*100}%;top:${c.fy*100}%;background:#${c.hex}`;loupe.classList.toggle("below",c.fy<.25);loupe.textContent="#"+c.hex;loupe.classList.toggle("on-dark",lum(c.hex)<.45)};
+  let down=false;
+  stage.onpointerdown=e=>{down=true;stage.setPointerCapture(e.pointerId);showLoupe(at(e))};
+  stage.onpointermove=e=>{if(down||e.pointerType==="mouse")showLoupe(at(e))};
+  stage.onpointerup=e=>{if(!down)return;down=false;const c=at(e);if(picks.length>=8)picks.shift();picks.push({hex:c.hex,x:+c.fx.toFixed(4),y:+c.fy.toFixed(4)});last=c.hex;draw();save();if(e.pointerType!=="mouse")loupe.hidden=true};
+  stage.onpointerleave=()=>{if(!down)loupe.hidden=true};stage.onpointercancel=()=>{down=false;loupe.hidden=true};
+  const fit=()=>{const pad=window.innerWidth<=640?12:24,k=Math.min((photo.clientWidth-pad)/W,(photo.clientHeight-pad)/H);if(k>0){stage.style.width=W*k+"px";stage.style.height=H*k+"px"}};
+  const ro=new ResizeObserver(fit);
+  const dlg=el("dialog",{class:"addmodal","aria-label":"Find a color"},el("div",{class:"cp"},photo,
+    el("div",{class:"cp-side"},
+      el("div",{class:"cp-head"},el("h2",{text:"Find a color"}),el("button",{type:"button",class:"ghost sm",text:"Done",onclick:()=>dlg.close()})),
+      el("p",{class:"note cp-hint",text:"Tap the photo to read its color. On a phone, hold and drag to aim, then let go."}),
+      el("div",{class:"cp-read"},swatch,el("div",{},hexOut,copyBtn)),
+      el("h3",{text:"Colors you picked"}),chosen,clear)));
+  dlg.onclose=()=>{ro.disconnect();dlg.remove()};
+  document.body.append(dlg);draw();dlg.showModal();ro.observe(photo);fit()}
 
 /* ---------- Find a premade: for each color you tap, the premade glazes that look closest. Color shortlists the catalog; Claude compares the crop's look
    against what scripts/tag_glaze_photos.py read from each fired tile, and says how close each one is and what's different. Without Claude it stays color only. ---------- */
@@ -2808,7 +2872,7 @@ function renderCombos(){
     combos.length?el("div",{class:"filters cb-filters"},...F.map(([k,l])=>el("button",{type:"button","aria-pressed":String(COMBO.filter===k),onclick:()=>{COMBO.filter=k;renderCombos()}},l,
       el("small",{text:combos.filter(c=>k==="all"||(k==="have"?comboHave(c):(c.status||"idea")===k)).length})))):el("span"),
     el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"+ New combo",onclick:()=>newCombo()}))));
-  if(!combos.length){w.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"No combos yet. Start one here, from a recipe or premade glaze (Used in → New combo), from a pin in Ideas (Save as a combo), or from a maker's tile in Discover (Make → Combos)."})),makers);return}
+  if(!combos.length){w.append(el("div",{class:"empty"},el("p",{style:"margin:0",text:"No combos yet. Start one here, from a recipe or premade glaze (Used in → New combo), or from a maker's tile in Discover (Make → Combos)."})),makers);return}
   const pass=c=>COMBO.filter==="all"||(COMBO.filter==="have"?comboHave(c):(c.status||"idea")===COMBO.filter);
   const shown=combos.filter(pass);
   if(!shown.length)w.append(el("p",{class:"note",text:COMBO.filter==="have"?"None yet where every layer is on your shelves.":"Nothing here."}));
