@@ -863,21 +863,34 @@ input.s-price{width:110px;text-align:right;font-family:var(--mono)}
 .sl-rrow small{display:block;color:var(--muted);font-size:12.5px}
 .sl-lists{display:grid;gap:28px}
 .sl-rows{display:grid;gap:8px}
-.sl-row{display:grid;grid-template-columns:auto 44px minmax(0,1fr) 150px auto;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.sl-row{display:grid;grid-template-columns:auto 44px minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
 .sl-row .sw{display:block;position:relative;overflow:hidden;width:44px;height:44px;border-radius:10px;border:1px solid rgba(0,0,0,.12)}
 .sl-row .sw img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .sl-row h4{margin:0;font-size:14px;font-weight:600;overflow-wrap:anywhere}
 .sl-row h4 button{padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
 .sl-row h4 button:hover{color:var(--accent)}
 .sl-row .meta,.sl-row a{font-size:12.5px}
-.sl-row a{display:block}
-.sl-row input[type=text]{width:100%;min-width:0}
+.sl-buy{grid-column:3/-1;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.sl-buy label{display:flex;align-items:center;gap:6px;min-width:0;margin:0;font-size:12.5px;color:var(--muted)}
+.sl-buy label b{font:400 13px var(--body);letter-spacing:0;text-transform:none;color:var(--ink)}
+.sl-buy input,.sl-buy select{width:auto;min-width:0;max-width:100%;padding:6px 8px;font:400 13px var(--body);letter-spacing:0;text-transform:none}
+.sl-buy select{padding-right:30px}
+.sl-buy input[type=number]{width:68px}
+.sl-buy input[type=text]{width:120px}
+.sl-price{text-align:right;font-size:14px;white-space:nowrap}
+.sl-price b{font-weight:600}
+.sl-price small{display:block;color:var(--muted);font-size:12px}
+.sl-sum{display:grid;gap:2px;padding:12px 14px;border-radius:var(--radius);background:var(--purple-50)}
+.sl-sum b{font-size:18px;font-weight:600}
 .sl-x{width:32px;height:32px;padding:0;border:0;border-radius:50%;background:var(--purple-50);color:var(--accent);font:400 18px/1 var(--body);cursor:pointer}
-.sl-row.got{grid-template-columns:auto 44px minmax(0,1fr) auto auto}
 .sl-row.got h4{font-weight:400;text-decoration:line-through;color:var(--muted)}
 @media (max-width:640px){
-  .sl-row,.sl-row.got{grid-template-columns:auto 44px minmax(0,1fr) auto}
-  .sl-row input[type=text],.sl-row.got .sl-after{grid-column:3/-1;grid-row:2}}
+  .sl-row{grid-template-columns:auto 44px minmax(0,1fr) auto}
+  .sl-buy{grid-column:1/-1}
+  .sl-buy label:last-of-type{flex:1 1 100%}
+  .sl-buy label:last-of-type select{flex:1}
+  .sl-price,.sl-row.got .sl-after{grid-column:3;grid-row:2;text-align:left}
+  .sl-row>.sl-x{grid-column:4;grid-row:1}}
 .addmodal{width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:0;border:0;background:var(--bg);color:var(--ink)}
 .addmodal::backdrop{background:rgba(0,0,0,.35)}
 .addinner{max-width:1100px;margin:0 auto;padding:20px 16px 48px;display:grid;gap:16px;align-content:start}
@@ -1695,7 +1708,7 @@ function renderTabs(){
     b.innerHTML=TAB_ICONS[k]||"";b.append(el("span",{text:v}));t.append(b)});
   if(tab)markTab();
 }
-const groupOf=name=>name==="recipe"||name==="premade"&&(premadeFrom==="studio"||premadeFrom==="recipe"||premadeFrom==="shopping")?"mystudio":name==="tile"||name==="find"||name==="premade"?"discover":Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name));
+const groupOf=name=>name==="recipe"||name==="premade"&&(premadeFrom==="studio"||premadeFrom==="recipe"||premadeFrom==="shopping")||name==="tile"&&tileFrom==="studio"?"mystudio":name==="tile"||name==="find"||name==="premade"?"discover":Object.keys(GROUPS).find(g=>GROUPS[g].subs.includes(name));
 function markTab(){const grp=groupOf(tab)||tab;[...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",String(b.id==="tab-"+grp)))}
 function showTab(name){
   if(GROUPS[name])name=groupSub[name];
@@ -2013,9 +2026,19 @@ function updateStoreNote(){
 function swatch(it,cls="sw"){const s=el("span",{class:cls+(it.kind==="glaze"?" jar":it.kind==="clay"||it.kind==="chemical"?" bag":"")});s.style.background="#"+(normHex(it.hex)||"D8DAD5");return s}
 function renderFilters(){
   const f=$("filters");f.textContent="";
-  [["all","All",studio.length],...Object.entries(KINDS).map(([k,v])=>[k,v,studioOf(k).length])].forEach(([k,v,n])=>
+  const cb=shelfCombos();
+  [["all","All",studio.length],...Object.entries(KINDS).map(([k,v])=>[k,v,studioOf(k).length]),["combos","Combos",cb.mine.length+cb.mk.length]].forEach(([k,v,n])=>
     f.append(el("button",{type:"button","aria-pressed":String(filter===k),onclick:()=>{filter=k;renderFilters();renderShelves()}},v,el("b",{text:String(n)}))));
 }
+// combos you can make now: your own with every layer on hand, then makers' tiles when you own both glazes
+function shelfCombos(){const own=ownedPks(),saved=new Set(combos.map(c=>c.href).filter(Boolean));
+  return {own,mine:combos.filter(comboHave),mk:makerCombos().filter(c=>c.top.pk!==c.base.pk&&mkOwned(c,own)===2&&!saved.has(c.url))}}
+function shelfCombosSection(){const {own,mine,mk}=shelfCombos(),n=mine.length+mk.length,only=filter==="combos",cap=only?200:8;
+  if(!n&&!only)return null;
+  const cards=[...mine.map(comboCard),...mk.slice(0,Math.max(0,cap-mine.length)).map(c=>mkCard(c,own))];
+  return el("section",{class:"shelf"},el("div",{class:"shelfhead"},el("h2",{text:"Combos you can make"}),n>cap&&!only?el("button",{type:"button",class:"linkbtn",text:"See all "+n,onclick:()=>{filter="combos";renderFilters();renderShelves();window.scrollTo({top:0})}}):el("span",{text:n+(n===1?" combo":" combos")})),
+    n?el("div",{class:"cb-grid"},...cards):el("p",{class:"note",text:"None yet. Your combos and makers' test tiles show up here once every glaze in them is on your shelves."}),
+    only&&n>cap?el("p",{class:"note",text:`Showing the first ${cap} of ${n}.`}):null)}
 function renderShelves(){
   const s=$("shelves");s.textContent="";
   if(storeMode==="loading"){s.append(el("div",{class:"empty",text:"Loading your studio…"}));return}
@@ -2059,6 +2082,7 @@ function renderShelves(){
     });
     s.append(el("section",{class:"shelf"},el("div",{class:"shelfhead"},el("h2",{text:v}),el("span",{text:items.length+(items.length===1?" item":" items")})),grid));
   });
+  if(filter==="all"||filter==="combos"){const cb=shelfCombosSection();if(cb)s.append(cb)}
 }
 /* ---------- catalog search, browse, paste ---------- */
 const nc = s => String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"");
@@ -2179,7 +2203,7 @@ Return JSON {"items":[{"kind":"stain|glaze|underglaze|clay|chemical","brand":"",
 async function suggest(q,host,btn){
   if(!sampleNs)return;
   btn.disabled=true;btn.textContent="Thinking…";
-  const prompt=`A potter is searching their studio inventory for "${q}" (filter: ${filter==="all"?"any type":KINDS[filter]}).
+  const prompt=`A potter is searching their studio inventory for "${q}" (filter: ${KINDS[filter]||"any type"}).
 Their studio: ${studio.map(s=>KIND_ONE[s.kind]+": "+label(s)).join("; ")||"empty"}.
 Suggest 3-5 real, commercially available ceramic supplies (Mason stains, glazes from Amaco/Mayco/Coyote/Spectrum/Laguna, clay bodies, or raw materials) that match the search and that they don't already own. Prefer things that complement what they have. Only name products you are confident exist; use exact product codes when you know them.
 Return JSON {"items":[{"kind":"stain|glaze|underglaze|clay|chemical","brand":"","code":"","name":"","cone":"","hex":"RRGGBB approximate fired color","why":"one short sentence"}]}`;
@@ -3137,7 +3161,7 @@ function newCombo(pre={}){
 }
 function openCombo(id){COMBO.open=id;COMBO.edit=null;showTab("combos");window.scrollTo({top:0})}
 let tileFrom="ask";
-function openTile(i){tileFrom=tab==="premade"?"premade":"ask";COMBO.mkOpen=i;showTab("tile");window.scrollTo({top:0})}
+function openTile(i){tileFrom=tab==="premade"?"premade":tab==="studio"?"studio":"ask";COMBO.mkOpen=i;showTab("tile");window.scrollTo({top:0})}
 function renderTile(){const w=$("tilePage");w.replaceChildren();const c=makerCombos().find(x=>x.i===COMBO.mkOpen);
   if(c)renderMakerCombo(w,c);else w.append(el("p",{class:"note",text:"Loading…"}))}
 function comboCard(c){
@@ -3191,7 +3215,7 @@ function renderMakerCombo(w,c){
       el("span",{class:"cb-lt"},it?el("button",{type:"button",class:"linkbtn",text:g.brand+" "+mkName(g),onclick:()=>openPremade(g.pk)}):el("b",{text:g.brand+" "+mkName(g)}),el("span",{class:"meta",text:role})),
       el("span",{class:"rshelf "+(have?"ok":"miss"),text:have?"✓ on your shelves":it?"○ premade · "+(it.buy?.store?"at "+it.buy.store:"not on your shelves"):"○ not in the store catalog"}))};
   const save=()=>saveMakerCombo(c);
-  w.append(el("button",{type:"button",class:"linkbtn rp-back",text:tileFrom==="premade"?"‹ Back to the glaze":"‹ Discover",onclick:back}),
+  w.append(el("button",{type:"button",class:"linkbtn rp-back",text:tileFrom==="premade"?"‹ Back to the glaze":tileFrom==="studio"?"‹ Shelves":"‹ Discover",onclick:back}),
     el("div",{class:"rp-head cb-head"},el("div",{class:"rp-id"},el("h2",{class:"rp-h",text:mkTitle(c)}),el("div",{class:"meta",text:c.maker+" test tile · cone 5–6"})),
       el("div",{class:"rp-acts"},el("div",{class:"links"},el("button",{type:"button",class:"btn",text:"Save to my combos",onclick:save}),
         el("a",{href:c.url,target:"_blank",rel:"noopener",text:"See it on "+c.maker+"'s site"})))),
@@ -4393,7 +4417,7 @@ function renderMine(){
   add(w,el("button",{type:"button",class:"rp-box t-low",onclick:()=>showTab("setup")},el("span",{},el("b",{text:"Setup"}),el("span",{class:"meta",text:"Cones, clay bodies, kiln · Selling: "+(S.sell?"on":"off")})),el("span",{text:"›"})));
 }
 
-/* ---------- Shopping list: docs {kind:"shop", itemKind, name, brand, line, code, cone, hex, img, url, source, amt, got, gotAt}. Catalog and shelf items keep their id per product, so adding twice is one row ---------- */
+/* ---------- Shopping list: docs {kind:"shop", itemKind, name, brand, line, code, cone, hex, img, url, source, qty, size, store, amt, got, gotAt}; store empty = cheapest. Catalog and shelf items keep their id per product, so adding twice is one row ---------- */
 const SHOP={input:null,res:null,list:null};
 const shopDocs=()=>docsOf("shop");
 const shopToBuy=()=>shopDocs().filter(d=>!d.got);
@@ -4406,10 +4430,46 @@ function addToList(it){const id=shopIdOf(it),had=shopDocs().find(d=>d.id===id);
 // "Add to list" for a catalog or shelf item; works on pages that don't re-render after a save
 function shopToggle(it,cls){const paint=on=>{b.textContent=on?"✓ On your list":"Add to list"};
   const b=el("button",{type:"button",class:cls,onclick:async()=>{const on=onShopList(it);paint(!on);if(on)await deleteDoc(shopIdOf(it));else await addToList(it)}});paint(onShopList(it));return b}
-// cheapest known place to buy: a pint where stores sell pints, so sizes compare fairly
-function shopBuy(d){const pm=premadeFor({...shopItem(d)}),rows=pm?offerRows(pm).filter(r=>r.price&&r.url):[],pint=rows.filter(r=>r.size==="Pint"),best=[...(pint.length?pint:rows)].sort((a,b)=>a.price-b.price)[0];
-  if(best)return el("a",{href:best.url,target:"_blank",rel:"noopener",text:`Buy at ${best.store} · ${best.size&&best.size!=="Listed"?best.size+" ":""}$${best.price.toFixed(2)}`});
-  return d.url?el("a",{href:d.url,target:"_blank",rel:"noopener",text:"View at "+String(d.source||"supplier").split(", ")[0]}):null}
+const shopSet=(id,patch)=>{const d=shopDocs().find(x=>x.id===id);return d?putDoc("shop",{...d,...patch}):null}; // always the latest doc: a row can be older than the last save
+const usd=n=>"$"+n.toFixed(2);
+const shopQty=d=>+d.qty>0?+d.qty:1;
+// every place we know to buy this: [{store,url,size,price,perPound}], from the same data as the premade page and the recipe Cost tab
+function shopOffers(d){const rows=[],it=shopItem(d);if(!d.itemKind)return rows;
+  const add=r=>{if((r.price||r.url)&&!rows.some(x=>x.store===r.store&&x.size===r.size))rows.push(r)};
+  const pm=premadeFor(it),c=CATALOG.find(x=>x.kind===d.itemKind&&keyOf(x)===keyOf(it));
+  if(pm||c)offerRows(pm||c).forEach(r=>{const lb=d.itemKind==="clay"&&r.size==="Listed"&&String(r.url||"").match(/(\d+)-?lb\b/i);add(lb?{...r,size:lb[1]+" lb"}:r)}); // Alligator names a clay's bag only in its URL
+  if(!pm&&c?.sizes){const store=bagFor(c,0)?.source;c.sizes.forEach(([lb,price])=>add({store,url:c.url,size:+(+lb).toFixed(2)+" lb",price}))}
+  if(d.itemKind==="chemical"||d.itemKind==="stain"){const code=d.itemKind==="stain"&&(String(d.code||"").match(/\b6\d{3}\b/)||[])[0];
+    (MATPRICES[code?"Mason "+code:matOf(d.name)?.[0]]||[]).forEach(o=>add(o.perPound?{store:o.store,url:o.url,size:"By the pound",price:o.price,perPound:true}:{store:o.store,url:o.url,size:+(+o.lb).toFixed(2)+" lb",price:o.price}))}
+  if(!rows.length&&d.url)add({store:String(d.source||"Supplier").split(", ")[0],url:d.url,size:"",price:0});
+  return rows.filter(r=>r.price||!rows.some(x=>x.store===r.store&&x.price))}
+// what this row buys: a pint where stores sell pints (so sizes compare fairly), else the cheapest size; the cheapest store unless you picked one
+function shopPick(d){const rows=shopOffers(d),priced=rows.filter(r=>r.price);if(!rows.length)return null;
+  const low=z=>Math.min(...priced.filter(r=>r.size===z).map(r=>r.price));
+  const sizes=[...new Set(priced.map(r=>r.size))].sort((a,b)=>low(a)-low(b));
+  const size=sizes.includes(d.size)?d.size:sizes.includes("Pint")?"Pint":sizes[0]||"";
+  const stores=[...new Set(rows.map(r=>r.store))].map(st=>{const own=rows.filter(r=>r.store===st);return own.find(r=>r.price&&r.size===size)||own.filter(r=>r.price).sort((a,b)=>a.price-b.price)[0]||own[0]});
+  const rank=r=>!r.price?2:r.size===size?0:1;stores.sort((a,b)=>rank(a)-rank(b)||a.price-b.price);
+  return {sizes,size,stores,best:stores[0],row:stores.find(r=>r.store===d.store)||stores[0]}}
+const shopSizeName=z=>z==="Listed"?"Listed size":z;
+const shopStoreText=(r,p)=>{if(!r.price)return r.store+" · price on their site";
+  const other=r.size!==p.row.size&&r.size!==p.size,cheap=r.size===p.best.size&&r.price===p.best.price&&p.stores.filter(x=>x.price).length>1;
+  return [r.store,other?shopSizeName(r.size):"",usd(r.price)+(r.perPound?"/lb":""),cheap?"cheapest":""].filter(Boolean).join(" · ")};
+function shopBuy(d,p,paint){const lbl=(t,c)=>el("label",{},el("span",{text:t}),c);
+  const qty=el("input",{type:"number",min:"0",step:"any",inputmode:"decimal",value:String(shopQty(d)),"aria-label":"Quantity of "+d.name,"data-f":d.id+":qty"});
+  qty.oninput=()=>paint(parseFloat(qty.value)||1);qty.onchange=()=>{const n=parseFloat(qty.value);if(!(n>0))qty.value="1";shopSet(d.id,{qty:n>0?n:1})};
+  const kids=[lbl(p?.row.perPound?"Pounds":"Qty",qty)];
+  if(p?.sizes.length){const shown=p.row.price?p.row.size:p.size;
+    if(p.sizes.length>1){const sel=el("select",{"aria-label":"Size of "+d.name,"data-f":d.id+":size"},...p.sizes.map(z=>el("option",{value:z,text:shopSizeName(z)})));sel.value=shown;
+      sel.onchange=()=>{const has=shopOffers(d).some(r=>r.store===d.store&&r.size===sel.value&&r.price);shopSet(d.id,{size:sel.value,store:has?d.store:""})};kids.push(lbl("Size",sel))}
+    else if(shown!=="Listed")kids.push(lbl("Size",el("b",{text:shown})))}
+  else kids.push(lbl("Amount",el("input",{type:"text",value:d.amt||"",placeholder:"like 25 lb",maxlength:"40","aria-label":"Amount of "+d.name,"data-f":d.id+":amt",onchange:e=>shopSet(d.id,{amt:e.target.value.trim()})})));
+  if(p){if(p.stores.length>1){const sel=el("select",{"aria-label":"Where to buy "+d.name,"data-f":d.id+":store"},...p.stores.map(r=>el("option",{value:r.store,text:shopStoreText(r,p)})));sel.value=p.row.store;
+      sel.onchange=()=>shopSet(d.id,{store:sel.value===p.best.store?"":sel.value});kids.push(lbl("From",sel))}
+    else kids.push(lbl("From",el("b",{text:shopStoreText(p.row,p)})));
+    if(p.row.url)kids.push(el("a",{href:p.row.url,target:"_blank",rel:"noopener",text:(p.row.price?"Buy at ":"View at ")+p.row.store}))}
+  if(p?.sizes.length&&d.amt)kids.push(el("span",{class:"meta",text:d.amt}));
+  return el("div",{class:"sl-buy"},...kids)}
 function shopThumb(d){const pm=premadeFor(shopItem(d)),sw=swatch({kind:d.itemKind,hex:d.hex||pm?.hex}),src=d.img||pm?.img;
   if(src){const im=el("img",{src,alt:"",loading:"lazy",referrerpolicy:"no-referrer"});im.onerror=()=>im.remove();sw.append(im)}return sw}
 function shopAfter(d){const it=shopItem(d),own=d.itemKind?studio.find(s=>s.id===keyOf(it)):null;
@@ -4417,15 +4477,25 @@ function shopAfter(d){const it=shopItem(d),own=d.itemKind?studio.find(s=>s.id===
   if(own?.low)return el("button",{type:"button",class:"ghost sm sl-after",text:"Restocked",onclick:()=>patchShelf(own.id,{low:false,updatedAt:Date.now()})});
   if(own)return el("span",{class:"meta sl-after",text:"✓ On your shelves"});
   return el("button",{type:"button",class:"ghost sm sl-after",text:"Add to shelves",onclick:()=>addItem(it)})}
-function shopRow(d){const pm=premadeFor(shopItem(d));
-  const cb=el("input",{type:"checkbox","aria-label":(d.got?"Not bought yet: ":"Bought: ")+d.name,checked:d.got||undefined,onchange:()=>putDoc("shop",{...d,got:!d.got,gotAt:d.got?null:Date.now()})});
-  const title=[d.code,d.name].filter(Boolean).join(" ");
-  const amt=d.got?null:el("input",{type:"text",value:d.amt||"",placeholder:"How much","aria-label":"How much "+d.name,maxlength:"40",onchange:e=>putDoc("shop",{...d,amt:e.target.value.trim()})});
-  return el("div",{class:"sl-row"+(d.got?" got":"")},cb,shopThumb(d),
+function shopRow(d){const it=shopItem(d),pm=premadeFor(it),p=shopPick(d);
+  const cb=el("input",{type:"checkbox","aria-label":(d.got?"Not bought yet: ":"Bought: ")+d.name,checked:d.got||undefined,onchange:()=>shopSet(d.id,{got:!d.got,gotAt:d.got?null:Date.now()})});
+  const title=[d.code,d.name].filter(Boolean).join(" "),unit=p?.row.price||0;
+  const price=el("div",{class:"sl-price"});
+  const paint=q=>{price.replaceChildren(...(unit?[el("b",{text:usd(q*unit)}),q!==1?el("small",{text:`${q} × ${usd(unit)}`}):""]:[]))};paint(shopQty(d));
+  const did=d.got?[shopQty(d)>1||p?.row.perPound?shopQty(d)+(p?.row.perPound?" lb":" ×"):"",unit&&!p.row.perPound?shopSizeName(p.row.size):d.amt,p?.row.store].filter(Boolean).join(" "):"";
+  const out=el("div",{class:"sl-row"+(d.got?" got":"")},cb,shopThumb(d),
     el("div",{},el("h4",{},pm?el("button",{type:"button",text:title,onclick:()=>openPremade(pm.pk)}):title),
-      el("div",{class:"meta",text:[d.brand,d.line,d.cone].filter(Boolean).join(" · ")}),d.got?null:shopBuy(d)),
-    d.got?shopAfter(d):amt,
-    el("button",{type:"button",class:"sl-x","aria-label":"Remove "+d.name,text:"×",onclick:()=>deleteDoc(d.id)}))}
+      el("div",{class:"meta",text:[d.brand,d.line,d.cone,did].filter(Boolean).join(" · ")})),
+    d.got?shopAfter(d):price,
+    el("button",{type:"button",class:"sl-x","aria-label":"Remove "+d.name,text:"×",onclick:()=>deleteDoc(d.id)}));
+  if(!d.got)out.append(shopBuy(d,p,paint));
+  return out}
+function shopSummary(buy){const stores={};let sum=0,none=0;
+  buy.forEach(d=>{const r=shopPick(d)?.row;if(!r?.price){none++;return}const c=shopQty(d)*r.price;sum+=c;stores[r.store]=(stores[r.store]||0)+c});
+  if(!sum)return null;
+  return el("div",{class:"sl-sum"},el("div",{},el("b",{text:"≈ "+usd(sum)}),el("span",{class:"meta",text:none?` · ${none} without a price`:""})),
+    Object.keys(stores).length>1?el("div",{class:"meta",text:Object.entries(stores).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${k} ${usd(v)}`).join(" · ")}):null,
+    el("div",{class:"meta",text:"Store prices from Oct 2026, before tax and shipping."}))}
 function shopResults(){const raw=SHOP.input.value.trim(),q=raw.toLowerCase();SHOP.res.textContent="";if(!q)return[];
   const hits=CATALOG.filter(it=>matches(it,q)).sort((a,b)=>score(a,q)-score(b,q)||byCode(a,b)).slice(0,6);
   const pick=async it=>{await addToList(it);SHOP.input.value="";shopResults();SHOP.input.focus()};
@@ -4437,16 +4507,20 @@ function shopResults(){const raw=SHOP.input.value.trim(),q=raw.toLowerCase();SHO
 function renderShopping(){const w=$("shopRoot");if(!w)return;
   if(!SHOP.list){SHOP.input=el("input",{type:"text",placeholder:"Add a glaze or clay: B-Mix, PC-20, Frit 3134…","aria-label":"Search for something to add",autocomplete:"off"});SHOP.res=el("div",{class:"sl-res"});SHOP.list=el("div",{class:"sl-lists"});
     SHOP.input.oninput=shopResults;SHOP.input.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();shopResults()[0]?.()}else if(e.key==="Escape"){SHOP.input.value="";shopResults()}};
+    SHOP.list.addEventListener("focusout",()=>setTimeout(renderShopping,0)); // catch up on what the guard below skipped
     w.append(el("div",{class:"sl-add"},SHOP.input,SHOP.res),SHOP.list)}
   if(document.activeElement!==SHOP.input)shopResults();
-  if(SHOP.list.contains(document.activeElement)&&document.activeElement.type==="text")return; // don't clobber typing
+  const act=SHOP.list.contains(document.activeElement)?document.activeElement:null,focus=act?.dataset?.f;
+  if(act&&(act.type==="text"||act.type==="number"))return; // don't clobber typing
   const buy=shopToBuy().sort((a,b)=>(a.addedAt||0)-(b.addedAt||0)),got=shopDocs().filter(d=>d.got).sort((a,b)=>(b.gotAt||0)-(a.gotAt||0)),low=shopLow(),out=[];
   if(!buy.length&&!got.length&&!low.length)out.push(el("div",{class:"empty"},el("p",{style:"margin:0",text:"Nothing to buy yet. Search above, or tap Add to list on a premade glaze or anything on your shelves."})));
   if(low.length)out.push(el("section",{class:"shelf"},el("div",{class:"shelfhead"},el("h2",{text:"Running low"}),low.length>1?el("button",{type:"button",class:"linkbtn",text:"Add all",onclick:async()=>{for(const s of low)await addToList(s)}}):null),
     el("div",{class:"sl-res"},...low.map(s=>el("div",{class:"sl-rrow"},swatch(s),el("span",{},s.code?s.code+" "+s.name:s.name,el("small",{text:[s.brand,s.cone].filter(Boolean).join(" · ")})),el("button",{type:"button",class:"ghost sm",text:"Add",onclick:()=>addToList(s)}))))));
+  const sum=shopSummary(buy);if(sum)out.push(sum);
   [...Object.entries(KINDS),["","Other"]].forEach(([k,v])=>{const rows=buy.filter(d=>(KINDS[d.itemKind]?d.itemKind:"")===k);if(rows.length)out.push(el("section",{class:"shelf"},el("div",{class:"shelfhead"},el("h2",{text:v}),el("span",{text:rows.length+(rows.length===1?" item":" items")})),el("div",{class:"sl-rows"},...rows.map(shopRow))))});
   if(got.length)out.push(el("section",{class:"shelf"},el("div",{class:"shelfhead"},el("h2",{text:"Bought"}),el("button",{type:"button",class:"linkbtn",text:"Clear bought",onclick:async()=>{for(const d of got)await deleteDoc(d.id)}})),el("div",{class:"sl-rows"},...got.map(shopRow))));
-  SHOP.list.replaceChildren(...out)}
+  SHOP.list.replaceChildren(...out);
+  if(focus)[...SHOP.list.querySelectorAll("[data-f]")].find(x=>x.dataset.f===focus)?.focus()}
 
 /* ---------- Import a spreadsheet: one row per piece ---------- */
 const IMP={rows:null,head:-1,map:{},stageMap:{},name:"",busy:"",sellOn:true};
